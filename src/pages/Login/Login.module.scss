@@ -1,0 +1,133 @@
+@import "../../styles/variables.scss";
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  &::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.5;
+    background-image: url("../../images/bg_login.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: calc(100vh - 60px);
+    width: 100%;
+    margin-top: 60px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $thirdColor;
+  border-radius: 8px;
+  width: 486px;
+  position: relative;
+  padding-bottom: 37px;
+}
+
+.header {
+  background-color: $mainColor;
+  color: $thirdColor;
+  font-size: 20px;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 100%;
+  padding: 18px 0;
+  text-align: center;
+}
+
+.form {
+  width: 362px;
+}
+
+.text {
+  margin: 0;
+  font-size: 13px;
+  color: $mainColor;
+  margin-top: 28px;
+  margin-bottom: 15px;
+}
+
+.label {
+  width: 100%;
+  margin-bottom: 12px;
+  position: relative;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.input {
+  padding: 15px 0;
+  border: none;
+  outline: none;
+  background-color: rgba(229, 229, 229, 0.25);
+  padding-left: 60px;
+  line-height: 1;
+  border-radius: 15px;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding-right: 20px;
+  color: $primaryColor;
+  cursor: pointer;
+  width: 100%;
+  &::placeholder {
+    color: $secondaryColor;
+    font-size: 16px;
+  }
+  transition: opacity .2s ease;
+  &:hover:not(:focus) {
+    opacity: .75;
+  }
+}
+
+.button {
+  border: none;
+  outline: none;
+  padding: 10px 0;
+  background-color: $mainColor;
+  color: $thirdColor;
+  font-weight: bold;
+  font-size: 20px;
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity .2s ease;
+  &:hover{
+    opacity: .75;
+  }
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: $mainColor;
+  margin-top: 8px;
+}
+.link {
+  text-decoration: none;
+  color: $linkColor;
+}
+
+.icon {
+  z-index: 5;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 20px;
+  position: absolute;
+}

@@ -1,0 +1,35 @@
+@import "../../styles/variables.scss";
+
+.block {
+  width: 288px;
+  height: 180px;
+  border-radius: 15px;
+  background-color: $thirdColor;
+
+  &_title {
+    display: flex;
+    flex-direction: column;
+    width: 63px;
+    padding-left: 31px;
+    padding-top: 23px;
+  }
+}
+
+.title {
+  color: $secondaryColor;
+  font-weight: 49;
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+
+  &_count {
+    padding: 0;
+    margin: 0;
+    color: $linkColor;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 36px;
+  }
+}

@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 
 .app {
+  display: flex;
   color: $primaryColor;
   font-family: "Poppins", sans-serif;
 }

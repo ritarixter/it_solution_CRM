@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./Task.module.scss";
 import { Item } from "./Item/Item";
+import { useAppSelector } from "../../services/hooks";
 
-export type TTask = {};
 
 export type TData = {
   id: number;
@@ -12,7 +12,7 @@ export type TData = {
   done: boolean;
 };
 
-const data: Array<TData> = [
+ const data: Array<TData> = [
   {
     id: 1,
     title: "Закончить проект",
@@ -62,13 +62,17 @@ const data: Array<TData> = [
     endDate: new Date(),
     done: true
   },
-];
+]; 
 
-export const Task: FC<TTask> = () => {
-  const [tasks, setTasks] = useState<Array<TData>>([]);
+export const Task: FC= () => {
+  const { tasks } = useAppSelector(
+    state => state.task
+  );
+  const [tasksData, setTasksData] = useState<Array<TData>>([]);
   useEffect(() => {
-    setTasks(
-      data.sort((a, b) => {
+    console.log(tasks)
+    tasks.length !=0 ? setTasksData(
+      tasks/* .sort((a, b) => {
         if (a.status < b.status) return 1;
         if (a.status > b.status) return -1;
         return 0;
@@ -76,9 +80,10 @@ export const Task: FC<TTask> = () => {
         if (a.done) return 1;
         if (b.done) return -1;
         return 0;
-      })
-    );
-  }, []);
+      }) */
+    ) :setTasksData(data) //Если бэкенд выключен
+
+  }, [tasks]);
   return (
     <section className={styles.container}>
       <div className={styles.header}>
@@ -86,7 +91,7 @@ export const Task: FC<TTask> = () => {
         <button className={styles.plus}>+</button>
       </div>
       <ul className={styles.task}>
-        {tasks.map((item) => (
+        {tasksData.map((item) => (
           <Item
           done={item.done}
             status={item.status}

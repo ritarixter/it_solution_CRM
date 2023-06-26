@@ -3,6 +3,7 @@ import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import lockIcon from "../../images/icons/lock.svg";
 import mailIcon from "../../images/icons/mail.svg";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 export const Login: FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -59,6 +60,7 @@ export const Login: FC = () => {
           </Link>
         </p>
       </div>
+
     </div>
   );
 };

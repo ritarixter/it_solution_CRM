@@ -1,0 +1,42 @@
+@import "../../styles/variables";
+
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 152px;
+  height: 1024px;
+  background-color: $mainColor;
+}
+
+.logo {
+  margin: 25px 40px 77px 18px;
+}
+
+.nav {
+  list-style-type: none;
+  padding-left: 17px;
+  margin: 0;
+  &__item {
+    margin-bottom: 16px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &.active {
+      border-right: 2px solid $thirdColor;
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: $thirdColor;
+  font-weight: 52px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}

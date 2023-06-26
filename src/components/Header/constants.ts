@@ -1,7 +1,7 @@
 import bar_chart from "../../images/icons/bar_chart.svg";
 import calendar from "../../images/icons/calendar.svg";
 import clipboard from "../../images/icons/clipboard.svg";
-import edit from "../../images/icons/edit.svg";
+import application from "../../images/icons/application.svg";
 
 export const routes = [
   {
@@ -10,7 +10,7 @@ export const routes = [
     path: "/analytics",
   },
   {
-    icon: edit,
+    icon: application,
     name: "Заявки",
     path: "/applications",
   },

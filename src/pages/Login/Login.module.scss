@@ -77,10 +77,10 @@
   border: none;
   outline: none;
   background-color: rgba(229, 229, 229, 0.25);
-  padding-left: 60px;
+  padding-left: 55px;
   line-height: 1;
   border-radius: 15px;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
   padding-right: 20px;
   color: $primaryColor;
@@ -88,7 +88,8 @@
   width: 100%;
   &::placeholder {
     color: $secondaryColor;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
   }
   transition: opacity .2s ease;
   &:hover:not(:focus) {

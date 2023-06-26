@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./NotFound.module.scss";
 import img from "../../images/404PageNotFound.jpg";
 

@@ -5,17 +5,19 @@ import editTasks from "../../images/icons/editTasks.svg";
 import editList from "../../images/icons/editList.svg";
 import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import { TableTask } from "../../components";
+import { TableTask, Task, Wrapper } from "../../components";
 import { useAppSelector } from "../../services/hooks";
+import { Calendar } from "../Calendar/Calendar";
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector(
     state => state.task
   );
   return (
-    <div>
+    <Wrapper>
       <HeaderTop />
-      <div className={styles.block}>
+      <div className={styles.container}>
+        <div className={styles.container__header}>
         <BlockAnalics
           name={"Задачи"}
           count={28}
@@ -23,6 +25,8 @@ export const Analytics: FC = () => {
           title={"Завершенные задачи"}
           countMade={20}
         />
+   
+      
         <BlockAnalics
           name={"Заявки"}
           count={128}
@@ -30,9 +34,17 @@ export const Analytics: FC = () => {
           title={"В работе"}
           countMade={80}
         />
+  
+    
         <BlockList />
+        </div>
+        <div className={styles.container__bottom}>
         <TableTask mini={true}/>
+        <Task tasks={tasks}/>
+        <Calendar/>
+
+        </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };

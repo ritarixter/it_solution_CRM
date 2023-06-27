@@ -1,6 +1,19 @@
 @import "../../styles/variables.scss";
 
-.block {
+.container {
   display: flex;
-  margin-top: 38px;
+  flex-direction: column;
+  padding-top: 46px;
+
+
+  &__header {
+    display: flex;
+    gap: 48px;
+  }
+
+  &__bottom {
+    margin-top: 52px;
+    display: flex;
+    gap: 16px;
+  }
 }

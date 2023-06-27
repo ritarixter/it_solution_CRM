@@ -1,5 +1,9 @@
 @import "../../styles/variables.scss";
 
+.form {
+  position: relative;
+}
+
 .search {
   width: 288px;
   height: 48px;
@@ -9,8 +13,8 @@
   background-color: #fff;
   outline: none;
   padding-left: 40px;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+
   &::placeholder {
     color: #c5c5c5;
   }
@@ -19,7 +23,8 @@
 .imgLoupe {
   height: 20px;
   width: 20px;
-  left: 165px;
+  left: 12px;
   top: 12px;
   position: absolute;
+
 }

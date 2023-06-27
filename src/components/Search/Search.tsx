@@ -13,7 +13,7 @@ export const Search: FC = () => {
 
   return (
     <div>
-      <form>
+      <form className={styles.form}>
         <input
           className={styles.search}
           onChange={(e) => setValue(e.target.value)}

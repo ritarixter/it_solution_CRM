@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import styles from "./Calendar.module.scss";
 import ReactCalendar from 'react-calendar';
 import './Calendar.css';
-import { formatDate } from "react-calendar/dist/cjs/shared/dateFormatter";
 
 
 export const Calendar: FC = () => {

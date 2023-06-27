@@ -4,7 +4,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 
 
-export const Calendar: FC = () => {
+export const CalendarComponent: FC = () => {
 
     const [dateValue, setDateValue] = useState("")
     const onChange = () => {
@@ -26,5 +26,5 @@ export const Calendar: FC = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};

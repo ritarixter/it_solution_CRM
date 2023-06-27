@@ -5,31 +5,122 @@
   height: 180px;
   border-radius: 15px;
   background-color: $thirdColor;
+  display: flex;
+  align-items: center;
+  max-width: 288px;
+}
 
-  &_title {
-    display: flex;
-    flex-direction: column;
-    width: 63px;
-    padding-left: 31px;
-    padding-top: 23px;
-  }
+.CircleFunc {
+  position: relative;
+  top: -10px;
 }
 
 .title {
-  color: $secondaryColor;
-  font-weight: 49;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
-  line-height: 21px;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0;
+  padding-left: 31px;
+  // line-height: 21px;
+  color: #828690;
+}
 
-  &_count {
-    padding: 0;
-    margin: 0;
-    color: $linkColor;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 36px;
+.application {
+  font-family: "Poppins", sans-serif;
+  padding-left: 31px;
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  top: -15px;
+}
+
+.unit {
+  fill:none;
+  stroke-width: 4px;
+
+  animation-name: render;
+  animation-duration: 1.5s;
+
+  transition-property: all;
+  transition-duration: 0.9s;
+
+  cursor: pointer;
+}
+
+.unit:hover {
+  opacity: 0.8;
+  stroke-width: 6;
+}
+
+.unit:nth-child(1) {
+  stroke: #72DC00;
+  // stroke-dasharray: 28 100;
+}
+
+.unit:nth-child(2) {
+  stroke: #F47633;
+  // stroke-dasharray: 42 100;
+  // stroke-dashoffset: -28;
+}
+
+.unit:nth-child(3) {
+  stroke: #E6EAEE;
+  // stroke-dasharray: 30 100;
+  // stroke-dashoffset: -70;
+}
+
+.legend {
+  max-width: 350px;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+}
+
+
+
+.caption_list {
+  margin: 0;
+  padding-left: 26px;
+  list-style: none;
+}
+
+.caption_item {
+  position: relative;
+  margin: 5px 0;
+  padding-left: 30px;
+  line-height: 18px;
+  color: #828690;
+  cursor: pointer;
+}
+
+.caption_item:hover {
+  opacity: 0.8;
+}
+
+.caption_item::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+
+  width: 15px;
+  height: 7px;
+
+  border-radius: 3px;
+}
+
+.caption_item:nth-child(1)::before {
+  background-color: #72DC00;
+
+}
+
+.caption_item:nth-child(2)::before {
+  background-color: #F47633;
+}
+
+.caption_item:nth-child(3)::before {
+  background-color: #E6EAEE;
+}
+
+@keyframes render {
+  0% {
+    stroke-dasharray: 0 100;
   }
 }

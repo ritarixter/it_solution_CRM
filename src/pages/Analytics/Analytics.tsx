@@ -1,21 +1,38 @@
-import { FC, useEffect, useState } from "react";
-import { Task } from "../../components/Task";
-import { TData } from "../../components/Task/Task";
-import { getTasks } from "../../utils/api";
-import { getTask } from "../../services/slices/task";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { UserBlock,TableTask } from "../../components";
+import { FC } from "react";
+import styles from "./Analytics.module.scss";
+import { BlockAnalics } from "../../components/BlockAnalics/BlockAnalics";
+import editTasks from "../../images/icons/editTasks.svg";
+import editList from "../../images/icons/editList.svg";
+import { BlockList } from "../../components/BlockList/BlockList";
+import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
+import { TableTask } from "../../components";
+import { useAppSelector } from "../../services/hooks";
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector(
     state => state.task
   );
-//     <Task tasks={tasks} />
   return (
     <div>
- 
-      <TableTask mini={true}/>
-      
+      <HeaderTop />
+      <div className={styles.block}>
+        <BlockAnalics
+          name={"Задачи"}
+          count={28}
+          icon={editTasks}
+          title={"Завершенные задачи"}
+          countMade={20}
+        />
+        <BlockAnalics
+          name={"Заявки"}
+          count={128}
+          icon={editList}
+          title={"В работе"}
+          countMade={80}
+        />
+        <BlockList />
+        <TableTask mini={true}/>
+      </div>
     </div>
   );
 };

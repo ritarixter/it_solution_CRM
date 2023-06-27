@@ -1,0 +1,83 @@
+@import "../../styles/variables.scss";
+
+.block {
+  max-width: 288px;
+  width: 100%;
+  height: 180px;
+  background-color: $thirdColor;
+  border-radius: 15px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 21px;
+  margin-bottom: 44px;
+
+  &_caption {
+    margin-left: 32px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    font-weight: 49;
+    font-size: 14px;
+    line-height: 21px;
+    color: $subtitleColor;
+  }
+
+  &_count {
+    margin-left: 32px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+.icon {
+  margin-right: 26.75px;
+}
+
+.progressBar {
+  width: 242px;
+  padding-left: 19px;
+  padding-bottom: 24.81px;
+  color: $subtitleColor;
+
+  &_block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  &_title {
+    font-weight: 150px;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &_count {
+    font-weight: 41px;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.progress {
+  width: 100%;
+  background-color: $progressBarBg;
+  border-radius: 12px;
+}
+
+.blueBar {
+  //   width: 20%;
+  height: 5px;
+  background-color: $progressBar;
+  border-radius: 12px;
+}

@@ -4,6 +4,9 @@ import { Search } from "../Search/Search";
 import message from "../../images/icons/message.svg";
 import bell from "../../images/icons/bell.svg";
 import notice from "../../images/icons/notice.svg";
+import { UserBlock } from "../UserBlock/UserBlock";
+import photo from "../../images/photo1.jpg";
+import arrow from "../../images/icons/arrow.svg";
 
 export const HeaderTop: FC = () => {
   return (
@@ -16,6 +19,10 @@ export const HeaderTop: FC = () => {
         </div>
         <div>
           <img src={bell} alt="Уведомление" className={styles.bell} />
+        </div>
+        <div className={styles.users}>
+          <UserBlock name={"Master Doch"} avatar={photo} fullName={true} />
+          <img src={arrow} alt="Стрелка" className={styles.arrow} />
         </div>
       </div>
     </div>

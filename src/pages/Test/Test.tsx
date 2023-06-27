@@ -1,11 +1,10 @@
 import React, {FC, useState} from "react";
-import { Search } from "../../components/Search/Search";
-import { Diagram } from "../../components/Diagram/Diagram";
+import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 
 export const Test: FC = () => {
     return(
         <div>
-            <Diagram />
+            <CalendarComponent />
         </div>
     )
     

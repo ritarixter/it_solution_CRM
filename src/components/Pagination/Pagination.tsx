@@ -42,7 +42,7 @@ export const Pagination: FC<TPagination> = ({
   return (
     <div className={styles.container}>
       <button
-        className={styles.arrow}
+        className={`${styles.arrow} ${style === 'blue' && styles.arrow__blue}`}
         onClick={onPrevious}
         disabled={currentPage === 1}
       >{`<`}</button>
@@ -57,8 +57,8 @@ export const Pagination: FC<TPagination> = ({
           }
           return (
             <li
-              className={`${styles.pagination__item} ${
-                pageNumber === currentPage && styles.active
+              className={`${styles.pagination__item} ${style === 'blue' && styles.pagination__item_blue} ${
+                 pageNumber === currentPage && (style === 'blue' ? styles.active__blue : styles.active)
               }`}
               onClick={() => setCurrentPage(Number(pageNumber))}
               key={index}

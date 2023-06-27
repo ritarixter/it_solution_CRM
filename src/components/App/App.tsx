@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./App.module.scss";
 import { Route, Routes } from "react-router-dom";
-import { Login, NotFound } from "../../pages";
+import { Login, NotFound, Test } from "../../pages";
 import { Wrapper } from "../Wrapper/Wrapper";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
@@ -15,6 +15,7 @@ export const App: FC = () => {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
+          <Route path="/test" element={<Test />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/calendar" element={<Calendar />} />

@@ -16,8 +16,8 @@ export const CalendarComponent: FC = () => {
     }
 
     return (
-        <div>
-            <div className={styles.calendarTittleArea}>
+        <div className={styles.calendarTittleArea}>
+            <div>
                 <strong className={styles.calendarTittle}>Календарь</strong>
             </div>
             <div className="calendar-container">

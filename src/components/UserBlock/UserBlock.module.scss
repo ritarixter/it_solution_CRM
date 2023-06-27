@@ -1,17 +1,17 @@
 @import "../../styles/variables.scss";
 .user {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .name {
-    margin: 0;
-    color: $thirdColor;
-    margin-left: 6px;
+  margin: 0;
+  color: $primaryColor;
+  margin-left: 6px;
 }

@@ -1,7 +1,7 @@
 import bar_chart from "../../images/icons/bar_chart.svg";
 import calendar from "../../images/icons/calendar.svg";
 import clipboard from "../../images/icons/clipboard.svg";
-import application from "../../images/icons/application.svg";
+import application from "../../images/icons/applications.svg";
 
 export const routes = [
   {

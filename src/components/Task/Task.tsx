@@ -64,13 +64,15 @@ export type TData = {
   },
 ]; 
 
-export const Task: FC= () => {
-  const { tasks } = useAppSelector(
-    state => state.task
-  );
+type TTask = {
+  tasks: Array<TData>
+} 
+
+export const Task: FC<TTask>= ({tasks}) => {
+
   const [tasksData, setTasksData] = useState<Array<TData>>([]);
   useEffect(() => {
-    console.log(tasks)
+  
     tasks.length !=0 ? setTasksData(
       tasks/* .sort((a, b) => {
         if (a.status < b.status) return 1;

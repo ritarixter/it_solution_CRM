@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./App.module.scss";
 import { Route, Routes } from "react-router-dom";
 import { Login, NotFound, Test } from "../../pages";
@@ -8,8 +8,15 @@ import { Analytics } from "../../pages/Analytics/Analytics";
 import { Applications } from "../../pages/Applications/Applications";
 import { Calendar } from "../../pages/Calendar/Calendar";
 import { Reports } from "../../pages/Reports/Reports";
+import { useAppDispatch } from "../../services/hooks";
+import { getTask } from "../../services/slices/task";
 
 export const App: FC = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getTask())
+    
+  }, []);
   return (
     <div className={styles.app}>
       <Header />

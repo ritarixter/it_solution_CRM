@@ -8,6 +8,7 @@ export type TPagination = {
   currentPage: number; //Текущая отображаемая страница
   setCurrentPage: (value: number) => void; //Изменение текущей страницы
   siblingCount?: number; //Как отображается пагинация: < 1 ... 30 > (значение: 1); < 1 2 ... 29 30 >(2); < 1 2 3 ... 28 29 30 >(3)
+  style?: 'blue'
 };
 
 export const Pagination: FC<TPagination> = ({
@@ -16,6 +17,7 @@ export const Pagination: FC<TPagination> = ({
   currentPage,
   setCurrentPage,
   siblingCount = 2,
+  style
 }) => {
   const paginationRange = usePagination({
     currentPage,
@@ -68,7 +70,7 @@ export const Pagination: FC<TPagination> = ({
         })}
       </ul>
       <button
-        className={styles.arrow}
+        className={`${styles.arrow} ${style === 'blue' && styles.arrow__blue}`}
         onClick={onNext}
         disabled={currentPage === lastPage}
       >{`>`}</button>

@@ -2,7 +2,7 @@ import { FC } from "react";
 import styles from "./ImpotanceBlock.module.scss";
 
 type TImpotanceBlock = {
-  type: "Средняя" | "Низкая" | "Высокая" | "Статус";
+  type: string | null; //"Средняя" | "Низкая" | "Высокая" | "Статус"
 };
 
 export const ImpotanceBlock: FC<TImpotanceBlock> = ({ type }) => {
@@ -10,10 +10,11 @@ export const ImpotanceBlock: FC<TImpotanceBlock> = ({ type }) => {
     <div
       className={`${styles.block} ${
         (type === "Средняя" && styles.block__do) ||
-        (type === "Высокая" && styles.block__todo)
+        (type === "Высокая" && styles.block__todo) ||
+        (type === null && styles.null)
       }`}
     >
-      {type}
+      {type ? type : "Не назначена"}
     </div>
   );
 };

@@ -1,0 +1,84 @@
+@import "../../styles/variables.scss";
+
+.container {
+  background-color: $thirdColor;
+  box-sizing: border-box;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  &.mini {
+    padding: 30px 20px;
+    padding-bottom: 35px;
+    max-width: 800px;
+    width: 100%;
+  }
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  color: $dashboardTitleColor;
+  margin: 0;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+.excel {
+  color: $mainColor;
+  font-size: 13px;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  &__icon {
+    margin-right: 3px;
+  }
+}
+
+.table {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding: 10px 0;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 130px 130px 130px 110px 160px 1fr;
+  font-size: 14px;
+  cursor: pointer;
+  color: $dashboardTitleColor;
+  transition: opacity 0.2s ease;
+
+  &.header {
+    color: $subtitleColor;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.implements {
+  width: 100px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+
+  &__item {
+    margin-right: -7px;
+  }
+}
+
+.pagination {
+  align-self: flex-end;
+  margin-top: 30px;
+}

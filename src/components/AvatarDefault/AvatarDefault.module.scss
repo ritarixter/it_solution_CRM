@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+.circle {
+    background-color: $bgNullColor;
+    color:$primaryColor;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: center;
+    &.pl {
+        padding-right: 5px;
+    }
+}
+
+.default {
+    color: $nullColor;
+}

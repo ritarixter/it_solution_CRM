@@ -1,13 +1,15 @@
 @import "../../styles/variables.scss";
 .block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #20814d;
   background-color: $statusDoneColor;
-  border-radius: 5px;
-  text-align: center;
+  border-radius: 4px;
   width: 87px;
   padding: 1px 10px;
   font-size: 13px;
-  max-height: 20px;
+  height: 30px;
   &__do {
     background-color: $statusDoColor;
     color: #3b9acd;
@@ -18,5 +20,10 @@
     background-color: $statusToDoColor;
     color: #f47633;
     width: 123px;
+  }
+
+  &.null {
+    background-color: $bgNullColor;;
+    color:  $nullColor;
   }
 }

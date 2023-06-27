@@ -5,7 +5,7 @@ import dangerIcon from "../../../images/icons/danger.svg";
 import doneIcon from "../../../images/icons/done.svg";
 import deleteIcon from "../../../images/icons/delete.svg";
 import editIcon from "../../../images/icons/edit.svg";
-import { formateDate } from "../../../utils/utils";
+import { formateDate } from "../../../utils/utils-date";
 
 export const Item: FC<TData> = ({ status, endDate, title, id, done }) => {
     const [checked, setChecked] = useState<boolean>(done)

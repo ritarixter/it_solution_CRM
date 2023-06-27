@@ -1,3 +1,4 @@
+@import "../../styles/variables.scss";
 .pagination {
   list-style: none;
   padding: 0;
@@ -7,9 +8,16 @@
   &__item {
     &.active {
       border: 1px solid #5697b9;
-      color: #fff;
+      color: $thirdColor;
       background-color: #5697b9;
     }
+
+    &.active__blue {
+      border: none;
+      color: $thirdColor;
+      background: $progressBar;;
+    }
+  
   }
 }
 
@@ -38,6 +46,11 @@
   font-weight: 500;
   transition: opacity 0.1s ease;
   cursor: pointer;
+  &_blue {
+    border: none;
+    background: none;
+    color: $progressBar;
+  }
   &:hover {
     opacity: 0.75;
   }
@@ -52,5 +65,10 @@
   &:disabled {
     opacity: 0.75;
     cursor: not-allowed;
+  }
+  &__blue {
+    border: none;
+    color: $progressBar;
+    background: none;
   }
 }

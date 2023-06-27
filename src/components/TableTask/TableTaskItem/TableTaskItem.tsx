@@ -12,7 +12,7 @@ export type TTableTaskItem = {
 
 export const TableTaskItem: FC<TTableTaskItem> = ({ item }) => {
   return (
-    <ul className={styles.row}>
+    <ul className={`${styles.row} ${styles.link}`}>
       <li key={uuidv4()}>{item.name}</li>
       <li key={uuidv4()}>
         <ImpotanceBlock type={item.importance} />

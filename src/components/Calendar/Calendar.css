@@ -1,11 +1,12 @@
 .react-calendar { 
     width: 384px;
-    height: 435px;
+    min-height: 488px;
+    height: 45vh;
     max-width: 100%;
     background-color: #fff;
     color: #828690;
-    border-end-end-radius: 15px;
-    border-end-start-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     box-shadow: 1px 1px 0px 0px #F0F2F5;
     font-family: "Poppins";
     padding: 17px;
@@ -126,7 +127,8 @@
     max-width: 100%;
     text-align: center;
     width: 50px;
-    height: 46px;
+    height: 6vh;
+    min-height: 54px;
     border-radius: 6px;
     padding: 0.75em 0.5em;
     background: none;

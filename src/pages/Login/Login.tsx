@@ -15,6 +15,7 @@ export const Login: FC = () => {
   };
   return (
     <div className={styles.container}>
+      
       <div className={styles.login}>
         <header className={styles.header}>Вход</header>
         <div>
@@ -61,7 +62,6 @@ export const Login: FC = () => {
           </Link>
         </p>
       </div>
-
     </div>
   );
 };

@@ -1,0 +1,44 @@
+@import "../../styles/variables.scss";
+
+.block {
+  display: flex;
+  flex-direction: column;
+  max-width: 718px;
+  width: 100%;
+  height: 180px;
+  background-color: $thirdColor;
+  border-radius: 15px;
+
+  &_title {
+    font-size: 14px;
+    line-height: 21px;
+    color: $subtitleColor;
+    padding-top: 21px;
+    padding-left: 28px;
+    padding-bottom: 32px;
+    margin: 0;
+  }
+}
+
+.block_stage {
+  display: flex;
+  flex-direction: row;
+  padding-left: 28px;
+}
+
+.count {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+  margin: 0;
+  text-align: center;
+}
+
+.text {
+  font-size: 12px;
+  max-width: 178px;
+  width: 100%;
+  margin: 0;
+  color: $subtitleColor;
+  text-align: center;
+}

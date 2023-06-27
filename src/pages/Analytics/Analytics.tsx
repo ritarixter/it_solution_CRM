@@ -8,6 +8,7 @@ import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { TableTask, Task, Wrapper } from "../../components";
 import { useAppSelector } from "../../services/hooks";
 import { Calendar } from "../Calendar/Calendar";
+import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector(
@@ -41,7 +42,7 @@ export const Analytics: FC = () => {
         <div className={styles.container__bottom}>
         <TableTask mini={true}/>
         <Task tasks={tasks}/>
-        <Calendar/>
+        <CalendarComponent />
 
         </div>
       </div>

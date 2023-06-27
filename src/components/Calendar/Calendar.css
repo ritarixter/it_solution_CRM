@@ -4,8 +4,8 @@
     max-width: 100%;
     background-color: #fff;
     color: #828690;
-    border-end-end-radius: 15px;
-    border-end-start-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
     box-shadow: 1px 1px 0px 0px #F0F2F5;
     font-family: "Poppins";
     padding: 17px;

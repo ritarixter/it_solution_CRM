@@ -15,6 +15,7 @@ export const TableTask: FC<TTableTask> = ({ mini }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   return (
     <section className={`${styles.container} ${styles.mini}`}>
+        <div>
       <div className={styles.header}>
         <h2 className={styles.title}>
           {mini ? "Заявки за последние 7 дней" : "Заявки"}
@@ -40,6 +41,7 @@ export const TableTask: FC<TTableTask> = ({ mini }) => {
         ))}
 
       </ul>
+      </div>
       <div className={styles.pagination}>
         <Pagination
           pageSize={5}

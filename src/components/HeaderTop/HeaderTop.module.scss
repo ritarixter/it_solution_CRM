@@ -1,0 +1,25 @@
+@import "../../styles/variables.scss";
+
+.block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.block_users {
+  display: flex;
+}
+
+.block_icon {
+  position: relative;
+}
+
+.message {
+  margin-right: 8px;
+}
+
+.notice {
+  position: absolute;
+  top: 9px;
+  right: 4px;
+}

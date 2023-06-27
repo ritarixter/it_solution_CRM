@@ -1,0 +1,22 @@
+@import "../../styles/variables.scss";
+.block {
+  color: #20814d;
+  background-color: $statusDoneColor;
+  border-radius: 5px;
+  text-align: center;
+  width: 87px;
+  padding: 1px 10px;
+  font-size: 13px;
+  max-height: 20px;
+  &__do {
+    background-color: $statusDoColor;
+    color: #3b9acd;
+    width: 75px;
+  }
+
+  &__todo {
+    background-color: $statusToDoColor;
+    color: #f47633;
+    width: 123px;
+  }
+}

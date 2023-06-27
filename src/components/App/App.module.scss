@@ -1,8 +1,8 @@
 @import "../../styles/variables.scss";
 
 .app {
-  font-size: 16px;
+  display: flex;
+  background-color: #f8f8f8;
   color: $primaryColor;
-  line-height: 1.5;
-  font-family: 'Inter';
+  font-family: "Poppins", sans-serif;
 }

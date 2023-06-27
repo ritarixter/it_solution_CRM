@@ -3,6 +3,7 @@ import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import lockIcon from "../../images/icons/lock.svg";
 import mailIcon from "../../images/icons/mail.svg";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 export const Login: FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -22,7 +23,7 @@ export const Login: FC = () => {
         </div>
         <form action="" className={styles.form}>
           <label className={styles.label}>
-            <img src={mailIcon} alt="Иконка email" className={styles.icon} />
+          
             <input
               type="email"
               className={styles.input}
@@ -30,23 +31,24 @@ export const Login: FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
+              <img src={mailIcon} alt="Иконка email" className={styles.icon} />
           </label>
           <label className={styles.label}>
-            <img
-              src={lockIcon}
-              alt="Иконка замка"
-              className={styles.icon}
-              onClick={() => {
-                console.log('click')
-                setTypeInput(!typeInput);
-              }}
-            />
+       
             <input
               type={typeInput ? "password" : "text"}
               className={styles.input}
               placeholder="Пароль"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+            />
+                 <img
+              src={lockIcon}
+              alt="Иконка замка"
+              className={styles.icon}
+              onClick={() => {
+                setTypeInput(!typeInput);
+              }}
             />
           </label>
           <button type="button" className={styles.button} onClick={handleClick}>
@@ -59,7 +61,7 @@ export const Login: FC = () => {
             Нажмите здесь
           </Link>
         </p>
-      di</div>
+      </div>
     </div>
   );
 };

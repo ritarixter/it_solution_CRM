@@ -1,7 +1,8 @@
 @import "../../styles/variables.scss";
 
 .block {
-  width: 288px;
+  max-width: 288px;
+  width: 100%;
   height: 180px;
   border-radius: 15px;
   background-color: $thirdColor;
@@ -33,7 +34,7 @@
 }
 
 .unit {
-  fill:none;
+  fill: none;
   stroke-width: 4px;
 
   animation-name: render;
@@ -51,18 +52,18 @@
 }
 
 .unit:nth-child(1) {
-  stroke: #72DC00;
+  stroke: #72dc00;
   // stroke-dasharray: 28 100;
 }
 
 .unit:nth-child(2) {
-  stroke: #F47633;
+  stroke: #f47633;
   // stroke-dasharray: 42 100;
   // stroke-dashoffset: -28;
 }
 
 .unit:nth-child(3) {
-  stroke: #E6EAEE;
+  stroke: #e6eaee;
   // stroke-dasharray: 30 100;
   // stroke-dashoffset: -70;
 }
@@ -72,8 +73,6 @@
   font-family: "Poppins", sans-serif;
   font-size: 10px;
 }
-
-
 
 .caption_list {
   margin: 0;
@@ -95,7 +94,7 @@
 }
 
 .caption_item::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 5px;
   left: 0;
@@ -107,16 +106,15 @@
 }
 
 .caption_item:nth-child(1)::before {
-  background-color: #72DC00;
-
+  background-color: #72dc00;
 }
 
 .caption_item:nth-child(2)::before {
-  background-color: #F47633;
+  background-color: #f47633;
 }
 
 .caption_item:nth-child(3)::before {
-  background-color: #E6EAEE;
+  background-color: #e6eaee;
 }
 
 @keyframes render {

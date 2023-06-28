@@ -5,15 +5,14 @@
   flex-direction: column;
   padding-top: 46px;
 
-
   &__header {
     display: flex;
-    gap: 48px;
+    gap: 14px;
   }
 
   &__bottom {
     margin-top: 52px;
     display: flex;
-    gap: 16px;
+    gap: 24px;
   }
 }

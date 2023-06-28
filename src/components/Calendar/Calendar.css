@@ -52,6 +52,8 @@
     display: flex;
     max-height: 46px;
     margin-bottom: 1em;
+    align-items: center;
+    justify-content: center;
   }
   .react-calendar__navigation button {
     /* background: none; */
@@ -96,7 +98,10 @@
     opacity: 0.75;
   }
   .react-calendar__navigation button[disabled] {
-    background-color: #1000f3;
+    /* background-color: #1000f3; */
+    position: relative;
+    max-width: 174px;
+
   }
   .react-calendar__month-view__weekdays {
     text-align: center;

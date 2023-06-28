@@ -1,1 +1,22 @@
 @import "../../styles/variables.scss";
+
+.popup {
+  display: flex;
+  justify-content: center;
+  width: 688px;
+  height: auto;
+  background-color: $thirdColor;
+  border-radius: 10px;
+  margin-left: 30px;
+  padding-bottom: 82px;
+}
+
+.conteiner {
+  max-width: 536px;
+  width: 100%;
+
+  &_title {
+    margin-top: 43px;
+    margin-bottom: 14px;
+  }
+}

@@ -1,0 +1,27 @@
+@import "../../styles/variables.scss";
+
+.buttonBlock {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.button {
+  width: 168px;
+  height: 40px;
+  color: $thirdColor;
+  background-color: $mainColor;
+  padding: 8px 43px;
+  border-radius: 10px;
+  border: none;
+  margin-right: 17px;
+  cursor: pointer;
+}
+
+.caption {
+  margin: 0;
+  color: $primaryColor;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}

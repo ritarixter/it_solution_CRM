@@ -1,0 +1,22 @@
+@import "../../styles/variables.scss";
+
+.comment {
+  display: flex;
+  flex-direction: column;
+
+  &_text {
+    width: 536px;
+    min-height: 145px;
+    border-radius: 10px;
+    color: $inputCaption;
+    border: 1px solid $inputColor;
+    outline: none;
+  }
+}
+
+.caption {
+  color: $inputCaption;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}

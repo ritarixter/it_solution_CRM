@@ -8,7 +8,7 @@ import { routes } from "./constants";
 export const Header: FC = () => {
   const { pathname } = useLocation();
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${pathname === '/login' && styles.dn}`}>
       <img src={logo} alt="Лого IT solutions" className={styles.logo} />
       <nav>
         <ul className={styles.nav}>

@@ -31,7 +31,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item }) => {
             )}
           </ul>
         ) : (
-          <p className={styles.implementers__notfound}>Не назначено</p>
+          <p className={styles.implements__notfound}>Не назначено</p>
         )}
       </li>
       <li key={uuidv4()}>

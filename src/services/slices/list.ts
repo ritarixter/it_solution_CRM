@@ -2,27 +2,27 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
-import { getTasksApi } from "../../utils/api";
-import { TTask } from "../../types";
+import { TList } from "../../types";
+import { getListApi } from "../../utils/api";
 
-interface tasksState {
-  tasks: Array<TTask>;
+interface listState {
+  list: Array<TList>;
   isError: boolean;
   isLoading: boolean;
 }
 
-const initialState: tasksState = {
-  tasks: [],
+const initialState: listState = {
+  list: [],
   isError: false,
   isLoading: false,
 };
 
-export const taskSlice = createSlice({
-  name: "task",
+export const listSlice = createSlice({
+  name: "list",
   initialState,
   reducers: {
-    setTasks(state, action: PayloadAction<Array<TTask>>) {
-      state.tasks = action.payload;
+    setList(state, action: PayloadAction<Array<TList>>) {
+      state.list = action.payload;
     },
 
     setError(state, action: PayloadAction<boolean>) {
@@ -35,13 +35,13 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { setTasks, setError, setLoading } = taskSlice.actions;
+export const { setList, setError, setLoading } = listSlice.actions;
 
-export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
+export const getList: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
-  getTasksApi()
+  getListApi()
     .then((res) => {
-      dispatch(setTasks(res));
+      dispatch(setList(res));
     })
     .catch((err) => {
       setError(true);

@@ -1,40 +1,52 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import lockIcon from "../../images/icons/lock.svg";
 import mailIcon from "../../images/icons/mail.svg";
-import { Pagination } from "../../components/Pagination/Pagination";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { loginUser } from "../../services/slices/user";
 
 export const Login: FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [typeInput, setTypeInput] = useState<boolean>(true);
-  const handleClick = () => {
-    setPassword("");
-    setEmail("");
-  };
+
+  const { isAuth } = useAppSelector((state) => state.user);
+
+  const handleSubmit = useCallback(
+    (evt: React.SyntheticEvent) => {
+      evt.preventDefault();
+      dispatch(loginUser(email, password));
+      setPassword("");
+      setEmail("");
+    },
+    [dispatch, email, password]
+  );
+
+  if (isAuth) {
+    navigate("/analytics");
+  }
   return (
     <div className={styles.container}>
-      
       <div className={styles.login}>
         <header className={styles.header}>Вход</header>
         <div>
           <p className={styles.text}>Давайте начнем, Добро пожаловать!</p>
         </div>
-        <form action="" className={styles.form}>
+        <form action="" className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.label}>
-          
             <input
-              type="email"
+              type="text"
               className={styles.input}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
-              <img src={mailIcon} alt="Иконка email" className={styles.icon} />
+            <img src={mailIcon} alt="Иконка email" className={styles.icon} />
           </label>
           <label className={styles.label}>
-       
             <input
               type={typeInput ? "password" : "text"}
               className={styles.input}
@@ -42,7 +54,7 @@ export const Login: FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
-                 <img
+            <img
               src={lockIcon}
               alt="Иконка замка"
               className={styles.icon}
@@ -51,7 +63,7 @@ export const Login: FC = () => {
               }}
             />
           </label>
-          <button type="button" className={styles.button} onClick={handleClick}>
+          <button type="submit" className={styles.button}>
             Войти
           </button>
         </form>

@@ -2,89 +2,46 @@ import { FC, useEffect, useState } from "react";
 import styles from "./Task.module.scss";
 import { Item } from "./Item/Item";
 import { useAppSelector } from "../../services/hooks";
+import { TTask } from "../../types";
+import { dataTask } from "./constants";
 
-
-export type TData = {
-  id: number;
-  title: string;
-  status: "Срочно" | "Несрочно";
-  endDate: Date;
-  done: boolean;
+type ITask = {
+  tasks: Array<TTask>;
 };
 
- const data: Array<TData> = [
-  {
-    id: 1,
-    title: "Закончить проект",
-    status: "Срочно",
-    endDate: new Date(),
-    done: true
-  },
-  {
-    id: 2,
-    title: "Назначить встречу",
-    status: "Несрочно",
-    endDate: new Date(),
-    done: false
-  },
-  {
-    id: 3,
-    title: "Провести собеседование",
-    status: "Несрочно",
-    endDate: new Date(),
-    done: false
-  },
-  {
-    id: 4,
-    title: "Закончить проект",
-    status: "Срочно",
-    endDate: new Date(),
-    done: false
-  },
-  {
-    id: 5,
-    title: "Назначить встречу",
-    status: "Несрочно",
-    endDate: new Date(),
-    done: false
-  },
-  {
-    id: 6,
-    title: "Провести собеседование",
-    status: "Несрочно",
-    endDate: new Date(),
-    done: false
-  },
-  {
-    id: 7,
-    title: "Назначить встречу",
-    status: "Несрочно",
-    endDate: new Date(),
-    done: true
-  },
-]; 
-
-type TTask = {
-  tasks: Array<TData>
-} 
-
-export const Task: FC<TTask>= ({tasks}) => {
-
-  const [tasksData, setTasksData] = useState<Array<TData>>([]);
+export const Task: FC<ITask> = ({ tasks }) => {
+  const [tasksData, setTasksData] = useState<Array<TTask>>([]);
   useEffect(() => {
-  
-    tasks.length !=0 ? setTasksData(
-      tasks/* .sort((a, b) => {
-        if (a.status < b.status) return 1;
-        if (a.status > b.status) return -1;
-        return 0;
-      }).sort((a,b)=>{
-        if (a.done) return 1;
-        if (b.done) return -1;
-        return 0;
-      }) */
-    ) :setTasksData(data) //Если бэкенд выключен
-
+    if (tasks.length != 0) {
+      const arr = [...tasks];
+      setTasksData(
+        arr
+          .sort((a, b) => {
+            if (a.status < b.status) return 1;
+            if (a.status > b.status) return -1;
+            return 0;
+          })
+          .sort((a, b) => {
+            if (a.done) return 1;
+            if (b.done) return -1;
+            return 0;
+          })
+      );
+    } else {
+      setTasksData(
+        dataTask
+          .sort((a, b) => {
+            if (a.status < b.status) return 1;
+            if (a.status > b.status) return -1;
+            return 0;
+          })
+          .sort((a, b) => {
+            if (a.done) return 1;
+            if (b.done) return -1;
+            return 0;
+          })
+      );
+    } //Если бэкенд выключен
   }, [tasks]);
   return (
     <section className={styles.container}>
@@ -95,7 +52,7 @@ export const Task: FC<TTask>= ({tasks}) => {
       <ul className={styles.task}>
         {tasksData.map((item) => (
           <Item
-          done={item.done}
+            done={item.done}
             status={item.status}
             id={item.id}
             endDate={item.endDate}

@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import styles from "./Item.module.scss";
-import { TData } from "../Task";
 import dangerIcon from "../../../images/icons/danger.svg";
 import doneIcon from "../../../images/icons/done.svg";
 import deleteIcon from "../../../images/icons/delete.svg";
 import editIcon from "../../../images/icons/edit.svg";
 import { formateDate } from "../../../utils/utils-date";
+import { TTask } from "../../../types";
 
-export const Item: FC<TData> = ({ status, endDate, title, id, done }) => {
+export const Item: FC<TTask> = ({ status, endDate, title, id, done }) => {
     const [checked, setChecked] = useState<boolean>(done)
   return (
     <li

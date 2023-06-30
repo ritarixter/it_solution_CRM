@@ -10,7 +10,16 @@ export const AvatarDefault: FC<{ name: string }> = ({ name }) => {
       .split(" ")
       .reverse()
       .map((n) => n[0])
-      .join("");
+      .join("")
+      .slice(0, 2);
   }
-  return <div className={`${styles.circle} ${styles.default} ${(name.includes("+") && name.length === 2) && styles.pl}`}>{initials}</div>;
+  return (
+    <div
+      className={`${styles.circle} ${styles.default} ${
+        name.includes("+") && name.length === 2 && styles.pl
+      }`}
+    >
+      {initials}
+    </div>
+  );
 };

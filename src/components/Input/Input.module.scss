@@ -12,7 +12,8 @@
   border-radius: 10px;
   outline: none;
   box-sizing: border-box;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
 
   &::placeholder {
     color: $nullColor;

@@ -3,19 +3,27 @@
 .buttonBlock {
   display: flex;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 8px;
 }
 
 .button {
+  outline: none;
   width: 168px;
   height: 40px;
   color: $thirdColor;
+  font-size: 16px;
+  line-height: auto;
   background-color: $mainColor;
-  padding: 8px 43px;
+  padding: 8px 0;
   border-radius: 10px;
   border: none;
   margin-right: 17px;
   cursor: pointer;
+  transition: opacity 0.15s linear;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .caption {
@@ -24,4 +32,8 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

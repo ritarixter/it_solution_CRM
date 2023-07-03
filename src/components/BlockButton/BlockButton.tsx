@@ -1,14 +1,12 @@
 import { FC } from "react";
 import styles from "./BlockButton.module.scss";
-import { useNavigate } from "react-router";
 
 type TBlockButton = {
   text: string;
+  onClick: () => void;
 };
 
-export const BlockButton: FC<TBlockButton> = ({ text }) => {
-  const navigate = useNavigate();
-
+export const BlockButton: FC<TBlockButton> = ({ text, onClick }) => {
   const handleClickButton = () => {
     console.log("click");
   };
@@ -18,7 +16,7 @@ export const BlockButton: FC<TBlockButton> = ({ text }) => {
       <button className={styles.button} onClick={handleClickButton}>
         {text}
       </button>
-      <p className={styles.caption} onClick={() => navigate("/analytics")}>
+      <p className={styles.caption} onClick={onClick}>
         Отменить
       </p>
     </div>

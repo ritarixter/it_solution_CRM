@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
-import { getTasksApi } from "../../utils/api";
+import {
+  deleteTaskUserApi,
+  getTasksUserApi,
+  updateTaskUserApi,
+} from "../../utils/api";
 import { TTask } from "../../types";
 
 interface tasksState {
@@ -38,16 +42,55 @@ export const taskSlice = createSlice({
 export const { setTasks, setError, setLoading } = taskSlice.actions;
 
 export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
-  setLoading(true);
-  getTasksApi()
+  dispatch(setLoading(true));
+  getTasksUserApi()
     .then((res) => {
       dispatch(setTasks(res));
     })
     .catch((err) => {
-      setError(true);
+      dispatch(setError(true));
       console.log(err);
     })
     .finally(() => {
-      setLoading(false);
+      dispatch(setLoading(false));
     });
 };
+
+export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
+  deleteTaskUserApi(id)
+    .then((res) => {
+      dispatch(getTask());
+    })
+    .catch((err) => {
+      dispatch(setError(true));
+      console.log(err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+export const updateTask: AppThunk =
+  (
+    id: number,
+    done?: boolean,
+    status?: string /*Срочно|Не срочно */,
+    endDate?: Date,
+    title?: string
+  ) =>
+  (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+
+    updateTaskUserApi(id, done, status, endDate, title)
+      .then((res) => {
+        dispatch(getTask());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };

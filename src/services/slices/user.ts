@@ -51,7 +51,6 @@ export const registerUser: AppThunk =
       .then((res) => {
         setCookie("accessToken", res.accessToken);
         //setCookie('refreshToken', res.refreshToken);
-        dispatch(setUser(res.user));
         dispatch(setAuth(true));
       })
       .catch((err) => {
@@ -65,8 +64,6 @@ export const loginUser: AppThunk =
       .then((res) => {
         setCookie("accessToken", res.accessToken);
         //setCookie('refreshToken', res.refreshToken);
-        console.log(res)
-        dispatch(setUser(res.user));
         dispatch(setError(false));
         dispatch(setAuth(true));
         dispatch(getUser())

@@ -1,38 +1,56 @@
 import { FC, useState } from "react";
 import styles from "./Item.module.scss";
-import { TData } from "../Task";
 import dangerIcon from "../../../images/icons/danger.svg";
 import doneIcon from "../../../images/icons/done.svg";
 import deleteIcon from "../../../images/icons/delete.svg";
 import editIcon from "../../../images/icons/edit.svg";
 import { formateDate } from "../../../utils/utils-date";
+import { TTask } from "../../../types";
+import { v4 as uuidv4 } from "uuid";
+interface IItem {
+  task: TTask;
+  handleDelete: (id: number) => void;
+  changeCheckedHandle: (id: number, checked: boolean) => void;
+}
 
-export const Item: FC<TData> = ({ status, endDate, title, id, done }) => {
-    const [checked, setChecked] = useState<boolean>(done)
+export const Item: FC<IItem> = ({
+  task,
+  handleDelete,
+  changeCheckedHandle,
+}) => {
   return (
     <li
-      key={id}
-      className={`${styles.task__item} ${ !checked ? 
-        status === "Срочно" && styles.express : styles.done
+      key={task.id}
+      className={`${styles.task__item} ${
+        !task.done ? task.status === "Срочно" && styles.express : styles.done
       }`}
     >
       <div className={styles.task__header}>
         <img
-          src={status === "Срочно" ? dangerIcon : doneIcon}
+          src={task.status === "Срочно" ? dangerIcon : doneIcon}
           alt="Иконка предупреждения"
         />
         <h3
-          className={`${styles.task__title} ${ 
-            status === "Срочно" && styles.express 
+          className={`${styles.task__title} ${
+            task.status === "Срочно" && styles.express
           }`}
         >
-          {status === "Срочно" ? "Срочные" : "Несрочные"}
+          {task.status === "Срочно" ? "Срочные" : "Несрочные"}
         </h3>
       </div>
       <div className={styles.task__content}>
         <div className={styles.task__subheader}>
-          <input type="checkbox" className={styles.task__checkbox} checked={checked} onChange={()=>{setChecked(!checked)}}/>
-          <p className={`${styles.task__subtitle} ${checked && styles.done}`}>{title}</p>
+          <input
+            type="checkbox"
+            className={styles.task__checkbox}
+            checked={task.done}
+            onChange={() => {
+              changeCheckedHandle(task.id, !task.done);
+            }}
+          />
+          <p className={`${styles.task__subtitle} ${task.done && styles.done}`}>
+            {task.title}
+          </p>
         </div>
         <div className={styles.task__icons}>
           <button className={`${styles.button} ${styles.delete}`}>
@@ -40,6 +58,7 @@ export const Item: FC<TData> = ({ status, endDate, title, id, done }) => {
               src={deleteIcon}
               className={styles.task__icon}
               alt="Кнопка удаления"
+              onClick={() => handleDelete(task.id)}
             />
           </button>
 
@@ -52,8 +71,8 @@ export const Item: FC<TData> = ({ status, endDate, title, id, done }) => {
           </button>
         </div>
       </div>
-      <time className={styles.task__time} dateTime={formateDate(endDate)}>
-        {formateDate(endDate)}
+      <time className={styles.task__time} dateTime={formateDate(task.endDate)}>
+        {formateDate(task.endDate)}
       </time>
     </li>
   );

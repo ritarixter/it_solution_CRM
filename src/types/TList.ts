@@ -4,12 +4,12 @@ import { TWork } from "./TWork";
 
 export type TList = {
   id: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   name: string;
   customer: string;
   description: string | null;
-  endDate: string | null;
+  endDate: Date;
   status: string  | null;
   importance: string | null;
   company: TCompany

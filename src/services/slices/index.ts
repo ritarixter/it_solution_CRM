@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-//import { userSlice } from './user';
 import { taskSlice } from './task';
+import { listSlice } from './list';
+import { userSlice } from './user';
 
 export const rootReducer = combineReducers({
- // user: userSlice.reducer,
-  task: taskSlice.reducer
+  list: listSlice.reducer,
+  task: taskSlice.reducer,
+  user: userSlice.reducer
 });

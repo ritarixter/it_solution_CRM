@@ -6,4 +6,5 @@ export type TUser = {
   avatar: string;
   access: string;
   username: string;
+  password?:string;
 };

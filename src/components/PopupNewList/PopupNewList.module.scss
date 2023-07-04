@@ -1,1 +1,59 @@
 @import "../../styles/variables.scss";
+
+.popup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 688px;
+  height: auto;
+  background-color: $thirdColor;
+  border-radius: 10px;
+  margin-left: 30px;
+  max-width: 1070px;
+  width: 100%;
+}
+
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  padding-left: 66px;
+  padding-right: 50px;
+  padding-bottom: 62px;
+
+  &_title {
+    margin-top: 20px;
+    margin-bottom: 14px;
+  }
+}
+
+.infomation {
+  display: flex;
+  flex-direction: column;
+  padding-left: 49px;
+  padding-right: 74px;
+  border-right: 1px solid $line;
+  padding-bottom: 62px;
+}
+
+.blockText {
+  margin-bottom: 33px;
+
+  &_title {
+    font-size: 14px;
+    line-height: auto;
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: $inputCaption;
+  }
+
+  &_text {
+    margin: 0;
+    font-size: 14px;
+    line-height: auto;
+    color: $primaryColor;
+  }
+}
+
+.status {
+  margin-bottom: 17px;
+}

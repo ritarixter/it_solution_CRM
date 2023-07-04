@@ -1,6 +1,7 @@
 import avatar1 from "../../images/photo_2.jpg";
 import avatar2 from "../../images/photo1.jpg";
-export const titles = ['Кодовое имя','Важность' ,' Прогресс', 'Исполнители', 'Статус', 'Дедлайн']
+export const titlesMini = ['Кодовое имя','Важность' ,' Прогресс', 'Исполнители', 'Статус', 'Дедлайн']
+export const titles = ['Организация','Кодовое имя' ,' Дата созданий', 'Дедлайн','ФИО', 'Телефон', 'Исполнители', 'Статус','Приоритет', 'Прогресс', 'Файлы']
 export const data = [
     {
       id: 9,
@@ -128,4 +129,197 @@ export const data = [
         },
       ],
     },
+    {
+      id: 11,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 12,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 13,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 14,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 15,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 16,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 17,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    {
+      id: 18,
+      createdAt: "2023-06-21T08:10:02.596Z",
+      updatedAt: "2023-06-27T09:21:58.615Z",
+      name: "Заявка №2",
+      customer: "Менеджер",
+      description: null,
+      endDate: null,
+      status: null,
+      importance: "Средняя",
+      company: {
+        id: 1,
+        createdAt: "2023-06-19T12:10:19.116Z",
+        updatedAt: "2023-06-19T13:43:39.940Z",
+        nameCompany: "test1",
+        name: "Гнездилова Маргарита",
+        numberPhone: "+7999999900",
+      },
+      commercialProposal: null,
+      users: [
+      ],
+      works: [
+      ],
+    },
+    
   ];

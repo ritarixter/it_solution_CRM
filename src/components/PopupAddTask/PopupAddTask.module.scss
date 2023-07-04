@@ -1,0 +1,114 @@
+@import "../../styles/variables.scss";
+
+.popup {
+  max-width: 392px;
+  width: 100%;
+  height: auto;
+  background-color: $thirdColor;
+  z-index: 3;
+  visibility: hidden;
+  position: fixed;
+  border: 1px solid $borderPopup;
+  border-radius: 15px;
+  left: 1016px;
+  top: 351px;
+  padding: 17px 23px 21px 22px;
+
+  &_opened {
+    visibility: visible;
+  }
+
+  &_title {
+    margin: 0;
+    margin-right: 8px;
+  }
+
+  &_text {
+    margin: 0;
+  }
+
+  &_conteiner {
+    position: relative;
+  }
+}
+
+.containerTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.create_task {
+  height: auto;
+  max-width: 347px;
+  width: 100%;
+  border: 1px solid $borderPopup;
+  border-radius: 10px;
+  margin-top: 9.7px;
+}
+
+.inputTitle {
+  border: none;
+  height: auto;
+  max-width: 347px;
+  width: 100%;
+  border-radius: 10px;
+  padding-top: 11px;
+  padding-left: 21px;
+  color: $subtitleColor;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.description {
+  border: none;
+  height: auto;
+  max-width: 347px;
+  width: 100%;
+  border-radius: 10px;
+  padding-top: 11px;
+  padding-left: 21px;
+  color: $subtitleColor;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 21px;
+  margin-bottom: 13px;
+}
+
+.inputDate {
+  width: 100px;
+  height: 28px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  background-color: $statusDoneColor;
+  margin-right: 12px;
+  color: $primaryColor;
+}
+
+.dropdown {
+  width: 95px;
+  height: 28px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: $dropDown;
+  border-radius: 4px;
+}
+
+.dropdown_red {
+  color: $statusHard;
+}
+
+.dropdown_green {
+  color: $mainColor;
+}

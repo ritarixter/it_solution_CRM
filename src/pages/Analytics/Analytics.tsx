@@ -7,12 +7,13 @@ import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { TableTask, Task, Wrapper } from "../../components";
 import { useAppSelector } from "../../services/hooks";
-import { Calendar } from "../Calendar/Calendar";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
+  const { list } = useAppSelector((state) => state.list);
+  
   return (
     <Wrapper>
       <HeaderTop />
@@ -38,7 +39,7 @@ export const Analytics: FC = () => {
           <BlockList />
         </div>
         <div className={styles.container__bottom}>
-          <TableTask mini={true} />
+          <TableTask mini={true} list={list} />
           <Task tasks={tasks} />
           <CalendarComponent />
         </div>

@@ -13,6 +13,7 @@
   box-sizing: border-box;
   border-radius: 15px;
   background: $thirdColor;
+  position: relative;
 }
 
 .header {
@@ -65,4 +66,6 @@
 
 .error {
   margin: 0;
+padding: 0 26px;
+font-size: 14px;
 }

@@ -4,21 +4,14 @@ import styles from "./BlockButton.module.scss";
 type TBlockButton = {
   text: string;
   onClick: () => void;
+  disabled?: boolean
 };
 
-export const BlockButton: FC<TBlockButton> = ({ text, onClick }) => {
-  const handleClickButton = () => {
-    console.log("click");
-  };
+export const BlockButton: FC<TBlockButton> = ({ text, onClick,disabled }) => {
 
   return (
-    <div className={styles.buttonBlock}>
-      <button className={styles.button} onClick={handleClickButton}>
+      <button className={styles.button} onClick={onClick} disabled={disabled}>
         {text}
       </button>
-      <p className={styles.caption} onClick={onClick}>
-        Отменить
-      </p>
-    </div>
   );
 };

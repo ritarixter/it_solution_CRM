@@ -1,10 +1,5 @@
 @import "../../styles/variables.scss";
 
-.buttonBlock {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-}
 
 .button {
   outline: none;
@@ -24,16 +19,9 @@
   &:hover {
     opacity: 0.7;
   }
-}
 
-.caption {
-  margin: 0;
-  color: $primaryColor;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-
-  &:hover {
+  &:disabled {
     opacity: 0.7;
+    cursor: not-allowed;
   }
 }

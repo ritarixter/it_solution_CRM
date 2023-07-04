@@ -30,7 +30,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list }) => {
       const date = addSevenDay();
 
       if (mini) {
-       /* let date = new Date();
+        /* let date = new Date();
         arr = arr.filter(
           (item) => {
             console.log(date + ' < ' + item.createdAt)
@@ -105,11 +105,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list }) => {
 
         <Pagination
           pageSize={pageSize}
-          totalCount={
-            list.length != 0
-              ? list.length
-              : data.length /*Когда не работает бекенд! УБРАТЬ*/
-          }
+          totalCount={list.length}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           style={mini ? "blue" : undefined}

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./Analytics.module.scss";
 import { BlockAnalics } from "../../components/BlockAnalics/BlockAnalics";
 import editTasks from "../../images/icons/editTasks.svg";
@@ -13,7 +13,15 @@ import { Diagram } from "../../components/Diagram/Diagram";
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
   const { list } = useAppSelector((state) => state.list);
-  
+  const [countDoneTasks, setCountDoneTasks] = useState<number>(0)
+
+  useEffect(() => {
+    if (tasks.length != 0) {
+      let arr = [...tasks];
+      setCountDoneTasks(arr.filter((item)=>item.done===true).length)
+    }
+  }, [tasks]);
+
   return (
     <Wrapper>
       <HeaderTop />
@@ -22,10 +30,10 @@ export const Analytics: FC = () => {
           <Diagram />
           <BlockAnalics
             name={"Задачи"}
-            count={28}
+            count={tasks.length}
             icon={editTasks}
             title={"Завершенные задачи"}
-            countMade={20}
+            countMade={countDoneTasks}
           />
 
           <BlockAnalics

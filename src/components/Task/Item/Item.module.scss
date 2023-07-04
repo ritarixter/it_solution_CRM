@@ -5,6 +5,7 @@
     color: $dashboardTitleColor;
     font-size: 14px;
     margin-left: 6px;
+
     &.done  {
         text-decoration: line-through;
     }
@@ -50,6 +51,7 @@
     line-height: 21px;
     font-weight: 400;
     margin: 0;
+
     margin-left: 4px;
     &.express {
       color: $notifyColor;
@@ -108,4 +110,10 @@
 
 .edit {
     background-color: #E7F5FF;
+}
+.description {
+  margin: 0;
+  font-size: 14px;
+  color: $dashboardTitleColor;
+  margin: 3px 0;
 }

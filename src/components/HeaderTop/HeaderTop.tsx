@@ -10,28 +10,31 @@ import { useAppSelector } from "../../services/hooks";
 
 export const HeaderTop: FC = () => {
   const { user } = useAppSelector((state) => state.user);
-  
 
   return (
     <div className={styles.block}>
-     { user ? 
-     <>
-     <Search />
-      <div className={styles.block_users}>
-        <div className={styles.block_icon}>
-          <img src={message} alt="Сообщение" className={styles.message} />
-          <img src={notice} alt="Кол-во сообщений" className={styles.notice} />
+      <Search />
+      {user ? (
+        <div className={styles.block_users}>
+          <div className={styles.block_icon}>
+            <img src={message} alt="Сообщение" className={styles.message} />
+            <img
+              src={notice}
+              alt="Кол-во сообщений"
+              className={styles.notice}
+            />
+          </div>
+          <div>
+            <img src={bell} alt="Уведомление" className={styles.bell} />
+          </div>
+          <div className={styles.users}>
+            <UserBlock name={user.name} avatar={user.avatar} fullName={true} />
+            <img src={arrow} alt="Стрелка" className={styles.arrow} />
+          </div>
         </div>
-        <div>
-          <img src={bell} alt="Уведомление" className={styles.bell} />
-        </div>
-        <div className={styles.users}>
-          <UserBlock name={user.name} avatar={user.avatar} fullName={true} />
-          <img src={arrow} alt="Стрелка" className={styles.arrow} />
-        </div>
-      </div></> : 
-      <span>Загрузка...</span>
-      }
+      ) : (
+        <span>Загрузка...</span>
+      )}
     </div>
   );
 };

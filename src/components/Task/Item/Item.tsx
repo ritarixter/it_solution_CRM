@@ -7,6 +7,9 @@ import editIcon from "../../../images/icons/edit.svg";
 import { formateDate } from "../../../utils/utils-date";
 import { TTask } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
+import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
+import { useAppDispatch } from "../../../services/hooks";
+import { updateTask } from "../../../services/slices/task";
 interface IItem {
   task: TTask;
   handleDelete: (id: number) => void;
@@ -18,6 +21,27 @@ export const Item: FC<IItem> = ({
   handleDelete,
   changeCheckedHandle,
 }) => {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const update = (
+    name?: string,
+    description?: string,
+    time?: string,
+    status?: string,
+    id?: number
+  ) => {
+    let resultDate;
+    if (time) {
+      resultDate = new Date();
+      const times = time?.split(":");
+      resultDate.setHours(Number(times![0]), Number(times![1]), 0, 0);
+    } else {
+      resultDate = task.endDate;
+    }
+
+    dispatch(updateTask(id, task.done, status, resultDate, name, description)); //task.done - костыль и ДАТА КОЛЛИЗИЯ (-3 часа при обновлении)
+    setPopupOpen(false);
+  };
   return (
     <li
       key={task.id}
@@ -62,7 +86,10 @@ export const Item: FC<IItem> = ({
             />
           </button>
 
-          <button className={`${styles.button} ${styles.edit}`}>
+          <button
+            className={`${styles.button} ${styles.edit}`}
+            onClick={() => setPopupOpen(!isPopupOpen)}
+          >
             <img
               src={editIcon}
               className={styles.task__icon}
@@ -71,9 +98,20 @@ export const Item: FC<IItem> = ({
           </button>
         </div>
       </div>
+      {task.description && (
+        <p className={styles.description}>{task.description}</p>
+      )}
       <time className={styles.task__time} dateTime={formateDate(task.endDate)}>
         {formateDate(task.endDate)}
       </time>
+      <PopupAddTask
+        title={task.title}
+        isOpen={isPopupOpen}
+        setOpen={setPopupOpen}
+        onClick={update}
+        task={task}
+        titleButton={"Изменить задачу"}
+      />
     </li>
   );
 };

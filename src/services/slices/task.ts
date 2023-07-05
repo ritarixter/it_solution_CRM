@@ -107,7 +107,6 @@ export const addTask: AppThunk =
   ) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-
     addTaskUserApi(title, status, endDate, done, description)
       .then((res) => {
         dispatch(getTask());

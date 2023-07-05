@@ -48,7 +48,7 @@ export function getDataUser() {
   }).then(responseCheck);
 }
 
-export async function logoutUser() {
+/* export async function logoutUser() {
   return fetch(`${URL}/logout`, {
     method: "POST",
     headers: {
@@ -58,7 +58,7 @@ export async function logoutUser() {
       token: localStorage.getItem("token"),
     }),
   }).then(responseCheck);
-}
+} */
 
 //Внести изменения о пользователе
 export function editUsers(

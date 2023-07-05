@@ -4,7 +4,7 @@ import dangerIcon from "../../../images/icons/danger.svg";
 import doneIcon from "../../../images/icons/done.svg";
 import deleteIcon from "../../../images/icons/delete.svg";
 import editIcon from "../../../images/icons/edit.svg";
-import { formateDate } from "../../../utils/utils-date";
+import { formateDate, formateDateOnlyTime } from "../../../utils/utils-date";
 import { TTask } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
@@ -30,16 +30,14 @@ export const Item: FC<IItem> = ({
     status?: string,
     id?: number
   ) => {
-    let resultDate;
-    if (time) {
+    let resultDate = undefined;
+    if (time != formateDateOnlyTime(task.endDate)) {
       resultDate = new Date();
       const times = time?.split(":");
-      resultDate.setHours(Number(times![0]), Number(times![1]), 0, 0);
-    } else {
-      resultDate = task.endDate;
+      resultDate.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
 
-    dispatch(updateTask(id, task.done, status, resultDate, name, description)); //task.done - костыль и ДАТА КОЛЛИЗИЯ (-3 часа при обновлении)
+    dispatch(updateTask(id, undefined, status, resultDate, name, description));
     setPopupOpen(false);
   };
   return (

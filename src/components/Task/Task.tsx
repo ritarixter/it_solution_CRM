@@ -53,7 +53,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
   ) => {
     let date = new Date()
     const times = time?.split(":");
-    date.setHours(Number(times![0]), Number(times![1]), 0, 0);
+    date.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
   };

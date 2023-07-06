@@ -1,0 +1,41 @@
+@import "../../styles/variables.scss";
+
+.main {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  color: $progressBar;
+}
+
+.progressBar {
+  width: 100px;
+  color: $subtitleColor;
+  margin-right: 7px;
+
+  &_title {
+    font-weight: 150px;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    padding: 0;
+  
+  }
+}
+
+.progress {
+  width: 100%;
+  height: 5px;
+  background-color: $progressBarBg;
+  border-radius: 12px;
+}
+
+.blueBar {
+  height: 5px;
+  background-color: $progressBar;
+  border-radius: 12px;
+}

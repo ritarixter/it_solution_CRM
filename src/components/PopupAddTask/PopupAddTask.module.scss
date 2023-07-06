@@ -7,11 +7,11 @@
   background-color: $thirdColor;
   z-index: 3;
   visibility: hidden;
-  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
   border: 1px solid $borderPopup;
   border-radius: 15px;
-  left: 1016px;
-  top: 351px;
   padding: 17px 23px 21px 22px;
 
   &_opened {
@@ -52,28 +52,37 @@
   border: none;
   height: auto;
   max-width: 347px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $borderPopup;
   width: 100%;
-  border-radius: 10px;
-  padding-top: 11px;
-  padding-left: 21px;
-  color: $subtitleColor;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px 20px;
+  color: $primaryColor;
   font-size: 14px;
   cursor: pointer;
   outline: none;
+  &::placeholder {
+    color: $subtitleColor;
+  }
 }
 
 .description {
   border: none;
-  height: auto;
+  height: 80px;
+  resize: none;
+  color: $primaryColor;
   max-width: 347px;
   width: 100%;
   border-radius: 10px;
-  padding-top: 11px;
-  padding-left: 21px;
-  color: $subtitleColor;
+  padding: 10px 20px;
+  box-sizing: border-box;
   font-size: 12px;
   cursor: pointer;
   outline: none;
+  &::placeholder {
+    color: $subtitleColor;
+  }
 }
 
 .block {
@@ -93,23 +102,63 @@
   border-radius: 4px;
   background-color: $statusDoneColor;
   margin-right: 12px;
+  padding: 2px 4px;
   color: $primaryColor;
 }
-
-.dropdown {
-  width: 95px;
+.date {
+  width: 90px;
   height: 28px;
+  padding: 2px 4px;
+
+  border-radius: 4px;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  margin-right: 12px;
+  font-size: 13px;
+  background-color: $dropDown;
+ 
+  color: $primaryColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown {
+  font-family: "Poppins", sans-serif;
+  width: 90px;
+  height: 28px;
+  padding: 2px 4px;
   cursor: pointer;
   outline: none;
   border: none;
-  background-color: $dropDown;
+
   border-radius: 4px;
+
+  &_red {
+    background-color: $statusToDoColor;
+    color: #f47633;
+  }
+  
+  &_green {
+    background-color: $statusDoneColor;
+    color: $mainColor;
+  }
 }
 
-.dropdown_red {
-  color: $statusHard;
+
+.caption {
+  margin: 0;
+  color: $primaryColor;
+  font-size: 16px;
+  cursor: pointer;
+  color: $inputCaption;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
-.dropdown_green {
-  color: $mainColor;
+.buttonBlock {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
 }

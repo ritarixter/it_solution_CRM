@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, AppThunk } from "../store";
 import {
+  addTaskUserApi,
   deleteTaskUserApi,
   getTasksUserApi,
   updateTaskUserApi,
@@ -77,12 +78,36 @@ export const updateTask: AppThunk =
     done?: boolean,
     status?: string /*Срочно|Не срочно */,
     endDate?: Date,
-    title?: string
+    title?: string,
+    description?: string
   ) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
 
-    updateTaskUserApi(id, done, status, endDate, title)
+    updateTaskUserApi(id, done, status, endDate, title, description)
+      .then((res) => {
+        dispatch(getTask());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+export const addTask: AppThunk =
+  (
+    done: boolean,
+    status: string /*Срочно|Не срочно */,
+    endDate: Date,
+    title: string,
+    description: string
+  ) =>
+  (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    addTaskUserApi(title, status, endDate, done, description)
       .then((res) => {
         dispatch(getTask());
       })

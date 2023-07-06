@@ -40,6 +40,26 @@ export function signUp(username: string, password: string) {
   }).then(responseCheck);
 }
 
+//-------------------------------------------------------------------USER--------------------------------------------------------------------------------------
+//Получение профиля
+export function getDataUser() {
+  return fetch(`${URL}/user/me`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+/* export async function logoutUser() {
+  return fetch(`${URL}/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+    }),
+  }).then(responseCheck);
+} */
+
 //Внести изменения о пользователе
 export function editUsers(
   username?: string,
@@ -69,6 +89,8 @@ export function deleteUsers(usernameId: any) {
   }).then(responseCheck);
 }
 
+//-------------------------------------------------------TASKS----------------------------------------------------------------------------------------------------------------
+
 // Получение всех задач конкретного пользователя
 export function getTasksUserApi() {
   return fetch(`${URL}/tasks`, {
@@ -84,13 +106,35 @@ export function deleteTaskUserApi(id: number) {
   }).then(responseCheck);
 }
 
+// Добавление задачи
+export function addTaskUserApi(
+  title: string,
+  status: string, //"Срочно" | "Несрочно";
+  endDate: Date,
+  done: boolean,
+  description?: string
+) {
+  return fetch(`${URL}/tasks`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      done: done,
+      status: status,
+      endDate: endDate,
+      title: title,
+      description: description,
+    }),
+  }).then(responseCheck);
+}
+
 //Изменение статуса задачи на сделано/не сделано
 export function updateTaskUserApi(
   id: number,
   done?: boolean,
   status?: string /*Срочно|Не срочно */,
   endDate?: Date,
-  title?: string
+  title?: string,
+  description?: string
 ) {
   return fetch(`${URL}/tasks/${id}`, {
     method: "PATCH",
@@ -100,35 +144,18 @@ export function updateTaskUserApi(
       status: status,
       endDate: endDate,
       title: title,
+      description: description
     }),
   }).then(responseCheck);
 }
 
+//---------------------------------------------------------------LIST-------------------------------------------------------------------------------
 // Получение всех заявок
 export function getListApi() {
   return fetch(`${URL}/list`, {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(responseCheck);
-}
-
-//Получение профиля
-export function getDataUser() {
-  return fetch(`${URL}/user/me`, {
-    headers: headersWithAuthorizeFn,
-  }).then(responseCheck);
-}
-
-export async function logoutUser() {
-  return fetch(`${URL}/logout`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("token"),
-    }),
   }).then(responseCheck);
 }
 

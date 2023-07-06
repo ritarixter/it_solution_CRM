@@ -33,9 +33,9 @@ export const userSlice = createSlice({
     setUser(state, action: PayloadAction<TUser>) {
       state.user = action.payload;
     },
-    setAuth(state, action: PayloadAction<boolean>) {
+  setAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
-    },
+    }, 
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
     },
@@ -43,7 +43,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, setAuth, setError } = userSlice.actions;
+export const { setUser, setAuth, setError, logout } = userSlice.actions;
 
 export const registerUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {
@@ -51,12 +51,13 @@ export const registerUser: AppThunk =
       .then((res) => {
         setCookie("accessToken", res.accessToken);
         //setCookie('refreshToken', res.refreshToken);
-        dispatch(setAuth(true));
+       dispatch(setAuth(true));
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
 
 export const loginUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {

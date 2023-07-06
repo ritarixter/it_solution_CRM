@@ -5,7 +5,12 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { TTask } from "../../types";
 import { dataTask } from "./constants";
 import { deleteTaskUserApi, updateTaskUserApi } from "../../utils/api";
-import { deleteTask, getTask, updateTask } from "../../services/slices/task";
+import {
+  addTask,
+  deleteTask,
+  getTask,
+  updateTask,
+} from "../../services/slices/task";
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 
 type ITask = {
@@ -40,6 +45,19 @@ export const Task: FC<ITask> = ({ tasks }) => {
     dispatch(updateTask(id, checked));
   };
 
+  const createTask = (
+    name?: string,
+    description?: string,
+    time?: string,
+    status?: string,
+  ) => {
+    let date = new Date()
+    const times = time?.split(":");
+    date.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
+    dispatch(addTask(false, status, date, name, description));
+    setPopupOpen(false);
+  };
+
   useEffect(() => {
     if (tasks.length != 0) {
       const arr = [...tasks];
@@ -57,9 +75,10 @@ export const Task: FC<ITask> = ({ tasks }) => {
           +
         </button>
         <PopupAddTask
-          title={"Сегодня"}
+          title={"Задача"}
           isOpen={isPopupOpen}
           setOpen={setPopupOpen}
+          onClick={createTask}
         />
       </div>
       {!error ? (

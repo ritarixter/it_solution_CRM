@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 25px;
+
 }
 
 .block_users {
@@ -30,10 +31,17 @@
   display: flex;
   align-items: center;
   margin-left: 27px;
+  position: relative;
+  cursor: pointer;
 }
 
 .arrow {
   margin-left: 4px;
   width: 9px;
   height: 24px;
+  
+  transition: all .2s ease;
+  &.open {
+    transform: rotateX(180deg);
+  }
 }

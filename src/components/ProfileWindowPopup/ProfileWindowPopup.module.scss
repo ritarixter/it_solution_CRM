@@ -1,0 +1,47 @@
+@import "../../styles/variables.scss";
+
+.profileWindow {
+    &__container {
+        box-shadow: 0px 4px 8px 0px rgba(34, 60, 80, 0.1);
+        position: absolute;
+        top: 35px;
+        right: 0;
+        transition: all .5s ease;
+        opacity: 0;
+        visibility: hidden;    
+        width: 188px;
+        font-size: 12px;
+        background: $thirdColor;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin: 0;
+        &.opened {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}
+
+.item {
+    cursor: pointer;
+    display: flex;
+    padding: 16px;
+    justify-content: left;
+    align-items: center;
+    color: #828690;
+    transition: opacity 0.2s ease;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.item img {
+    margin-right: 8px;
+    width: 15px;
+    height: 15px; 
+    color: #373737;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid #e1e1e141;
+}

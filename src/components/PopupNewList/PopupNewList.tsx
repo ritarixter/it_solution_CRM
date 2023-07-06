@@ -94,10 +94,14 @@ export const PopupNewList: FC = () => {
           />
         </form>
         <BlockComments />
+        <div className={styles.buttonBlock}>
         <BlockButton
           text={"Изменить"}
-          onClick={() => navigate("/applications")}
+          onClick={() =>{}}
+          
         />
+             <p className={styles.caption} onClick={() => navigate("/applications")} ></p>
+        </div>
       </div>
     </div>
   );

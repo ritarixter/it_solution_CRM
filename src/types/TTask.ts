@@ -3,5 +3,6 @@ export type TTask = {
     title: string;
     status: string; //"Срочно" | "Несрочно";
     endDate: Date;
+    description?: string;
     done: boolean;
   };

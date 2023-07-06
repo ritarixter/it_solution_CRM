@@ -1,8 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./PopupAddTask.module.scss";
 import { BlockButton } from "../BlockButton/BlockButton";
+import "moment/locale/ru";
+import moment from "moment";
 import { TTask } from "../../types";
 import { formateDateOnlyTime } from "../../utils/utils-date";
+
 
 type TPopupAddTask = {
   title?: string;
@@ -74,15 +77,18 @@ export const PopupAddTask: FC<TPopupAddTask> = ({
     }
   }, [name, description, time, status]);
 
-  const formatDate = (date: Date) => {
-    return new Date("ddd, DD ,MMMM");
-  };
+  const formatDate = () => {
+    var now = moment();
+    return now.format("dd DD MMMM");}
+
   return (
     <div className={`${styles.popup} ${isOpen && styles.popup_opened}`}>
       <div className={styles.popup_conteiner}>
         <div className={styles.containerTitle}>
           <h3 className={styles.popup_title}>{title}</h3>
-          <p className={styles.popup_text}>{date.toISOString().slice(0, 10)}</p>
+
+          <p className={styles.popup_text}>{formatDate()}</p>
+
         </div>
         <div className={styles.create_task}>
           <input

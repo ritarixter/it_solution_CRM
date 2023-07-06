@@ -18,13 +18,14 @@
     visibility: visible;
   }
 
-  &_title {
-    margin: 0;
-    margin-right: 8px;
-  }
-
   &_text {
     margin: 0;
+  }
+
+  &_title {
+    font-size: 20px;
+    margin: 0;
+    margin-right: 8px;
   }
 
   &_conteiner {

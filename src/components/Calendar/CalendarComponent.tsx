@@ -12,8 +12,11 @@ export const CalendarComponent: FC = () => {
     }
 
     const onClickDay = (value: any, event: any) => {
-        console.log(1900 + value.getYear() + " " + (1 + value.getMonth()) + " " + value.getDate())
+        debugger
+        console.log(value.toJSON())
     }
+
+
 
     return (
         <div className={styles.calendarTittleArea}>

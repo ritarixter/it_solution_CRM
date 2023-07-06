@@ -1,0 +1,89 @@
+@import "../../styles/variables.scss";
+
+.sample {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  margin: 0;
+}
+
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  background-color: $thirdColor;
+  max-width: 600px;
+  width: 100%;
+  padding-left: 59px;
+  padding-right: 41px;
+  padding-bottom: 183px;
+  border-radius: 10px;
+  border: 1px solid #f0f2f5;
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+  margin-right: 51px;
+
+  &_title {
+    margin-top: 43px;
+    margin-bottom: 14px;
+  }
+}
+
+.conteinerList {
+  background-color: $thirdColor;
+  max-width: 849px;
+  width: 100%;
+  padding-left: 49px;
+  padding-right: 73px;
+  padding-bottom: 110px;
+  border-radius: 10px;
+  border: 1px solid #f0f2f5;
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+
+  &_title {
+    margin-top: 43px;
+    margin-bottom: 51px;
+  }
+}
+
+.tableTitle {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 163px 221px 189px auto;
+  padding: 0;
+
+  &_column {
+    font-size: 14px;
+    color: $subtitleColor;
+    margin-bottom: 37px;
+  }
+}
+
+.table {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 175px 211px 210px auto;
+  padding: 0;
+  margin: 0;
+
+  &_row {
+    font-size: 14px;
+    color: $primaryColor;
+    margin-bottom: 33px;
+    min-height: 50px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &_avatar {
+    margin-left: -10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.block_avatar {
+  display: flex;
+}

@@ -3,7 +3,7 @@ import styles from "./DropdownList.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
 
 export type TDropdownList = {
-  data: Array<{ id: string; name: string; type: string }>;
+  data: Array<{ id: string; name: string; type?: string }>;
   state: string;
   setState: (value: string) => void;
   name: string;

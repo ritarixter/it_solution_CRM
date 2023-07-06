@@ -3,7 +3,7 @@ import styles from "./BlockButton.module.scss";
 
 type TBlockButton = {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export const BlockButton: FC<TBlockButton> = ({ text, onClick }) => {

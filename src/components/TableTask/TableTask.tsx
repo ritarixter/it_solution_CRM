@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from "./TableTask.module.scss";
 import excel from "../../images/icons/excel_icon.svg";
-import { data, titles, titlesMini } from "./constants";
+import { data, titles, titlesManager, titlesMini } from "./constants";
 import { Pagination } from "../Pagination";
 import { v4 as uuidv4 } from "uuid";
 import { TableTaskItem } from "./TableTaskItem/TableTaskItem";
@@ -13,17 +13,19 @@ import { formateDate } from "../../utils/utils-date";
 type TTableTask = {
   mini: boolean;
   list: Array<TList>;
+  access: "Менеджер" | "Главный инженер";
 };
 function addSevenDay(date = new Date()) {
   date.setDate(date.getDate() + 7);
 
   return date;
 }
-export const TableTask: FC<TTableTask> = ({ mini, list }) => {
+export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
-  const pageSize = mini ? 3 : 7;
+  const pageSize =  access === 'Главный инженер' ? (mini ? 3 : 7 ) : 7;
+
 
   function handleDownloadExcel() {
     let arr = [...list];
@@ -118,15 +120,23 @@ export const TableTask: FC<TTableTask> = ({ mini, list }) => {
                 mini ? styles.row_mini : styles.row_maxi
               } ${styles.header}`}
             >
-              {mini
-                ? titlesMini.map((title, index) => <th key={index}>{title}</th>)
-                : titles.map((title, index) => <th key={index}>{title}</th>)}
+              {mini &&
+                access === "Главный инженер" &&
+                titlesMini.map((title, index) => <th key={index}>{title}</th>)}
+              {!mini &&
+                access === "Главный инженер" &&
+                titles.map((title, index) => <th key={index}>{title}</th>)}
+              {mini &&
+                access === "Менеджер" &&
+                titlesManager.map((title, index) => (
+                  <th key={index}>{title}</th>
+                ))}
             </tr>
           </thead>
           <tbody>
             {!error ? (
               currentData.map((item) => (
-                <TableTaskItem item={item} mini={mini} />
+                <TableTaskItem item={item} mini={mini} access={access} />
               ))
             ) : (
               <p className={styles.error}>Заявок нет</p>
@@ -135,9 +145,9 @@ export const TableTask: FC<TTableTask> = ({ mini, list }) => {
         </table>
       </div>
       <div
-        className={`${styles.pagination} ${!mini && styles.pagination_without}`}
+        className={`${styles.pagination} ${(!mini || access==="Менеджер" ) && styles.pagination_without}`}
       >
-        {mini && (
+        {(mini && access === 'Главный инженер') &&(
           <Link className={styles.linkAll} to="/applications">
             Смотреть все
           </Link>

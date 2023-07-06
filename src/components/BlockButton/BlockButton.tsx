@@ -3,7 +3,7 @@ import styles from "./BlockButton.module.scss";
 
 type TBlockButton = {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean
 };
 

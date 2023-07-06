@@ -17,6 +17,7 @@ type TBlockAddSample = {
 export const BlockAddSample: FC<TBlockAddSample> = () => {
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
+  const [textareaValue, setTextareaValue]=useState<string>('')
 
   return (
     <div className={styles.sample}>
@@ -51,7 +52,7 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
             ]}
           />
         </form>
-        <BlockComments />
+        <BlockComments value={textareaValue} setValue={setTextareaValue}/>
         <BlockButton
           text={"Добавить"}
           // onClick={}

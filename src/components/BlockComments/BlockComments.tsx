@@ -2,7 +2,12 @@ import { ChangeEvent, FC, useState } from "react";
 import styles from "./BlockComments.module.scss";
 import clip from "../../images/icons/clip.svg";
 
-export const BlockComments: FC = () => {
+type TBlockComments = {
+  value:string,
+  setValue: (value:string)=>void
+}
+
+export const BlockComments: FC<TBlockComments> = ({value,setValue}) => {
   const [file, setFile] = useState<FileList | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +32,7 @@ export const BlockComments: FC = () => {
   return (
     <div className={styles.comments}>
       <p className={styles.caption}>Комментарий</p>
-      <textarea className={styles.comment_text} />
+      <textarea className={styles.comment_text} value={value} onChange={(e)=>{setValue(e.target.value)}}/>
       <div className={styles.input_wrapper}>
         <input
           type="file"

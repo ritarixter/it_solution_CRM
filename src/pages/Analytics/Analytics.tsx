@@ -53,7 +53,7 @@ export const Analytics: FC = () => {
           <BlockList />
         </div>
         <div className={styles.container__bottom}>
-          <TableTask mini={true} list={list} />
+          <TableTask mini={true} list={list} access={"Главный инженер"}/>
           <Task tasks={tasks} />
           <CalendarComponent />
         </div>

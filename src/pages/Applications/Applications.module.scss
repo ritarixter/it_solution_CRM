@@ -1,3 +1,97 @@
+@import "../../styles/variables.scss";
+
 .container {
   margin-top: 40px;
+}
+
+.manager {
+  display: flex;
+  gap: 35px;
+
+  &__container {
+    background-color: $thirdColor;
+    width: 35%;
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+    padding-bottom: 15px;
+    margin: 0;
+  }
+
+  &__buttons {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+  }
+   &__textarea {
+   max-width: 422px;
+  } 
+}
+
+.input {
+  width: 100%;
+  max-width: 422px;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 12px 6px 12px 16px;
+  border: 1px solid $inputColor;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: $primaryColor;
+  font-family: "Poppins", sans-serif;
+  &::placeholder {
+    color: $nullColor;
+  }
+}
+
+.block {
+  position: relative;
+  padding-bottom: 15px;
+  &__container {
+    display: flex;
+    align-items: center;
+  }
+}
+.input {
+  margin-right: 10px;
+  height: 40px;
+
+  &.error {
+    border: 1px solid $statusHard;
+  }
+}
+
+.error {
+  &_text {
+    left: 0;
+    bottom: -25px;
+    position: absolute;
+    color: $statusHard;
+  }
+}
+
+.caption {
+  color: $inputCaption;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.cancel {
+  margin: 0;
+  color: $primaryColor;
+  font-size: 16px;
+  cursor: pointer;
+  color: $inputCaption;
+  &:hover {
+    opacity: 0.7;
+  }
 }

@@ -3,19 +3,19 @@
 .main {
     display: flex;
     box-sizing: border-box;
+    align-items: center;
 }
 
 .title {
   display: flex;
   justify-content: space-between;
-  padding-top: 10px;
   color: $progressBar;
 }
 
 .progressBar {
   width: 100px;
-  padding: 20px 5px 20px 20px;
   color: $subtitleColor;
+  margin-right: 7px;
 
   &_title {
     font-weight: 150px;
@@ -23,6 +23,7 @@
     line-height: 21px;
     margin: 0;
     padding: 0;
+  
   }
 }
 

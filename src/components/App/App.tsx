@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import styles from "./App.module.scss";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import { Login, NotFound, Test } from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";

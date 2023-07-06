@@ -50,6 +50,7 @@
   padding: 0;
   margin: 0;
   height: 545px;
+  width: 100%;
   &_mini {
     height: 285px;
   }
@@ -67,8 +68,15 @@
   color: $dashboardTitleColor;
   transition: opacity 0.2s ease;
   padding: 20px 0;
+  text-align-last: left;
+  
+  width: 100%;
+
+  & > th {
+    font-weight: 400;
+  }
   &_mini {
-    grid-template-columns: 130px 130px 130px 110px 160px 1fr;
+    grid-template-columns: 120px 125px 160px 110px 145px 1fr;
   }
   & > li {
     align-self: center;
@@ -76,7 +84,7 @@
 
   &_maxi {
     grid-template-columns: repeat(11, 1fr);
-    gap: 5px;
+    gap: 7px;
   }
   &.header {
     color: $subtitleColor;

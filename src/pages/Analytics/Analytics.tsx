@@ -13,14 +13,20 @@ import { Diagram } from "../../components/Diagram/Diagram";
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
   const { list } = useAppSelector((state) => state.list);
-  const [countDoneTasks, setCountDoneTasks] = useState<number>(0)
+  const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
+  const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
   useEffect(() => {
     if (tasks.length != 0) {
       let arr = [...tasks];
-      setCountDoneTasks(arr.filter((item)=>item.done===true).length)
+      setCountDoneTasks(arr.filter((item) => item.done === true).length);
     }
   }, [tasks]);
+
+  useEffect(() => {
+    let arr = [...list];
+    setCountAtWorkList(arr.filter((item) => item.status === "В работе").length);
+  }, [list]);
 
   return (
     <Wrapper>
@@ -38,10 +44,10 @@ export const Analytics: FC = () => {
 
           <BlockAnalics
             name={"Заявки"}
-            count={128}
+            count={list.length}
             icon={editList}
             title={"В работе"}
-            countMade={80}
+            countMade={countAtWorkList}
           />
 
           <BlockList />

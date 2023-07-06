@@ -34,9 +34,9 @@ export const Item: FC<IItem> = ({
     if (time != formateDateOnlyTime(task.endDate)) {
       resultDate = new Date();
       const times = time?.split(":");
+
       resultDate.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
-
     dispatch(updateTask(id, undefined, status, resultDate, name, description));
     setPopupOpen(false);
   };

@@ -12,6 +12,7 @@ export const PopupNewList: FC = () => {
   const [status, setStatus] = useState("Не назначен");
   const [importance, setImportance] = useState("Не назначен");
   const [work, setWork] = useState("Не назначен");
+  const [textareaValue, setTextareaValue]=useState<string>('')
   const navigate = useNavigate();
   return (
     <div className={styles.popup}>
@@ -93,7 +94,7 @@ export const PopupNewList: FC = () => {
             ]}
           />
         </form>
-        <BlockComments />
+        <BlockComments value={textareaValue} setValue={setTextareaValue}/>
         <div className={styles.buttonBlock}>
         <BlockButton
           text={"Изменить"}

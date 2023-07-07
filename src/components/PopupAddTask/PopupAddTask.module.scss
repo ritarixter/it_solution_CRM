@@ -74,11 +74,23 @@
   color: $primaryColor;
   max-width: 347px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 10px 20px;
   box-sizing: border-box;
   font-size: 12px;
   cursor: pointer;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar-thumb {
+    background: $inputColor;
+
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
   outline: none;
   &::placeholder {
     color: $subtitleColor;
@@ -117,7 +129,7 @@
   margin-right: 12px;
   font-size: 13px;
   background-color: $dropDown;
- 
+
   color: $primaryColor;
   display: flex;
   align-items: center;
@@ -138,13 +150,12 @@
     background-color: $statusToDoColor;
     color: #f47633;
   }
-  
+
   &_green {
     background-color: $statusDoneColor;
     color: $mainColor;
   }
 }
-
 
 .caption {
   margin: 0;

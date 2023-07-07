@@ -4,6 +4,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 
 
+
 export const CalendarComponent: FC = () => {
 
     const [dateValue, setDateValue] = useState("")
@@ -12,8 +13,9 @@ export const CalendarComponent: FC = () => {
     }
 
     const onClickDay = (value: any, event: any) => {
-        debugger
+        value.setUTCHours(24)
         console.log(value.toJSON())
+
     }
 
 

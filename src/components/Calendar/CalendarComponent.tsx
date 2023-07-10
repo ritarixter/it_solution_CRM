@@ -16,11 +16,7 @@ export const CalendarComponent: FC = () => {
         value.setUTCHours(24)
         console.log(value.toJSON())
         const element = (document.getElementsByClassName('react-calendar__tile--now') as HTMLCollectionOf<HTMLElement>);
-        debugger
-        
         if(element[0] != document.activeElement) element[0].style.opacity = '0.6'
-        
-
     }
 
 

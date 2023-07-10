@@ -17,6 +17,7 @@ export const CalendarComponent: FC = () => {
         console.log(value.toJSON())
         const element = (document.getElementsByClassName('react-calendar__tile--now') as HTMLCollectionOf<HTMLElement>);
         if(element[0] != document.activeElement) element[0].style.opacity = '0.6'
+        else element[0].style.opacity = '1'
     }
 
 

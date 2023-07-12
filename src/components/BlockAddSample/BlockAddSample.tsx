@@ -7,8 +7,8 @@ import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { TSample } from "./constants";
 import { titles } from "./constants";
 import { sample } from "./constants";
-import { AvatarDefault } from "../AvatarDefault/AvatarDefault";
 import { UserBlock } from "../UserBlock/UserBlock";
+import { Pagination } from "../Pagination";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -17,6 +17,7 @@ type TBlockAddSample = {
 export const BlockAddSample: FC<TBlockAddSample> = () => {
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
+  const [page, setPage] = useState(1);
 
   return (
     <div className={styles.sample}>
@@ -52,10 +53,13 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
           />
         </form>
         <BlockComments />
-        <BlockButton
-          text={"Добавить"}
-          // onClick={}
-        />
+        <div className={styles.button}>
+          <BlockButton
+            text={"Добавить"}
+            // onClick={}
+          />
+          <p className={styles.button_text}>Отменить</p>
+        </div>
       </div>
       <div className={styles.conteinerList}>
         <h2 className={styles.conteinerList_title}>Шаблоны</h2>
@@ -76,10 +80,23 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
               ))}
             </div>
             <li className={styles.table_row}>
-              <img src={i.document} alt={"иконка"} />
+              <img
+                className={styles.table_icon}
+                src={i.document}
+                alt={"иконка"}
+              />
             </li>
           </ul>
         ))}
+        <div className={styles.pagination}>
+          <Pagination
+            pageSize={5}
+            totalCount={20}
+            currentPage={page}
+            setCurrentPage={setPage}
+            siblingCount={1}
+          />
+        </div>
       </div>
     </div>
   );

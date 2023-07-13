@@ -76,7 +76,14 @@
     font-weight: 400;
   }
   &_mini {
-    grid-template-columns: 120px 125px 160px 110px 145px 1fr;
+    column-gap: 8px;
+    grid-template-columns: minmax(120px,1fr) minmax(125px,1fr) 140px minmax(110px,1fr) minmax(115px,1fr) minmax(100px,1fr);
+    & > td {
+      text-overflow: ellipsis;
+      white-space: nowrap; 
+      overflow: hidden;
+
+    }
   }
   & > li {
     align-self: center;

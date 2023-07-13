@@ -1,28 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-//import { getCookie, setCookie } from "../../utils/cookies";
-
 import { AppDispatch, AppThunk } from "../store";
-import { TList } from "../../types";
-import { addListApi, getListApi } from "../../utils/api";
+import { TCompany } from "../../types";
+import { addCompanyApi, getCompaniesApi, getListApi } from "../../utils/api";
 
-interface listState {
-  list: Array<TList>;
+interface companyState {
+  companies: Array<TCompany>;
   isError: boolean;
   isLoading: boolean;
 }
 
-const initialState: listState = {
-  list: [],
+const initialState: companyState = {
+  companies: [],
   isError: false,
   isLoading: false,
 };
 
-export const listSlice = createSlice({
-  name: "list",
+export const companySlice = createSlice({
+  name: "company",
   initialState,
   reducers: {
-    setList(state, action: PayloadAction<Array<TList>>) {
-      state.list = action.payload;
+    setCompanies(state, action: PayloadAction<Array<TCompany>>) {
+      state.companies = action.payload;
     },
 
     setError(state, action: PayloadAction<boolean>) {
@@ -35,13 +33,13 @@ export const listSlice = createSlice({
   },
 });
 
-export const { setList, setError, setLoading } = listSlice.actions;
+export const { setCompanies, setError, setLoading } = companySlice.actions;
 
-export const getList: AppThunk = () => (dispatch: AppDispatch) => {
+export const getCompanies: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
-  getListApi()
+  getCompaniesApi()
     .then((res) => {
-      dispatch(setList(res));
+      dispatch(setCompanies(res));
     })
     .catch((err) => {
       setError(true);
@@ -52,13 +50,19 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
-export const addList: AppThunk =
-  (name: string, customer: string, INNCompany: string, description?: string) =>
+export const addCompany: AppThunk =
+  (
+    nameCompany: string,
+    name: string,
+    numberPhone: string,
+    INN: string,
+    email?: string
+  ) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    addListApi(name, customer, INNCompany, description)
+    addCompanyApi(nameCompany, name, numberPhone, INN, email)
       .then((res) => {
-        dispatch(getList());
+        dispatch(getCompanies());
       })
       .catch((err) => {
         dispatch(setError(true));

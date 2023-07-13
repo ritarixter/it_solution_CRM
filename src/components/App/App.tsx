@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import styles from "./App.module.scss";
 import { Route, Routes, useLocation, useNavigate, useNavigation } from "react-router-dom";
-import { Login, NotFound, Test } from "../../pages";
+import { ApplicationsItem, Login, NotFound, Test } from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
 import { Applications } from "../../pages/Applications/Applications";
@@ -23,9 +23,7 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
     } else {
-
       navigate('/login')
-
     }
   }, []);
 
@@ -37,6 +35,7 @@ export const App: FC = () => {
         <Route path="/test" element={<Test />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/applications" element={<Applications />} />
+        <Route path="/applications/:id" element={<ApplicationsItem />} />
         <Route path="/sample" element={<Sample />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="*" element={<NotFound />} />

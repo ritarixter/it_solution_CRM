@@ -4,6 +4,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 
 
+
 export const CalendarComponent: FC = () => {
 
     const [dateValue, setDateValue] = useState("")
@@ -12,8 +13,14 @@ export const CalendarComponent: FC = () => {
     }
 
     const onClickDay = (value: any, event: any) => {
-        console.log(1900 + value.getYear() + " " + (1 + value.getMonth()) + " " + value.getDate())
+        value.setUTCHours(24)
+        console.log(value.toJSON())
+        const element = (document.getElementsByClassName('react-calendar__tile--now') as HTMLCollectionOf<HTMLElement>);
+        if(element[0] != document.activeElement) element[0].style.opacity = '0.6'
+        else element[0].style.opacity = '1'
     }
+
+
 
     return (
         <div className={styles.calendarTittleArea}>

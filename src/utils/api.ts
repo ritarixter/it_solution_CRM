@@ -144,7 +144,7 @@ export function updateTaskUserApi(
       status: status,
       endDate: endDate,
       title: title,
-      description: description
+      description: description,
     }),
   }).then(responseCheck);
 }
@@ -205,3 +205,33 @@ export function refreshToken() {
       }
     });
 } */
+
+//---------------------------------------------------------------SAMPLE-------------------------------------------------------------------------------
+
+// Получение всех шаблонов
+export function getSampleApi() {
+  return fetch(`${URL}/plan`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(responseCheck);
+}
+
+// Добавление шаблона
+export function addSampleApi(
+  title: string,
+  worksId: number[],
+  usersId?: string,
+  description?: string
+) {
+  return fetch(`${URL}/tasks`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      usersId: usersId,
+      worksId: worksId,
+      title: title,
+      description: description,
+    }),
+  }).then(responseCheck);
+}

@@ -27,11 +27,9 @@ export const EffectMeter: FC<TEffectMeter> = ({ arr, name }) => {
         if (dates[0]) {
             for (let i = 0; i < dates.length; i++) {
                 if (isEarly(i)) {
-                    console.log("Рано");
                     getRotate(i, 90, 30)                    // РАНО
                 }
                 else if (isOnTime(i)) {
-                    console.log("Во время");
                     getRotate(i, 30)                        // ВО ВРЕМЯ
                 }
                 else getRotate(i, -30, 30)                  // ПОЗДНО

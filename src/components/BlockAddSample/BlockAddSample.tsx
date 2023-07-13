@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./BlockAddSample.module.scss";
 import { Input } from "../../components/Input";
 import { DropdownList } from "../../components/DropdownList";
@@ -9,15 +9,72 @@ import { titles } from "./constants";
 import { sample } from "./constants";
 import { UserBlock } from "../UserBlock/UserBlock";
 import { Pagination } from "../Pagination";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { getSample } from "../../services/slices/sample";
+import { v4 as uuidv4 } from "uuid";
 
 type TBlockAddSample = {
   data: Array<TSample>;
 };
 
 export const BlockAddSample: FC<TBlockAddSample> = () => {
+  const [currentData, setCurrentData] = useState<Array<TSample>>([]);
+  const [sample, setSample] = useState<Array<TSample>>([]);
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
+  const [textareaValue, setTextareaValue] = useState<string>("");
+  const [inputOne, setInputOne] = useState("");
+  const { samples } = useAppSelector((state) => state.sample);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getSample());
+  }, []);
+
+  // useEffect(() => {
+  //   if (sample.length != 0) {
+  //     let arr = [...sample];
+  //     if (mini) {
+  //       setCurrentData(
+  //         arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+  //       );
+  //     } else {
+  //       setCurrentData(
+  //         arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+  //       );
+  //     }
+
+  //     setError(false);
+  //   } else {
+  //     setError(true);
+  //   }
+  // }, [currentPage, list]);
+
+  let id = 0;
+  useEffect(() => {
+    setSample(sample);
+  }, []);
+
+  const addSample = () => {
+    sample.push({
+      id: String(id++),
+      title: inputOne,
+      workId: isWork,
+      userId: executor,
+      description: textareaValue,
+      document: textareaValue,
+    });
+    console.log("click");
+  };
+
+  const deleteInput = () => {
+    setSample(sample.slice());
+    setInputOne("");
+    setIsWork("Выберите работы");
+    setExecutor("Выберите исполнителя");
+    setTextareaValue("");
+  };
 
   return (
     <div className={styles.sample}>
@@ -28,6 +85,8 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
             type={"text"}
             name={"Введите название шаблона"}
             text={"Название шаблона"}
+            value={inputOne}
+            setValue={setInputOne}
           />
           <DropdownList
             name={"Виды работ"}
@@ -52,44 +111,55 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
             ]}
           />
         </form>
-        <BlockComments />
+        <BlockComments value={textareaValue} setValue={setTextareaValue} />
         <div className={styles.button}>
-          <BlockButton
-            text={"Добавить"}
-            // onClick={}
-          />
-          <p className={styles.button_text}>Отменить</p>
+          <BlockButton text={"Добавить"} onClick={addSample} />
+          <button className={styles.button_text} onClick={deleteInput}>
+            Отменить
+          </button>
         </div>
       </div>
       <div className={styles.conteinerList}>
         <h2 className={styles.conteinerList_title}>Шаблоны</h2>
-        <ul className={styles.tableTitle}>
-          {titles.map((title) => (
-            <li className={styles.tableTitle_column}>{title}</li>
-          ))}
-        </ul>
-        {sample.map((i) => (
-          <ul className={styles.table}>
-            <li className={styles.table_row}>{i.title}</li>
-            <li className={styles.table_row}>{i.work}</li>
-            <div className={styles.block_avatar}>
-              {i.avatar.map((avatar) => (
-                <li className={styles.table_avatar}>
-                  <UserBlock name={avatar} avatar={avatar} />
-                </li>
+        <table>
+          <thead key={uuidv4()}>
+            <tr className={styles.tableTitle}>
+              {titles.map((title) => (
+                <th className={styles.tableTitle_column}>{title}</th>
               ))}
-            </div>
-            <li className={styles.table_row}>
-              <img
+            </tr>
+          </thead>
+          <tbody>
+            {samples.map((i) => (
+              <tr className={styles.table}>
+                <td className={styles.table_row}>{i.title}</td>
+                <td className={styles.table_row}>{i.works.length}</td>
+                <td className={styles.block_avatar}>
+                  {i.users?.map((user) => (
+                    <div className={styles.table_avatar}>
+                      <UserBlock name={user.name} avatar={user.avatar} />
+                    </div>
+                  ))}
+                </td>
+                <td className={styles.table_row}>
+                  document
+                  {/* <img
                 className={styles.table_icon}
-                src={i.document}
+                src={}
                 alt={"иконка"}
-              />
-            </li>
-          </ul>
-        ))}
+              /> */}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <div className={styles.pagination}>
           <Pagination
+            //  pageSize={page}
+            //  totalCount={sample.length}
+            //  currentPage={currentPage}
+            //  setCurrentPage={setCurrentPage}
+            //  style={mini ? "blue" : undefined}
             pageSize={5}
             totalCount={20}
             currentPage={page}

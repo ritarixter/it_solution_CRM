@@ -101,10 +101,18 @@
   align-items: center;
 
   &_text {
+    border: none;
+    background-color: $thirdColor;
+    color: $primaryColor;
+    cursor: pointer;
     font-size: 14px;
     font-weight: bold;
     margin: 0;
     padding: 0;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }
 

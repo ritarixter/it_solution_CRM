@@ -153,9 +153,32 @@ export function updateTaskUserApi(
 // Получение всех заявок
 export function getListApi() {
   return fetch(`${URL}/list`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+export function addListApi(
+  name: string,
+  customer: string,
+  INNCompany: string,
+  description?: string
+) {
+  return fetch(`${URL}/list`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      name: name,
+      customer: customer,
+      INNCompany: INNCompany,
+      description: description,
+    }),
+  }).then(responseCheck);
+}
+
+export function getLisByIdApi(id: number) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "GET",
+    headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
 
@@ -232,6 +255,35 @@ export function addSampleApi(
       worksId: worksId,
       title: title,
       description: description,
+    }),
+  }).then(responseCheck);
+}
+
+//---------------------------------------------------------------COMPANY-------------------------------------------------------------------------------
+
+export function getCompaniesApi() {
+  return fetch(`${URL}/company`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+// Добавление задачи
+export function addCompanyApi(
+  nameCompany: string,
+  name: string,
+  numberPhone: string,
+  INN: string,
+  email?: string
+) {
+  return fetch(`${URL}/company`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      nameCompany: nameCompany,
+      name: name,
+      numberPhone: numberPhone,
+      INN: INN,
+      email: email,
     }),
   }).then(responseCheck);
 }

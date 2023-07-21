@@ -75,8 +75,6 @@ export const loginUser: AppThunk =
       });
   };
 
-
-  
 export const getUser: AppThunk =
 () => (dispatch: AppDispatch) => {
   getDataUser()

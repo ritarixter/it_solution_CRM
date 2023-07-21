@@ -24,8 +24,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
-  const pageSize =  access === 'Главный инженер' ? (mini ? 3 : 7 ) : 7;
-
+  const pageSize = access === "Главный инженер" ? (mini ? 3 : 7) : 7;
 
   function handleDownloadExcel() {
     let arr = [...list];
@@ -145,9 +144,11 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
         </table>
       </div>
       <div
-        className={`${styles.pagination} ${(!mini || access==="Менеджер" ) && styles.pagination_without}`}
+        className={`${styles.pagination} ${
+          (!mini || access === "Менеджер") && styles.pagination_without
+        }`}
       >
-        {(mini && access === 'Главный инженер') &&(
+        {mini && access === "Главный инженер" && (
           <Link className={styles.linkAll} to="/applications">
             Смотреть все
           </Link>

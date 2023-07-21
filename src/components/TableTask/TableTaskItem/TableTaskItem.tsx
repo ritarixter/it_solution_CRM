@@ -7,6 +7,7 @@ import { StatusBlock } from "../../StatusBlock/StatusBlock";
 import { v4 as uuidv4 } from "uuid";
 import { formateDateShort } from "../../../utils/utils-date";
 import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
+import { useNavigate } from "react-router";
 
 export type TTableTaskItem = {
   item: TList;
@@ -15,15 +16,16 @@ export type TTableTaskItem = {
 };
 
 export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
+  const navigate = useNavigate()
   return (
-    <tr
-      className={`${styles.row} ${mini ? styles.row_mini : styles.row_maxi} ${
-        styles.link
-      }`}
-    >
+    <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
       {mini && access === "Главный инженер" && (
-        <>
+        <tr
+          className={`${styles.row} ${
+            mini ? styles.row_mini : styles.row_maxi
+          } ${styles.link}`}
+        >
           <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>
             <ImpotanceBlock type={item.importance} />
@@ -55,11 +57,15 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
               ? formateDateShort(item.endDate)
               : "Не назначен"}
           </td>
-        </>
+        </tr>
       )}{" "}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА ПОЛНАЯ ВЕРСИЯ */}
       {!mini && access === "Главный инженер" && (
-        <>
+        <tr
+          className={`${styles.row} ${
+            mini ? styles.row_mini : styles.row_maxi
+          } ${styles.link}`}
+        >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
           <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
@@ -101,14 +107,19 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
             <WorkProgressBar />
           </td>
           <td key={uuidv4()}>Файлы</td>
-        </>
+        </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}
       {mini && access === "Менеджер" && (
-        <>
+        <tr
+        className={`${styles.row} ${mini ? styles.row_mini : styles.row_maxi} ${
+          styles.link 
+        }`} onClick={()=>navigate(`${item.id}`)}>
           <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.company.email ? item.company.email : 'Пусто'}</td>
+          <td key={uuidv4()}>
+            {item.company.email ? item.company.email : "Пусто"}
+          </td>
           <td key={uuidv4()}>
             {item.company.name.split(" ")[0] +
               " " +
@@ -117,8 +128,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
           </td>
           <td key={uuidv4()}>{item.company.numberPhone}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
-        </>
+        </tr>
       )}
-    </tr>
+    </>
   );
 };

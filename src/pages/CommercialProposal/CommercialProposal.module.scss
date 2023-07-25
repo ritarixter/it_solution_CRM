@@ -1,13 +1,108 @@
 @import "../../styles/variables.scss";
 .title {
-    font-size: 20px;
-    margin: 0;
-    margin-bottom: 15px;
+  font-size: 20px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.container {
+  margin-top: 40px;
+  background: $thirdColor;
+  padding: 40px;
+  border-radius: 15px;
+}
+
+.row {
+  position: relative;
+  align-items: center;
+  display: grid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: $dashboardTitleColor;
+  transition: opacity 0.2s ease;
+  text-align-last: left;
+  column-gap: 14px;
+  padding: 4px 0;
+  grid-template-columns: minmax(200px, 1fr) minmax(102px, 1fr) minmax(87px, 1fr) minmax(
+      173px,
+      1fr
+    ) minmax(150px, 1fr) 40px;
+  width: 100%;
+
+  & > th {
+    font-weight: 400;
+  }
+}
+
+.icon {
+  &__delete {
+    border: 1px solid $inputColor;
+    border-radius: 6px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    &:hover {
+      opacity: 0.75;
+    }
   }
 
-  .container{
-    margin-top: 40px;
-    background:$thirdColor ;
-    padding: 40px;
-    border-radius: 15px;
+  &__drag {
+    position: absolute;
+    top: 14px;
+    left: -20px;
+    cursor: pointer;
+    height: 20px;
+    transition: opacity 0.2s ease;
+    &:hover {
+      opacity: 0.75;
+    }
   }
+}
+
+
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.cancel {
+  margin: 0;
+  color: $primaryColor;
+  font-size: 16px;
+  cursor: pointer;
+  color: $inputCaption;
+  transition: opacity 0.15s linear;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.button {
+  &__add {
+    border: none;
+    background: none;
+    outline: none;
+    color: $inputColor;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color .2s ease;
+    margin-top: 40px;
+    &:hover {
+      color: $mainColor;
+    }
+  }
+}
+
+.notFound {
+  font-size: 14px;
+  margin: 0;
+  margin-top: 10px;
+  color: $inputColor;
+}

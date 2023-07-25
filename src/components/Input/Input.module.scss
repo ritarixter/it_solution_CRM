@@ -12,7 +12,7 @@
   border-radius: 6px;
   outline: none;
   box-sizing: border-box;
-  margin-bottom: 8px;
+  
   cursor: pointer;
   color: $primaryColor;
   font-family: "Poppins", sans-serif;
@@ -39,4 +39,8 @@
   font-size: 14px;
   margin-bottom: 4px;
   margin-top: 0;
+}
+
+.mb_8 {
+  margin-bottom: 8px;
 }

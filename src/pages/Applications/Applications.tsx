@@ -202,7 +202,12 @@ export const Applications: FC = () => {
                     }
                     onClick={handleClickAddList}
                   />
-                  <p className={styles.cancel} onClick={() => {}}>
+                  <p className={styles.cancel} onClick={() => {
+                    setWorkNameValue("")
+                    setCustomer("")
+                    setTextareaValue("")
+                    setCurrentCompany(undefined);
+                  }}>
                     Отменить
                   </p>
                 </div>
@@ -214,7 +219,7 @@ export const Applications: FC = () => {
               onClickCancel={handleCancelAddCompany}
               openPopup={openPopup}
               buttonText={"Добавить"}
-              textTitle={"Создание заявки"}
+              textTitle={"Создание компании"}
               disabledButton={
                 nameCompanyValue === "" ||
                 INNValue.length != 10 ||

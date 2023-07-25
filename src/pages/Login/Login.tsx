@@ -25,7 +25,7 @@ export const Login: FC = () => {
   );
 
   if (isAuth) {
-    return <Navigate to="/analytics" state={{ from: location }} replace />;
+    return <Navigate to="/applications" state={{ from: location }} replace />;
   }
 
   return (

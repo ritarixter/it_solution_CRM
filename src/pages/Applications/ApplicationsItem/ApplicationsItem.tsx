@@ -244,7 +244,9 @@ export const ApplicationsItem: FC = () => {
                       setRight(true);
                     }}
                     value={nameCompanyValue}
-                    className={`${styles.input}`}
+                    className={`${styles.input} ${
+                      openDropdownlist && styles.input_open
+                    }`}
                     placeholder={"Введите название"}
                   />
                   <div className={styles.circleButton}>

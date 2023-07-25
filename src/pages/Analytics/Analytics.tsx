@@ -9,12 +9,14 @@ import { TableTask, Task, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
+import { Navigate, useLocation } from "react-router";
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
   const { list } = useAppSelector((state) => state.list);
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  let location = useLocation();
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
@@ -32,7 +34,9 @@ export const Analytics: FC = () => {
  /*  if (user.name === "") {
 
   } */
-
+/*   if (user.access != 'Главный инженер') {
+    return <Navigate to="/applications" state={{ from: location }} replace />;
+  } */
   return (
     <Wrapper>
       <HeaderTop />

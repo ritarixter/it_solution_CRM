@@ -9,10 +9,16 @@ import { ImpotanceBlock } from "../ImpotanceBlock/ImpotanceBlock";
 import { useNavigate } from "react-router";
 
 export const PopupNewList: FC = () => {
+  const [companyValue, setCompanyValue] = useState("");
+  const [workNameValue, setWorkNameValue] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [foNumberValue, setFoNumberValue] = useState("");
+  const [mailValue, setMailValue] = useState("");
+  const [INNValue, setINNValue] = useState("");
   const [status, setStatus] = useState("Не назначен");
   const [importance, setImportance] = useState("Не назначен");
   const [work, setWork] = useState("Не назначен");
-  const [textareaValue, setTextareaValue]=useState<string>('')
+  const [textareaValue, setTextareaValue] = useState<string>("");
   const navigate = useNavigate();
   return (
     <div className={styles.popup}>
@@ -54,16 +60,44 @@ export const PopupNewList: FC = () => {
             type={"text"}
             name={"Введите название компании"}
             text={"Название компании*"}
+            value={companyValue}
+            setValue={setCompanyValue}
           />
           <Input
             type={"text"}
             name={"Введите рабочее название"}
             text={"Рабочее название"}
+            value={workNameValue}
+            setValue={setWorkNameValue}
           />
-          <Input type={"text"} name={"Введите ФИО"} text={"ФИО"} />
-          <Input type={"text"} name={"Введите телефон"} text={"Телефон"} />
-          <Input type={"email"} name={"Введите почту"} text={"Почта"} />
-          <Input type={"text"} name={"Введите ИНН"} text={"ИНН"} />
+          <Input
+            type={"text"}
+            name={"Введите ФИО"}
+            text={"ФИО"}
+            value={nameValue}
+            setValue={setNameValue}
+          />
+          <Input
+            type={"text"}
+            name={"Введите телефон"}
+            text={"Телефон"}
+            value={foNumberValue}
+            setValue={setFoNumberValue}
+          />
+          <Input
+            type={"email"}
+            name={"Введите почту"}
+            text={"Почта"}
+            value={mailValue}
+            setValue={setMailValue}
+          />
+          <Input
+            type={"text"}
+            name={"Введите ИНН"}
+            text={"ИНН"}
+            value={INNValue}
+            setValue={setINNValue}
+          />
           <DropdownList
             name={"Статус"}
             state={status}
@@ -94,14 +128,13 @@ export const PopupNewList: FC = () => {
             ]}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue}/>
+        <BlockComments value={textareaValue} setValue={setTextareaValue} />
         <div className={styles.buttonBlock}>
-        <BlockButton
-          text={"Изменить"}
-          onClick={() =>{}}
-          
-        />
-             <p className={styles.caption} onClick={() => navigate("/applications")} ></p>
+          <BlockButton text={"Изменить"} onClick={() => {}} />
+          <p
+            className={styles.caption}
+            onClick={() => navigate("/applications")}
+          ></p>
         </div>
       </div>
     </div>

@@ -152,7 +152,7 @@ export function updateTaskUserApi(
       status: status,
       endDate: endDate,
       title: title,
-      description: description
+      description: description,
     }),
   }).then(responseCheck);
 }
@@ -161,9 +161,32 @@ export function updateTaskUserApi(
 // Получение всех заявок
 export function getListApi() {
   return fetch(`${URL}/list`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+export function addListApi(
+  name: string,
+  customer: string,
+  INNCompany: string,
+  description?: string
+) {
+  return fetch(`${URL}/list`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      name: name,
+      customer: customer,
+      INNCompany: INNCompany,
+      description: description,
+    }),
+  }).then(responseCheck);
+}
+
+export function getListByIdApi(id: number) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "GET",
+    headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
 
@@ -187,6 +210,32 @@ export function refreshToken() {
       setCookie("accessToken", refreshData.accessToken);
       return refreshData;
     });
+}
+
+export function updateListApi(
+  id: number,
+  name?: string,
+  customer?: string,
+  description?: string,
+  idCompany?: number
+) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      name,
+      customer,
+      description,
+      idCompany,
+    }),
+  }).then(responseCheck);
+}
+
+export function deleteListApi(id: number) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
 }
 
 //Жепа
@@ -213,3 +262,83 @@ export function refreshToken() {
       }
     });
 } */
+
+//---------------------------------------------------------------SAMPLE-------------------------------------------------------------------------------
+
+// Получение всех шаблонов
+export function getSampleApi() {
+  return fetch(`${URL}/plan`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(responseCheck);
+}
+
+// Добавление шаблона
+export function addSampleApi(
+  title: string,
+  worksId: number[],
+  usersId?: string,
+  description?: string
+) {
+  return fetch(`${URL}/tasks`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      usersId: usersId,
+      worksId: worksId,
+      title: title,
+      description: description,
+    }),
+  }).then(responseCheck);
+}
+
+//---------------------------------------------------------------COMPANY-------------------------------------------------------------------------------
+
+export function getCompaniesApi() {
+  return fetch(`${URL}/company`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+// Добавление задачи
+export function addCompanyApi(
+  nameCompany: string,
+  name: string,
+  numberPhone: string,
+  INN: string,
+  email?: string
+) {
+  return fetch(`${URL}/company`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      nameCompany: nameCompany,
+      name: name,
+      numberPhone: numberPhone,
+      INN: INN,
+      email: email,
+    }),
+  }).then(responseCheck);
+}
+
+export function updateCompanyApi(
+  id: number,
+  nameCompany?: string,
+  name?: string,
+  numberPhone?: string,
+  INN?: string,
+  email?: string
+) {
+  return fetch(`${URL}/company/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      nameCompany,
+      name,
+      numberPhone,
+      INN,
+      email,
+    }),
+  }).then(responseCheck);
+}

@@ -28,6 +28,8 @@
 }
 
 .conteinerList {
+  display: flex;
+  flex-direction: column;
   background-color: $thirdColor;
   max-width: 849px;
   width: 100%;
@@ -49,6 +51,7 @@
   display: grid;
   grid-template-columns: 163px 221px 189px auto;
   padding: 0;
+  margin: 0;
 
   &_column {
     font-size: 14px;
@@ -68,7 +71,7 @@
     font-size: 14px;
     color: $primaryColor;
     margin-bottom: 33px;
-    min-height: 50px;
+    min-height: 30px;
 
     &:last-child {
       margin-bottom: 0;
@@ -82,8 +85,39 @@
       margin-left: 0;
     }
   }
+
+  &_icon {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .block_avatar {
   display: flex;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+
+  &_text {
+    border: none;
+    background-color: $thirdColor;
+    color: $primaryColor;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 78px;
 }

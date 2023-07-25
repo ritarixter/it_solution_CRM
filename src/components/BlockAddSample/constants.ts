@@ -13,45 +13,47 @@ export const titles = [
 export type TSample = {
   id: string;
   title: string;
-  work: string;
-  avatar: Array<string>;
+  workId: string;
+  // userId: Array<string>;
+  userId: string;
   document: string;
+  description?: string;
 };
 
 export const sample: Array<TSample> = [
   {
     id: "1",
     title: "СКС",
-    work: "7",
-    avatar: [avatar1, avatar1, avatar1],
+    workId: "7",
+    userId: "[avatar1, avatar1, avatar1]",
     document: word,
   },
   {
     id: "2",
     title: "Строительство",
-    work: "8",
-    avatar: [avatar1, avatar1, avatar1],
+    workId: "8",
+    userId: "[avatar1, avatar1, avatar1]",
     document: word,
   },
   {
     id: "3",
     title: "Монтаж",
-    work: "10",
-    avatar: [avatar1, avatar1, avatar1],
+    workId: "10",
+    userId: "[avatar1, avatar1, avatar1]",
     document: word,
   },
   {
     id: "4",
     title: "Проектирование",
-    work: "12",
-    avatar: [avatar1, avatar1, avatar1],
+    workId: "12",
+    userId: "[avatar1, avatar1, avatar1]",
     document: pdf,
   },
   {
     id: "5",
     title: "Планирование",
-    work: "4",
-    avatar: [avatar1, avatar1, avatar1],
+    workId: "4",
+    userId: "[avatar1, avatar1, avatar1]",
     document: word,
   },
 ];

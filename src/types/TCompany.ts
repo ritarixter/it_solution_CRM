@@ -5,5 +5,15 @@ export type TCompany = {
   nameCompany: string;
   name: string;
   numberPhone: string;
+  INN: string;
   email?: string; //Email компании
 };
+
+export type TUpdateCompany = {
+  id: number;
+  nameCompany?: string
+  name?: string
+  numberPhone?: string 
+  INN?: string
+  email?: string
+}

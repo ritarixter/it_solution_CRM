@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from "react";
 import styles from "./Login.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import lockIcon from "../../images/icons/lock.svg";
 import mailIcon from "../../images/icons/mail.svg";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
@@ -8,12 +8,11 @@ import { loginUser } from "../../services/slices/user";
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [typeInput, setTypeInput] = useState<boolean>(true);
-
-  const { isAuth } = useAppSelector((state) => state.user);
+  let location = useLocation();
+  const { isAuth, isError } = useAppSelector((state) => state.user);
 
   const handleSubmit = useCallback(
     (evt: React.SyntheticEvent) => {
@@ -26,8 +25,9 @@ export const Login: FC = () => {
   );
 
   if (isAuth) {
-    navigate("/analytics");
+    return <Navigate to="/analytics" state={{ from: location }} replace />;
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.login}>
@@ -39,7 +39,7 @@ export const Login: FC = () => {
           <label className={styles.label}>
             <input
               type="text"
-              className={styles.input}
+              className={`${styles.input} ${isError && styles.input_error}`}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -49,7 +49,7 @@ export const Login: FC = () => {
           <label className={styles.label}>
             <input
               type={typeInput ? "password" : "text"}
-              className={styles.input}
+              className={`${styles.input} ${isError && styles.input_error}`}
               placeholder="Пароль"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -63,7 +63,12 @@ export const Login: FC = () => {
               }}
             />
           </label>
-          <button type="submit" className={styles.button}>
+          {isError && <p className={styles.error}>Неверный логин или пароль</p>}
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={email.length < 2 || password.length < 2}
+          >
             Войти
           </button>
         </form>

@@ -17,3 +17,12 @@ export type TList = {
   users: TUser[]
   works: TWork[]
 };
+
+
+export type TUpdateListByManager = {
+  id:number,
+  idCompany?: number,
+  name?: string;
+  customer?: string;
+  description?: string;
+}

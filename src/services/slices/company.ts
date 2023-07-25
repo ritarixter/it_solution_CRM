@@ -6,13 +6,13 @@ import { addCompanyApi, getCompaniesApi, getListApi, updateCompanyApi } from "..
 interface companyState {
   companies: Array<TCompany>;
   isError: boolean;
-  isLoading: boolean;
+  isLoadingCompany: boolean;
 }
 
 const initialState: companyState = {
   companies: [],
   isError: false,
-  isLoading: false,
+  isLoadingCompany: false,
 };
 
 export const companySlice = createSlice({
@@ -28,7 +28,7 @@ export const companySlice = createSlice({
     },
 
     setLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
+      state.isLoadingCompany = action.payload;
     },
   },
 });

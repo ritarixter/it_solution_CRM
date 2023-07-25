@@ -13,11 +13,12 @@ import { addCompany, getCompanies } from "../../services/slices/company";
 import { TCompany } from "../../types";
 import { addList } from "../../services/slices/list";
 import { validateEmail } from "../../utils/utils";
+import { Preloader } from "../../components/Preloader/Preloader";
 
 export const Applications: FC = () => {
-  const { list } = useAppSelector((state) => state.list);
-  const { user } = useAppSelector((state) => state.user);
-  const { companies } = useAppSelector((state) => state.company);
+  const { list, isLoadingList } = useAppSelector((state) => state.list);
+  const { user, isLoadingUser } = useAppSelector((state) => state.user);
+  const { companies, isLoadingCompany } = useAppSelector((state) => state.company);
   const dispatch = useAppDispatch();
   const [nameCompanyValue, setNameCompanyValue] = useState<string>("");
   const [currentCompany, setCurrentCompany] = useState<TCompany>();
@@ -107,6 +108,9 @@ export const Applications: FC = () => {
 
   return (
     <Wrapper>
+                {isLoadingUser || isLoadingList || isLoadingCompany ? 
+    <Preloader/>
+: <>
       <HeaderTop />
       <div className={styles.container}>
         {user.access === "Главный инженер" && (
@@ -261,6 +265,8 @@ export const Applications: FC = () => {
           </>
         )}
       </div>
+      </>
+}
     </Wrapper>
   );
 };

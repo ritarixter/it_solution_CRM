@@ -9,6 +9,7 @@ interface userState {
   user: TUser;
   isAuth: boolean;
   isError: boolean;
+  isLoadingUser: boolean;
 }
 
 const initialState: userState = {
@@ -24,6 +25,7 @@ const initialState: userState = {
   },
   isAuth: !!getCookie("accessToken"),
   isError: false,
+  isLoadingUser: false
 };
 
 export const userSlice = createSlice({
@@ -39,14 +41,18 @@ export const userSlice = createSlice({
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
     },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.isLoadingUser = action.payload;
+    },
     logout: () => initialState,
   },
 });
 
-export const { setUser, setAuth, setError, logout } = userSlice.actions;
+export const { setUser, setAuth, setError, logout, setLoading } = userSlice.actions;
 
 export const registerUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
     signUp(username, password)
       .then((res) => {
         setCookie("accessToken", res.accessToken);
@@ -55,12 +61,16 @@ export const registerUser: AppThunk =
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
       });
   };
 
 
 export const loginUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
     signIn(username, password)
       .then((res) => {
         setCookie("accessToken", res.accessToken);
@@ -72,16 +82,23 @@ export const loginUser: AppThunk =
       .catch((err) => {
         dispatch(setError(true));
         console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
       });
   };
 
 export const getUser: AppThunk =
 () => (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
   getDataUser()
     .then((res) => {
       dispatch(setUser(res)); 
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
     });
 };

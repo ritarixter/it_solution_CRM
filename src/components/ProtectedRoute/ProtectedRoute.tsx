@@ -7,11 +7,19 @@ type TProtectedRoute = {
 };
 
 const ProtectedRoute: FC<TProtectedRoute> = ({ children }) => {
-  const { isAuth } = useAppSelector((state) => state.user);
+  const { isAuth, user } = useAppSelector((state) => state.user);
   let location = useLocation();
+
 
   if (!isAuth) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  else {
+    if(location.pathname === '/analytics'){
+      if(user.access != 'Главный инженер'){
+        return <Navigate to="/applications" state={{ from: location }} replace />;
+      }
+    }
   }
   return children;
 };

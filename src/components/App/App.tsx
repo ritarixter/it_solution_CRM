@@ -17,11 +17,12 @@ import { getUser } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
+import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
-  const { isAuth } = useAppSelector((state) => state.user);
+  const { isAuth, user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (isAuth) {
@@ -55,6 +56,14 @@ export const App: FC = () => {
           element={
             <ProtectedRoute>
               <Applications />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/commercial-proposal"
+          element={
+            <ProtectedRoute>
+              <CommercialProposal />
             </ProtectedRoute>
           }
         />

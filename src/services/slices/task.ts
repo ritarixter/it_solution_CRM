@@ -14,13 +14,13 @@ import { TTask } from "../../types";
 interface tasksState {
   tasks: Array<TTask>;
   isError: boolean;
-  isLoading: boolean;
+  isLoadingTask: boolean;
 }
 
 const initialState: tasksState = {
   tasks: [],
   isError: false,
-  isLoading: false,
+  isLoadingTask: true,
 };
 
 export const taskSlice = createSlice({
@@ -36,7 +36,7 @@ export const taskSlice = createSlice({
     },
 
     setLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
+      state.isLoadingTask = action.payload;
     },
   },
 });
@@ -68,6 +68,7 @@ export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) =
     .catch((err) => {
       dispatch(setError(true));
       dispatch(getTask());      // ВРЕМЕННЫЙ КОСТЫЛЬ
+  
       console.log(err);
     })
     .finally(() => {

@@ -11,13 +11,12 @@ import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { Navigate, useLocation } from "react-router";
 import { taskDates } from './../../components/Calendar/constants';
+import { Preloader } from "../../components/Preloader/Preloader";
 
 export const Analytics: FC = () => {
-  const { tasks } = useAppSelector((state) => state.task);
-  const { list } = useAppSelector((state) => state.list);
-  const { user } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  let location = useLocation();
+  const { tasks,isLoadingTask } = useAppSelector((state) => state.task);
+  const { list,isLoadingList } = useAppSelector((state) => state.list);
+
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
@@ -32,14 +31,14 @@ export const Analytics: FC = () => {
     let arr = [...list];
     setCountAtWorkList(arr.filter((item) => item.status === "В работе").length);
   }, [list]);
- /*  if (user.name === "") {
 
-  } */
-/*   if (user.access != 'Главный инженер') {
-    return <Navigate to="/applications" state={{ from: location }} replace />;
-  } */
   return (
+
     <Wrapper>
+          {isLoadingTask || isLoadingList ? 
+    <Preloader/>
+:
+<>
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
@@ -70,6 +69,9 @@ export const Analytics: FC = () => {
           <CalendarComponent tasks={tasks} />
         </div>
       </div>
+      </>
+        }
     </Wrapper>
+
   );
 };

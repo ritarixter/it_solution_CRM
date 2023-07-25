@@ -14,13 +14,13 @@ import { TUpdateListByManager } from "../../types/TList";
 interface listState {
   list: Array<TList>;
   isError: boolean;
-  isLoading: boolean;
+  isLoadingList: boolean;
 }
 
 const initialState: listState = {
   list: [],
   isError: false,
-  isLoading: false,
+  isLoadingList: false,
 };
 
 export const listSlice = createSlice({
@@ -36,7 +36,7 @@ export const listSlice = createSlice({
     },
 
     setLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
+      state.isLoadingList = action.payload;
     },
   },
 });

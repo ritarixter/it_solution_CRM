@@ -11,7 +11,7 @@ import { Analytics } from "../../pages/Analytics/Analytics";
 import { Applications } from "../../pages/Applications/Applications";
 import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getTask } from "../../services/slices/task";
+import { getTask, getTaskByDate } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
 import { getUser } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
@@ -26,6 +26,7 @@ export const App: FC = () => {
   useEffect(() => {
     if (isAuth) {
       dispatch(getUser());
+      // dispatch(getTaskByDate());
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());

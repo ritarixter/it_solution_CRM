@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { Navigate, useLocation } from "react-router";
+import { taskDates } from './../../components/Calendar/constants';
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
@@ -42,7 +43,9 @@ export const Analytics: FC = () => {
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
-          <Diagram />
+          <Diagram 
+            list={list}
+          />
           <BlockAnalics
             name={"Задачи"}
             count={tasks.length}
@@ -64,7 +67,7 @@ export const Analytics: FC = () => {
         <div className={styles.container__bottom}>
           <TableTask mini={true} list={list} access={"Главный инженер"} />
           <Task tasks={tasks} />
-          <CalendarComponent />
+          <CalendarComponent tasks={tasks} />
         </div>
       </div>
     </Wrapper>

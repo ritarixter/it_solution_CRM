@@ -5,6 +5,7 @@ import { AppDispatch, AppThunk } from "../store";
 import {
   addTaskUserApi,
   deleteTaskUserApi,
+  getTaskByDateApi,
   getTasksUserApi,
   updateTaskUserApi,
 } from "../../utils/api";
@@ -41,7 +42,6 @@ export const taskSlice = createSlice({
 });
 
 export const { setTasks, setError, setLoading } = taskSlice.actions;
-
 export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   getTasksUserApi()
@@ -50,6 +50,24 @@ export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
     })
     .catch((err) => {
       dispatch(setError(true));
+      console.log(err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+
+export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
+  getTaskByDateApi(date)
+    .then((res) => {
+      console.log('from task.ts   ' ,res);
+      dispatch(setTasks(res));
+    })
+    .catch((err) => {
+      dispatch(setError(true));
+      dispatch(getTask());      // ВРЕМЕННЫЙ КОСТЫЛЬ
       console.log(err);
     })
     .finally(() => {

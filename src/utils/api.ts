@@ -98,6 +98,14 @@ export function getTasksUserApi() {
   }).then(responseCheck);
 }
 
+export function getTaskByDateApi( date: Date ) {
+  return fetch(`${URL}/tasks/byDate`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({ endDate: new Date(date) }),
+  }).then(responseCheck);
+}
+
 // Удаление конкретной задачи конкретного пользователя
 export function deleteTaskUserApi(id: number) {
   return fetch(`${URL}/tasks/${id}`, {

@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+
+.applicationTree {
+    margin: 122px 0 0 50px;
+    background-color: $thirdColor;
+    max-width: 1304px;
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    font-size: 4;
+}
+
+.leftBlock {
+    padding: 43px 0 43px 62px;
+    max-width: 474px;
+}
+
+.rightBlock {
+    margin: 43px 84px 43px 86px;
+}

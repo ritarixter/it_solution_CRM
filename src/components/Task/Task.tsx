@@ -13,6 +13,7 @@ import {
 } from "../../services/slices/task";
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
+import { formateDateShort } from "../../utils/utils-date";
 
 type ITask = {
   tasks: Array<TTask>;
@@ -33,6 +34,11 @@ const sortData = (arr: Array<TTask>) => {
 };
 
 export const Task: FC<ITask> = ({ tasks }) => {
+  // console.log('from task.tsx    ', tasks);
+  // tasks.filter((e) => {
+  //               const date = new Date('2023-07-10T17:39:00.000Z')
+  //               if( new Date(e.endDate) < new Date(date)) console.log(e.endDate)
+  //           })
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [tasksData, setTasksData] = useState<Array<TTask>>([]);
   const [error, setError] = useState<boolean>(false);
@@ -54,7 +60,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
   ) => {
     let date = new Date()
     const times = time?.split(":");
-    date.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
+    date.setHours(Number(times![0])+3, Number(times![0]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
   };
@@ -68,6 +74,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
       setError(true);
     }
   }, [tasks]);
+
   return (
     <section className={styles.container}>
       <div className={styles.header}>
@@ -75,6 +82,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
         <ButtonCircle onClick={() => setPopupOpen(true)}/>
         <PopupAddTask
           title={"Задача"}
+          date={tasks.length > 0 ? formateDateShort(tasks[0].endDate) : ''}
           isOpen={isPopupOpen}
           setOpen={setPopupOpen}
           onClick={createTask}

@@ -19,6 +19,7 @@ export const BlockComments: FC<TBlockComments> = ({ value, setValue }) => {
       alert("Max 5");
       return;
     }
+
     setFile(e.target.files);
 
     const data = new FormData();

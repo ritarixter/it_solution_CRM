@@ -175,7 +175,7 @@ export function addListApi(
   }).then(responseCheck);
 }
 
-export function getLisByIdApi(id: number) {
+export function getListByIdApi(id: number) {
   return fetch(`${URL}/list/${id}`, {
     method: "GET",
     headers: headersWithAuthorizeFn,
@@ -202,6 +202,32 @@ export function refreshToken() {
       setCookie("accessToken", refreshData.accessToken);
       return refreshData;
     });
+}
+
+export function updateListApi(
+  id: number,
+  name?: string,
+  customer?: string,
+  description?: string,
+  idCompany?: number
+) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      name,
+      customer,
+      description,
+      idCompany,
+    }),
+  }).then(responseCheck);
+}
+
+export function deleteListApi(id: number) {
+  return fetch(`${URL}/list/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
 }
 
 //Жепа
@@ -284,6 +310,27 @@ export function addCompanyApi(
       numberPhone: numberPhone,
       INN: INN,
       email: email,
+    }),
+  }).then(responseCheck);
+}
+
+export function updateCompanyApi(
+  id: number,
+  nameCompany?: string,
+  name?: string,
+  numberPhone?: string,
+  INN?: string,
+  email?: string
+) {
+  return fetch(`${URL}/company/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      nameCompany,
+      name,
+      numberPhone,
+      INN,
+      email,
     }),
   }).then(responseCheck);
 }

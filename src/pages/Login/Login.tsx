@@ -1,18 +1,17 @@
 import { FC, useCallback, useState } from "react";
 import styles from "./Login.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import lockIcon from "../../images/icons/lock.svg";
 import mailIcon from "../../images/icons/mail.svg";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getUser, loginUser } from "../../services/slices/user";
+import { loginUser } from "../../services/slices/user";
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [typeInput, setTypeInput] = useState<boolean>(true);
-
+  let location = useLocation();
   const { isAuth, isError } = useAppSelector((state) => state.user);
 
   const handleSubmit = useCallback(
@@ -26,7 +25,7 @@ export const Login: FC = () => {
   );
 
   if (isAuth) {
-    navigate("/analytics");
+    return <Navigate to="/analytics" state={{ from: location }} replace />;
   }
 
   return (
@@ -65,7 +64,11 @@ export const Login: FC = () => {
             />
           </label>
           {isError && <p className={styles.error}>Неверный логин или пароль</p>}
-          <button type="submit" className={styles.button} disabled={email.length < 2 || password.length <2}>
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={email.length < 2 || password.length < 2}
+          >
             Войти
           </button>
         </form>

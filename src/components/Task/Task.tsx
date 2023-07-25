@@ -12,7 +12,7 @@ import {
   updateTask,
 } from "../../services/slices/task";
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
-import { AddButtonCircle } from "../AddButtonCircle/AddButtonCircle";
+import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
 
 type ITask = {
   tasks: Array<TTask>;
@@ -72,7 +72,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
     <section className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Мой список задач</h2>
-        <AddButtonCircle onClick={() => setPopupOpen(true)}/>
+        <ButtonCircle onClick={() => setPopupOpen(true)}/>
         <PopupAddTask
           title={"Задача"}
           isOpen={isPopupOpen}

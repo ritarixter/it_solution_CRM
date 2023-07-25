@@ -21,16 +21,16 @@
   }
 
   &.error {
-    // border: 1px solid $errorColor;
+    margin-bottom: 0;
+    border: 1px solid $statusHard;
   }
 }
 
 .error {
   &_text {
-    left: 0;
-    bottom: -25px;
-    position: absolute;
-    // color: $errorColor;
+
+    font-size: 13px;
+    color: $statusHard;
   }
 }
 

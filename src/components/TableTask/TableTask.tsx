@@ -32,14 +32,14 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
       company: item.company.nameCompany,
       name: item.name,
       createdAt: formateDate(item.createdAt),
-      endDate: formateDate(item.endDate),
+      endDate:item.endDate ? formateDate(item.endDate) : '',
       customer: item.company.name,
       phone: item.company.numberPhone,
-      implements: item.users
+      implements: item.users ? item.users
         .map((user) => {
           return user.name;
         })
-        .toString(),
+        .toString() : '',
       status: item.status || "Не назначено",
       importance: item.importance || "Не назначено",
       description: item.description || "",

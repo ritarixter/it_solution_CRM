@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import styles from "./Applications.module.scss";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 //import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import { AddButtonCircle } from "../../components/AddButtonCircle/AddButtonCircle";
+import { ButtonCircle } from "../../components/ButtonCircle/ButtonCircle";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { Popup } from "../../components/Popup";
@@ -12,6 +12,7 @@ import { Input } from "../../components/Input";
 import { addCompany, getCompanies } from "../../services/slices/company";
 import { TCompany } from "../../types";
 import { addList } from "../../services/slices/list";
+import { validateEmail } from "../../utils/utils";
 
 export const Applications: FC = () => {
   const { list } = useAppSelector((state) => state.list);
@@ -26,16 +27,12 @@ export const Applications: FC = () => {
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [emailError, setEmailError] = useState<boolean>(false);
   const [INNValue, setINNValue] = useState("");
   const [openDropdownlist, setOpenDropdownlist] = useState(false);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
-  const access: "Менеджер" | "Главный инженер" = "Менеджер";
-
-  useEffect(() => {
-    dispatch(getCompanies());
-  }, []);
 
   useEffect(() => {
     if (right) {
@@ -55,18 +52,7 @@ export const Applications: FC = () => {
     }
   }, [nameCompanyValue]);
 
-  const handleAddCompany = () => {
-    dispatch(
-      addCompany(nameCompanyValue, nameValue, phoneValue, INNValue, emailValue)
-    );
-    setOpenPopup(false);
-    setNameCompanyValue("");
-    setNameValue("");
-    setPhoneValue("");
-    setINNValue("");
-    setEmailValue("");
-  };
-  const handleCancelAddCompany = () => {
+  const resetValue = () => {
     setOpenPopup(false);
     setNameCompanyValue("");
     setNameValue("");
@@ -75,13 +61,49 @@ export const Applications: FC = () => {
     setEmailValue("");
   };
 
+  const handleAddCompany = () => {
+    
+    if (emailValue != "") {
+      if (validateEmail(emailValue)) {
+        dispatch(
+          addCompany(
+            nameCompanyValue,
+            nameValue,
+            phoneValue,
+            INNValue,
+            emailValue
+          )
+        );
+        resetValue();
+      } else {
+        setEmailError(true);
+      }
+    } else {
+      dispatch(
+        addCompany(
+          nameCompanyValue,
+          nameValue,
+          phoneValue,
+          INNValue,
+          emailValue
+        )
+      );
+      resetValue();
+    }
+  };
+  const handleCancelAddCompany = () => {
+    resetValue();
+  };
+
   const handleClickAddList = () => {
-    dispatch(addList(workNameValue,customer, currentCompany?.INN, textareaValue))
-    setCurrentCompany(undefined)
-    setTextareaValue("")
-    setCustomer("")
-    setWorkNameValue("")
-  }
+    dispatch(
+      addList(workNameValue, customer, currentCompany?.INN, textareaValue)
+    );
+    setCurrentCompany(undefined);
+    setTextareaValue("");
+    setCustomer("");
+    setWorkNameValue("");
+  };
 
   return (
     <Wrapper>
@@ -90,7 +112,7 @@ export const Applications: FC = () => {
         {user.access === "Главный инженер" && (
           <TableTask mini={false} list={list} access={"Главный инженер"} />
         )}
-        {access === "Менеджер" && (
+        {user.access === "Менеджер" && (
           <>
             <section className={styles.manager}>
               <div className={styles.manager__container}>
@@ -109,11 +131,13 @@ export const Applications: FC = () => {
                             setRight(true);
                           }}
                           value={nameCompanyValue}
-                          className={`${styles.input} ${openDropdownlist && styles.input_open}`}
+                          className={`${styles.input} ${
+                            openDropdownlist && styles.input_open
+                          }`}
                           placeholder={"Введите название"}
                         />
                         <div className={styles.circleButton}>
-                          <AddButtonCircle onClick={() => setOpenPopup(true)} />
+                          <ButtonCircle onClick={() => setOpenPopup(true)} />
                         </div>
                       </div>
                       {openDropdownlist && currentCompanies?.length != 0 && (
@@ -123,7 +147,7 @@ export const Applications: FC = () => {
                               className={styles.dropdownlist__item}
                               onClick={() => {
                                 setNameCompanyValue(company.nameCompany);
-                                setCurrentCompany(company)
+                                setCurrentCompany(company);
                                 setRight(false);
                                 setOpenDropdownlist(false);
                               }}
@@ -135,7 +159,7 @@ export const Applications: FC = () => {
                       )}
                     </div>
 
-                  {/*   {companyError && (
+                    {/*   {companyError && (
                       <span className={styles.error_text}>Ошибка</span>
                     )} */}
                   </div>
@@ -167,7 +191,11 @@ export const Applications: FC = () => {
                 <div className={styles.manager__buttons}>
                   <BlockButton
                     text={"Добавить"}
-                    disabled={customer === "" || workNameValue === "" || currentCompany === undefined}
+                    disabled={
+                      customer === "" ||
+                      workNameValue === "" ||
+                      currentCompany === undefined
+                    }
                     onClick={handleClickAddList}
                   />
                   <p className={styles.cancel} onClick={() => {}}>
@@ -225,6 +253,8 @@ export const Applications: FC = () => {
                   text={"Почта"}
                   value={emailValue}
                   setValue={setEmailValue}
+                  error={emailError}
+                  errorText={"Невалидный email"}
                 />
               </form>
             </Popup>

@@ -1,0 +1,23 @@
+@import "../../styles/variables.scss";
+.plus {
+  background-color: $notifyColor;
+  color: $thirdColor;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.75;
+  }
+  &:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
+}

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, AppThunk } from "../store";
-import { TCompany } from "../../types";
-import { addCompanyApi, getCompaniesApi, getListApi } from "../../utils/api";
+import { TCompany, TUpdateCompany } from "../../types";
+import { addCompanyApi, getCompaniesApi, getListApi, updateCompanyApi } from "../../utils/api";
 
 interface companyState {
   companies: Array<TCompany>;
@@ -39,10 +39,11 @@ export const getCompanies: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
   getCompaniesApi()
     .then((res) => {
+      dispatch(setError(false));
       dispatch(setCompanies(res));
     })
     .catch((err) => {
-      setError(true);
+      dispatch(setError(true));
       console.log(err);
     })
     .finally(() => {
@@ -62,6 +63,28 @@ export const addCompany: AppThunk =
     dispatch(setLoading(true));
     addCompanyApi(nameCompany, name, numberPhone, INN, email)
       .then((res) => {
+        dispatch(setError(false));
+        dispatch(getCompanies());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+
+  export const updateCompany: AppThunk =
+  (
+    company: TUpdateCompany
+  ) =>
+  (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    updateCompanyApi(company.id, company.nameCompany, company.name, company.numberPhone, company.INN, company.email)
+      .then((res) => {
+        dispatch(setError(false));
         dispatch(getCompanies());
       })
       .catch((err) => {

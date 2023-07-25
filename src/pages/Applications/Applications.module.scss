@@ -171,6 +171,7 @@
   background-color: $thirdColor;
   border-radius: 10px;
   margin-left: 30px;
+
   max-width: 880px;
   width: 100%;
 }
@@ -215,4 +216,28 @@
     line-height: auto;
     color: $primaryColor;
   }
+}
+
+.delete {
+  text-decoration: none;
+  color: $statusHard;
+  transition: opacity 0.15s linear;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.changeButtons {
+  margin-top: auto;
+}
+
+.editIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.error {
+  font-size: 14px;
+  color: $statusHard;
 }

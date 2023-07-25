@@ -24,7 +24,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
-  const pageSize =  access === 'Главный инженер' ? (mini ? 3 : 7 ) : 7;
+  const pageSize =  access === 'Главный инженер' ? (mini ? 4 : 7 ) : 7;
 
 
   function handleDownloadExcel() {

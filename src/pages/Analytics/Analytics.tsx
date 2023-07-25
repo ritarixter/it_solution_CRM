@@ -9,6 +9,7 @@ import { TableTask, Task, Wrapper } from "../../components";
 import { useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
+import { taskDates } from './../../components/Calendar/constants';
 
 export const Analytics: FC = () => {
   const { tasks } = useAppSelector((state) => state.task);
@@ -33,7 +34,9 @@ export const Analytics: FC = () => {
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
-          <Diagram />
+          <Diagram 
+            list={list}
+          />
           <BlockAnalics
             name={"Задачи"}
             count={tasks.length}
@@ -55,7 +58,7 @@ export const Analytics: FC = () => {
         <div className={styles.container__bottom}>
           <TableTask mini={true} list={list} access={"Главный инженер"}/>
           <Task tasks={tasks} />
-          <CalendarComponent />
+          <CalendarComponent tasks={tasks} />
         </div>
       </div>
     </Wrapper>

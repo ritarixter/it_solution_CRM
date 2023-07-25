@@ -4,11 +4,13 @@ import { BlockButton } from "../BlockButton/BlockButton";
 import "moment/locale/ru";
 import moment from "moment";
 import { TTask } from "../../types";
-import { formateDateOnlyTime } from "../../utils/utils-date";
+import { formateDateOnlyTime, formateDateShort } from "../../utils/utils-date";
+import { formateDate } from './../../utils/utils-date';
 
 
 type TPopupAddTask = {
   title?: string;
+  date?: string;
   isOpen: boolean;
   titleButton?: string;
   setOpen: (value: boolean) => void;
@@ -24,6 +26,7 @@ type TPopupAddTask = {
 
 export const PopupAddTask: FC<TPopupAddTask> = ({
   title,
+  date,
   isOpen,
   setOpen,
   onClick,
@@ -41,7 +44,6 @@ export const PopupAddTask: FC<TPopupAddTask> = ({
   const [nameError, setNameError] = useState<boolean>(false);
   const [timeError, setTimeError] = useState<boolean>(false);
   const [updateError, setUpdateError] = useState<boolean>(false);
-  const date = new Date();
 
   useEffect(() => {
     name === "" ? setNameError(true) : setNameError(false);
@@ -76,19 +78,19 @@ export const PopupAddTask: FC<TPopupAddTask> = ({
       }
     }
   }, [name, description, time, status]);
-
+ 
+    
   const formatDate = () => {
     var now = moment();
-    return now.format("dd DD MMMM");}
+    return now.format("dd DD MMMM");
+  }
 
   return (
     <div className={`${styles.popup} ${isOpen && styles.popup_opened}`}>
       <div className={styles.popup_conteiner}>
         <div className={styles.containerTitle}>
           <h3 className={styles.popup_title}>{title}</h3>
-
-          <p className={styles.popup_text}>{formatDate()}</p>
-
+          <p className={styles.popup_text}>{date}</p>
         </div>
         <div className={styles.create_task}>
           <input

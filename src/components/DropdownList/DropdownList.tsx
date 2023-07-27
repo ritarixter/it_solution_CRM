@@ -21,7 +21,7 @@ export const DropdownList: FC<TDropdownList> = ({
 
   const handlerClick = (index: number) => {
     setState(data[index].name);
-    setOpen(false);
+    // setOpen(true);
   };
 
   return (

@@ -18,6 +18,7 @@ import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
+import { getSample } from "../../services/slices/sample";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,7 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
+
     }else {
       navigate("/login")
     }

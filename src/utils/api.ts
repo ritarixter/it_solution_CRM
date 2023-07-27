@@ -275,7 +275,7 @@ export function getSampleApi() {
 // Добавление шаблона
 export function addSampleApi(
   title: string,
-  worksId: number,
+  worksId: string,
   usersId?: string,
   description?: string
 ) {

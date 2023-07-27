@@ -47,11 +47,11 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
 
 
   const addSample = () => {
-    // sample.push({
+    // data.push({
     //   id: id++,
     //   title: inputOne,
-    //   workId: isWork,
-    //   userId: executor,
+    //   works: isWork,
+    //   users: executor,
     //   description: textareaValue,
     //   document: textareaValue,
     // });

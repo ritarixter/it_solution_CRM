@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, AppThunk } from "../store";
 import { TSample } from "../../types";
-import { getListApi, getSampleApi } from "../../utils/api";
+import { addSampleApi, getSampleApi } from "../../utils/api";
 
 interface sampleState {
   samples: Array<TSample>;
@@ -52,18 +52,18 @@ export const getSample: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
-// export const addSample: AppThunk =
-//   (title: string, works: string, users?: string, description?: string) =>
-//   (dispatch: AppDispatch) => {
-//     dispatch(setLoading(true));
-//     addSampleApi(title, works, users, description)
-//       .then((res) => {
-//         dispatch(setSample());
-//       })
-//       .catch((err) => {
-//         dispatch(setError(true));
-//       })
-//       .finally(() => {
-//         dispatch(setLoading(false));
-//       });
-//   };
+export const addSample: AppThunk =
+  (title: string, works: string, users?: string, description?: string) =>
+  (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    addSampleApi(title, works, users, description)
+      .then((res) => {
+        dispatch(getSample());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };

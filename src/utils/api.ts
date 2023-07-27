@@ -1,3 +1,4 @@
+import { IItem } from "../types/TItem";
 import { getCookie, setCookie } from "./cookies";
 
 export const URL = "http://localhost:8000";
@@ -339,6 +340,32 @@ export function updateCompanyApi(
       numberPhone,
       INN,
       email,
+    }),
+  }).then(responseCheck);
+}
+
+
+//-------------------------------------------------------------------Commercial-Proposal--------------------------------------------------------------------------------------
+
+export function getCommercialProposalApi() {
+  return fetch(`${URL}/commercial-proposal`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+export function addCommercialProposalApi(
+  name: string,
+  idList: number,
+  products: Array<IItem>,
+
+) {
+  return fetch(`${URL}/commercial-proposal`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      name: name,
+      idList: idList,
+      products: products
     }),
   }).then(responseCheck);
 }

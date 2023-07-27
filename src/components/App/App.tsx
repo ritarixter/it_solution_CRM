@@ -1,10 +1,8 @@
 import { FC, useEffect } from "react";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import styles from "./App.module.scss";
-import {
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ApplicationsItem, Login, NotFound, Test } from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
@@ -19,9 +17,10 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 
+
 export const App: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isAuth, user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
@@ -31,8 +30,8 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
-    }else {
-      navigate("/login")
+    } else {
+      navigate("/login");
     }
   }, []);
 
@@ -59,11 +58,14 @@ export const App: FC = () => {
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/commercial-proposal"
           element={
+
             <ProtectedRoute>
+              <DndProvider backend={HTML5Backend}>
               <CommercialProposal />
+              </DndProvider>
             </ProtectedRoute>
           }
         />
@@ -94,7 +96,14 @@ export const App: FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <NotFound />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

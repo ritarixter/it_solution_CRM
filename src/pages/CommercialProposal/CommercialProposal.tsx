@@ -1,25 +1,75 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./CommercialProposal.module.scss";
 
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../components";
-import { Input } from "../../components/Input";
 import { CommercialProposalItem } from "./CommercialProposalItem/CommercialProposalItem";
 import { titles } from "./constants";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
-import { useAppSelector } from "../../services/hooks";
-import { Navigate, useLocation } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useLocation } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
+import { IItem } from "../../types/TItem";
+import { addCommercialProposalApi } from "../../utils/api";
+import { Input } from "../../components/Input";
 
 export const CommercialProposal: FC = () => {
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const [items, setItems] = useState<Array<IItem>>([
+    {
+      id: 0,
+      order: 0,
+      name: "",
+      count: 0,
+      price: 0,
+      actualPrice: 0,
+      date: "",
+      totalPrice: 0,
+    },
+  ]);
+  const [currentItem, setCurrentItem] = useState<IItem>(items[0]);
   const [count, setCount] = useState<number>(1);
-  const handleClickCreateCP = () => {};
-  const handleClickAddProduct = () => {};
-  let location = useLocation();
+  const [name, setName] = useState<string>("");
+  const [nameError, setNameError] = useState<boolean>(false);
+  const handleClickCreateCP = () => {
+    if (name.length > 30 || name.length < 2) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+      addCommercialProposalApi("КП2", 2, items).then((res) => {
+        console.log(res);
+      });
+    }
+  };
 
-/*   if (user.access != "Главный инженер") {
+  const dropHandler = (e: any, item: IItem) => {
+    e.preventDefault();
+    setItems(
+      items
+        .map((i) => {
+          if (i.id === item.id) {
+            return { ...i, order: currentItem.order };
+          }
+          if (i.id === currentItem.id) {
+            return { ...i, order: item.order };
+          }
+          return i;
+        })
+        .sort(sortItems)
+    );
+  };
+
+  const sortItems = (a: IItem, b: IItem) => {
+    if (a.order > b.order) {
+      return 1;
+    } else {
+      return -1;
+    }
+  };
+
+  /*   if (user.access != "Главный инженер") {
     return <Navigate to="/applications" state={{ from: location }} replace />;
   } */
 
@@ -32,21 +82,37 @@ export const CommercialProposal: FC = () => {
           <HeaderTop />
           <div className={styles.container}>
             <h2 className={styles.title}>Создание КП</h2>
+            <div className={styles.name}>
+              <Input
+                type="text"
+                name="Введите название КП"
+                setValue={setName}
+                value={name}
+                text="Название КП*"
+                error={nameError}
+                errorText={"Длина от 2 до 30 символов"}
+              />
+            </div>
             <table className={styles.table}>
-              <thead key={uuidv4()}>
+              <thead>
                 <tr className={styles.row}>
                   {titles.map((title) => (
-                    <th>{title}</th>
+                    <th key={uuidv4()}>{title}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {count > 0 ? (
-                  [...Array(count)].map((item) => (
+                  items.map((item) => (
                     <CommercialProposalItem
-                      key={item}
+                      item={item}
+                      setCurrentItem={setCurrentItem}
+                      dropHandler={dropHandler}
                       onDelete={() => {
                         setCount(count - 1);
+                        setItems(
+                          items.filter((dataItem) => item.id !== dataItem.id)
+                        );
                       }}
                     />
                   ))
@@ -60,6 +126,18 @@ export const CommercialProposal: FC = () => {
               type="button"
               onClick={() => {
                 setCount(count + 1);
+                setItems(
+                  items.concat({
+                    id: count,
+                    order: count,
+                    name: "",
+                    count: 0,
+                    price: 0,
+                    actualPrice: 0,
+                    date: "",
+                    totalPrice: 0,
+                  })
+                );
               }}
             >
               +Товар{" "}
@@ -74,6 +152,18 @@ export const CommercialProposal: FC = () => {
                 className={styles.cancel}
                 onClick={() => {
                   setCount(1);
+                  setItems([
+                    {
+                      id: 0,
+                      order: 0,
+                      name: "",
+                      count: 0,
+                      price: 0,
+                      actualPrice: 0,
+                      date: "",
+                      totalPrice: 0,
+                    },
+                  ]);
                 }}
               >
                 Отменить

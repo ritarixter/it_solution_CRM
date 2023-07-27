@@ -25,6 +25,7 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
   const [page, setPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
+  const [selected, setSelected] = useState<Array<string>>([])
   const { samples } = useAppSelector((state) => state.sample);
   const dispatch = useAppDispatch();
 
@@ -98,6 +99,8 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
               { name: "Установка турникетов", id: "3" },
               { name: "Подсчет материалов", id: "4" },
             ]}
+            selected={selected}
+            setSelected={setSelected}
           />
           <DropdownList
             name={"Исполнители"}
@@ -109,6 +112,8 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
               { name: "Яковлева Ксения", id: "2" },
               { name: "Карибaев Арс", id: "2" },
             ]}
+            selected={selected}
+            setSelected={setSelected}
           />
         </form>
         <BlockComments value={textareaValue} setValue={setTextareaValue} />

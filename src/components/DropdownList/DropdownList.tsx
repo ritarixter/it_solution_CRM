@@ -1,6 +1,7 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./DropdownList.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
+import { at, isArray } from "lodash";
 
 export type TDropdownList = {
   data: Array<{ id: string; name: string; type?: string }>;
@@ -8,6 +9,8 @@ export type TDropdownList = {
   setState: (value: string) => void;
   name: string;
   size?: "big" | "small";
+  selected?: Array<string>;
+  setSelected?: (value: Array<string>) => void;
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -16,58 +19,86 @@ export const DropdownList: FC<TDropdownList> = ({
   setState,
   name,
   size,
+  selected,
+  setSelected,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const defaultState = "Выберите ...";
 
   const handlerClick = (index: number) => {
-    setState(data[index].name);
-    setOpen(false);
+    let inArray = false;
+    if (selected && setSelected) {
+      selected.map((work) => {
+        if (work === data[index].name) {
+          setState(selected.length - 1 > 0 ? selected[selected.length - 2] : defaultState);
+          setSelected(
+            selected.filter((currentWork) => {
+              return currentWork !== data[index].name;
+            })
+          );
+          inArray = true;
+        }
+      });
+      if (!inArray) {
+        setSelected([...selected, data[index].name]);
+        setState(data[index].name);
+      }
+    }
+    // console.log(selected);
   };
+
+  useEffect(() => {
+    console.log(selected);
+  }, [selected]);
 
   return (
     <div className={styles.dropdownList}>
-      {/* <Label text={name} /> */}
       <p className={styles.caption}>{name}</p>
 
-      <div
-        className={`${styles.select} ${open && styles.select_open} ${
-          state.includes("Высокая") && styles.red
-        } ${state.includes("Низкая") && styles.green} ${
-          state.includes("В работе") && styles.blue
-        } ${state.includes("На согласовании") && styles.red} ${
-          state.includes("Закончено") && styles.green
-        }
-        
-          `}
-        onClick={() => {
-          setOpen(!open);
-        }}
-      >
-        <span className={styles.title}>{state}</span>
+      <div className={`${styles.select} ${open && styles.select_open}`}>
+        <span
+          className={styles.title}
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {state}
+        </span>
         <img
           src={arrow}
           className={`${styles.arrow} ${open && styles.arrow_open}`}
+          onClick={() => {
+            setOpen(!open);
+          }}
           alt="Стрелка выпадающего списка"
         />
         {open && (
           <ul className={styles.menu}>
-            {data.map((item, index) => (
-              <li
-                className={`${styles.option} ${
-                  item.name.includes("Высокая") && styles.red
-                } ${item.name.includes("Низкая") && styles.green} ${
-                  item.name.includes("В работе") && styles.blue
-                } ${item.name.includes("На согласовании") && styles.red} ${
-                  item.name.includes("Закончено") && styles.green
-                }`}
-                key={item.id}
-                onClick={() => {
-                  handlerClick(index);
-                }}
-              >
-                {item.name}
-              </li>
-            ))}
+            {data.map((item, index) => {
+              let clicked = "";
+              let isSelected = false;
+              if (selected) {
+                for (let i = 0; i < selected.length; i++) {
+                  if (item.name === selected[i]) {
+                    isSelected = true;
+                    break;
+                  }
+                }
+                if (isSelected) clicked = `${styles.clicked}`;
+                else clicked = "";
+              }
+              return (
+                <li
+                  className={`${styles.option} ${clicked}`}
+                  key={item.id}
+                  onClick={() => {
+                    handlerClick(index);
+                  }}
+                >
+                  {item.name}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

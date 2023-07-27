@@ -18,6 +18,7 @@ export type TSample = {
   userId: string;
   document: string;
   description?: string;
+  selected?: Array<string>
 };
 
 export const sample: Array<TSample> = [

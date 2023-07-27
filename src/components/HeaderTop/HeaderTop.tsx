@@ -8,25 +8,46 @@ import { UserBlock } from "../UserBlock/UserBlock";
 import arrow from "../../images/icons/arrow.svg";
 import { useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
+import { MessagesPopup } from "../MessagesPupup/MessagesPupup";
+import { NotificationsPopup } from "../NotificationsPopup/NotificationsPopup";
 
 export const HeaderTop: FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const [open, setOpen] = useState<boolean>(false);
+  const [openMessages, setIsOpenMessages] = useState<boolean>(false);
+  const [openNotification, setIsOpenNotification] = useState<boolean>(false);
   return (
     <div className={styles.block}>
       <Search />
       {user ? (
         <div className={styles.block_users}>
-          <div className={styles.block_icon}>
+          <div
+            className={styles.block_icon}
+            onClick={() => {
+              setIsOpenMessages(!openMessages);
+            }}
+          >
             <img src={message} alt="Сообщение" className={styles.message} />
             <img
               src={notice}
               alt="Кол-во сообщений"
               className={styles.notice}
             />
+            <MessagesPopup open={openMessages} setOpen={setIsOpenMessages} />
           </div>
-          <div>
-            <img src={bell} alt="Уведомление" className={styles.bell} />
+          <div className={styles.popup_notification}>
+            <img
+              src={bell}
+              alt="Уведомление"
+              className={styles.bell}
+              onClick={() => {
+                setIsOpenNotification(!openNotification);
+              }}
+            />
+            <NotificationsPopup
+              open={openNotification}
+              setOpen={setIsOpenNotification}
+            />
           </div>
           <div
             className={styles.users}

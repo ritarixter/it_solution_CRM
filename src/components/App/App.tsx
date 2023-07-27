@@ -16,6 +16,7 @@ import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
+import { getSample } from "../../services/slices/sample";
 
 
 export const App: FC = () => {
@@ -26,12 +27,17 @@ export const App: FC = () => {
   useEffect(() => {
     if (isAuth) {
       dispatch(getUser());
-      // dispatch(getTaskByDate());
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
+<<<<<<< HEAD
     } else {
       navigate("/login");
+=======
+
+    }else {
+      navigate("/login")
+>>>>>>> d1fdcccb91d6ee5458ff7f900c059c0892c1a8d5
     }
   }, []);
 

@@ -269,16 +269,14 @@ export function deleteListApi(id: number) {
 // Получение всех шаблонов
 export function getSampleApi() {
   return fetch(`${URL}/plan`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headersWithAuthorizeFn
   }).then(responseCheck);
 }
 
 // Добавление шаблона
 export function addSampleApi(
   title: string,
-  worksId: number[],
+  worksId: number,
   usersId?: string,
   description?: string
 ) {

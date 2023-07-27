@@ -24,32 +24,52 @@ export const DropdownList: FC<TDropdownList> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const defaultState = "Выберите ...";
+  let inSelected = selected!.join(", ");
 
   const handlerClick = (index: number) => {
     let inArray = false;
     if (selected && setSelected) {
       selected.map((work) => {
         if (work === data[index].name) {
-          setState(selected.length - 1 > 0 ? selected[selected.length - 2] : defaultState);
           setSelected(
             selected.filter((currentWork) => {
               return currentWork !== data[index].name;
             })
+          );
+          setState(
+            selected.length - 1 > 0
+              ? arrForState(
+                  selected.filter((currentWork) => {
+                    return currentWork !== data[index].name;
+                  })
+                )
+              : defaultState
           );
           inArray = true;
         }
       });
       if (!inArray) {
         setSelected([...selected, data[index].name]);
-        setState(data[index].name);
+        setState(textForState(data[index].name));
       }
+      console.log(inSelected);
     }
-    // console.log(selected);
+  };
+
+  const textForState = (selected: string) => {
+    if(inSelected.length < 1) inSelected += selected
+    else inSelected += ', ' + selected
+    return inSelected;
+  };
+
+  const arrForState = (selected: string[]) => {
+    inSelected = selected.join(", ")
+    return inSelected;
   };
 
   useEffect(() => {
-    console.log(selected);
-  }, [selected]);
+    // console.log(selected);
+  }, [selected, inSelected]);
 
   return (
     <div className={styles.dropdownList}>

@@ -15,10 +15,16 @@
 
 .block_icon {
   position: relative;
+  cursor: pointer;
 }
 
 .message {
   margin-right: 8px;
+}
+
+.popup_notification {
+  position: relative;
+  cursor: pointer;
 }
 
 .notice {

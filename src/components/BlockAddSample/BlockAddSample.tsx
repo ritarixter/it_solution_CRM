@@ -4,9 +4,8 @@ import { Input } from "../../components/Input";
 import { DropdownList } from "../../components/DropdownList";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
-import { TSample } from "./constants";
+import { TSample } from "../../types/TSample";
 import { titles } from "./constants";
-import { sample } from "./constants";
 import { UserBlock } from "../UserBlock/UserBlock";
 import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
@@ -17,60 +16,52 @@ type TBlockAddSample = {
   data: Array<TSample>;
 };
 
-export const BlockAddSample: FC<TBlockAddSample> = () => {
+export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
   const [currentData, setCurrentData] = useState<Array<TSample>>([]);
-  const [sample, setSample] = useState<Array<TSample>>([]);
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
-  const [page, setPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
   const [selected, setSelected] = useState<Array<string>>([])
   const { samples } = useAppSelector((state) => state.sample);
   const dispatch = useAppDispatch();
+  const pageSize = 5;
 
   useEffect(() => {
     dispatch(getSample());
   }, []);
 
-  // useEffect(() => {
-  //   if (sample.length != 0) {
-  //     let arr = [...sample];
-  //     if (mini) {
-  //       setCurrentData(
-  //         arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-  //       );
-  //     } else {
-  //       setCurrentData(
-  //         arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-  //       );
-  //     }
-
-  //     setError(false);
-  //   } else {
-  //     setError(true);
-  //   }
-  // }, [currentPage, list]);
-
-  let id = 0;
   useEffect(() => {
-    setSample(sample);
-  }, []);
+    if (data.length != 0) {
+      let arr = [...data];
+        setCurrentData(
+          arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+        )
+      }
+
+    //   setError(false);
+    // } else {
+    //   setError(true);
+    // }
+  }, [currentPage, data]);
+
+
 
   const addSample = () => {
-    sample.push({
-      id: String(id++),
-      title: inputOne,
-      workId: isWork,
-      userId: executor,
-      description: textareaValue,
-      document: textareaValue,
-    });
+    // sample.push({
+    //   id: id++,
+    //   title: inputOne,
+    //   workId: isWork,
+    //   userId: executor,
+    //   description: textareaValue,
+    //   document: textareaValue,
+    // });
     console.log("click");
   };
 
   const deleteInput = () => {
-    setSample(sample.slice());
+
     setInputOne("");
     setIsWork("Выберите работы");
     setExecutor("Выберите исполнителя");
@@ -125,8 +116,9 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
         </div>
       </div>
       <div className={styles.conteinerList}>
+      <div className={styles.conteiner_block}>
         <h2 className={styles.conteinerList_title}>Шаблоны</h2>
-        <table>
+        <table className={styles.table_block}>
           <thead key={uuidv4()}>
             <tr className={styles.tableTitle}>
               {titles.map((title) => (
@@ -135,7 +127,7 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
             </tr>
           </thead>
           <tbody>
-            {samples.map((i) => (
+            {currentData.map((i) => (
               <tr className={styles.table}>
                 <td className={styles.table_row}>{i.title}</td>
                 <td className={styles.table_row}>{i.works.length}</td>
@@ -158,18 +150,19 @@ export const BlockAddSample: FC<TBlockAddSample> = () => {
             ))}
           </tbody>
         </table>
+        </div>
         <div className={styles.pagination}>
           <Pagination
-            //  pageSize={page}
-            //  totalCount={sample.length}
-            //  currentPage={currentPage}
-            //  setCurrentPage={setCurrentPage}
-            //  style={mini ? "blue" : undefined}
-            pageSize={5}
-            totalCount={20}
-            currentPage={page}
-            setCurrentPage={setPage}
-            siblingCount={1}
+             pageSize={pageSize}
+             totalCount={data.length}
+             currentPage={currentPage}
+             setCurrentPage={setCurrentPage}
+             style={"blue"}
+            // pageSize={5}
+            // totalCount={20}
+            // currentPage={page}
+            // setCurrentPage={setPage}
+            // siblingCount={1}
           />
         </div>
       </div>

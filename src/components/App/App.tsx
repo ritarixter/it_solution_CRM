@@ -28,7 +28,6 @@ export const App: FC = () => {
   useEffect(() => {
     if (isAuth) {
       dispatch(getUser());
-      // dispatch(getTaskByDate());
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());

@@ -6,7 +6,12 @@
 }
 
 .title {
-  margin: 0;
+  margin-right: 50px;
+  margin-bottom: 0;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .caption {
@@ -103,16 +108,8 @@
   }
 }
 
-.red {
-  color: #dd2025;
-}
-
-.green {
-  color: $mainColor;
-}
-
-.blue {
-  color: $progressBar;
+.clicked {
+  color: #000;
 }
 
 .arrow {

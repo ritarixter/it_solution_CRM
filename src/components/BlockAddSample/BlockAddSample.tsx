@@ -9,8 +9,10 @@ import { titles } from "./constants";
 import { UserBlock } from "../UserBlock/UserBlock";
 import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getSample } from "../../services/slices/sample";
+import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
+import { getUser } from "../../services/slices/user";
+import { getWork } from "../../services/slices/work";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -24,12 +26,21 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
   const [selected, setSelected] = useState<Array<string>>([])
-  const { samples } = useAppSelector((state) => state.sample);
+  const {users} = useAppSelector((state) => state.user);
+  const {works} = useAppSelector((state)=> state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
 
   useEffect(() => {
     dispatch(getSample());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getWork());
   }, []);
 
   useEffect(() => {
@@ -48,20 +59,19 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
 
 
 
-  const addSample = () => {
-    // data.push({
-    //   id: id++,
-    //   title: inputOne,
-    //   works: isWork,
-    //   users: executor,
-    //   description: textareaValue,
-    //   document: textareaValue,
-    // });
-    console.log("click");
-  };
+  // const addSample = () => {
+  //   // data.push({
+  //   //   id: id++,
+  //   //   title: inputOne,
+  //   //   works: isWork,
+  //   //   users: executor,
+  //   //   description: textareaValue,
+  //   //   document: textareaValue,
+  //   // });
+  //   console.log("click");
+  // };
 
   const deleteInput = () => {
-
     setInputOne("");
     setIsWork("Выберите работы");
     setExecutor("Выберите исполнителя");
@@ -84,12 +94,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
             name={"Виды работ"}
             state={isWork}
             setState={setIsWork}
-            data={[
-              { name: "Создание КП", id: "1" },
-              { name: "Установка камер", id: "2" },
-              { name: "Установка турникетов", id: "3" },
-              { name: "Подсчет материалов", id: "4" },
-            ]}
+            data={works}
             selected={selected}
             setSelected={setSelected}
           />
@@ -97,19 +102,14 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
             name={"Исполнители"}
             state={executor}
             setState={setExecutor}
-            data={[
-              { name: "Петров Игорь", id: "1" },
-              { name: "Гнездилова Маргарита", id: "2" },
-              { name: "Яковлева Ксения", id: "2" },
-              { name: "Карибaев Арс", id: "2" },
-            ]}
+            data={users}
             selected={selected}
             setSelected={setSelected}
           />
         </form>
         <BlockComments value={textareaValue} setValue={setTextareaValue} />
         <div className={styles.button}>
-          <BlockButton text={"Добавить"} onClick={addSample} />
+           <BlockButton text={"Добавить"} {/* onClick={dispatch(addSample({title, works, users, description}))} */}/> 
           <button className={styles.button_text} onClick={deleteInput}>
             Отменить
           </button>

@@ -2,9 +2,12 @@ import { FC, useEffect, useState } from "react";
 import styles from "./DropdownList.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
 import { at, isArray } from "lodash";
+import { useAppSelector } from "../../services/hooks";
+import { TUser } from "../../types";
 
 export type TDropdownList = {
-  data: Array<{ id: string; name: string; type?: string }>;
+  data: any;
+  // users?: Array<TUser>
   state: string;
   setState: (value: string) => void;
   name: string;
@@ -20,7 +23,7 @@ export const DropdownList: FC<TDropdownList> = ({
   name,
   size,
   selected,
-  setSelected,
+  setSelected
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const defaultState = "Выберите ...";
@@ -94,7 +97,7 @@ export const DropdownList: FC<TDropdownList> = ({
         />
         {open && (
           <ul className={styles.menu}>
-            {data.map((item, index) => {
+            {data.map((item: any, index: number) => {
               let clicked = "";
               let isSelected = false;
               if (selected) {

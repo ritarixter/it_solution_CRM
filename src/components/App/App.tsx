@@ -13,12 +13,12 @@ import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTask, getTaskByDate } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
-import { getUser } from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
-import { getSample } from "../../services/slices/sample";
+import { getWork } from "../../services/slices/work";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,8 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
-
+      dispatch(getUsers());
+      dispatch(getWork());
     }else {
       navigate("/login")
     }

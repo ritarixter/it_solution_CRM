@@ -3,16 +3,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getCookie, setCookie } from "../../utils/cookies";
 import { TUser } from "../../types";
 
-import { getDataUser, signIn, signUp } from "../../utils/api";
+import { getDataUser, getUsersApi, signIn, signUp } from "../../utils/api";
 
 interface userState {
   user: TUser;
+  users: Array<TUser>
   isAuth: boolean;
   isError: boolean;
   isLoadingUser: boolean;
 }
 
 const initialState: userState = {
+  users: [],
   user: {
     id: 0,
     createdAt: '',
@@ -35,6 +37,9 @@ export const userSlice = createSlice({
     setUser(state, action: PayloadAction<TUser>) {
       state.user = action.payload;
     },
+    setUsers(state, action: PayloadAction<Array<TUser>>) {
+      state.users = action.payload;
+    },
   setAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
     }, 
@@ -48,7 +53,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, setAuth, setError, logout, setLoading } = userSlice.actions;
+export const { setUser, setAuth, setError, logout, setLoading, setUsers } = userSlice.actions;
 
 export const registerUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {
@@ -94,6 +99,21 @@ export const getUser: AppThunk =
   getDataUser()
     .then((res) => {
       dispatch(setUser(res)); 
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
+
+export const getUsers: AppThunk =
+() => (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
+  getUsersApi()
+    .then((res) => {
+      dispatch(setUsers(res)); 
     })
     .catch((err) => {
       console.log(err);

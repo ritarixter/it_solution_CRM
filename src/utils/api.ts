@@ -48,6 +48,12 @@ export function getDataUser() {
   }).then(responseCheck);
 }
 
+export function getUsersApi() {
+  return fetch(`${URL}/user`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
 /* export async function logoutUser() {
   return fetch(`${URL}/logout`, {
     method: "POST",
@@ -279,7 +285,7 @@ export function addSampleApi(
   usersId?: string,
   description?: string
 ) {
-  return fetch(`${URL}/tasks`, {
+  return fetch(`${URL}/plan`, {
     method: "POST",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
@@ -338,5 +344,14 @@ export function updateCompanyApi(
       INN,
       email,
     }),
+  }).then(responseCheck);
+}
+
+//---------------------------------------------------------------WORK-------------------------------------------------------------------------------
+
+// Получение всех работ
+export function getWorkApi() {
+  return fetch(`${URL}/work`, {
+    headers: headersWithAuthorizeFn
   }).then(responseCheck);
 }

@@ -30,14 +30,9 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
-<<<<<<< HEAD
-    } else {
-      navigate("/login");
-=======
 
     }else {
       navigate("/login")
->>>>>>> d1fdcccb91d6ee5458ff7f900c059c0892c1a8d5
     }
   }, []);
 

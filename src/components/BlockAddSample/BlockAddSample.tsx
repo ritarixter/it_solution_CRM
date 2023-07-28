@@ -90,8 +90,8 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
               { name: "Установка турникетов", id: "3" },
               { name: "Подсчет материалов", id: "4" },
             ]}
-            selected={selected}
-            setSelected={setSelected}
+            // selected={selected}
+            // setSelected={setSelected}
           />
           <DropdownList
             name={"Исполнители"}
@@ -103,8 +103,8 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
               { name: "Яковлева Ксения", id: "2" },
               { name: "Карибaев Арс", id: "2" },
             ]}
-            selected={selected}
-            setSelected={setSelected}
+            // selected={selected}
+            // setSelected={setSelected}
           />
         </form>
         <BlockComments value={textareaValue} setValue={setTextareaValue} />

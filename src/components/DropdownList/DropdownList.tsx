@@ -19,10 +19,11 @@ export const DropdownList: FC<TDropdownList> = ({
   setState,
   name,
   size,
-  selected,
-  setSelected,
+  // selected,
+  // setSelected,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Array<string>>([])
   const defaultState = "Выберите ...";
   let inSelected = selected!.join(", ");
 

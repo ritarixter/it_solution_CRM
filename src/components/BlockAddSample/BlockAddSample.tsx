@@ -59,10 +59,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
 
   const addSampleTable = () => {
     dispatch(addSample(inputOne, isWork, executor, textareaValue));
-    setInputOne("");
-    setIsWork("Выберите работы");
-    setExecutor("Выберите исполнителя");
-    setTextareaValue("");
+    deleteInput();
   };
 
   const deleteInput = () => {

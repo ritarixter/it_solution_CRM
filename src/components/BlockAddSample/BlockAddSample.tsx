@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getUser } from "../../services/slices/user";
 import { getWork } from "../../services/slices/work";
 import { title } from "process";
+import { useNavigate } from "react-router";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -30,6 +31,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getSample());
@@ -117,12 +119,12 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              {currentData.map((i) => (
-                <tr className={styles.table}>
-                  <td className={styles.table_row}>{i.title}</td>
-                  <td className={styles.table_row}>{i.works.length}</td>
+              {currentData.map((item) => (
+                <tr className={styles.table} onClick={()=>navigate(`${item.id}`)}>
+                  <td className={styles.table_row}>{item.title}</td>
+                  <td className={styles.table_row}>{item.works.length}</td>
                   <td className={styles.block_avatar}>
-                    {i.users?.map((user) => (
+                    {item.users?.map((user) => (
                       <div className={styles.table_avatar}>
                         <UserBlock name={user.name} avatar={user.avatar} />
                       </div>

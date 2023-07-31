@@ -17,6 +17,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 import { getWork } from "../../services/slices/work";
+import { SampleItem } from "../../pages/Sample";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -84,6 +85,15 @@ export const App: FC = () => {
             <ProtectedRoute>
               {" "}
               <Sample />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sample/:id"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <SampleItem />{" "}
             </ProtectedRoute>
           }
         />

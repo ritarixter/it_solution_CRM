@@ -21,7 +21,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
       {mini && access === "Главный инженер" && (
-        <tr
+        <tr onClick={()=>navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}
@@ -61,7 +61,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
       )}{" "}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА ПОЛНАЯ ВЕРСИЯ */}
       {!mini && access === "Главный инженер" && (
-        <tr
+        <tr onClick={()=>navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}

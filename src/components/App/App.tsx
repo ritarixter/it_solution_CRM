@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import styles from "./App.module.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { ApplicationsItem, Login, NotFound, Test } from "../../pages";
+import { ApplicationsItem, ApplicationsItemTree, Login, NotFound, Test } from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
 import { Applications } from "../../pages/Applications/Applications";
@@ -17,6 +17,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 import { getSample } from "../../services/slices/sample";
+import { access } from "../../utils/constants";
 
 
 export const App: FC = () => {
@@ -30,14 +31,8 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
-<<<<<<< HEAD
     } else {
       navigate("/login");
-=======
-
-    }else {
-      navigate("/login")
->>>>>>> d1fdcccb91d6ee5458ff7f900c059c0892c1a8d5
     }
   }, []);
 
@@ -65,7 +60,7 @@ export const App: FC = () => {
           }
         />
         <Route
-          path="/commercial-proposal"
+          path="/commercial-proposal/:id"
           element={
 
             <ProtectedRoute>
@@ -80,7 +75,8 @@ export const App: FC = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ApplicationsItem />{" "}
+              {user.access === access.MANAGER &&  <ApplicationsItem />}
+              {user.access === access.SUPERUSER &&  <ApplicationsItemTree />}
             </ProtectedRoute>
           }
         />

@@ -6,20 +6,20 @@
   color: #20814d;
   background-color: $statusDoneColor;
   border-radius: 4px;
-  width: 96px;
+  width:102px;
   padding: 1px 10px;
-  font-size: 13px;
+  font-size: 14px;
   height: 30px;
   &__do {
     background-color: $statusDoColor;
     color: #3b9acd;
-    width: 75px;
+    width: 79px;
   }
 
   &__todo {
     background-color: $statusToDoColor;
     color: #f47633;
-    width: 123px;
+    width: 131px;
   }
 
   &.null {

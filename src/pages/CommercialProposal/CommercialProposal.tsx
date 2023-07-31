@@ -17,6 +17,9 @@ import { Input } from "../../components/Input";
 export const CommercialProposal: FC = () => {
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const id_list = Number(location.pathname.slice(21));
+
   const [items, setItems] = useState<Array<IItem>>([
     {
       id: 0,
@@ -81,7 +84,7 @@ export const CommercialProposal: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            <h2 className={styles.title}>Создание КП</h2>
+            <h2 className={styles.title}>Создание КП для заявки №{id_list}</h2>
             <div className={styles.name}>
               <Input
                 type="text"

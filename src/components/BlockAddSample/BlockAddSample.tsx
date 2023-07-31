@@ -9,22 +9,25 @@ import { titles } from "./constants";
 import { UserBlock } from "../UserBlock/UserBlock";
 import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getSample } from "../../services/slices/sample";
+import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
+import { getUser } from "../../services/slices/user";
+import { getWork } from "../../services/slices/work";
+import { title } from "process";
 
 type TBlockAddSample = {
   data: Array<TSample>;
 };
 
-export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
+export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentData, setCurrentData] = useState<Array<TSample>>([]);
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
-  const [selected, setSelected] = useState<Array<string>>([])
-  const { samples } = useAppSelector((state) => state.sample);
+  const { users } = useAppSelector((state) => state.user);
+  const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
 
@@ -33,12 +36,20 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
   }, []);
 
   useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getWork());
+  }, []);
+
+  useEffect(() => {
     if (data.length != 0) {
       let arr = [...data];
-        setCurrentData(
-          arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-        )
-      }
+      setCurrentData(
+        arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+      );
+    }
 
     //   setError(false);
     // } else {
@@ -46,22 +57,15 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
     // }
   }, [currentPage, data]);
 
-
-
-  const addSample = () => {
-    // sample.push({
-    //   id: id++,
-    //   title: inputOne,
-    //   workId: isWork,
-    //   userId: executor,
-    //   description: textareaValue,
-    //   document: textareaValue,
-    // });
-    console.log("click");
+  const addSampleTable = () => {
+    dispatch(addSample(inputOne, isWork, executor, textareaValue));
+    setInputOne("");
+    setIsWork("Выберите работы");
+    setExecutor("Выберите исполнителя");
+    setTextareaValue("");
   };
 
   const deleteInput = () => {
-
     setInputOne("");
     setIsWork("Выберите работы");
     setExecutor("Выберите исполнителя");
@@ -84,80 +88,69 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
             name={"Виды работ"}
             state={isWork}
             setState={setIsWork}
-            data={[
-              { name: "Создание КП", id: "1" },
-              { name: "Установка камер", id: "2" },
-              { name: "Установка турникетов", id: "3" },
-              { name: "Подсчет материалов", id: "4" },
-            ]}
-            selected={selected}
-            setSelected={setSelected}
+            data={works}
           />
           <DropdownList
             name={"Исполнители"}
             state={executor}
             setState={setExecutor}
-            data={[
-              { name: "Петров Игорь", id: "1" },
-              { name: "Гнездилова Маргарита", id: "2" },
-              { name: "Яковлева Ксения", id: "2" },
-              { name: "Карибaев Арс", id: "2" },
-            ]}
-            selected={selected}
-            setSelected={setSelected}
+            data={users}
           />
         </form>
         <BlockComments value={textareaValue} setValue={setTextareaValue} />
         <div className={styles.button}>
-          <BlockButton text={"Добавить"} onClick={addSample} />
+          <BlockButton
+            text={"Добавить"}
+            onClick={addSampleTable}
+          />
           <button className={styles.button_text} onClick={deleteInput}>
             Отменить
           </button>
         </div>
       </div>
       <div className={styles.conteinerList}>
-      <div className={styles.conteiner_block}>
-        <h2 className={styles.conteinerList_title}>Шаблоны</h2>
-        <table className={styles.table_block}>
-          <thead key={uuidv4()}>
-            <tr className={styles.tableTitle}>
-              {titles.map((title) => (
-                <th className={styles.tableTitle_column}>{title}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((i) => (
-              <tr className={styles.table}>
-                <td className={styles.table_row}>{i.title}</td>
-                <td className={styles.table_row}>{i.works.length}</td>
-                <td className={styles.block_avatar}>
-                  {i.users?.map((user) => (
-                    <div className={styles.table_avatar}>
-                      <UserBlock name={user.name} avatar={user.avatar} />
-                    </div>
-                  ))}
-                </td>
-                <td className={styles.table_row}>
-                  document
-                  {/* <img
+        <div className={styles.conteiner_block}>
+          <h2 className={styles.conteinerList_title}>Шаблоны</h2>
+          <table className={styles.table_block}>
+            <thead key={uuidv4()}>
+              <tr className={styles.tableTitle}>
+                {titles.map((title) => (
+                  <th className={styles.tableTitle_column}>{title}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {currentData.map((i) => (
+                <tr className={styles.table}>
+                  <td className={styles.table_row}>{i.title}</td>
+                  <td className={styles.table_row}>{i.works.length}</td>
+                  <td className={styles.block_avatar}>
+                    {i.users?.map((user) => (
+                      <div className={styles.table_avatar}>
+                        <UserBlock name={user.name} avatar={user.avatar} />
+                      </div>
+                    ))}
+                  </td>
+                  <td className={styles.table_row}>
+                    document
+                    {/* <img
                 className={styles.table_icon}
                 src={}
                 alt={"иконка"}
               /> */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className={styles.pagination}>
           <Pagination
-             pageSize={pageSize}
-             totalCount={data.length}
-             currentPage={currentPage}
-             setCurrentPage={setCurrentPage}
-             style={"blue"}
+            pageSize={pageSize}
+            totalCount={data.length}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            style={"blue"}
             // pageSize={5}
             // totalCount={20}
             // currentPage={page}

@@ -49,6 +49,12 @@ export function getDataUser() {
   }).then(responseCheck);
 }
 
+export function getUsersApi() {
+  return fetch(`${URL}/user`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
 /* export async function logoutUser() {
   return fetch(`${URL}/logout`, {
     method: "POST",
@@ -99,7 +105,7 @@ export function getTasksUserApi() {
   }).then(responseCheck);
 }
 
-export function getTaskByDateApi( date: Date ) {
+export function getTaskByDateApi(date: Date) {
   return fetch(`${URL}/tasks/byDate`, {
     method: "POST",
     headers: headersWithAuthorizeFn,
@@ -269,23 +275,23 @@ export function deleteListApi(id: number) {
 // Получение всех шаблонов
 export function getSampleApi() {
   return fetch(`${URL}/plan`, {
-    headers: headersWithAuthorizeFn
+    headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
 
 // Добавление шаблона
 export function addSampleApi(
   title: string,
-  worksId: number,
-  usersId?: string,
+  works: number[],
+  users?: number[],
   description?: string
 ) {
-  return fetch(`${URL}/tasks`, {
+  return fetch(`${URL}/plan`, {
     method: "POST",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
-      usersId: usersId,
-      worksId: worksId,
+      users: users,
+      works: works,
       title: title,
       description: description,
     }),
@@ -342,6 +348,14 @@ export function updateCompanyApi(
   }).then(responseCheck);
 }
 
+//---------------------------------------------------------------WORK-------------------------------------------------------------------------------
+
+// Получение всех работ
+export function getWorkApi() {
+  return fetch(`${URL}/work`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
 
 //-------------------------------------------------------------------Commercial-Proposal--------------------------------------------------------------------------------------
 
@@ -354,8 +368,7 @@ export function getCommercialProposalApi() {
 export function addCommercialProposalApi(
   name: string,
   idList: number,
-  products: Array<IItem>,
-
+  products: Array<IItem>
 ) {
   return fetch(`${URL}/commercial-proposal`, {
     method: "POST",
@@ -363,7 +376,7 @@ export function addCommercialProposalApi(
     body: JSON.stringify({
       name: name,
       idList: idList,
-      products: products
+      products: products,
     }),
   }).then(responseCheck);
 }

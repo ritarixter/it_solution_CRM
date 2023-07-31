@@ -4,6 +4,7 @@ import { listSlice } from "./list";
 import { userSlice } from "./user";
 import { sampleSlice } from "./sample";
 import { companySlice } from "./company";
+import { workSlice } from "./work";
 import { commercialProposalSlice } from "./commercialProposal";
 
 export const rootReducer = combineReducers({
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   user: userSlice.reducer,
   sample: sampleSlice.reducer,
   company: companySlice.reducer,
+  work: workSlice.reducer,
   commercialProposal: commercialProposalSlice.reducer
 });

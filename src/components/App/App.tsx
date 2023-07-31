@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./App.module.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ApplicationsItem, ApplicationsItemTree, Login, NotFound, Test } from "../../pages";
@@ -11,14 +11,14 @@ import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTask, getTaskByDate } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
-import { getUser } from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
 import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 import { getSample } from "../../services/slices/sample";
 import { access } from "../../utils/constants";
-
+import { getWork } from "../../services/slices/work";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +31,8 @@ export const App: FC = () => {
       dispatch(getTask());
       dispatch(getList());
       dispatch(getCompanies());
+      dispatch(getUsers());
+      dispatch(getWork());
     } else {
       navigate("/login");
     }
@@ -62,10 +64,9 @@ export const App: FC = () => {
         <Route
           path="/commercial-proposal/:id"
           element={
-
             <ProtectedRoute>
               <DndProvider backend={HTML5Backend}>
-              <CommercialProposal />
+                <CommercialProposal />
               </DndProvider>
             </ProtectedRoute>
           }

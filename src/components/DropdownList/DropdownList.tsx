@@ -22,8 +22,9 @@ export const DropdownList: FC<TDropdownList> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<string>>([]);
+  const [selectedWorks, setSelectedWorks] = useState<Array<string>>([]);
   const defaultState = "Выберите ...";
-  let inSelected = selected!.join(", ");
+  let inSelected = selectedWorks!.join(", ");
 
   const handlerClick = (index: number) => {
     let inArray = false;
@@ -32,7 +33,14 @@ export const DropdownList: FC<TDropdownList> = ({
         if (work === data[index].id) {
           setSelected(
             selected.filter((currentWork) => {
+
               return currentWork !== data[index].id;
+            })
+          );
+          setSelectedWorks(
+            selectedWorks.filter((currentWork) => {
+
+              return currentWork !== data[index].name;
             })
           );
           setState(
@@ -48,6 +56,7 @@ export const DropdownList: FC<TDropdownList> = ({
         }
       });
       if (!inArray) {
+        setSelectedWorks([...selectedWorks, data[index].name])
         setSelected([...selected, data[index].id]);
         setState(textForState(data[index].name));
       }
@@ -55,14 +64,14 @@ export const DropdownList: FC<TDropdownList> = ({
     }
   };
 
-  const textForState = (selected: string) => {
-    if(inSelected.length < 1) inSelected += selected
-    else inSelected += ', ' + selected
+  const textForState = (selectedWorks: string) => {
+    if(inSelected.length < 1) inSelected += selectedWorks
+    else inSelected += ', ' + selectedWorks
     return inSelected;
   };
 
-  const arrForState = (selected: string[]) => {
-    inSelected = selected.join(", ")
+  const arrForState = (selectedWorks: string[]) => {
+    inSelected = selectedWorks.join(", ")
     return inSelected;
   };
 

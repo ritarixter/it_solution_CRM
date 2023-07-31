@@ -7,13 +7,10 @@ import { TUser } from "../../types";
 
 export type TDropdownList = {
   data: any;
-  // users?: Array<TUser>
   state: string;
   setState: (value: string) => void;
   name: string;
   size?: "big" | "small";
-  selected?: Array<string>;
-  setSelected?: (value: Array<string>) => void;
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -22,10 +19,9 @@ export const DropdownList: FC<TDropdownList> = ({
   setState,
   name,
   size,
-  selected,
-  setSelected
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Array<string>>([]);
   const defaultState = "Выберите ...";
   let inSelected = selected!.join(", ");
 

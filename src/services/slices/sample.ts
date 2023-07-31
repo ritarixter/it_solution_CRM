@@ -53,7 +53,7 @@ export const getSample: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 export const addSample: AppThunk =
-  (title: string, works: string, users?: string, description?: string) =>
+  (title: string, works: number[], users?: number[], description?: string) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
     addSampleApi(title, works, users, description)

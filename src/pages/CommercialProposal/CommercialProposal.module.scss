@@ -12,6 +12,11 @@
   border-radius: 15px;
 }
 
+.name {
+  max-width: 300px;
+  margin: 20px 0;
+}
+
 .row {
   position: relative;
   align-items: center;
@@ -21,18 +26,44 @@
   margin: 0;
   font-size: 14px;
   color: $dashboardTitleColor;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
   text-align-last: left;
   column-gap: 14px;
   padding: 4px 0;
+  cursor: grab;
+
   grid-template-columns: minmax(200px, 1fr) minmax(102px, 1fr) minmax(87px, 1fr) minmax(
       173px,
       1fr
-    ) minmax(150px, 1fr) 40px;
+    ) minmax(150px, 1fr) 180px 40px;
   width: 100%;
 
   & > th {
     font-weight: 400;
+  }
+
+  & > td {
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    overflow: hidden;
+  }
+
+  &_drag {
+   opacity: 0.4;
+  }
+  & > .price {
+    justify-self: center;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    overflow: hidden;
+    max-width: 180px;
+  }
+}
+  
+
+thead > tr {
+  &.row {
+    cursor:default;
   }
 }
 
@@ -55,7 +86,7 @@
     position: absolute;
     top: 14px;
     left: -20px;
-    cursor: pointer;
+   
     height: 20px;
     transition: opacity 0.2s ease;
     &:hover {

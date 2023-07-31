@@ -18,7 +18,9 @@ import { Preloader } from "../../components/Preloader/Preloader";
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
-  const { companies, isLoadingCompany } = useAppSelector((state) => state.company);
+  const { companies, isLoadingCompany } = useAppSelector(
+    (state) => state.company
+  );
   const dispatch = useAppDispatch();
   const [nameCompanyValue, setNameCompanyValue] = useState<string>("");
   const [currentCompany, setCurrentCompany] = useState<TCompany>();
@@ -63,7 +65,6 @@ export const Applications: FC = () => {
   };
 
   const handleAddCompany = () => {
-    
     if (emailValue != "") {
       if (validateEmail(emailValue)) {
         dispatch(
@@ -108,170 +109,177 @@ export const Applications: FC = () => {
 
   return (
     <Wrapper>
-                {isLoadingUser || isLoadingList || isLoadingCompany ? 
-    <Preloader/>
-: <>
-      <HeaderTop />
-      <div className={styles.container}>
-        {user.access === "Главный инженер" && (
-          <TableTask mini={false} list={list} access={"Главный инженер"} />
-        )}
-        {user.access === "Менеджер" && (
-          <>
-            <section className={styles.manager}>
-              <div className={styles.manager__container}>
-                <div>
-                  <h2 className={styles.manager__title}>Новая заявка</h2>
-                  <div className={styles.block}>
-                    <p className={styles.caption}>Название компании*</p>
+      {isLoadingUser || isLoadingList || isLoadingCompany ? (
+        <Preloader />
+      ) : (
+        <>
+          <HeaderTop />
+          <div className={styles.container}>
+            {user.access === "Главный инженер" && (
+              <TableTask mini={false} list={list} access={"Главный инженер"} />
+            )}
+            {user.access === "Менеджер" && (
+              <>
+                <section className={styles.manager}>
+                  <div className={styles.manager__container}>
+                    <div>
+                      <h2 className={styles.manager__title}>Новая заявка</h2>
+                      <div className={styles.block}>
+                        <p className={styles.caption}>Название компании*</p>
 
-                    <div className={styles.search}>
-                      <div className={styles.block__container}>
-                        <input
-                          maxLength={50}
-                          type="text"
-                          onChange={(e) => {
-                            setNameCompanyValue(e.target.value);
-                            setRight(true);
-                          }}
-                          value={nameCompanyValue}
-                          className={`${styles.input} ${
-                            openDropdownlist && styles.input_open
-                          }`}
-                          placeholder={"Введите название"}
-                        />
-                        <div className={styles.circleButton}>
-                          <ButtonCircle onClick={() => setOpenPopup(true)} />
-                        </div>
-                      </div>
-                      {openDropdownlist && currentCompanies?.length != 0 && (
-                        <ul className={`${styles.dropdownlist}`}>
-                          {currentCompanies?.map((company) => (
-                            <li
-                              className={styles.dropdownlist__item}
-                              onClick={() => {
-                                setNameCompanyValue(company.nameCompany);
-                                setCurrentCompany(company);
-                                setRight(false);
-                                setOpenDropdownlist(false);
+                        <div className={styles.search}>
+                          <div className={styles.block__container}>
+                            <input
+                              maxLength={50}
+                              type="text"
+                              onChange={(e) => {
+                                setNameCompanyValue(e.target.value);
+                                setRight(true);
                               }}
-                            >
-                              {company.nameCompany}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
+                              value={nameCompanyValue}
+                              className={`${styles.input} ${
+                                openDropdownlist && styles.input_open
+                              }`}
+                              placeholder={"Введите название"}
+                            />
+                            <div className={styles.circleButton}>
+                              <ButtonCircle
+                                onClick={() => setOpenPopup(true)}
+                              />
+                            </div>
+                          </div>
+                          {openDropdownlist &&
+                            currentCompanies?.length != 0 && (
+                              <ul className={`${styles.dropdownlist}`}>
+                                {currentCompanies?.map((company) => (
+                                  <li
+                                    className={styles.dropdownlist__item}
+                                    onClick={() => {
+                                      setNameCompanyValue(company.nameCompany);
+                                      setCurrentCompany(company);
+                                      setRight(false);
+                                      setOpenDropdownlist(false);
+                                    }}
+                                  >
+                                    {company.nameCompany}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                        </div>
 
-                    {/*   {companyError && (
+                        {/*   {companyError && (
                       <span className={styles.error_text}>Ошибка</span>
                     )} */}
+                      </div>
+                      <div className={styles.manager__input}>
+                        <Input
+                          type={"text"}
+                          name={"Введите кодовое имя"}
+                          text={"Кодовое имя"}
+                          value={workNameValue}
+                          setValue={setWorkNameValue}
+                        />
+                      </div>
+                      <div className={styles.manager__input}>
+                        <Input
+                          type={"text"}
+                          name={"Введите ФИО"}
+                          text={"От кого заявка?"}
+                          value={customer}
+                          setValue={setCustomer}
+                        />
+                      </div>
+                      <div className={styles.manager__textarea}>
+                        <BlockComments
+                          value={textareaValue}
+                          setValue={setTextareaValue}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.manager__buttons}>
+                      <BlockButton
+                        text={"Добавить"}
+                        disabled={
+                          customer === "" ||
+                          workNameValue === "" ||
+                          currentCompany === undefined
+                        }
+                        onClick={handleClickAddList}
+                      />
+                      <p
+                        className={styles.cancel}
+                        onClick={() => {
+                          setWorkNameValue("");
+                          setCustomer("");
+                          setTextareaValue("");
+                          setCurrentCompany(undefined);
+                        }}
+                      >
+                        Отменить
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.manager__input}>
+                  <TableTask mini={true} list={list} access={"Менеджер"} />
+                </section>
+                <Popup
+                  onClickButton={handleAddCompany}
+                  onClickCancel={handleCancelAddCompany}
+                  openPopup={openPopup}
+                  buttonText={"Добавить"}
+                  textTitle={"Создание компании"}
+                  disabledButton={
+                    nameCompanyValue === "" ||
+                    INNValue.length != 10 ||
+                    nameValue === "" ||
+                    phoneValue === ""
+                  }
+                >
+                  <form className={styles.form}>
                     <Input
                       type={"text"}
-                      name={"Введите кодовое имя"}
-                      text={"Кодовое имя"}
-                      value={workNameValue}
-                      setValue={setWorkNameValue}
+                      name={"Введите название компании"}
+                      text={"Название компании*"}
+                      value={nameCompanyValue}
+                      setValue={setNameCompanyValue}
                     />
-                  </div>
-                  <div className={styles.manager__input}>
+                    <Input
+                      type={"text"}
+                      name={"Введите ИНН"}
+                      text={"ИНН*"}
+                      value={INNValue}
+                      setValue={setINNValue}
+                    />
                     <Input
                       type={"text"}
                       name={"Введите ФИО"}
-                      text={"От кого заявка?"}
-                      value={customer}
-                      setValue={setCustomer}
+                      text={"Контактное лицо компании*"}
+                      value={nameValue}
+                      setValue={setNameValue}
                     />
-                  </div>
-                  <div className={styles.manager__textarea}>
-                    <BlockComments
-                      value={textareaValue}
-                      setValue={setTextareaValue}
+                    <Input
+                      type={"text"}
+                      name={"Введите телефон"}
+                      text={"Телефон*"}
+                      value={phoneValue}
+                      setValue={setPhoneValue}
                     />
-                  </div>
-                </div>
-                <div className={styles.manager__buttons}>
-                  <BlockButton
-                    text={"Добавить"}
-                    disabled={
-                      customer === "" ||
-                      workNameValue === "" ||
-                      currentCompany === undefined
-                    }
-                    onClick={handleClickAddList}
-                  />
-                  <p className={styles.cancel} onClick={() => {
-                    setWorkNameValue("")
-                    setCustomer("")
-                    setTextareaValue("")
-                    setCurrentCompany(undefined);
-                  }}>
-                    Отменить
-                  </p>
-                </div>
-              </div>
-              <TableTask mini={true} list={list} access={"Менеджер"} />
-            </section>
-            <Popup
-              onClickButton={handleAddCompany}
-              onClickCancel={handleCancelAddCompany}
-              openPopup={openPopup}
-              buttonText={"Добавить"}
-              textTitle={"Создание компании"}
-              disabledButton={
-                nameCompanyValue === "" ||
-                INNValue.length != 10 ||
-                nameValue === "" ||
-                phoneValue === ""
-              }
-            >
-              <form className={styles.form}>
-                <Input
-                  type={"text"}
-                  name={"Введите название компании"}
-                  text={"Название компании*"}
-                  value={nameCompanyValue}
-                  setValue={setNameCompanyValue}
-                />
-                <Input
-                  type={"text"}
-                  name={"Введите ИНН"}
-                  text={"ИНН*"}
-                  value={INNValue}
-                  setValue={setINNValue}
-                />
-                <Input
-                  type={"text"}
-                  name={"Введите ФИО"}
-                  text={"Контактное лицо компании*"}
-                  value={nameValue}
-                  setValue={setNameValue}
-                />
-                <Input
-                  type={"text"}
-                  name={"Введите телефон"}
-                  text={"Телефон*"}
-                  value={phoneValue}
-                  setValue={setPhoneValue}
-                />
-                <Input
-                  type={"email"}
-                  name={"Введите почту"}
-                  text={"Почта"}
-                  value={emailValue}
-                  setValue={setEmailValue}
-                  error={emailError}
-                  errorText={"Невалидный email"}
-                />
-              </form>
-            </Popup>
-          </>
-        )}
-      </div>
-      </>
-}
+                    <Input
+                      type={"email"}
+                      name={"Введите почту"}
+                      text={"Почта"}
+                      value={emailValue}
+                      setValue={setEmailValue}
+                      error={emailError}
+                      errorText={"Невалидный email"}
+                    />
+                  </form>
+                </Popup>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </Wrapper>
   );
 };

@@ -13,21 +13,21 @@ import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
 import { getUser } from "../../services/slices/user";
 import { getWork } from "../../services/slices/work";
+import { title } from "process";
 
 type TBlockAddSample = {
   data: Array<TSample>;
 };
 
-export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
+export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentData, setCurrentData] = useState<Array<TSample>>([]);
   const [isWork, setIsWork] = useState("Выберите работы");
   const [executor, setExecutor] = useState("Выберите исполнителя");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
-  const [selected, setSelected] = useState<Array<string>>([])
-  const {users} = useAppSelector((state) => state.user);
-  const {works} = useAppSelector((state)=> state.work);
+  const { users } = useAppSelector((state) => state.user);
+  const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
 
@@ -46,10 +46,10 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
   useEffect(() => {
     if (data.length != 0) {
       let arr = [...data];
-        setCurrentData(
-          arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
-        )
-      }
+      setCurrentData(
+        arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+      );
+    }
 
     //   setError(false);
     // } else {
@@ -57,19 +57,13 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
     // }
   }, [currentPage, data]);
 
-
-
-  // const addSample = () => {
-  //   // data.push({
-  //   //   id: id++,
-  //   //   title: inputOne,
-  //   //   works: isWork,
-  //   //   users: executor,
-  //   //   description: textareaValue,
-  //   //   document: textareaValue,
-  //   // });
-  //   console.log("click");
-  // };
+  const addSampleTable = () => {
+    dispatch(addSample(inputOne, isWork, executor, textareaValue));
+    setInputOne("");
+    setIsWork("Выберите работы");
+    setExecutor("Выберите исполнителя");
+    setTextareaValue("");
+  };
 
   const deleteInput = () => {
     setInputOne("");
@@ -95,69 +89,68 @@ export const BlockAddSample: FC<TBlockAddSample> = ({data}) => {
             state={isWork}
             setState={setIsWork}
             data={works}
-            selected={selected}
-            setSelected={setSelected}
           />
           <DropdownList
             name={"Исполнители"}
             state={executor}
             setState={setExecutor}
             data={users}
-            selected={selected}
-            setSelected={setSelected}
           />
         </form>
         <BlockComments value={textareaValue} setValue={setTextareaValue} />
         <div className={styles.button}>
-           <BlockButton text={"Добавить"} {/* onClick={dispatch(addSample({title, works, users, description}))} */}/> 
+          <BlockButton
+            text={"Добавить"}
+            onClick={addSampleTable}
+          />
           <button className={styles.button_text} onClick={deleteInput}>
             Отменить
           </button>
         </div>
       </div>
       <div className={styles.conteinerList}>
-      <div className={styles.conteiner_block}>
-        <h2 className={styles.conteinerList_title}>Шаблоны</h2>
-        <table className={styles.table_block}>
-          <thead key={uuidv4()}>
-            <tr className={styles.tableTitle}>
-              {titles.map((title) => (
-                <th className={styles.tableTitle_column}>{title}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((i) => (
-              <tr className={styles.table}>
-                <td className={styles.table_row}>{i.title}</td>
-                <td className={styles.table_row}>{i.works.length}</td>
-                <td className={styles.block_avatar}>
-                  {i.users?.map((user) => (
-                    <div className={styles.table_avatar}>
-                      <UserBlock name={user.name} avatar={user.avatar} />
-                    </div>
-                  ))}
-                </td>
-                <td className={styles.table_row}>
-                  document
-                  {/* <img
+        <div className={styles.conteiner_block}>
+          <h2 className={styles.conteinerList_title}>Шаблоны</h2>
+          <table className={styles.table_block}>
+            <thead key={uuidv4()}>
+              <tr className={styles.tableTitle}>
+                {titles.map((title) => (
+                  <th className={styles.tableTitle_column}>{title}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {currentData.map((i) => (
+                <tr className={styles.table}>
+                  <td className={styles.table_row}>{i.title}</td>
+                  <td className={styles.table_row}>{i.works.length}</td>
+                  <td className={styles.block_avatar}>
+                    {i.users?.map((user) => (
+                      <div className={styles.table_avatar}>
+                        <UserBlock name={user.name} avatar={user.avatar} />
+                      </div>
+                    ))}
+                  </td>
+                  <td className={styles.table_row}>
+                    document
+                    {/* <img
                 className={styles.table_icon}
                 src={}
                 alt={"иконка"}
               /> */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className={styles.pagination}>
           <Pagination
-             pageSize={pageSize}
-             totalCount={data.length}
-             currentPage={currentPage}
-             setCurrentPage={setCurrentPage}
-             style={"blue"}
+            pageSize={pageSize}
+            totalCount={data.length}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            style={"blue"}
             // pageSize={5}
             // totalCount={20}
             // currentPage={page}

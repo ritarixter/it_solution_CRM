@@ -2,7 +2,7 @@ import { FC } from "react";
 import styles from "./StatusBlock.module.scss";
 
 type TStatusBlock = {
-  type: string | null; //"В работе" | "Закончено" | "На согласовании" | "Статус";
+  type: string | null; //"В работе" | "Закончено" | "На согласовании" | "Не назначен";
 };
 
 export const StatusBlock: FC<TStatusBlock> = ({ type }) => {

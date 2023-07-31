@@ -29,17 +29,17 @@ export const DropdownList: FC<TDropdownList> = ({
     let inArray = false;
     if (selected && setSelected) {
       selected.map((work) => {
-        if (work === data[index].name) {
+        if (work === data[index].id) {
           setSelected(
             selected.filter((currentWork) => {
-              return currentWork !== data[index].name;
+              return currentWork !== data[index].id;
             })
           );
           setState(
             selected.length - 1 > 0
               ? arrForState(
                   selected.filter((currentWork) => {
-                    return currentWork !== data[index].name;
+                    return currentWork !== data[index].id;
                   })
                 )
               : defaultState
@@ -48,7 +48,7 @@ export const DropdownList: FC<TDropdownList> = ({
         }
       });
       if (!inArray) {
-        setSelected([...selected, data[index].name]);
+        setSelected([...selected, data[index].id]);
         setState(textForState(data[index].name));
       }
       console.log(inSelected);
@@ -98,7 +98,7 @@ export const DropdownList: FC<TDropdownList> = ({
               let isSelected = false;
               if (selected) {
                 for (let i = 0; i < selected.length; i++) {
-                  if (item.name === selected[i]) {
+                  if (item.id === selected[i]) {
                     isSelected = true;
                     break;
                   }

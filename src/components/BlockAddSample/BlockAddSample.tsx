@@ -71,7 +71,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
     setExecutor([]);
     setTextareaValue("");
   };
-  console.log(isWork);
 
   return (
     <div className={styles.sample}>

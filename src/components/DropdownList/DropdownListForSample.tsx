@@ -67,8 +67,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
   useEffect(() => {
     if (state.length) {
       for (let i = 0; i < state.length; i++) {
-        setDefaultState([... defaultState, state[i].name])
-        console.log(defaultState);
+        setDefaultState([...defaultState, state[i].name])
       }
     }
   }, [state]);

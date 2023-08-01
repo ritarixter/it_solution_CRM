@@ -9,7 +9,7 @@ import { TTask } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
 import { useAppDispatch } from "../../../services/hooks";
-import { updateTask } from "../../../services/slices/task";
+import { getTaskByDate, updateTask } from "../../../services/slices/task";
 interface IItem {
   task: TTask;
   handleDelete: (id: number) => void;
@@ -31,7 +31,7 @@ export const Item: FC<IItem> = ({
     id?: number
   ) => {
     let resultDate = undefined;
-    if (time != formateDateOnlyTime(task.endDate)) {
+    if (time !== formateDateOnlyTime(task.endDate)) {
       resultDate = new Date();
       const times = time?.split(":");
 
@@ -40,6 +40,7 @@ export const Item: FC<IItem> = ({
     dispatch(updateTask(id, undefined, status, resultDate, name, description));
     setPopupOpen(false);
   };
+
   return (
     <li
       key={task.id}

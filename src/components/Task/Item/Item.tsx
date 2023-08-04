@@ -9,7 +9,10 @@ import { TTask } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
 import { useAppDispatch } from "../../../services/hooks";
+import { TUpdateTask } from "../../../types/TTask";
 import { getTaskByDate, updateTask } from "../../../services/slices/task";
+
+
 interface IItem {
   task: TTask;
   handleDelete: (id: number) => void;
@@ -35,9 +38,17 @@ export const Item: FC<IItem> = ({
       resultDate = new Date();
       const times = time?.split(":");
 
-      resultDate.setHours(Number(times![0])+3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
+      resultDate.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
-    dispatch(updateTask(id, undefined, status, resultDate, name, description));
+    const taskNew: TUpdateTask = {
+      id: id,
+      title: name ? name : undefined,
+      done: undefined,
+      status: status ? status : undefined,
+      endDate: resultDate,
+      description: description ? description : undefined,
+    };
+    dispatch(updateTask(taskNew));
     setPopupOpen(false);
   };
 
@@ -67,7 +78,8 @@ export const Item: FC<IItem> = ({
             type="checkbox"
             className={styles.task__checkbox}
             checked={task.done}
-            onChange={() => {
+            onChange={(e) => {
+              e.preventDefault()
               changeCheckedHandle(task.id, !task.done);
             }}
           />
@@ -76,12 +88,12 @@ export const Item: FC<IItem> = ({
           </p>
         </div>
         <div className={styles.task__icons}>
-          <button className={`${styles.button} ${styles.delete}`}>
+          <button className={`${styles.button} ${styles.delete}`} type="button" onClick={() => handleDelete(task.id)}>
             <img
               src={deleteIcon}
               className={styles.task__icon}
               alt="Кнопка удаления"
-              onClick={() => handleDelete(task.id)}
+              
             />
           </button>
 

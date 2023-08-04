@@ -7,6 +7,7 @@ export interface IItem {
     price: number;
     actualPrice:number;
     date: string;
-    totalPrice: number
+    totalPrice: number;
+    marginalityPrice: number;
 }
 

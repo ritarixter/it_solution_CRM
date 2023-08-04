@@ -1,3 +1,4 @@
+import { TFile } from "./TFile";
 import { TUser } from "./TUser";
 import { TWork } from "./TWork";
 
@@ -9,6 +10,7 @@ export type TSample = {
   description?: string;
   works: TWork[];
   users?: TUser[];
+  files: TFile[];
 };
 
 export type TSampleUpdate = {

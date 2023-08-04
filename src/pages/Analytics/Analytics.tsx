@@ -9,16 +9,19 @@ import { TableTask, Task, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
-import { Navigate, useLocation } from "react-router";
-import { taskDates } from './../../components/Calendar/constants';
 import { Preloader } from "../../components/Preloader/Preloader";
+import { getTask } from "../../services/slices/task";
 
 export const Analytics: FC = () => {
   const { tasks,tasksByDay,isLoadingTask } = useAppSelector((state) => state.task);
   const { list,isLoadingList } = useAppSelector((state) => state.list);
-
+  const dispatch = useAppDispatch()
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
+
+  useEffect(()=>{
+    dispatch(getTask());
+  },[])
 
   useEffect(() => {
     if (tasks.length !== 0) {
@@ -34,7 +37,6 @@ export const Analytics: FC = () => {
   return (
 
     <Wrapper>
-<>
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
@@ -65,7 +67,7 @@ export const Analytics: FC = () => {
           <CalendarComponent tasks={tasks} />
         </div>
       </div>
-      </>
+   
     </Wrapper>
   );
 };

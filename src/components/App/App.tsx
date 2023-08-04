@@ -3,7 +3,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./App.module.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { ApplicationsItem, ApplicationsItemTree, Login, NotFound, Test } from "../../pages";
+import {
+  ApplicationsItem,
+  ApplicationsItemTree,
+  Login,
+  NotFound,
+  Test,
+} from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
 import { Applications } from "../../pages/Applications/Applications";
@@ -29,11 +35,12 @@ export const App: FC = () => {
   useEffect(() => {
     if (isAuth) {
       dispatch(getUser());
-      dispatch(getTask());
       dispatch(getList());
+
+    /*   dispatch(getTask());
       dispatch(getCompanies());
       dispatch(getUsers());
-      dispatch(getWork());
+      dispatch(getWork()); */
     } else {
       navigate("/login");
     }
@@ -77,8 +84,8 @@ export const App: FC = () => {
           element={
             <ProtectedRoute>
               {" "}
-              {user.access === access.MANAGER &&  <ApplicationsItem />}
-              {user.access === access.SUPERUSER &&  <ApplicationsItemTree />}
+              {user.access === access.MANAGER && <ApplicationsItem />}
+              {user.access === access.SUPERUSER && <ApplicationsItemTree />}
             </ProtectedRoute>
           }
         />

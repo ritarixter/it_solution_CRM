@@ -3,7 +3,6 @@ import styles from "../Sample.module.scss";
 import { UserBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { Input } from "../../../components/Input";
-import { DropdownList } from "../../../components/DropdownList";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
@@ -12,14 +11,22 @@ import {
   getSample,
   updateSample,
 } from "../../../services/slices/sample";
-import { getUser } from "../../../services/slices/user";
+import { getUser, getUsers } from "../../../services/slices/user";
 import { getWork } from "../../../services/slices/work";
 import { Link, useLocation } from "react-router-dom";
-import { sample } from "lodash";
-import { TSample } from "../../../types";
+import { TSample, TUser, TWork } from "../../../types";
 import { getSampleByIdApi, updateSampleApi } from "../../../utils/api";
 import { TWorkAbdExecuter } from "../../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../../../components/DropdownList/DropdownListForSample";
+import { FileIcon } from "../../../components/File/FileIcon";
+
+// type TCurrentSample = {
+//   id: number,
+//     title: string,
+//     description: string,
+//     works: TWork[];
+//   users?: TUser[];
+// }
 
 export const SampleItem: FC = () => {
   const [isWork, setIsWork] = useState<Array<TWorkAbdExecuter>>([]);
@@ -30,6 +37,7 @@ export const SampleItem: FC = () => {
     description: "",
     users: [],
     works: [],
+    files: []
   });
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
@@ -38,17 +46,12 @@ export const SampleItem: FC = () => {
   const { samples } = useAppSelector((state) => state.sample);
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const [files, setFiles] = useState<FormData>()
 
   useEffect(() => {
     dispatch(getSample());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
-
-  useEffect(() => {
     dispatch(getWork());
+    dispatch(getUsers());
   }, []);
 
   // Получение информации о текущем шаблоне
@@ -117,6 +120,11 @@ export const SampleItem: FC = () => {
                   : "Комментариев нет"}
               </p>
             </div>
+            <div className={styles.blockText}>
+            {currentSample?.files ? currentSample.files.map((file) => (
+              <FileIcon name={file.name} url={file.url} />
+            )) : null}
+          </div>
           </div>
           <div className={styles.conteiner}>
             <h2 className={styles.conteiner_title}>Новая информация</h2>
@@ -141,7 +149,7 @@ export const SampleItem: FC = () => {
                 data={users}
               />
             </form>
-            <BlockComments value={textareaValue} setValue={setTextareaValue} />
+            <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles}/>
             <div className={styles.button}>
               <BlockButton
                 text={"Изменить"}

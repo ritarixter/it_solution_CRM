@@ -19,6 +19,7 @@ export const PopupNewList: FC = () => {
   const [importance, setImportance] = useState("Не назначен");
   const [work, setWork] = useState("Не назначен");
   const [textareaValue, setTextareaValue] = useState<string>("");
+  const [files, setFiles] = useState<any>()
   const navigate = useNavigate();
   return (
     <div className={styles.popup}>
@@ -128,7 +129,7 @@ export const PopupNewList: FC = () => {
             ]}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue} />
+        <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles}/>
         <div className={styles.buttonBlock}>
           <BlockButton text={"Изменить"} onClick={() => {}} />
           <p

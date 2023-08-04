@@ -14,12 +14,14 @@ import { TUpdateTask } from "../../types/TTask";
 
 interface tasksState {
   tasks: Array<TTask>;
+  tasksByDay: Array<TTask>;
   isError: boolean;
   isLoadingTask: boolean;
 }
 
 const initialState: tasksState = {
   tasks: [],
+  tasksByDay: [],
   isError: false,
   isLoadingTask: true,
 };
@@ -32,6 +34,10 @@ export const taskSlice = createSlice({
       state.tasks = action.payload;
     },
 
+    setTask(state, action: PayloadAction<Array<TTask>>) {
+      state.tasksByDay = action.payload;
+    },
+
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
     },
@@ -42,7 +48,7 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { setTasks, setError, setLoading } = taskSlice.actions;
+export const { setTasks, setTask, setError, setLoading } = taskSlice.actions;
 export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   getTasksUserApi()
@@ -70,12 +76,22 @@ export const getTaskByDate: AppThunk =
         dispatch(setError(true));
         dispatch(getTask()); // ВРЕМЕННЫЙ КОСТЫЛЬ
 
-        console.log(err);
-      })
-      .finally(() => {
-        dispatch(setLoading(false));
-      });
-  };
+export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
+  getTaskByDateApi(date)
+    .then((res) => {
+      dispatch(setTask(res));
+    })
+    .catch((err) => {
+      dispatch(setError(true));
+      dispatch(getTask());      // ВРЕМЕННЫЙ КОСТЫЛЬ
+  
+      console.log(err);
+    })
+    .finally(() => {
+      dispatch(setLoading(false));
+    });
+};
 
 export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
@@ -105,7 +121,7 @@ export const updateTask: AppThunk =
       task.description
     )
       .then((res) => {
-        dispatch(getTask());
+        dispatch(getTaskByDate());
       })
       .catch((err) => {
         dispatch(setError(true));

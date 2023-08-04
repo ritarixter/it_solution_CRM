@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./BlockAddSample.module.scss";
 import { Input } from "../../components/Input";
-import { DropdownList } from "../../components/DropdownList";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { TSample } from "../../types/TSample";
@@ -15,6 +14,8 @@ import { getUser } from "../../services/slices/user";
 import { getWork } from "../../services/slices/work";
 import { title } from "process";
 import { useNavigate } from "react-router";
+import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
+import { DropdownListForSample } from "../DropdownList/DropdownListForSample";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -22,8 +23,8 @@ type TBlockAddSample = {
 
 export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentData, setCurrentData] = useState<Array<TSample>>([]);
-  const [isWork, setIsWork] = useState("Выберите работы");
-  const [executor, setExecutor] = useState("Выберите исполнителя");
+  const [isWork, setIsWork] = useState<Array<TWorkAbdExecuter>>([]);
+  const [executor, setExecutor] = useState<Array<TWorkAbdExecuter>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
@@ -67,8 +68,8 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
 
   const deleteInput = () => {
     setInputOne("");
-    setIsWork("Выберите работы");
-    setExecutor("Выберите исполнителя");
+    setIsWork([]);
+    setExecutor([]);
     setTextareaValue("");
   };
 
@@ -84,13 +85,13 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             value={inputOne}
             setValue={setInputOne}
           />
-          <DropdownList
+          <DropdownListForSample
             name={"Виды работ"}
             state={isWork}
             setState={setIsWork}
             data={works}
           />
-          <DropdownList
+          <DropdownListForSample
             name={"Исполнители"}
             state={executor}
             setState={setExecutor}

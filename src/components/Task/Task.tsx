@@ -17,7 +17,7 @@ import { formateDateShort } from "../../utils/utils-date";
 import { TUpdateTask } from "../../types/TTask";
 
 type ITask = {
-  tasks: Array<TTask>;
+  tasksByDay: Array<TTask>;
 };
 
 const sortData = (arr: Array<TTask>) => {
@@ -34,7 +34,16 @@ const sortData = (arr: Array<TTask>) => {
     });
 };
 
+<<<<<<< HEAD
 export const Task: FC<ITask> = ({ tasks }) => {
+=======
+export const Task: FC<ITask> = ({ tasksByDay }) => {
+  // console.log('from task.tsx    ', tasks);
+  // tasks.filter((e) => {
+  //               const date = new Date('2023-07-10T17:39:00.000Z')
+  //               if( new Date(e.endDate) < new Date(date)) console.log(e.endDate)
+  //           })
+>>>>>>> 50cd49d2f2363ea25349f1032405c29bd43c47d8
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [tasksData, setTasksData] = useState<Array<TTask>>([]);
   const [error, setError] = useState<boolean>(false);
@@ -70,14 +79,14 @@ export const Task: FC<ITask> = ({ tasks }) => {
   };
 
   useEffect(() => {
-    if (tasks.length != 0) {
-      const arr = [...tasks];
+    if (tasksByDay.length !== 0) {
+      const arr = [...tasksByDay];
       setTasksData(sortData(arr));
       setError(false);
     } else {
       setError(true);
     }
-  }, [tasks]);
+  }, [tasksByDay]);
 
   return (
     <section className={styles.container}>
@@ -86,7 +95,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
         <ButtonCircle onClick={() => setPopupOpen(true)}/>
         <PopupAddTask
           title={"Задача"}
-          date={tasks.length > 0 ? formateDateShort(tasks[0].endDate) : ''}
+          date={tasksByDay.length > 0 ? formateDateShort(tasksByDay[0].endDate) : ''}
           isOpen={isPopupOpen}
           setOpen={setPopupOpen}
           onClick={createTask}

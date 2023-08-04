@@ -48,6 +48,6 @@ export let projectDep: Array<TDates> = [
         createDate: "2023-05-03T14:30:49+03:00",
         fromFinishDate: "2023-06-26T14:30:49+03:00",
         toFinishData: "2023-07-13T14:30:49+03:00",
-        implementationDate: "2023-09-12T14:30:49+03:00"
+        implementationDate: "2023-12-12T14:30:49+03:00"
     }
 ] 

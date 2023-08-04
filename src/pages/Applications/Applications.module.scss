@@ -171,7 +171,7 @@
   border-radius: 10px;
   margin-left: 30px;
 
-  max-width: 880px;
+  // max-width: 880px;
   width: 100%;
 }
 
@@ -193,7 +193,7 @@
   display: flex;
   flex-direction: column;
   padding-left: 49px;
-  padding-right: 74px;
+  padding-right: 0px;
   border-right: 1px solid $line;
   padding-bottom: 62px;
 }
@@ -260,6 +260,7 @@
   padding: 50px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .buttonCreate {

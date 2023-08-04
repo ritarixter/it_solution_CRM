@@ -3,7 +3,7 @@ import { ApplicationTree } from "../../components/ApplicationTree/ApplicationTre
 
 export const Test: FC = () => {
     return (
-        <div>
+        <div style={{"width" : "85%"}}>
             <ApplicationTree />
         </div>
     )

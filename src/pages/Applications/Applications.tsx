@@ -41,11 +41,6 @@ export const Applications: FC = () => {
   const [files, setFiles] = useState<FormData>();
 
   useEffect(() => {
-    dispatch(getCompanies());
-    dispatch(getList());
-  }, []);
-
-  useEffect(() => {
     workNameValue.length > 1 &&
       workNameValue.length < 30 &&
       setWorkNameValueError(false);

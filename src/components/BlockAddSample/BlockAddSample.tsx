@@ -10,7 +10,7 @@ import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
-import { getUser } from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { getWork } from "../../services/slices/work";
 import { title } from "process";
 import { useNavigate } from "react-router";
@@ -36,15 +36,9 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getSample());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
-
-  useEffect(() => {
+    dispatch(getUsers());
     dispatch(getWork());
+    dispatch(getSample());
   }, []);
 
   useEffect(() => {

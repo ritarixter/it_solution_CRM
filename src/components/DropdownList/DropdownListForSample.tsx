@@ -81,7 +81,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
             setOpen(!open);
           }}
         >
-          {defaultState.length ? defaultState.join(", ") : "Выберите ..."}
+          {defaultState.length ? defaultState.join(", ") : <span className={styles.placeholder}>Выберите ...</span>}
         </span>
         <img
           src={arrow}

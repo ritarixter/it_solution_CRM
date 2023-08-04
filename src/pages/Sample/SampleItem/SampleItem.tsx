@@ -40,12 +40,6 @@ export const SampleItem: FC = () => {
   const location = useLocation();
   const [files, setFiles] = useState<FormData>()
 
-  useEffect(() => {
-    dispatch(getSample());
-    dispatch(getWork());
-    dispatch(getUser());
-  }, []);
-
   // Получение информации о текущем шаблоне
   useEffect(() => {
     getSampleByIdApi(Number(location.pathname.slice(8))).then((res) => {

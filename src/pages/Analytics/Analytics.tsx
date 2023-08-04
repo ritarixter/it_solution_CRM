@@ -14,14 +14,14 @@ import { taskDates } from './../../components/Calendar/constants';
 import { Preloader } from "../../components/Preloader/Preloader";
 
 export const Analytics: FC = () => {
-  const { tasks,isLoadingTask } = useAppSelector((state) => state.task);
+  const { tasks,tasksByDay,isLoadingTask } = useAppSelector((state) => state.task);
   const { list,isLoadingList } = useAppSelector((state) => state.list);
 
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
   useEffect(() => {
-    if (tasks.length != 0) {
+    if (tasks.length !== 0) {
       let arr = [...tasks];
       setCountDoneTasks(arr.filter((item) => item.done === true).length);
     }
@@ -31,7 +31,6 @@ export const Analytics: FC = () => {
     let arr = [...list];
     setCountAtWorkList(arr.filter((item) => item.status === "В работе").length);
   }, [list]);
-
   return (
 
     <Wrapper>
@@ -65,7 +64,7 @@ export const Analytics: FC = () => {
         </div>
         <div className={styles.container__bottom}>
           <TableTask mini={true} list={list} access={"Главный инженер"} />
-          <Task tasks={tasks} />
+          <Task tasksByDay={tasksByDay} />
           <CalendarComponent tasks={tasks} />
         </div>
       </div>

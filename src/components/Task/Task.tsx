@@ -17,7 +17,7 @@ import { formateDateShort } from "../../utils/utils-date";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 
 type ITask = {
-  tasks: Array<TTask>;
+  tasksByDay: Array<TTask>;
 };
 
 const sortData = (arr: Array<TTask>) => {
@@ -34,7 +34,7 @@ const sortData = (arr: Array<TTask>) => {
     });
 };
 
-export const Task: FC<ITask> = ({ tasks }) => {
+export const Task: FC<ITask> = ({ tasksByDay }) => {
   // console.log('from task.tsx    ', tasks);
   // tasks.filter((e) => {
   //               const date = new Date('2023-07-10T17:39:00.000Z')
@@ -69,14 +69,14 @@ export const Task: FC<ITask> = ({ tasks }) => {
   };
 
   useEffect(() => {
-    if (tasks.length != 0) {
-      const arr = [...tasks];
+    if (tasksByDay.length !== 0) {
+      const arr = [...tasksByDay];
       setTasksData(sortData(arr));
       setError(false);
     } else {
       setError(true);
     }
-  }, [tasks]);
+  }, [tasksByDay]);
 
   return (
     <section className={styles.container}>
@@ -89,7 +89,7 @@ export const Task: FC<ITask> = ({ tasks }) => {
         <ButtonCircle onClick={() => setPopupOpen(true)}/>
         <PopupAddTask
           title={"Задача"}
-          date={tasks.length > 0 ? formateDateShort(tasks[0].endDate) : ''}
+          date={tasksByDay.length > 0 ? formateDateShort(tasksByDay[0].endDate) : ''}
           isOpen={isPopupOpen}
           setOpen={setPopupOpen}
           onClick={createTask}

@@ -14,6 +14,8 @@ import {
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
 import { formateDateShort } from "../../utils/utils-date";
+import { TUpdateTask } from "../../types/TTask";
+import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 
 type ITask = {
   tasksByDay: Array<TTask>;
@@ -33,12 +35,16 @@ const sortData = (arr: Array<TTask>) => {
     });
 };
 
+
 export const Task: FC<ITask> = ({ tasksByDay }) => {
   // console.log('from task.tsx    ', tasks);
   // tasks.filter((e) => {
   //               const date = new Date('2023-07-10T17:39:00.000Z')
   //               if( new Date(e.endDate) < new Date(date)) console.log(e.endDate)
   //           })
+
+  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingList } = useAppSelector((state) => state.list);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [tasksData, setTasksData] = useState<Array<TTask>>([]);
   const [error, setError] = useState<boolean>(false);
@@ -49,7 +55,15 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
   };
 
   const changeCheckedHandle = (id: number, checked: boolean) => {
-    dispatch(updateTask(id, checked));
+    const newTask: TUpdateTask = {
+      id: id,
+      done: checked,
+      title: undefined,
+      status:undefined,
+      endDate: undefined,
+      description:undefined
+    }
+    dispatch(updateTask(newTask));
   };
 
   const createTask = (
@@ -77,6 +91,10 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
 
   return (
     <section className={styles.container}>
+      {isLoadingTask || isLoadingList ? (
+        <PreloaderBlock />
+      ) : (
+        <>
       <div className={styles.header}>
         <h2 className={styles.title}>Мой список задач</h2>
         <ButtonCircle onClick={() => setPopupOpen(true)}/>
@@ -100,6 +118,8 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
         </ul>
       ) : (
         <p className={styles.error}>Задач нет</p>
+      )}
+      </>
       )}
     </section>
   );

@@ -10,7 +10,7 @@ import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
-import { getUser } from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { getWork } from "../../services/slices/work";
 import { title } from "process";
 import { useNavigate } from "react-router";
@@ -28,22 +28,17 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
+  const [files, setFiles] = useState<any>()
   const { users } = useAppSelector((state) => state.user);
   const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getSample());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
-
-  useEffect(() => {
+    dispatch(getUsers());
     dispatch(getWork());
+    dispatch(getSample());
   }, []);
 
   useEffect(() => {
@@ -61,7 +56,13 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   }, [currentPage, data]);
 
   const addSampleTable = () => {
-    dispatch(addSample(inputOne, isWork, executor, textareaValue));
+    const worksID = isWork.map((item) => {
+      return item.id;
+    });
+    const executorID = executor.map((item) => {
+      return item.id;
+    });
+    dispatch(addSample(inputOne, worksID, executorID, textareaValue));
     deleteInput();
   };
 
@@ -97,11 +98,12 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             data={users}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue} />
+        <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles} />
         <div className={styles.button}>
           <BlockButton
             text={"Добавить"}
             onClick={addSampleTable}
+            disabled={inputOne === "" || isWork.length === 0}
           />
           <button className={styles.button_text} onClick={deleteInput}>
             Отменить
@@ -121,7 +123,10 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             </thead>
             <tbody>
               {currentData.map((item) => (
-                <tr className={styles.table} onClick={()=>navigate(`${item.id}`)}>
+                <tr
+                  className={styles.table}
+                  onClick={() => navigate(`${item.id}`)}
+                >
                   <td className={styles.table_row}>{item.title}</td>
                   <td className={styles.table_row}>{item.works.length}</td>
                   <td className={styles.block_avatar}>
@@ -151,11 +156,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             style={"blue"}
-            // pageSize={5}
-            // totalCount={20}
-            // currentPage={page}
-            // setCurrentPage={setPage}
-            // siblingCount={1}
           />
         </div>
       </div>

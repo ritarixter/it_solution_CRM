@@ -11,13 +11,7 @@ export const Sample: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const { isAuth, user } = useAppSelector((state) => state.user);
-  useEffect(() => {
-    if (isAuth) {
-      dispatch(getSample());
-    }else {
-      navigate("/login")
-    }
-  }, []);
+
   return (
     <div className={styles.block}>
       <HeaderTop />

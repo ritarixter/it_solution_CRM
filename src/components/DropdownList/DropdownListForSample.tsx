@@ -11,7 +11,6 @@ export type TDropdownList = {
   state: Array<TWorkAbdExecuter>;
   setState: (value: Array<TWorkAbdExecuter>) => void;
   name: string;
-  size?: "big" | "small";
 };
 
 export const DropdownListForSample: FC<TDropdownList> = ({
@@ -19,7 +18,6 @@ export const DropdownListForSample: FC<TDropdownList> = ({
   state,
   setState,
   name,
-  size,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<TWorkAbdExecuter>>([]);
@@ -67,7 +65,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
   useEffect(() => {
     if (state.length) {
       for (let i = 0; i < state.length; i++) {
-        setDefaultState([...defaultState, state[i].name])
+        setDefaultState([... defaultState, state[i].name])
       }
     }
   }, [state]);
@@ -83,7 +81,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
             setOpen(!open);
           }}
         >
-          {defaultState.length ? defaultState.join(", ") : "Выберите ..."}
+          {defaultState.length ? defaultState.join(", ") : <span className={styles.placeholder}>Выберите ...</span>}
         </span>
         <img
           src={arrow}

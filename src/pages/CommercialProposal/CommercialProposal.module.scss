@@ -35,7 +35,7 @@
   grid-template-columns: minmax(200px, 1fr) minmax(102px, 1fr) minmax(87px, 1fr) minmax(
       173px,
       1fr
-    ) minmax(150px, 1fr) 180px 40px;
+    ) minmax(150px, 1fr) 144px 144px 40px;
   width: 100%;
 
   & > th {
@@ -52,15 +52,15 @@
    opacity: 0.4;
   }
   & > .price {
-    justify-self: center;
+   // justify-self: center;
     text-overflow: ellipsis;
     white-space: nowrap; 
     overflow: hidden;
-    max-width: 180px;
+    max-width: 144px;
   }
 }
-  
 
+  
 thead > tr {
   &.row {
     cursor:default;

@@ -10,6 +10,7 @@ import { useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 import { MessagesPopup } from "../MessagesPupup/MessagesPupup";
 import { NotificationsPopup } from "../NotificationsPopup/NotificationsPopup";
+import { NotificationsBlock } from "../NotificationsBlock/NotificationsBlock";
 
 export const HeaderTop: FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -18,7 +19,10 @@ export const HeaderTop: FC = () => {
   const [openNotification, setIsOpenNotification] = useState<boolean>(false);
   return (
     <div className={styles.block}>
+      <div className={styles.block_help}>
       <Search />
+      <NotificationsBlock />
+      </div>
       {user ? (
         <div className={styles.block_users}>
           <div

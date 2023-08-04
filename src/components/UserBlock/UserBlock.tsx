@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styles from "./UserBlock.module.scss";
 import { AvatarDefault } from "../AvatarDefault/AvatarDefault";
+import { URL_BACKEND } from "../../utils/constants";
 
 type TUserBlock = {
   avatar?: string;
@@ -11,7 +12,7 @@ export const UserBlock: FC<TUserBlock> = ({ avatar, name, fullName=false }) => {
   return (
     <div className={styles.user}>
       {avatar ? (
-        <img className={styles.avatar} src={avatar} alt="Аватар пользователя" />
+        <img className={styles.avatar} src={`${URL_BACKEND}${avatar}`} alt="Аватар пользователя" />
       ) : (
         <AvatarDefault name={name} />
       )}

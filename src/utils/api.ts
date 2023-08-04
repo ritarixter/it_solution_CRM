@@ -1,3 +1,4 @@
+import { TFile } from "../types";
 import { IItem } from "../types/TItem";
 import { getCookie, setCookie } from "./cookies";
 
@@ -142,9 +143,9 @@ export function addTaskUserApi(
   }).then(responseCheck);
 }
 
-//Изменение статуса задачи на сделано/не сделано
+//Изменение статуса задачи 
 export function updateTaskUserApi(
-  id: number,
+  id?: number,
   done?: boolean,
   status?: string /*Срочно|Не срочно */,
   endDate?: Date,
@@ -176,7 +177,8 @@ export function addListApi(
   name: string,
   customer: string,
   INNCompany: string,
-  description?: string
+  description?: string,
+  files?:Array<TFile>
 ) {
   return fetch(`${URL}/list`, {
     method: "POST",
@@ -186,6 +188,7 @@ export function addListApi(
       customer: customer,
       INNCompany: INNCompany,
       description: description,
+      files: files
     }),
   }).then(responseCheck);
 }
@@ -279,6 +282,13 @@ export function getSampleApi() {
   }).then(responseCheck);
 }
 
+export function getSampleByIdApi(id: number) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "GET",
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
 // Добавление шаблона
 export function addSampleApi(
   title: string,
@@ -290,11 +300,39 @@ export function addSampleApi(
     method: "POST",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
-      users: users,
-      works: works,
+      usersId: users,
+      worksId: works,
       title: title,
       description: description,
     }),
+  }).then(responseCheck);
+}
+
+// Изменение шаблона
+export function updateSampleApi(
+  id: number,
+  title: string,
+  worksId: number[],
+  usersId?: number[],
+  description?: string,
+) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      title,
+      worksId,
+      usersId,
+      description,
+    }),
+  }).then(responseCheck);
+}
+
+// Удаление шаблона
+export function deleteSampleApi(id: number) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
 
@@ -378,5 +416,19 @@ export function addCommercialProposalApi(
       idList: idList,
       products: products,
     }),
+  }).then(responseCheck);
+}
+
+
+//---------------------------------------------------------------FILES-------------------------------------------------------------------------------
+
+// Получение всех работ
+export function uploadFiles(files:any) {
+  return fetch(`${URL}/upload`, {
+    method: "POST",
+   headers:{
+      Authorization: `Bearer ${getCookie("accessToken")}`,
+    },
+    body: files,
   }).then(responseCheck);
 }

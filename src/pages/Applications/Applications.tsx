@@ -11,9 +11,10 @@ import { Popup } from "../../components/Popup";
 import { Input } from "../../components/Input";
 import { addCompany, getCompanies } from "../../services/slices/company";
 import { TCompany } from "../../types";
-import { addList } from "../../services/slices/list";
+import { addList, getList } from "../../services/slices/list";
 import { validateEmail } from "../../utils/utils";
 import { Preloader } from "../../components/Preloader/Preloader";
+import { uploadFiles } from "../../utils/api";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -27,6 +28,7 @@ export const Applications: FC = () => {
   const [customer, setCustomer] = useState<string>("");
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [workNameValue, setWorkNameValue] = useState("");
+  const [workNameValueError, setWorkNameValueError] = useState<boolean>(false);
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -36,6 +38,13 @@ export const Applications: FC = () => {
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
+  const [files, setFiles] = useState<FormData>();
+
+  useEffect(() => {
+    workNameValue.length > 1 &&
+      workNameValue.length < 30 &&
+      setWorkNameValueError(false);
+  }, [workNameValue]);
 
   useEffect(() => {
     if (right) {
@@ -98,13 +107,26 @@ export const Applications: FC = () => {
   };
 
   const handleClickAddList = () => {
-    dispatch(
-      addList(workNameValue, customer, currentCompany?.INN, textareaValue)
-    );
-    setCurrentCompany(undefined);
-    setTextareaValue("");
-    setCustomer("");
-    setWorkNameValue("");
+    if (workNameValue.length > 1 && workNameValue.length < 30) {
+      uploadFiles(files).then((res) => {
+        dispatch(
+          addList(
+            workNameValue,
+            customer,
+            currentCompany?.INN,
+            textareaValue,
+            res
+          )
+        );
+      });
+
+      setCurrentCompany(undefined);
+      setTextareaValue("");
+      setCustomer("");
+      setWorkNameValue("");
+    } else {
+      setWorkNameValueError(true);
+    }
   };
 
   return (
@@ -179,6 +201,8 @@ export const Applications: FC = () => {
                           text={"Кодовое имя"}
                           value={workNameValue}
                           setValue={setWorkNameValue}
+                          error={workNameValueError}
+                          errorText={"Длина от 2 до 30 символов"}
                         />
                       </div>
                       <div className={styles.manager__input}>
@@ -194,12 +218,13 @@ export const Applications: FC = () => {
                         <BlockComments
                           value={textareaValue}
                           setValue={setTextareaValue}
+                          setFiles={setFiles}
                         />
                       </div>
                     </div>
                     <div className={styles.manager__buttons}>
                       <BlockButton
-                        text={"Добавить"}
+                        text={"Сохранить"}
                         disabled={
                           customer === "" ||
                           workNameValue === "" ||
@@ -207,6 +232,7 @@ export const Applications: FC = () => {
                         }
                         onClick={handleClickAddList}
                       />
+
                       <p
                         className={styles.cancel}
                         onClick={() => {

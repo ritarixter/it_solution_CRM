@@ -15,12 +15,11 @@ import { Popup } from "../../../components/Popup";
 import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import {
-  addCompany,
   getCompanies,
   updateCompany,
 } from "../../../services/slices/company";
 import { validateEmail } from "../../../utils/utils";
-import { deleteList, updateList } from "../../../services/slices/list";
+import { deleteList, getList, updateList } from "../../../services/slices/list";
 
 type TCurrentList = {
   id: number;
@@ -62,6 +61,7 @@ export const ApplicationsItem: FC = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [INNValue, setINNValue] = useState("");
+  const [files, setFiles] = useState<FormData>()
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
@@ -83,6 +83,7 @@ export const ApplicationsItem: FC = () => {
     INN: "",
     email: "",
   });
+
 
   //Выпадающий список
   useEffect(() => {
@@ -309,6 +310,7 @@ export const ApplicationsItem: FC = () => {
             </div>
             <div className={styles.manager__textarea}>
               <BlockComments
+              setFiles={setFiles}
                 value={textareaValue}
                 setValue={setTextareaValue}
               />

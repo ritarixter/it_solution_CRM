@@ -64,18 +64,6 @@ export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
-export const getTaskByDate: AppThunk =
-  (date: Date) => (dispatch: AppDispatch) => {
-    dispatch(setLoading(true));
-    getTaskByDateApi(date)
-      .then((res) => {
-        console.log("from task.ts   ", res);
-        dispatch(setTasks(res));
-      })
-      .catch((err) => {
-        dispatch(setError(true));
-        dispatch(getTask()); // ВРЕМЕННЫЙ КОСТЫЛЬ
-
 export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   getTaskByDateApi(date)

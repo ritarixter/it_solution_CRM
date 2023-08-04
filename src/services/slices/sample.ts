@@ -3,7 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, AppThunk } from "../store";
 import { TSample } from "../../types";
-import { addSampleApi, getSampleApi } from "../../utils/api";
+import {
+  addSampleApi,
+  deleteSampleApi,
+  getSampleApi,
+  updateSampleApi,
+} from "../../utils/api";
+import { TSampleUpdate } from "../../types/TSample";
 
 interface sampleState {
   samples: Array<TSample>;
@@ -58,6 +64,44 @@ export const addSample: AppThunk =
     dispatch(setLoading(true));
     addSampleApi(title, works, users, description)
       .then((res) => {
+        dispatch(getSample());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+export const updateSample: AppThunk =
+  (sample: TSampleUpdate) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    updateSampleApi(
+      sample.id,
+      sample.title,
+      sample.works,
+      sample.users,
+      sample.description
+    )
+      .then((res) => {
+        dispatch(setError(false));
+        dispatch(getSample());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+export const deleteSample: AppThunk =
+  (id: number) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    deleteSampleApi(id)
+      .then((res) => {
+        dispatch(setError(false));
         dispatch(getSample());
       })
       .catch((err) => {

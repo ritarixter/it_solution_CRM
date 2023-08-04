@@ -8,9 +8,6 @@ export type TDropdownList = {
   state: string;
   setState: (value: string) => void;
   name: string;
-  size?: "big" | "small";
-  selected?: Array<string>;
-  setSelected?: (value: Array<string>) => void;
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -18,9 +15,6 @@ export const DropdownList: FC<TDropdownList> = ({
   state,
   setState,
   name,
-  size,
-  // selected,
-  // setSelected,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<string>>([])
@@ -53,7 +47,6 @@ export const DropdownList: FC<TDropdownList> = ({
         setSelected([...selected, data[index].name]);
         setState(textForState(data[index].name));
       }
-      console.log(inSelected);
     }
   };
 
@@ -69,7 +62,6 @@ export const DropdownList: FC<TDropdownList> = ({
   };
 
   useEffect(() => {
-    // console.log(selected);
   }, [selected, inSelected]);
 
   return (

@@ -282,6 +282,13 @@ export function getSampleApi() {
   }).then(responseCheck);
 }
 
+export function getSampleByIdApi(id: number) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "GET",
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
 // Добавление шаблона
 export function addSampleApi(
   title: string,
@@ -293,11 +300,39 @@ export function addSampleApi(
     method: "POST",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
-      users: users,
-      works: works,
+      usersId: users,
+      worksId: works,
       title: title,
       description: description,
     }),
+  }).then(responseCheck);
+}
+
+// Изменение шаблона
+export function updateSampleApi(
+  id: number,
+  title: string,
+  worksId: number[],
+  usersId?: number[],
+  description?: string,
+) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify({
+      title,
+      worksId,
+      usersId,
+      description,
+    }),
+  }).then(responseCheck);
+}
+
+// Удаление шаблона
+export function deleteSampleApi(id: number) {
+  return fetch(`${URL}/plan/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
 

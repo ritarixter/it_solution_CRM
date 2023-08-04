@@ -9,6 +9,8 @@ import { TList } from "../../types";
 import { Link } from "react-router-dom";
 import { DownloadTableExcel, downloadExcel } from "react-export-table-to-excel";
 import { formateDate } from "../../utils/utils-date";
+import { useAppSelector } from "../../services/hooks";
+import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 
 type TTableTask = {
   mini: boolean;
@@ -21,6 +23,8 @@ function addSevenDay(date = new Date()) {
   return date;
 }
 export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
+  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingList } = useAppSelector((state) => state.list);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
@@ -98,6 +102,10 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
 
   return (
     <section className={`${styles.container} ${mini && styles.mini}`}>
+      {isLoadingTask || isLoadingList ? (
+        <PreloaderBlock />
+      ) : (
+        <>
       <div>
         <div className={styles.header}>
           <h2 className={styles.title}>
@@ -162,6 +170,8 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
           style={mini ? "blue" : undefined}
         />
       </div>
+      </>
+      )}
     </section>
   );
 };

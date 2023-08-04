@@ -14,7 +14,11 @@ import {
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
 import { formateDateShort } from "../../utils/utils-date";
+<<<<<<< HEAD
 import { TUpdateTask } from "../../types/TTask";
+=======
+import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
+>>>>>>> cff02bbd5eb7c65eda5cc780b1d8592978857dd4
 
 type ITask = {
   tasksByDay: Array<TTask>;
@@ -43,7 +47,12 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
   //               const date = new Date('2023-07-10T17:39:00.000Z')
   //               if( new Date(e.endDate) < new Date(date)) console.log(e.endDate)
   //           })
+<<<<<<< HEAD
 >>>>>>> 50cd49d2f2363ea25349f1032405c29bd43c47d8
+=======
+  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingList } = useAppSelector((state) => state.list);
+>>>>>>> cff02bbd5eb7c65eda5cc780b1d8592978857dd4
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [tasksData, setTasksData] = useState<Array<TTask>>([]);
   const [error, setError] = useState<boolean>(false);
@@ -90,6 +99,10 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
 
   return (
     <section className={styles.container}>
+      {isLoadingTask || isLoadingList ? (
+        <PreloaderBlock />
+      ) : (
+        <>
       <div className={styles.header}>
         <h2 className={styles.title}>Мой список задач</h2>
         <ButtonCircle onClick={() => setPopupOpen(true)}/>
@@ -113,6 +126,8 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
         </ul>
       ) : (
         <p className={styles.error}>Задач нет</p>
+      )}
+      </>
       )}
     </section>
   );

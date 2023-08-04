@@ -7,6 +7,10 @@
   align-items: center;
   margin-top: 25px;
 
+  &_help {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .block_users {

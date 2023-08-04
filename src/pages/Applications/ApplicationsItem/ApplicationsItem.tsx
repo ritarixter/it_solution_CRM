@@ -61,7 +61,7 @@ export const ApplicationsItem: FC = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [INNValue, setINNValue] = useState("");
-  const [files, setFiles] = useState<any>()
+  const [files, setFiles] = useState<FormData>()
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);

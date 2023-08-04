@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./Diagram.module.scss";
 import { TList } from "../../types";
+import { useAppSelector } from "../../services/hooks";
+import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 
 
 type TDiagram = {
@@ -9,7 +11,8 @@ type TDiagram = {
 
 
 export const Diagram: FC<TDiagram> = ({list}) => {
-
+  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingList } = useAppSelector((state) => state.list);
   const [applicationCount, setApplicationCount] = useState<number>(0);
   const [firstCircle, setFirstCircle] = useState<number>(0);
   const [secondCircle, setSecondCircle] = useState<number>(0);
@@ -51,6 +54,10 @@ export const Diagram: FC<TDiagram> = ({list}) => {
 
   return (
     <div className={styles.block}>
+      {isLoadingTask || isLoadingList ? (
+        <PreloaderBlock />
+      ) : (
+        <>
       <div className={styles.legend}>
         <h2 className={styles.title}>Заявки</h2>
         <strong className={styles.application}>{applicationCount}</strong>
@@ -63,6 +70,8 @@ export const Diagram: FC<TDiagram> = ({list}) => {
       <div className={styles.CircleFunc}>
         {CircleFunc()}
       </div>
+      </>
+      )}
     </div>
   );
 };

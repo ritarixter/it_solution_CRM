@@ -7,6 +7,7 @@ import { getListByIdApi } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
+import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
 import { getList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 
@@ -104,6 +105,7 @@ export const ApplicationsItemTree: FC = () => {
               />
             )}
           </div>
+          <ApplicationTree />
         </section>
       </div>
     </Wrapper>

@@ -32,7 +32,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
   const pageSize = 5;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getSample());
@@ -61,7 +61,13 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   }, [currentPage, data]);
 
   const addSampleTable = () => {
-    dispatch(addSample(inputOne, isWork, executor, textareaValue));
+    const worksID = isWork.map((item) => {
+      return item.id;
+    });
+    const executorID = executor.map((item) => {
+      return item.id;
+    });
+    dispatch(addSample(inputOne, worksID, executorID, textareaValue));
     deleteInput();
   };
 
@@ -71,7 +77,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
     setExecutor([]);
     setTextareaValue("");
   };
-  console.log(isWork);
 
   return (
     <div className={styles.sample}>
@@ -103,6 +108,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
           <BlockButton
             text={"Добавить"}
             onClick={addSampleTable}
+            disabled={inputOne === "" || isWork.length === 0}
           />
           <button className={styles.button_text} onClick={deleteInput}>
             Отменить
@@ -122,7 +128,10 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             </thead>
             <tbody>
               {currentData.map((item) => (
-                <tr className={styles.table} onClick={()=>navigate(`${item.id}`)}>
+                <tr
+                  className={styles.table}
+                  onClick={() => navigate(`${item.id}`)}
+                >
                   <td className={styles.table_row}>{item.title}</td>
                   <td className={styles.table_row}>{item.works.length}</td>
                   <td className={styles.block_avatar}>
@@ -152,11 +161,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             style={"blue"}
-            // pageSize={5}
-            // totalCount={20}
-            // currentPage={page}
-            // setCurrentPage={setPage}
-            // siblingCount={1}
           />
         </div>
       </div>

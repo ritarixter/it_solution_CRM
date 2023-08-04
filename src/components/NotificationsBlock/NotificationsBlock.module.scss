@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+
+.box {
+  width: 288px;
+  min-height: 48px;
+  background-color: $notifyColor;
+  border-radius: 10px;
+  padding-top: 14px;
+  padding-left: 23px;
+  margin-left: 20px;
+
+  &_text {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: $thirdColor;
+    margin: 0;
+  }
+}

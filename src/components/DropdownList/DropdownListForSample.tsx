@@ -11,7 +11,6 @@ export type TDropdownList = {
   state: Array<TWorkAbdExecuter>;
   setState: (value: Array<TWorkAbdExecuter>) => void;
   name: string;
-  size?: "big" | "small";
 };
 
 export const DropdownListForSample: FC<TDropdownList> = ({
@@ -19,7 +18,6 @@ export const DropdownListForSample: FC<TDropdownList> = ({
   state,
   setState,
   name,
-  size,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<TWorkAbdExecuter>>([]);
@@ -68,7 +66,6 @@ export const DropdownListForSample: FC<TDropdownList> = ({
     if (state.length) {
       for (let i = 0; i < state.length; i++) {
         setDefaultState([... defaultState, state[i].name])
-        console.log(defaultState);
       }
     }
   }, [state]);

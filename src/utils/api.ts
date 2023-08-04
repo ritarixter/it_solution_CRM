@@ -297,8 +297,8 @@ export function addSampleApi(
     method: "POST",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
-      users: users,
-      works: works,
+      usersId: users,
+      worksId: works,
       title: title,
       description: description,
     }),
@@ -309,8 +309,8 @@ export function addSampleApi(
 export function updateSampleApi(
   id: number,
   title: string,
-  works: number[],
-  users?: number[],
+  worksId: number[],
+  usersId?: number[],
   description?: string,
 ) {
   return fetch(`${URL}/plan/${id}`, {
@@ -318,8 +318,8 @@ export function updateSampleApi(
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
       title,
-      works,
-      users,
+      worksId,
+      usersId,
       description,
     }),
   }).then(responseCheck);

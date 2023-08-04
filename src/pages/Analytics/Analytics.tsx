@@ -34,9 +34,6 @@ export const Analytics: FC = () => {
   return (
 
     <Wrapper>
-          {/* {isLoadingTask || isLoadingList ? 
-    <Preloader/>
-: */}
 <>
       <HeaderTop />
       <div className={styles.container}>
@@ -69,8 +66,6 @@ export const Analytics: FC = () => {
         </div>
       </div>
       </>
-        {/* } */}
     </Wrapper>
-
   );
 };

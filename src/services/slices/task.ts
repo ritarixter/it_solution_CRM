@@ -10,6 +10,7 @@ import {
   updateTaskUserApi,
 } from "../../utils/api";
 import { TTask } from "../../types";
+import { TUpdateTask } from "../../types/TTask";
 
 interface tasksState {
   tasks: Array<TTask>;
@@ -57,24 +58,24 @@ export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
+export const getTaskByDate: AppThunk =
+  (date: Date) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    getTaskByDateApi(date)
+      .then((res) => {
+        console.log("from task.ts   ", res);
+        dispatch(setTasks(res));
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+        dispatch(getTask()); // ВРЕМЕННЫЙ КОСТЫЛЬ
 
-export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
-  getTaskByDateApi(date)
-    .then((res) => {
-      console.log('from task.ts   ' ,res);
-      dispatch(setTasks(res));
-    })
-    .catch((err) => {
-      dispatch(setError(true));
-      dispatch(getTask());      // ВРЕМЕННЫЙ КОСТЫЛЬ
-  
-      console.log(err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-};
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
 
 export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
@@ -92,18 +93,17 @@ export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
 };
 
 export const updateTask: AppThunk =
-  (
-    id: number,
-    done?: boolean,
-    status?: string /*Срочно|Не срочно */,
-    endDate?: Date,
-    title?: string,
-    description?: string
-  ) =>
-  (dispatch: AppDispatch) => {
+  (task: TUpdateTask) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
 
-    updateTaskUserApi(id, done, status, endDate, title, description)
+    updateTaskUserApi(
+      task.id,
+      task.done,
+      task.status,
+      task.endDate,
+      task.title,
+      task.description
+    )
       .then((res) => {
         dispatch(getTask());
       })

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { formateDateShort } from "../../../utils/utils-date";
 import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
 import { useNavigate } from "react-router";
+import { FileIcon } from "../../File/FileIcon";
 
 export type TTableTaskItem = {
   item: TList;
@@ -106,7 +107,12 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
           <td key={uuidv4()}>
             <WorkProgressBar />
           </td>
-          <td key={uuidv4()}>Файлы</td>
+          <td key={uuidv4()}>
+
+          {item.files ? item.files.map((file) => (
+              <FileIcon name={file.name} url={file.url} />
+            )) : 'Файлов нет'}
+          </td>
         </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}

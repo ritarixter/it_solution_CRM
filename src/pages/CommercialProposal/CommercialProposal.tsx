@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./CommercialProposal.module.scss";
-
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../components";
@@ -8,18 +7,18 @@ import { CommercialProposalItem } from "./CommercialProposalItem/CommercialPropo
 import { titles } from "./constants";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { IItem } from "../../types/TItem";
 import { addCommercialProposalApi } from "../../utils/api";
 import { Input } from "../../components/Input";
 
 export const CommercialProposal: FC = () => {
-  const { user, isLoadingUser } = useAppSelector((state) => state.user);
+  const { isLoadingUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
-
   const [items, setItems] = useState<Array<IItem>>([
     {
       id: 0,
@@ -30,22 +29,29 @@ export const CommercialProposal: FC = () => {
       actualPrice: 0,
       date: "",
       totalPrice: 0,
+      marginalityPrice: 0
     },
   ]);
   const [currentItem, setCurrentItem] = useState<IItem>(items[0]);
   const [count, setCount] = useState<number>(1);
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
+  const [errorItem, setErrorItem] = useState<boolean>(false);
   const handleClickCreateCP = () => {
     if (name.length > 30 || name.length < 2) {
       setNameError(true);
     } else {
       setNameError(false);
-      addCommercialProposalApi("КП2", 2, items).then((res) => {
+      addCommercialProposalApi(name, id_list, items).then((res) => {
         console.log(res);
+        navigate(-1)
       });
     }
   };
+
+  useEffect(()=> {
+    (name.length < 30 || name.length > 2) && setNameError(false)
+  },[name])
 
   const dropHandler = (e: any, item: IItem) => {
     e.preventDefault();
@@ -108,6 +114,7 @@ export const CommercialProposal: FC = () => {
                 {count > 0 ? (
                   items.map((item) => (
                     <CommercialProposalItem
+                      setError={setErrorItem}
                       item={item}
                       setCurrentItem={setCurrentItem}
                       dropHandler={dropHandler}
@@ -139,6 +146,7 @@ export const CommercialProposal: FC = () => {
                     actualPrice: 0,
                     date: "",
                     totalPrice: 0,
+                    marginalityPrice: 0
                   })
                 );
               }}
@@ -148,7 +156,7 @@ export const CommercialProposal: FC = () => {
             <div className={styles.buttons}>
               <BlockButton
                 text={"Сохранить"}
-                disabled={false}
+                disabled={errorItem}
                 onClick={handleClickCreateCP}
               />
               <p
@@ -165,6 +173,7 @@ export const CommercialProposal: FC = () => {
                       actualPrice: 0,
                       date: "",
                       totalPrice: 0,
+                      marginalityPrice: 0
                     },
                   ]);
                 }}

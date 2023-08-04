@@ -1,15 +1,22 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./BlockComments.module.scss";
 import clip from "../../images/icons/clip.svg";
 import close from "../../images/icons/close.svg";
+import JustValidate from "just-validate";
 
 type TBlockComments = {
   value: string;
   setValue: (value: string) => void;
+  setFiles: (value: FormData) => void;
 };
 
-export const BlockComments: FC<TBlockComments> = ({ value, setValue }) => {
-  const [file, setFile] = useState<FileList | null>(null);
+export const BlockComments: FC<TBlockComments> = ({
+  value,
+  setValue,
+  setFiles,
+}) => {
+
+  const [currentfiles, setCurrentFiles] = useState<File[]>([]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -20,19 +27,29 @@ export const BlockComments: FC<TBlockComments> = ({ value, setValue }) => {
       return;
     }
 
-    setFile(e.target.files);
+    //setFile(e.target.files);
+    setCurrentFiles([...e.target.files])
 
-    const data = new FormData();
-    files.forEach((file, i) => {
-      data.append(`file-${i}`, file, file.name);
-    });
+    let data = new FormData();
+
+    for (let i = 0; i < e.target.files.length; i++) {
+      data.append("media", e.target.files[i]);
+    }
+
+    setFiles(data);
   };
 
-  const files = file ? [...file] : [];
+/*   useEffect(() => {
+    setCurrentFiles(file ? [...file] : []);
+  }, [file]); */
 
   const deleteFile = (i: any) => {
-    files.splice(i, 1);
-    console.log(i);
+    const newFiles = [...currentfiles];
+    if(newFiles.length === 1) {
+      setCurrentFiles([]);
+    } else {
+      setCurrentFiles(newFiles.splice(i, 1));
+    }
   };
 
   return (
@@ -47,35 +64,36 @@ export const BlockComments: FC<TBlockComments> = ({ value, setValue }) => {
       />
       <div className={styles.input_wrapper}>
         <input
+          accept=".jpg,.jpeg,.png"
           type="file"
           className={styles.input__file}
           id="input__file"
           multiple
           onChange={handleFileChange}
         />
-        {file && files.length === 5 ? (
-          files.map((i) => (
+        {currentfiles && currentfiles.length === 5 ? (
+          currentfiles.map((i, index) => (
             <div className={styles.files}>
               <div className={styles.files_icon}>
                 <p className={styles.files_title}>{i.name}</p>
                 <img
                   src={close}
                   alt={"Закрыть"}
-                  onClick={(e) => deleteFile(0)}
+                  onClick={(e) => deleteFile(index)}
                 />
               </div>
             </div>
           ))
-        ) : file && files.length < 5 ? (
+        ) : currentfiles && currentfiles.length < 5 ? (
           <div>
-            {files.map((i) => (
+            {currentfiles.map((i, index) => (
               <div className={styles.files}>
                 <div className={styles.files_icon}>
                   <p className={styles.files_title}>{i.name}</p>
                   <img
                     src={close}
                     alt={"Закрыть"}
-                    onClick={(e) => deleteFile(0)}
+                    onClick={(e) => deleteFile(index)}
                   />
                 </div>
               </div>

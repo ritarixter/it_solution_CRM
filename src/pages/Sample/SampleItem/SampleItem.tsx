@@ -19,22 +19,16 @@ export const SampleItem: FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [textareaValue, setTextareaValue] = useState<string>("");
     const [inputOne, setInputOne] = useState("");
+    const [files,setFiles]=useState<any>()
     const { users } = useAppSelector((state) => state.user);
     const { works } = useAppSelector((state) => state.work);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getSample());
-      }, []);
-    
-      useEffect(() => {
+        dispatch(getWork());
         dispatch(getUser());
       }, []);
     
-      useEffect(() => {
-        dispatch(getWork());
-      }, []);
-
       const handleUpdateSample = () => {
         console.log('click');
       }
@@ -92,7 +86,7 @@ export const SampleItem: FC = () => {
             data={users}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue} />
+        <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles}/>
         <div className={styles.button}>
           <BlockButton
             text={"Изменить"}

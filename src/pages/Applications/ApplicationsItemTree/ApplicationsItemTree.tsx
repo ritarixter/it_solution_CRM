@@ -7,6 +7,8 @@ import { getListByIdApi } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
+import { getList } from "../../../services/slices/list";
+import { FileIcon } from "../../../components/File/FileIcon";
 
 export const ApplicationsItemTree: FC = () => {
   const location = useLocation();
@@ -14,12 +16,17 @@ export const ApplicationsItemTree: FC = () => {
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
   const id_list = Number(location.pathname.slice(14));
+  const dispatch = useAppDispatch();
   //Получение информации о текущей заявке
   useEffect(() => {
     getListByIdApi(id_list).then((res) => {
       setCurrentList(res);
     });
   }, [list]);
+
+  useEffect(() => {
+    dispatch(getList());
+  }, []);
 
   return (
     <Wrapper>
@@ -68,29 +75,38 @@ export const ApplicationsItemTree: FC = () => {
           <div className={styles.blockInf}>
             <span>Статус: </span>
             <StatusBlock
-              type={currentList?.status ? currentList.status : "Не назначен"}
+              type={currentList?.status ? currentList.status : null}
             />
           </div>
           <div className={styles.blockInf}>
             <span>Важность: </span>
             <ImpotanceBlock
-              type={
-                currentList?.importance
-                  ? currentList.importance
-                  : "Не назначена"
-              }
+              type={currentList?.importance ? currentList.importance : null}
             />
           </div>
-          <div className={styles.blockText}>files</div>
+          <div className={styles.filesContainer}>
+            {currentList?.files ? currentList.files.map((file) => (
+              <FileIcon name={file.name} url={file.url} />
+            )) : null}
+          </div>
         </div>
         <section className={styles.tree}>
           <div className={styles.buttonCreate}>
-            <BlockButton
-              text={"Создать КП"}
-              onClick={() => {
-                navigate(`/commercial-proposal/${id_list}`);
-              }}
-            />
+            {currentList?.commercialProposal ? (
+              <BlockButton
+                text={"Изменить КП"}
+                onClick={() => {
+                  // navigate(`/commercial-proposal/${id_list}`);
+                }}
+              />
+            ) : (
+              <BlockButton
+                text={"Создать КП"}
+                onClick={() => {
+                  navigate(`/commercial-proposal/${id_list}`);
+                }}
+              />
+            )}
           </div>
         </section>
       </div>

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
-import { TList } from "../../types";
+import { TFile, TList } from "../../types";
 import {
   addListApi,
   deleteListApi,
@@ -59,10 +59,10 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 export const addList: AppThunk =
-  (name: string, customer: string, INNCompany: string, description?: string) =>
+  (name: string, customer: string, INNCompany: string, description?: string, files?: Array<TFile>) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    addListApi(name, customer, INNCompany, description)
+    addListApi(name, customer, INNCompany, description, files)
       .then((res) => {
         dispatch(getList());
       })

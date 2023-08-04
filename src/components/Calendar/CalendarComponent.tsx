@@ -16,7 +16,6 @@ export type TCalendar = {
 export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
 
     // const [dateValue, setDateValue] = useState("")
-
     const [task, setTask] = useState<Array<TTask>>([])
     const dispatch = useAppDispatch();
 

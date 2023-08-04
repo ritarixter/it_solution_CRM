@@ -27,6 +27,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
+  const [files, setFiles] = useState<any>()
   const { users } = useAppSelector((state) => state.user);
   const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
@@ -96,7 +97,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             data={users}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue} />
+        <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles} />
         <div className={styles.button}>
           <BlockButton
             text={"Добавить"}

@@ -9,12 +9,10 @@ import { TTask } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
 import { useAppDispatch } from "../../../services/hooks";
-<<<<<<< HEAD
-import { updateTask } from "../../../services/slices/task";
 import { TUpdateTask } from "../../../types/TTask";
-=======
 import { getTaskByDate, updateTask } from "../../../services/slices/task";
->>>>>>> 50cd49d2f2363ea25349f1032405c29bd43c47d8
+
+
 interface IItem {
   task: TTask;
   handleDelete: (id: number) => void;

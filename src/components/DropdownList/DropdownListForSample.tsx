@@ -34,6 +34,11 @@ export const DropdownListForSample: FC<TDropdownList> = ({
             return currentWork.id !== data[index].id;
           })
         );
+        setDefaultState(
+          defaultState.filter((currentWorkName) => {
+            return currentWorkName !== data[index].name;
+          })
+        )
         if (selected.length - 1 > 0) {
           setState(
             selected.filter((currentWork) => {
@@ -48,7 +53,9 @@ export const DropdownListForSample: FC<TDropdownList> = ({
       // setSelectedWorks([...selectedWorks,data[index].id, data[index].name])
       setSelected([...selected, {id: data[index].id, name: data[index].name}]);
       setState([...selected, {id: data[index].id, name: data[index].name}]);
+      setDefaultState([...defaultState, data[index].name])
     }
+    console.log(defaultState);
   };
 
   // const textForState = (selectedWorks: string) => {
@@ -63,12 +70,12 @@ export const DropdownListForSample: FC<TDropdownList> = ({
   // };
 
   useEffect(() => {
-    if (state.length) {
-      for (let i = 0; i < state.length; i++) {
-        setDefaultState([... defaultState, state[i].name])
-      }
-    }
-  }, [state]);
+    // if (selected.length) {
+    //   for (let i = 0; i < selected.length; i++) {
+    //     setDefaultState([...defaultState, selected[i].name])
+    //   }
+    // }
+  }, [selected, state]);
 
   return (
     <div className={styles.dropdownList}>

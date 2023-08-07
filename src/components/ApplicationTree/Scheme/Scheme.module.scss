@@ -1,201 +1,275 @@
 @import "../../../styles/variables.scss";
 
-* {margin: 0; padding: 0;}
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.scheme {
+	position: relative;
+
+}
 
 .tree ul {
-	padding-top: 20px; 
-    position: relative;
+	width: 100%;
+	padding-top: 50px;
+	position: relative;
 	display: flex;
-    flex-direction: row;
+	justify-content: space-between;
+	flex-direction: row;
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
 
 .tree li {
-	float: right; 
-    text-align: center;
+	float: right;
+	text-align: center;
 	list-style-type: none;
 	position: relative;
-	padding: 20px 5px 0 5px;
-	
+	padding: 50px 10px 0;
+	width: 100%;
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
 
-
-.tree li::before, .tree li::after{
-	content: '';
-	position: absolute; 
-    top: 0; 
-    right: 50%;
-	border-top: 1px solid $schemeBorder;
-	width: 50%; 
-    height: 19px;
+.info {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
-.tree li::after{
-	right: auto; 
-    left: 50%;
+
+.info img {
+	position: absolute;
+	right: calc(50% - 90px);
+	top: -40px;
+}
+
+.priority {
+	width: 145px;
+	margin-top: 4px;
+	border-radius: 4px;
+	background: rgba(250, 118, 22, 0.10);
+	color: #F47633;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	letter-spacing: -0.14px;
+}
+
+.deadline {
+	width: 145px;
+	margin-top: 4px;
+	border-radius: 4px;
+	background: #E0E6FF;
+	color: #3B9ACD;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	letter-spacing: -0.14px;
+}
+
+.gotToWork {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.tree li::before,
+.tree li::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 50%;
+	border-top: 1px solid $schemeBorder;
+	width: 50%;
+	height: 49px;
+}
+
+.tree li::after {
+	right: auto;
+	left: 50%;
 	border-left: 1px solid $schemeBorder;
 }
 
-.tree li:only-child::after, .tree li:only-child::before {
+.tree li:only-child::after,
+.tree li:only-child::before {
 	display: none;
 }
 
-.tree li:only-child{ 
-    padding-top: 0;
+.tree li:only-child {
+	padding-top: 0;
 }
 
-.tree li + ul li {
-    // width: 1200px;
+.tree li+ul li {
+	// width: 1200px;
 }
 
-.tree li:first-child::before, .tree li:last-child::after{
+.tree li:first-child::before,
+.tree li:last-child::after {
 	border: 0 none;
 }
-.tree li:last-child::before{
+
+.tree li:last-child::before {
 	border-right: 1px solid $schemeBorder;
 	border-radius: 0 5px 0 0;
 	-webkit-border-radius: 0 5px 0 0;
 	-moz-border-radius: 0 5px 0 0;
 }
-.tree li:first-child::after{
+
+.tree li:first-child::after {
 	border-radius: 5px 0 0 0;
 	-webkit-border-radius: 5px 0 0 0;
 	-moz-border-radius: 5px 0 0 0;
 }
 
-.tree ul ul::before{
+.tree ul ul::before {
 	content: '';
-	position: absolute; 
-    top: 0; 
-    left: 50%;
+	position: absolute;
+	top: 0;
+	left: 50%;
 	border-left: 1px solid $schemeBorder;
-	width: 0; 
-    height: 20px;
+	width: 0;
+	height: 50px;
 }
 
-.tree li a{
-    min-width: 144px;
-    height: 40px;
+.tree li a {
+	border-radius: 5px;
+	min-width: 138px;
+	height: 40px;
 	padding: 10px 10px;
 	text-decoration: none;
-    background-color: $mainColor;
+	background-color: $mainColor;
 	color: $thirdColor;
-	font-size: 14px;
+	font-size: 13px;
 	display: inline-block;
-	
+	white-space: nowrap;
+
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
 
-.tree li a + ul li a + ul li a {
-    height: 72px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 144px;
-    margin: 0 40px 0 40px;
-}
 
-.tree li a:hover, .tree li a:hover+ul li a {
+// .tree ul li a + ul li a + ul li a{
+//     height: 72px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     max-width: 144px;
+//     margin: auto;
+// }
+
+.tree li a:hover,
+.tree li a:hover+ul li a {
 	opacity: 0.8;
-    border: 1px solid $mainColor;
+	border: 0px solid $mainColor;
 }
 
-.tree li a:hover+ul li::after, 
-.tree li a:hover+ul li::before, 
-.tree li a:hover+ul::before, 
-.tree li a:hover+ul ul::before{
-	border-color:  #94a0b4;
+.tree li a:hover+ul li::after,
+.tree li a:hover+ul li::before,
+.tree li a:hover+ul::before,
+.tree li a:hover+ul ul::before {
+	border-color: #94a0b4;
+}
+
+
+.acsynya a {
+	position: absolute;
+	top: 0;
+	margin: 50px 0 0 50px;
+	border-radius: 5px;
+	min-width: 144px;
+	height: 40px;
+	text-decoration: none;
+	background-color: $bgNullColor;
+	color: $nullColor;
+	font-size: 13px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.colorInfo {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 50px 0 0 50px;
+	padding-left: 26px;
+	list-style: none;
+
+	&_item {
+		position: relative;
+		margin: 5px 0;
+		padding-left: 30px;
+		line-height: 18px;
+		color: #828690;
+		cursor: pointer;
+	}
+
+	&_item:hover {
+		opacity: 0.8;
+	}
+
+	&_item::before {
+		content: "";
+		position: absolute;
+		top: 2px;
+		left: -10px;
+
+		width: 30px;
+		height: 14px;
+
+		border-radius: 3px;
+	}
+
+	&_item:nth-child(1)::before {
+		background-color: $mainColor;
+	}
+
+	&_item:nth-child(2)::before {
+		background-color: $statusDoColor;
+	}
+
+	&_item:nth-child(3)::before {
+		background-color: $bgNullColor;
+	}
+
+	& li {
+		list-style-type: none;
+	}
 }
 
 
 
-// .scheme {
-//     display: flex;
-//     max-width: 660px;
-//     height: 600px;
-//     width: 100%;
-//     justify-content: center;
-// }
 
-// .main_manager {
 
-// }
-// .manager {
-//     display: flex;
-//     width: 144px;
-//     height: 40px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-//     margin-right: 47.5px;
-// }
+.tree .mainEng a,
+.tree .deputyEng a,
+.tree .secondEng a {
+	background-color: $statusDoColor;
+	color: $progressBar;
+}
 
-// .enginer {
-//     display: flex;
-//     width: 144px;
-//     height: 40px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-//     margin-right: 210px;
-// }
 
-// .rightBlock {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-// }
-
-// .purchasing {
-//     display: flex;
-//     width: 144px;
-//     height: 72px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-// }
-
-// .projectDep {
-//     display: flex;
-//     width: 144px;
-//     height: 72px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-// }
-
-// .legal {
-//     display: flex;
-//     width: 144px;
-//     height: 72px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-// }
-
-// .brigade {
-//     display: flex;
-//     width: 144px;
-//     height: 72px;
-//     background-color: $mainColor;
-//     color: $thirdColor;
-//     font-size: 14px;
-//     justify-content: center;
-//     align-items: center;
-// }
+.tree .purchasing a,
+.tree .stock a,
+.tree .lawyer a,
+.tree .firstEng a,
+.tree .thirdEng a,
+.tree .thirdEngBrigade a,
+.tree .project a {
+	background-color: $bgNullColor;
+	color: $nullColor;
+}

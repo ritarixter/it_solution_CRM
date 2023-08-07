@@ -40,7 +40,7 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
 
   if(!clickedDay) {
     dispatch(getTaskByDate(moment().format()));
-    setClickedDay(moment().format());
+    setClickedDay(moment().format());                //КОСТЫЛЬ 
   }
 
   const checkEvents = () => {

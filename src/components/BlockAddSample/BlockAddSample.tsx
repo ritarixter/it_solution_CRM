@@ -10,13 +10,9 @@ import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
-import { getUser, getUsers } from "../../services/slices/user";
-import { getWork } from "../../services/slices/work";
-import { title } from "process";
 import { useNavigate } from "react-router";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../DropdownList/DropdownListForSample";
-import { upload } from "@testing-library/user-event/dist/upload";
 import { uploadFiles } from "../../utils/api";
 import { FileIcon } from "../File/FileIcon";
 
@@ -37,13 +33,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const dispatch = useAppDispatch();
   const pageSize = 5;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(getSample());
-    dispatch(getWork());
-    dispatch(getUsers());
-  }, []);
-
 
   useEffect(() => {
     if (data.length != 0) {
@@ -140,18 +129,22 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
                   <td className={styles.table_row}>{item.title}</td>
                   <td className={styles.table_row}>{item.works.length}</td>
                   <td className={styles.block_avatar}>
-                    {item.users?.map((user) => (
-                      <div className={styles.table_avatar}>
-                        <UserBlock name={user.name} avatar={user.avatar} />
-                      </div>
-                    ))}
+                    {item.users
+                      ? item.users?.map((user) => (
+                          <div className={styles.table_avatar}>
+                            <UserBlock name={user.name} avatar={user.avatar} />
+                          </div>
+                        ))
+                      : "Не назначено"}
                   </td>
                   <td className={styles.table_row}>
-                    {item.files
-                      ? item.files.map((file) => (
-                          <FileIcon name={file.name} url={file.url} />
-                        ))
-                      : null}
+                    <div className={styles.table_icon}>
+                      {item.files
+                        ? item.files.map((file) => (
+                            <FileIcon name={file.name} url={file.url} />
+                          ))
+                        : "Файлов нет"}
+                    </div>
                   </td>
                 </tr>
               ))}

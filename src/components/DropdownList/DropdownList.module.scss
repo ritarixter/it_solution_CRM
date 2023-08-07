@@ -35,16 +35,14 @@
   padding-top: 8px;
   padding-bottom: 7px;
   padding-left: 16px;
-  color: $inputColor;
   cursor: pointer;
 
   &_open {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-bottom: none;
   }
-  &.error {
-    // border: 1px solid $errorColor;
-  }
+
 
   &.error::after {
     left: 0;
@@ -65,8 +63,10 @@
   width: 100%;
   left: 0;
   max-height: 181px;
-  margin-top: 6px;
-  border: 1px solid $inputColor;
+  margin-top: 7px;
+  -webkit-box-shadow: 0px 0px 0px 1px $inputColor;
+  -moz-box-shadow: 0px 0px 0px 1px $inputColor;
+  box-shadow: 0px 0px 0px 1px $inputColor;
   border-top: none;
   &.bigHeight {
     overflow-y: scroll;
@@ -89,27 +89,33 @@
   }
 }
 
+.placeholder {
+  color: $nullColor;
+}
+
 .option {
   background-color: $thirdColor;
+  color: $primaryColor;
   padding: 6px 12px 6px 16px;
-  font-size: 16px;
-  line-height: 24px;
-  transition: color 0.1s linear;
+  font-size: 14px;
+  transition: all 0.1s linear;
   box-sizing: border-box;
 
   &:hover:not(.disabled) {
-    background: $secondaryColor;
-    color: $thirdColor;
+    background:  rgb(241, 241, 241);;
+    color: $primaryColor;
   }
-
+/* 
   &.disabled {
     background-color: rgb(241, 241, 241);
     cursor: not-allowed;
-  }
+  } */
 }
 
 .clicked {
-  color: #000;
+  background:  rgb(241, 241, 241);;
+  color: $primaryColor;
+  font-weight: 600;
 }
 
 .arrow {

@@ -84,10 +84,6 @@ export const ApplicationsItem: FC = () => {
     email: "",
   });
 
-  useEffect(()=>{
-    dispatch(getCompanies());
-    dispatch(getList());
-  },[])
 
   //Выпадающий список
   useEffect(() => {

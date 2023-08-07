@@ -294,7 +294,8 @@ export function addSampleApi(
   title: string,
   works: number[],
   users?: number[],
-  description?: string
+  description?: string,
+  files?:Array<TFile>
 ) {
   return fetch(`${URL}/plan`, {
     method: "POST",
@@ -304,6 +305,7 @@ export function addSampleApi(
       worksId: works,
       title: title,
       description: description,
+      files: files
     }),
   }).then(responseCheck);
 }
@@ -315,6 +317,7 @@ export function updateSampleApi(
   worksId: number[],
   usersId?: number[],
   description?: string,
+  files?:Array<TFile>
 ) {
   return fetch(`${URL}/plan/${id}`, {
     method: "PATCH",
@@ -324,6 +327,7 @@ export function updateSampleApi(
       worksId,
       usersId,
       description,
+      files
     }),
   }).then(responseCheck);
 }

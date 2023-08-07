@@ -24,10 +24,6 @@ export const ApplicationsItemTree: FC = () => {
     });
   }, [list]);
 
-  useEffect(() => {
-    dispatch(getList());
-  }, []);
-
   return (
     <Wrapper>
       <HeaderTop />

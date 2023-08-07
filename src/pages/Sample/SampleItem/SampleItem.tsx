@@ -15,7 +15,11 @@ import { getUser, getUsers } from "../../../services/slices/user";
 import { getWork } from "../../../services/slices/work";
 import { Link, useLocation } from "react-router-dom";
 import { TSample, TUser, TWork } from "../../../types";
-import { getSampleByIdApi, updateSampleApi } from "../../../utils/api";
+import {
+  getSampleByIdApi,
+  updateSampleApi,
+  uploadFiles,
+} from "../../../utils/api";
 import { TWorkAbdExecuter } from "../../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../../../components/DropdownList/DropdownListForSample";
 import { FileIcon } from "../../../components/File/FileIcon";
@@ -37,7 +41,7 @@ export const SampleItem: FC = () => {
     description: "",
     users: [],
     works: [],
-    files: []
+    files: [],
   });
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
@@ -46,18 +50,11 @@ export const SampleItem: FC = () => {
   const { samples } = useAppSelector((state) => state.sample);
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [files, setFiles] = useState<FormData>()
-
-  useEffect(() => {
-    dispatch(getSample());
-    dispatch(getWork());
-    dispatch(getUsers());
-  }, []);
+  const [files, setFiles] = useState<FormData>();
 
   // Получение информации о текущем шаблоне
   useEffect(() => {
     getSampleByIdApi(Number(location.pathname.slice(8))).then((res) => {
-      console.log(res);
       setCurrentSample(res);
     });
   }, [samples]);
@@ -70,15 +67,29 @@ export const SampleItem: FC = () => {
     const executorID = executor.map((item) => {
       return item.id;
     });
-    const SampleNew = {
-      id: currentSample.id,
-      title: inputOne,
-      description: textareaValue,
-      users: executorID,
-      works: worksID,
-    };
-    dispatch(updateSample(SampleNew));
-    console.log("click");
+    if (files) {
+      uploadFiles(files).then((res) => {
+        const SampleNew = {
+          id: currentSample.id,
+          title: inputOne != "" ? inputOne : undefined,
+          description: textareaValue != "" ? textareaValue : undefined,
+          users: executorID.length != 0 ? executorID : undefined,
+          works: worksID.length != 0 ? worksID : undefined,
+          files: res,
+        };
+        dispatch(updateSample(SampleNew));
+      });
+    } else {
+      const SampleNew = {
+        id: currentSample.id,
+        title: inputOne != "" ? inputOne : undefined,
+        description: textareaValue != "" ? textareaValue : undefined,
+        users: executorID.length != 0 ? executorID : undefined,
+        works: worksID.length != 0 ? worksID : undefined,
+        files: undefined,
+      };
+      dispatch(updateSample(SampleNew));
+    }
   };
 
   return (
@@ -103,13 +114,15 @@ export const SampleItem: FC = () => {
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Исполнители</p>
               <p className={styles.blockText_text}>
-                {currentSample.users?.map((user) => (
-                  <UserBlock
-                    name={user.name}
-                    avatar={user.avatar}
-                    fullName={true}
-                  />
-                ))}
+                {currentSample.users
+                  ? currentSample.users?.map((user) => (
+                      <UserBlock
+                        name={user.name}
+                        avatar={user.avatar}
+                        fullName={true}
+                      />
+                    ))
+                  : "Не назначено"}
               </p>
             </div>
             <div className={styles.blockText}>
@@ -121,10 +134,15 @@ export const SampleItem: FC = () => {
               </p>
             </div>
             <div className={styles.blockText}>
-            {currentSample?.files ? currentSample.files.map((file) => (
-              <FileIcon name={file.name} url={file.url} />
-            )) : null}
-          </div>
+              <p className={styles.blockText_title}>Файлы</p>
+              <div className={styles.blockText_icon}>
+                {currentSample?.files
+                  ? currentSample.files.map((file) => (
+                      <FileIcon name={file.name} url={file.url} />
+                    ))
+                  : "Файлов нет"}
+              </div>
+            </div>
           </div>
           <div className={styles.conteiner}>
             <h2 className={styles.conteiner_title}>Новая информация</h2>
@@ -149,13 +167,13 @@ export const SampleItem: FC = () => {
                 data={users}
               />
             </form>
-            <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles}/>
+            <BlockComments
+              value={textareaValue}
+              setValue={setTextareaValue}
+              setFiles={setFiles}
+            />
             <div className={styles.button}>
-              <BlockButton
-                text={"Изменить"}
-                onClick={handleUpdateSample}
-                disabled={inputOne === "" || isWork.length === 0}
-              />
+              <BlockButton text={"Изменить"} onClick={handleUpdateSample} />
               <Link
                 className={styles.button_delete}
                 to={"/sample"}

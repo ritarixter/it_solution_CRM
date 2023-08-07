@@ -19,10 +19,6 @@ export const Analytics: FC = () => {
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
-  useEffect(()=>{
-    dispatch(getTask());
-  },[])
-
   useEffect(() => {
     if (tasks.length !== 0) {
       let arr = [...tasks];

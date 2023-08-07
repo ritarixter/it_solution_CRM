@@ -10,7 +10,7 @@ export type TSample = {
   description?: string;
   works: TWork[];
   users?: TUser[];
-  files: TFile[];
+  files?: TFile[];
 };
 
 export type TSampleUpdate = {
@@ -19,4 +19,5 @@ export type TSampleUpdate = {
   works: number[];
   users?: number[];
   description?: string;
+  files?: TFile[];
 };

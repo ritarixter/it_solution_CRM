@@ -34,13 +34,14 @@ export const App: FC = () => {
 
   useEffect(() => {
     if (isAuth) {
+      navigate("/applications");
       dispatch(getUser());
       dispatch(getList());
-
-    /*   dispatch(getTask());
-      dispatch(getCompanies());
       dispatch(getUsers());
-      dispatch(getWork()); */
+      dispatch(getWork());
+      dispatch(getSample());
+      dispatch(getTask());
+      dispatch(getCompanies());
     } else {
       navigate("/login");
     }

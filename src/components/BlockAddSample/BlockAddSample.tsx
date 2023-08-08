@@ -15,6 +15,7 @@ import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../DropdownList/DropdownListForSample";
 import { uploadFiles } from "../../utils/api";
 import { FileIcon } from "../File/FileIcon";
+import { NOT_ASSIGNED, notFound } from "../../utils/constants";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -135,7 +136,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
                             <UserBlock name={user.name} avatar={user.avatar} />
                           </div>
                         ))
-                      : "Не назначено"}
+                      : NOT_ASSIGNED}
                   </td>
                   <td className={styles.table_row}>
                     <div className={styles.table_icon}>
@@ -143,7 +144,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
                         ? item.files.map((file) => (
                             <FileIcon name={file.name} url={file.url} />
                           ))
-                        : "Файлов нет"}
+                        : notFound.NO_FILES}
                     </div>
                   </td>
                 </tr>

@@ -6,7 +6,6 @@ export const ApplicationTree = () => {
     return (
         <div className={styles.applicationTree}>
             <div className={styles.rightBlock}>
-                <h2>Статус заявки</h2>
                 <Scheme />
             </div>
         </div>

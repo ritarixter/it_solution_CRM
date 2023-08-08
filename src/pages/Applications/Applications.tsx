@@ -15,6 +15,7 @@ import { addList, getList } from "../../services/slices/list";
 import { validateEmail } from "../../utils/utils";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
+import { access } from "../../utils/constants";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -137,10 +138,10 @@ export const Applications: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            {user.access === "Главный инженер" && (
-              <TableTask mini={false} list={list} access={"Главный инженер"} />
+            {user.access === access.SUPERUSER && (
+              <TableTask mini={false} list={list} currentAccess={access.SUPERUSER} />
             )}
-            {user.access === "Менеджер" && (
+            {user.access === access.MANAGER && (
               <>
                 <section className={styles.manager}>
                   <div className={styles.manager__container}>
@@ -246,7 +247,7 @@ export const Applications: FC = () => {
                       </p>
                     </div>
                   </div>
-                  <TableTask mini={true} list={list} access={"Менеджер"} />
+                  <TableTask mini={true} list={list} currentAccess={access.MANAGER} />
                 </section>
                 <Popup
                   onClickButton={handleAddCompany}

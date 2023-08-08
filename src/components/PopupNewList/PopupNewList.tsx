@@ -7,6 +7,7 @@ import { DropdownList } from "../DropdownList";
 import { StatusBlock } from "../StatusBlock/StatusBlock";
 import { ImpotanceBlock } from "../ImpotanceBlock/ImpotanceBlock";
 import { useNavigate } from "react-router";
+import {impotance, statusConst} from '../../utils/constants'
 
 export const PopupNewList: FC = () => {
   const [companyValue, setCompanyValue] = useState("");
@@ -50,9 +51,9 @@ export const PopupNewList: FC = () => {
           <p className={styles.blockText_text}>Позвонит в понедельник</p>
         </div>
         <div className={styles.status}>
-          <StatusBlock type={"В работе"} />
+          <StatusBlock type={statusConst.IN_WORK} />
         </div>
-        <ImpotanceBlock type={"Низкая"} />
+        <ImpotanceBlock type={impotance.LOW} />
       </div>
       <div className={styles.conteiner}>
         <h2 className={styles.conteiner_title}>Новая информация</h2>

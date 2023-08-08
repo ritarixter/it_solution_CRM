@@ -3,6 +3,7 @@ import styles from "./Diagram.module.scss";
 import { TList } from "../../types";
 import { useAppSelector } from "../../services/hooks";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
+import { statusConst } from "../../utils/constants";
 
 
 type TDiagram = {
@@ -22,8 +23,8 @@ export const Diagram: FC<TDiagram> = ({list}) => {
     if (list.length != 0) {
       let arr = [...list];
       setApplicationCount(arr.length);
-      setFirstCircle(getCount(arr, 'В работе'));
-      setSecondCircle(getCount(arr, 'На согласовании'));
+      setFirstCircle(getCount(arr, statusConst.IN_WORK));
+      setSecondCircle(getCount(arr, statusConst.BE_AGREED));
       setThirdCircle(applicationCount - (firstCircle + secondCircle));
     }
   })

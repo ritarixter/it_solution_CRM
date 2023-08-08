@@ -10,6 +10,7 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
 import { getList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
+import { notFound } from "../../../utils/constants";
 
 export const ApplicationsItemTree: FC = () => {
   const location = useLocation();
@@ -52,7 +53,7 @@ export const ApplicationsItemTree: FC = () => {
             <p className={styles.blockText_text}>
               {currentList?.company.email
                 ? currentList.company.email
-                : "Не указана"}
+                : notFound.NOT_SPECIFIED}
             </p>
           </div>
           <div className={styles.blockText}>
@@ -65,7 +66,7 @@ export const ApplicationsItemTree: FC = () => {
             <p className={styles.blockText_text}>
               {currentList?.description
                 ? currentList.description
-                : "Комментариев нет"}
+                : notFound.NO_COMMENTS}
             </p>
           </div>
 

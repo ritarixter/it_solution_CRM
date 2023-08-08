@@ -23,6 +23,7 @@ import {
 import { TWorkAbdExecuter } from "../../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../../../components/DropdownList/DropdownListForSample";
 import { FileIcon } from "../../../components/File/FileIcon";
+import { NOT_ASSIGNED, notFound } from "../../../utils/constants";
 
 // type TCurrentSample = {
 //   id: number,
@@ -122,7 +123,7 @@ export const SampleItem: FC = () => {
                         fullName={true}
                       />
                     ))
-                  : "Не назначено"}
+                  : NOT_ASSIGNED}
               </p>
             </div>
             <div className={styles.blockText}>
@@ -130,7 +131,7 @@ export const SampleItem: FC = () => {
               <p className={styles.blockText_text}>
                 {currentSample.description
                   ? currentSample.description
-                  : "Комментариев нет"}
+                  : notFound.NO_COMMENTS}
               </p>
             </div>
             <div className={styles.blockText}>
@@ -140,7 +141,7 @@ export const SampleItem: FC = () => {
                   ? currentSample.files.map((file) => (
                       <FileIcon name={file.name} url={file.url} />
                     ))
-                  : "Файлов нет"}
+                  : notFound.NO_FILES}
               </div>
             </div>
           </div>

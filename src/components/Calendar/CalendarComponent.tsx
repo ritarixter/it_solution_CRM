@@ -13,9 +13,6 @@ export type TCalendar = {
 };
 
 export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
-
-  // const [dateValue, setDateValue] = useState("")
-
   const [task, setTask] = useState<Array<TTask>>([]);
   const [clickedDay, setClickedDay] = useState<String>();
   const dispatch = useAppDispatch();
@@ -23,7 +20,6 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
   const onClickDay = (value: any, event: any) => {
     setClickedDay(value);
     value.setUTCHours(24);
-    // console.log(value.toJSON())
     const element = document.getElementsByClassName(
       "react-calendar__tile--now"
     ) as HTMLCollectionOf<HTMLElement>;
@@ -35,12 +31,11 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
 
     dispatch(getTaskByDate(value.toJSON()));
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
-    // console.log(date);
   };
 
-  if(!clickedDay) {
+  if (!clickedDay) {
     dispatch(getTaskByDate(moment().format()));
-    setClickedDay(moment().format());                //КОСТЫЛЬ 
+    setClickedDay(moment().format()); //КОСТЫЛЬ
   }
 
   const checkEvents = () => {
@@ -123,8 +118,6 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
       </div>
       <div className="calendar-container">
         <ReactCalendar
-          // value={dateValue}
-          // selectRange={true}
           onActiveStartDateChange={checkEvents}
           onClickDay={(value, event) => onClickDay(value, event)}
         />

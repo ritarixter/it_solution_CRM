@@ -141,7 +141,7 @@ export const ApplicationsItemTree: FC = () => {
               <BlockButton
                 text={"Посмотреть КП"}
                 onClick={() => {
-                   navigate(`/commercial-proposal/${id_list}`)
+                  navigate(`/commercial-proposal/${id_list}`);
                 }}
               />
             ) : (

@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, ActionCreator, AnyAction } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, ActionCreator, AnyAction } from '@reduxjs/toolkit';
 import { rootReducer } from './slices';
 
 

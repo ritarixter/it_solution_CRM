@@ -19,8 +19,8 @@ export const BlockAnalics: FC<TBlockAnalics> = ({
   countMade,
 }) => {
   const width = `${Math.round((100 * countMade) / count)}%`;
-  const { tasks, isLoadingTask } = useAppSelector((state) => state.task);
-  const { list, isLoadingList } = useAppSelector((state) => state.list);
+  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingList } = useAppSelector((state) => state.list);
 
   return (
     <div className={styles.block}>

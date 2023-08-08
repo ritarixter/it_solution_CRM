@@ -6,18 +6,15 @@ import editList from "../../images/icons/editList.svg";
 import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { TableTask, Task, Wrapper } from "../../components";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { access, statusConst } from "../../utils/constants";
 import { TList } from "../../types";
 
 export const Analytics: FC = () => {
-  const { tasks, tasksByDay, isLoadingTask } = useAppSelector(
-    (state) => state.task
-  );
-  const { list, isLoadingList } = useAppSelector((state) => state.list);
-  const dispatch = useAppDispatch();
+  const { tasks, tasksByDay } = useAppSelector((state) => state.task);
+  const { list } = useAppSelector((state) => state.list);
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
   const [listLast7days, setListLast7days] = useState<Array<TList>>([]);

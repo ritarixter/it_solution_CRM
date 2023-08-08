@@ -6,7 +6,7 @@ import { Wrapper } from "../../../components";
 import { CommercialProposalItem } from "../CommercialProposalItem/CommercialProposalItem";
 import { titles } from "../constants";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
@@ -17,7 +17,6 @@ import {
 import { Input } from "../../../components/Input";
 import {
   TCommercialProposal,
-  TUpdateCommercialProposal,
 } from "../../../types/TCommercialProposal";
 import {
   formateDateOnlyTime,

@@ -1,7 +1,6 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import styles from "./ProfileWindowPopup.module.scss";
 import { useNavigate } from "react-router";
-import { useState } from "react";
 import { items } from "./constants";
 import { useAppDispatch } from "../../services/hooks";
 import { deleteCookie, getCookie } from "../../utils/cookies";
@@ -11,10 +10,7 @@ type TProfileWindowPopup = {
   setOpen: (value: boolean) => void;
 };
 
-export const ProfileWindowPopup: FC<TProfileWindowPopup> = ({
-  open,
-  setOpen,
-}) => {
+export const ProfileWindowPopup: FC<TProfileWindowPopup> = ({ open }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -28,13 +24,13 @@ export const ProfileWindowPopup: FC<TProfileWindowPopup> = ({
           key={item.id}
           onClick={() => {
             if (item.id === 2) {
-              console.log(getCookie("accessToken"))
-                deleteCookie("accessToken");
-                console.log('Удалили токен')
-                console.log(getCookie("accessToken"))
-                dispatch(logout());
-                dispatch(setAuth(false))
-              }
+              console.log(getCookie("accessToken"));
+              deleteCookie("accessToken");
+              console.log("Удалили токен");
+              console.log(getCookie("accessToken"));
+              dispatch(logout());
+              dispatch(setAuth(false));
+            }
             navigate(item.route);
           }}
           className={`${styles.item} ${

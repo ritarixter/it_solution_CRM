@@ -3,14 +3,7 @@ import styles from "./Task.module.scss";
 import { Item } from "./Item/Item";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { TTask } from "../../types";
-import { dataTask } from "./constants";
-import { deleteTaskUserApi, updateTaskUserApi } from "../../utils/api";
-import {
-  addTask,
-  deleteTask,
-  getTask,
-  updateTask,
-} from "../../services/slices/task";
+import { addTask, deleteTask, updateTask } from "../../services/slices/task";
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
 import { formateDateShort } from "../../utils/utils-date";
@@ -35,14 +28,7 @@ const sortData = (arr: Array<TTask>) => {
     });
 };
 
-
 export const Task: FC<ITask> = ({ tasksByDay }) => {
-  // console.log('from task.tsx    ', tasks);
-  // tasks.filter((e) => {
-  //               const date = new Date('2023-07-10T17:39:00.000Z')
-  //               if( new Date(e.endDate) < new Date(date)) console.log(e.endDate)
-  //           })
-
   const { isLoadingTask } = useAppSelector((state) => state.task);
   const { isLoadingList } = useAppSelector((state) => state.list);
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -59,10 +45,10 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
       id: id,
       done: checked,
       title: undefined,
-      status:undefined,
+      status: undefined,
       endDate: undefined,
-      description:undefined
-    }
+      description: undefined,
+    };
     dispatch(updateTask(newTask));
   };
 
@@ -70,11 +56,11 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
     name?: string,
     description?: string,
     time?: string,
-    status?: string,
+    status?: string
   ) => {
-    let date = new Date()
+    let date = new Date();
     const times = time?.split(":");
-    date.setHours(Number(times![0])+3, Number(times![0]), 0, 0); //КОСТЫЛЬ КАК В Item
+    date.setHours(Number(times![0]) + 3, Number(times![0]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
   };
@@ -95,31 +81,35 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
         <PreloaderBlock />
       ) : (
         <>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Мой список задач</h2>
-        <ButtonCircle onClick={() => setPopupOpen(true)}/>
-        <PopupAddTask
-          title={"Задача"}
-          date={tasksByDay.length > 0 ? formateDateShort(tasksByDay[0].endDate) : ''}
-          isOpen={isPopupOpen}
-          setOpen={setPopupOpen}
-          onClick={createTask}
-        />
-      </div>
-      {!error ? (
-        <ul className={styles.task}>
-          {tasksData.map((item) => (
-            <Item
-              task={item}
-              handleDelete={handleDelete}
-              changeCheckedHandle={changeCheckedHandle}
+          <div className={styles.header}>
+            <h2 className={styles.title}>Мой список задач</h2>
+            <ButtonCircle onClick={() => setPopupOpen(true)} />
+            <PopupAddTask
+              title={"Задача"}
+              date={
+                tasksByDay.length > 0
+                  ? formateDateShort(tasksByDay[0].endDate)
+                  : ""
+              }
+              isOpen={isPopupOpen}
+              setOpen={setPopupOpen}
+              onClick={createTask}
             />
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.error}>Задач нет</p>
-      )}
-      </>
+          </div>
+          {!error ? (
+            <ul className={styles.task}>
+              {tasksData.map((item) => (
+                <Item
+                  task={item}
+                  handleDelete={handleDelete}
+                  changeCheckedHandle={changeCheckedHandle}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.error}>Задач нет</p>
+          )}
+        </>
       )}
     </section>
   );

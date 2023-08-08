@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, AppThunk } from "../store";
 import { TCompany, TUpdateCompany } from "../../types";
-import { addCompanyApi, getCompaniesApi, getListApi, updateCompanyApi } from "../../utils/api";
+import { addCompanyApi, getCompaniesApi, updateCompanyApi } from "../../utils/api";
 
 interface companyState {
   companies: Array<TCompany>;

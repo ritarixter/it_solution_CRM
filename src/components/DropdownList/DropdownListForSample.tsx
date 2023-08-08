@@ -1,9 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./DropdownListForSample.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
-import { at, isArray } from "lodash";
-import { useAppSelector } from "../../services/hooks";
-import { TUser } from "../../types";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 
 export type TDropdownList = {
@@ -21,9 +18,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<TWorkAbdExecuter>>([]);
-  // const [selectedWorks, setSelectedWorks] = useState<Array<string>>([]);
   const [defaultState, setDefaultState] = useState<Array<string>>([]);
-  // let inSelected = selectedWorks!.join(", ");
 
   const handlerClick = (index: number) => {
     let inArray = false;
@@ -38,7 +33,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
           defaultState.filter((currentWorkName) => {
             return currentWorkName !== data[index].name;
           })
-        )
+        );
         if (selected.length - 1 > 0) {
           setState(
             selected.filter((currentWork) => {
@@ -50,32 +45,17 @@ export const DropdownListForSample: FC<TDropdownList> = ({
       }
     });
     if (!inArray) {
-      // setSelectedWorks([...selectedWorks,data[index].id, data[index].name])
-      setSelected([...selected, {id: data[index].id, name: data[index].name}]);
-      setState([...selected, {id: data[index].id, name: data[index].name}]);
-      setDefaultState([...defaultState, data[index].name])
+      setSelected([
+        ...selected,
+        { id: data[index].id, name: data[index].name },
+      ]);
+      setState([...selected, { id: data[index].id, name: data[index].name }]);
+      setDefaultState([...defaultState, data[index].name]);
     }
     console.log(defaultState);
   };
 
-  // const textForState = (selectedWorks: string) => {
-  //   if(inSelected.length < 1) inSelected += selectedWorks
-  //   else inSelected += ', ' + selectedWorks
-  //   return inSelected;
-  // };
-
-  // const arrForState = (selectedWorks: string[]) => {
-  //   inSelected = selectedWorks.join(", ")
-  //   return inSelected;
-  // };
-
-  useEffect(() => {
-    // if (selected.length) {
-    //   for (let i = 0; i < selected.length; i++) {
-    //     setDefaultState([...defaultState, selected[i].name])
-    //   }
-    // }
-  }, [selected, state]);
+  useEffect(() => {}, [selected, state]);
 
   return (
     <div className={styles.dropdownList}>
@@ -88,7 +68,11 @@ export const DropdownListForSample: FC<TDropdownList> = ({
             setOpen(!open);
           }}
         >
-          {defaultState.length ? defaultState.join(", ") : <span className={styles.placeholder}>Выберите ...</span>}
+          {defaultState.length ? (
+            defaultState.join(", ")
+          ) : (
+            <span className={styles.placeholder}>Выберите ...</span>
+          )}
         </span>
         <img
           src={arrow}

@@ -9,7 +9,12 @@ import { formateDateShort } from "../../../utils/utils-date";
 import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
 import { useNavigate } from "react-router";
 import { FileIcon } from "../../File/FileIcon";
-import { NOT_ASSIGNED, NOT_ASSIGNED_DEAD, access, notFound } from "../../../utils/constants";
+import {
+  NOT_ASSIGNED,
+  NOT_ASSIGNED_DEAD,
+  access,
+  notFound,
+} from "../../../utils/constants";
 
 export type TTableTaskItem = {
   item: TList;
@@ -17,13 +22,18 @@ export type TTableTaskItem = {
   currentAccess: string; //"Менеджер" | "Главный инженер"
 };
 
-export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, currentAccess }) => {
-  const navigate = useNavigate()
+export const TableTaskItem: FC<TTableTaskItem> = ({
+  item,
+  mini,
+  currentAccess,
+}) => {
+  const navigate = useNavigate();
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
       {mini && currentAccess === access.SUPERUSER && (
-        <tr onClick={()=>navigate(`/applications/${item.id}`)}
+        <tr
+          onClick={() => navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}
@@ -63,7 +73,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, currentAccess })
       )}{" "}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА ПОЛНАЯ ВЕРСИЯ */}
       {!mini && currentAccess === access.SUPERUSER && (
-        <tr onClick={()=>navigate(`/applications/${item.id}`)}
+        <tr
+          onClick={() => navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}
@@ -109,19 +120,22 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, currentAccess })
             <WorkProgressBar />
           </td>
           <td key={uuidv4()}>
-
-          {item.files ? item.files.map((file) => (
-              <FileIcon name={file.name} url={file.url} />
-            )) : notFound.NO_FILES}
+            {item.files
+              ? item.files.map((file) => (
+                  <FileIcon name={file.name} url={file.url} />
+                ))
+              : notFound.NO_FILES}
           </td>
         </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}
       {mini && currentAccess === access.MANAGER && (
         <tr
-        className={`${styles.row} ${mini ? styles.row_mini : styles.row_maxi} ${
-          styles.link 
-        }`} onClick={()=>navigate(`${item.id}`)}>
+          className={`${styles.row} ${
+            mini ? styles.row_mini : styles.row_maxi
+          } ${styles.link}`}
+          onClick={() => navigate(`${item.id}`)}
+        >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
           <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>

@@ -1,9 +1,8 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import styles from "./NotificationsPopup.module.scss";
 import moment from "moment";
 import "moment/locale/ru";
 import { events } from "./constants";
-import { useState } from "react";
 
 type TNotificationsPopup = {
   open: boolean;

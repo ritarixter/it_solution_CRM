@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styles from "./FileIcon.module.scss";
 import { URL_BACKEND } from "../../utils/constants";
 import { Link } from "react-router-dom";
@@ -14,7 +14,12 @@ type TFile = {
 
 export const FileIcon: FC<TFile> = ({ name, url, fullName }) => {
   return (
-    <Link to={`${URL_BACKEND}${url}`} className={styles.link} onClick={(e)=>e.stopPropagation()} target="_blank">
+    <Link
+      to={`${URL_BACKEND}${url}`}
+      className={styles.link}
+      onClick={(e) => e.stopPropagation()}
+      target="_blank"
+    >
       {(name.toLowerCase().includes(".doc") ||
         name.toLowerCase().includes(".docx") ||
         name.toLowerCase().includes(".docm")) && (

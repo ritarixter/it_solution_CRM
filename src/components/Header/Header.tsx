@@ -10,9 +10,11 @@ import { access } from "../../utils/constants";
 export const Header: FC = () => {
   const { pathname } = useLocation();
   const { user } = useAppSelector((state) => state.user);
-  const links = user.access === access.SUPERUSER ? routes : routes.slice(1)
+  const links = user.access === access.SUPERUSER ? routes : routes.slice(1);
   return (
-    <header className={`${styles.header} ${pathname === '/login' && styles.dn}`}>
+    <header
+      className={`${styles.header} ${pathname === "/login" && styles.dn}`}
+    >
       <img src={logo} alt="Лого IT solutions" className={styles.logo} />
       <nav>
         <ul className={styles.nav}>

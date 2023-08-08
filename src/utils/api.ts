@@ -1,4 +1,4 @@
-import { IProducts, TFile, TUpdateCommercialProposal, TUpdateList } from "../types";
+import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
 import { getCookie, setCookie } from "./cookies";
 
 
@@ -145,22 +145,13 @@ export function addTaskUserApi(
 
 //Изменение статуса задачи
 export function updateTaskUserApi(
-  id?: number,
-  done?: boolean,
-  status?: string /*Срочно|Не срочно */,
-  endDate?: Date,
-  title?: string,
-  description?: string
+  task: TUpdateTask
 ) {
-  return fetch(`${URL}/tasks/${id}`, {
+  return fetch(`${URL}/tasks/${task.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn,
     body: JSON.stringify({
-      done: done,
-      status: status,
-      endDate: endDate,
-      title: title,
-      description: description,
+      task
     }),
   }).then(responseCheck);
 }
@@ -226,9 +217,7 @@ export function updateListApi(list: TUpdateList) {
   return fetch(`${URL}/list/${list.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn,
-    body: JSON.stringify(
-      list
-    ),
+    body: JSON.stringify(list),
   }).then(responseCheck);
 }
 
@@ -286,7 +275,7 @@ export function addSampleApi(
   works: number[],
   users?: number[],
   description?: string,
-  files?:Array<TFile>
+  files?: Array<TFile>
 ) {
   return fetch(`${URL}/plan`, {
     method: "POST",
@@ -296,30 +285,21 @@ export function addSampleApi(
       worksId: works,
       title: title,
       description: description,
-      files: files
+      files: files,
     }),
   }).then(responseCheck);
 }
 
 // Изменение шаблона
 export function updateSampleApi(
-  id: number,
-  title: string,
-  worksId: number[],
-  usersId?: number[],
-  description?: string,
-  files?:Array<TFile>
+sample: TSampleUpdate
 ) {
-  return fetch(`${URL}/plan/${id}`, {
+  return fetch(`${URL}/plan/${sample.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn,
-    body: JSON.stringify({
-      title,
-      worksId,
-      usersId,
-      description,
-      files
-    }),
+    body: JSON.stringify(
+      sample
+    ),
   }).then(responseCheck);
 }
 

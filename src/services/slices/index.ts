@@ -14,5 +14,5 @@ export const rootReducer = combineReducers({
   sample: sampleSlice.reducer,
   company: companySlice.reducer,
   work: workSlice.reducer,
-  commercialProposal: commercialProposalSlice.reducer
+  commercialProposal: commercialProposalSlice.reducer,
 });

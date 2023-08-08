@@ -1,0 +1,74 @@
+@import "../../../styles/variables.scss";
+
+.popup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 80vh;
+  margin-top: 50px;
+  background-color: $thirdColor;
+  border-radius: 10px;
+  margin-left: 30px;
+
+  max-width: 880px;
+  width: 100%;
+}
+
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  padding-left: 66px;
+  padding-right: 50px;
+  padding-bottom: 62px;
+  max-width: 422px;
+  width: 100%;
+  &_title {
+    margin-top: 50px;
+    margin-bottom: 14px;
+  }
+}
+
+.infomation {
+  display: flex;
+  flex-direction: column;
+  padding-left: 49px;
+  padding-right: 74px;
+  border-right: 1px solid $line;
+  padding-bottom: 62px;
+}
+
+.blockText {
+  margin-bottom: 33px;
+
+  &_title {
+    font-size: 14px;
+    line-height: auto;
+    margin-bottom: 5px;
+    margin-top: 0;
+    color: $inputCaption;
+  }
+
+  &_text {
+    margin: 0;
+    font-size: 14px;
+    line-height: auto;
+    color: $primaryColor;
+  }
+
+  &_icon {
+    display: flex;
+  }
+}
+
+.button {
+  margin-top: 30px;
+  &_delete {
+    text-decoration: none;
+    color: $statusHard;
+    transition: opacity 0.15s linear;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}

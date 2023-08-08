@@ -11,9 +11,9 @@ export type TCompany = {
 
 export type TUpdateCompany = {
   id: number;
-  nameCompany?: string
-  name?: string
-  numberPhone?: string 
-  INN?: string
-  email?: string
-}
+  nameCompany?: string;
+  name?: string;
+  numberPhone?: string;
+  INN?: string;
+  email?: string;
+};

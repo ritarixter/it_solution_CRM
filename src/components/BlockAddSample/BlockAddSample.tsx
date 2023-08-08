@@ -10,12 +10,12 @@ import { Pagination } from "../Pagination";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addSample, getSample } from "../../services/slices/sample";
 import { v4 as uuidv4 } from "uuid";
-import { getUser, getUsers } from "../../services/slices/user";
-import { getWork } from "../../services/slices/work";
-import { title } from "process";
 import { useNavigate } from "react-router";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../DropdownList/DropdownListForSample";
+import { uploadFiles } from "../../utils/api";
+import { FileIcon } from "../File/FileIcon";
+import { NOT_ASSIGNED, notFound } from "../../utils/constants";
 
 type TBlockAddSample = {
   data: Array<TSample>;
@@ -28,7 +28,7 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [inputOne, setInputOne] = useState("");
-  const [files, setFiles] = useState<any>()
+  const [files, setFiles] = useState<any>();
   const { users } = useAppSelector((state) => state.user);
   const { works } = useAppSelector((state) => state.work);
   const dispatch = useAppDispatch();
@@ -56,8 +56,10 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
     const executorID = executor.map((item) => {
       return item.id;
     });
-    dispatch(addSample(inputOne, worksID, executorID, textareaValue));
-    deleteInput();
+    uploadFiles(files).then((res) => {
+      dispatch(addSample(inputOne, worksID, executorID, textareaValue, res));
+      deleteInput();
+    });
   };
 
   const deleteInput = () => {
@@ -92,7 +94,11 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
             data={users}
           />
         </form>
-        <BlockComments value={textareaValue} setValue={setTextareaValue} setFiles={setFiles} />
+        <BlockComments
+          value={textareaValue}
+          setValue={setTextareaValue}
+          setFiles={setFiles}
+        />
         <div className={styles.button}>
           <BlockButton
             text={"Добавить"}
@@ -124,19 +130,22 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
                   <td className={styles.table_row}>{item.title}</td>
                   <td className={styles.table_row}>{item.works.length}</td>
                   <td className={styles.block_avatar}>
-                    {item.users?.map((user) => (
-                      <div className={styles.table_avatar}>
-                        <UserBlock name={user.name} avatar={user.avatar} />
-                      </div>
-                    ))}
+                    {item.users
+                      ? item.users?.map((user) => (
+                          <div className={styles.table_avatar}>
+                            <UserBlock name={user.name} avatar={user.avatar} />
+                          </div>
+                        ))
+                      : NOT_ASSIGNED}
                   </td>
                   <td className={styles.table_row}>
-                    document
-                    {/* <img
-                className={styles.table_icon}
-                src={}
-                alt={"иконка"}
-              /> */}
+                    <div className={styles.table_icon}>
+                      {item.files
+                        ? item.files.map((file) => (
+                            <FileIcon name={file.name} url={file.url} />
+                          ))
+                        : notFound.NO_FILES}
+                    </div>
                   </td>
                 </tr>
               ))}

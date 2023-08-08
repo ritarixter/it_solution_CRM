@@ -9,8 +9,7 @@ import { TableTask, Task, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
-import { Preloader } from "../../components/Preloader/Preloader";
-import { getTask } from "../../services/slices/task";
+import { access, statusConst } from "../../utils/constants";
 
 export const Analytics: FC = () => {
   const { tasks,tasksByDay,isLoadingTask } = useAppSelector((state) => state.task);
@@ -28,7 +27,7 @@ export const Analytics: FC = () => {
 
   useEffect(() => {
     let arr = [...list];
-    setCountAtWorkList(arr.filter((item) => item.status === "В работе").length);
+    setCountAtWorkList(arr.filter((item) => item.status === statusConst.IN_WORK).length);
   }, [list]);
   return (
 
@@ -58,13 +57,12 @@ export const Analytics: FC = () => {
           <BlockList />
         </div>
         <div className={styles.container__bottom}>
-          <TableTask mini={true} list={list} access={"Главный инженер"} />
+          <TableTask mini={true} list={list} currentAccess={access.SUPERUSER} />
           <Task tasksByDay={tasksByDay} />
           <CalendarComponent tasks={tasks} />
         </div>
       </div>
    
     </Wrapper>
-
   );
 };

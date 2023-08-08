@@ -14,13 +14,11 @@ import edit_white from "../../../images/icons/edit_white.svg";
 import { Popup } from "../../../components/Popup";
 import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import {
-  getCompanies,
-  updateCompany,
-} from "../../../services/slices/company";
+import { updateCompany } from "../../../services/slices/company";
 import { validateEmail } from "../../../utils/utils";
 import { deleteList, getList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
+import { notFound } from "../../../utils/constants";
 
 type TCurrentList = {
   id: number;
@@ -66,7 +64,7 @@ export const ApplicationsItem: FC = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [INNValue, setINNValue] = useState("");
-  const [files, setFiles] = useState<FormData>()
+  const [files, setFiles] = useState<FormData>();
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
@@ -88,7 +86,6 @@ export const ApplicationsItem: FC = () => {
     INN: "",
     email: "",
   });
-
 
   //Выпадающий список
   useEffect(() => {
@@ -238,7 +235,7 @@ export const ApplicationsItem: FC = () => {
             <p className={styles.blockText_text}>
               {currentList.company.email
                 ? currentList.company.email
-                : "Не указана"}
+                : notFound.NOT_SPECIFIED}
             </p>
           </div>
           <div className={styles.blockText}>
@@ -248,7 +245,11 @@ export const ApplicationsItem: FC = () => {
 
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Комментарий</p>
-            <p className={styles.blockText_text}>{currentList.description ? currentList.description : 'Комментариев нет'}</p>
+            <p className={styles.blockText_text}>
+              {currentList.description
+                ? currentList.description
+                : notFound.NO_COMMENTS}
+            </p>
           </div>
           <div className={styles.blockText}>
           <p className={styles.blockText_title}>Файлы</p>
@@ -338,7 +339,7 @@ export const ApplicationsItem: FC = () => {
             </div>
             <div className={styles.manager__textarea}>
               <BlockComments
-              setFiles={setFiles}
+                setFiles={setFiles}
                 value={textareaValue}
                 setValue={setTextareaValue}
               />
@@ -355,7 +356,11 @@ export const ApplicationsItem: FC = () => {
                 nameCompanyValue === ""
               }
             />
-            <Link className={styles.delete} to={"/applications"} onClick={()=>dispatch(deleteList(currentList.id))}>
+            <Link
+              className={styles.delete}
+              to={"/applications"}
+              onClick={() => dispatch(deleteList(currentList.id))}
+            >
               Удалить
             </Link>
           </div>

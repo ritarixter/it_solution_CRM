@@ -37,7 +37,7 @@ export const Scheme = () => {
           <a href="#">Менеджер</a>
           <ul>
             <li className={styles.mainEng}>
-                <a>Главный Инженер</a>
+                <a href="#">Главный Инженер</a>
               {/* {isPriority && getInfo()} */}
               <ul>
                 <li className={styles.purchasing}>
@@ -102,17 +102,6 @@ export const Scheme = () => {
                           {getAvatars()}
                         </li>
                       </ul>
-                      {/* <ul>
-                                                    <li>
-                                                        <a href="#">Бригада монтажников</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Бригада монтажников</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Бригада монтажников</a>
-                                                    </li>
-                                                </ul> */}
                     </li>
                   </ul>
                 </li>
@@ -133,56 +122,5 @@ export const Scheme = () => {
         </ul>
       </div>
     </div>
-    // </div>
-
-    //     <div className={styles.main_manager}>
-    //         <div className={styles.manager}>Менеджер</div>
-    //     React.</div>
-    //     <div>
-    //         <div className={styles.enginer}>
-    //             Инженер
-    //         </div>
-    //         <div>
-    //             Высокий приоритет
-    //         </div>
-    //         <div>
-    //             Дедлайн 20.12.23
-    //         </div>
-    //     </div>
-    //     <div className={styles.rightBlock}>
-    //         <div className={styles.firstBlock}>
-    //             <div className={styles.purchasing}>
-    //                 Отдел закупок
-    //             </div>
-    //             <div className={styles.avatars}>
-
-    //             </div>
-    //         </div>
-    //         <div className={styles.firstBlock}>
-    //             <div className={styles.projectDep}>
-    //                 Проектный отдел
-    //             </div>
-    //             <div className={styles.avatars}>
-
-    //             </div>
-    //         </div>
-    //         <div className={styles.firstBlock}>
-    //             <div className={styles.legal}>
-    //                 Юридический отдел
-    //             </div>
-    //             <div className={styles.avatars}>
-
-    //             </div>
-    //         </div>
-    //         <div className={styles.firstBlock}>
-    //             <div className={styles.brigade}>
-    //                 Бригадир и монтажники
-    //             </div>
-    //             <div className={styles.avatars}>
-
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
   );
 };

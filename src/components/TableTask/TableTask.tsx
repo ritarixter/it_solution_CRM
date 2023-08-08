@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./TableTask.module.scss";
 import excel from "../../images/icons/excel_icon.svg";
 import { titles, titlesManager, titlesMini } from "./constants";
@@ -7,28 +7,29 @@ import { v4 as uuidv4 } from "uuid";
 import { TableTaskItem } from "./TableTaskItem/TableTaskItem";
 import { TList } from "../../types";
 import { Link } from "react-router-dom";
-import { DownloadTableExcel, downloadExcel } from "react-export-table-to-excel";
+import { downloadExcel } from "react-export-table-to-excel";
 import { formateDate } from "../../utils/utils-date";
 import { useAppSelector } from "../../services/hooks";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
+import { NOT_ASSIGNED, access } from "../../utils/constants";
 
 type TTableTask = {
   mini: boolean;
   list: Array<TList>;
-  access: "Менеджер" | "Главный инженер";
+  currentAccess: string;  //"Менеджер" | "Главный инженер"
 };
 function addSevenDay(date = new Date()) {
   date.setDate(date.getDate() + 7);
 
   return date;
 }
-export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
+export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
   const { isLoadingTask } = useAppSelector((state) => state.task);
   const { isLoadingList } = useAppSelector((state) => state.list);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
-  const pageSize = access === "Главный инженер" ? (mini ? 3 : 7) : 7;
+  const pageSize = currentAccess === access.SUPERUSER ? (mini ? 3 : 7) : 7;
 
   function handleDownloadExcel() {
     let arr = [...list];
@@ -44,8 +45,8 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
           return user.name;
         })
         .toString() : '',
-      status: item.status || "Не назначено",
-      importance: item.importance || "Не назначено",
+      status: item.status || NOT_ASSIGNED,
+      importance: item.importance || NOT_ASSIGNED,
       description: item.description || "",
     }));
     downloadExcel({
@@ -128,13 +129,13 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
               } ${styles.header}`}
             >
               {mini &&
-                access === "Главный инженер" &&
+                currentAccess === access.SUPERUSER &&
                 titlesMini.map((title, index) => <th key={index}>{title}</th>)}
               {!mini &&
-                access === "Главный инженер" &&
+                currentAccess === access.SUPERUSER &&
                 titles.map((title, index) => <th key={index}>{title}</th>)}
               {mini &&
-                access === "Менеджер" &&
+                currentAccess === access.MANAGER &&
                 titlesManager.map((title, index) => (
                   <th key={index}>{title}</th>
                 ))}
@@ -143,7 +144,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
           <tbody>
             {!error ? (
               currentData.map((item) => (
-                <TableTaskItem item={item} mini={mini} access={access} />
+                <TableTaskItem item={item} mini={mini} currentAccess={currentAccess} />
               ))
             ) : (
               <p className={styles.error}>Заявок нет</p>
@@ -153,10 +154,10 @@ export const TableTask: FC<TTableTask> = ({ mini, list, access }) => {
       </div>
       <div
         className={`${styles.pagination} ${
-          (!mini || access === "Менеджер") && styles.pagination_without
+          (!mini || currentAccess === access.MANAGER) && styles.pagination_without
         }`}
       >
-        {mini && access === "Главный инженер" && (
+        {mini && currentAccess === access.SUPERUSER && (
           <Link className={styles.linkAll} to="/applications">
             Смотреть все
           </Link>

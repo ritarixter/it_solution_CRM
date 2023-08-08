@@ -9,19 +9,20 @@ import { formateDateShort } from "../../../utils/utils-date";
 import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
 import { useNavigate } from "react-router";
 import { FileIcon } from "../../File/FileIcon";
+import { NOT_ASSIGNED, NOT_ASSIGNED_DEAD, access, notFound } from "../../../utils/constants";
 
 export type TTableTaskItem = {
   item: TList;
   mini: boolean;
-  access: "Менеджер" | "Главный инженер";
+  currentAccess: string; //"Менеджер" | "Главный инженер"
 };
 
-export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
+export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, currentAccess }) => {
   const navigate = useNavigate()
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
-      {mini && access === "Главный инженер" && (
+      {mini && currentAccess === access.SUPERUSER && (
         <tr onClick={()=>navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
@@ -56,12 +57,12 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
           <td key={uuidv4()}>
             {item.endDate != null
               ? formateDateShort(item.endDate)
-              : "Не назначен"}
+              : NOT_ASSIGNED_DEAD}
           </td>
         </tr>
       )}{" "}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА ПОЛНАЯ ВЕРСИЯ */}
-      {!mini && access === "Главный инженер" && (
+      {!mini && currentAccess === access.SUPERUSER && (
         <tr onClick={()=>navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
@@ -73,7 +74,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
           <td key={uuidv4()}>
             {item.endDate != null
               ? formateDateShort(item.endDate)
-              : "Не назначен"}
+              : NOT_ASSIGNED_DEAD}
           </td>
           <td key={uuidv4()}>
             {item.company.name.split(" ")[0] +
@@ -95,7 +96,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
               )}
             </td>
           ) : (
-            <td className={styles.implements__notfound}>Не назначено</td>
+            <td className={styles.implements__notfound}>{NOT_ASSIGNED}</td>
           )}
 
           <td key={uuidv4()}>
@@ -111,12 +112,12 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, access }) => {
 
           {item.files ? item.files.map((file) => (
               <FileIcon name={file.name} url={file.url} />
-            )) : 'Файлов нет'}
+            )) : notFound.NO_FILES}
           </td>
         </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}
-      {mini && access === "Менеджер" && (
+      {mini && currentAccess === access.MANAGER && (
         <tr
         className={`${styles.row} ${mini ? styles.row_mini : styles.row_maxi} ${
           styles.link 

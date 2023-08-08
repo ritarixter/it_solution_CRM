@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 //import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
-import { TSample } from "../../types";
+import { TFile, TSample } from "../../types";
 import {
   addSampleApi,
   deleteSampleApi,
@@ -59,10 +59,10 @@ export const getSample: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 export const addSample: AppThunk =
-  (title: string, works: number[], users?: number[], description?: string) =>
+  (title: string, works: number[], users?: number[], description?: string, files?: Array<TFile>) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    addSampleApi(title, works, users, description)
+    addSampleApi(title, works, users, description, files)
       .then((res) => {
         dispatch(getSample());
       })
@@ -82,7 +82,8 @@ export const updateSample: AppThunk =
       sample.title,
       sample.works,
       sample.users,
-      sample.description
+      sample.description,
+      sample.files
     )
       .then((res) => {
         dispatch(setError(false));

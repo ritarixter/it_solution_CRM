@@ -65,6 +65,10 @@
     line-height: auto;
     color: $primaryColor;
   }
+
+  &_icon {
+    display: flex;
+  }
 }
 
 .button {

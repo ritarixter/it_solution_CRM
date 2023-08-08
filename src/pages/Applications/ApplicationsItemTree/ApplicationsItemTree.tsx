@@ -13,6 +13,7 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "./constants";
+import { notFound } from "../../../utils/constants";
 
 export const ApplicationsItemTree: FC = () => {
   const location = useLocation();
@@ -103,7 +104,7 @@ export const ApplicationsItemTree: FC = () => {
               <p className={styles.blockText_text}>
                 {currentList?.company.email
                   ? currentList.company.email
-                  : "Не указана"}
+                  : notFound.NOT_SPECIFIED}
               </p>
             </div>
             <div className={styles.blockText}>
@@ -111,7 +112,7 @@ export const ApplicationsItemTree: FC = () => {
               <p className={styles.blockText_text}>
                 {currentList?.description
                   ? currentList.description
-                  : "Комментариев нет"}
+                  : notFound.NO_COMMENTS}
               </p>
             </div>
 

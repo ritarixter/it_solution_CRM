@@ -12,6 +12,7 @@ import { formateDate } from "../../utils/utils-date";
 import { useAppSelector } from "../../services/hooks";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 import { NOT_ASSIGNED, access } from "../../utils/constants";
+import { ExcelButton } from "../ExcelButton/ExcelButton";
 
 type TTableTask = {
   mini: boolean;
@@ -104,14 +105,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
               <h2 className={styles.title}>
                 {mini ? "Заявки за последние 7 дней" : "Заявки"}
               </h2>
-              <p className={styles.excel} onClick={handleDownloadExcel}>
-                <img
-                  src={excel}
-                  className={styles.excel__icon}
-                  alt="Иконка excel"
-                />
-                Экспорт
-              </p>
+           <ExcelButton onClick={handleDownloadExcel}/>
             </div>
             <table className={`${styles.table} ${mini && styles.table_mini}`}>
               <thead key={uuidv4()}>

@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+.excel {
+  color: $mainColor;
+  font-size: 13px;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  &__icon {
+    margin-right: 3px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}

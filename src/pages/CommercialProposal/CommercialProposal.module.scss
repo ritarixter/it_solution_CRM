@@ -17,6 +17,11 @@
   margin: 20px 0;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .table {
   &__container {
   overflow-y: scroll;

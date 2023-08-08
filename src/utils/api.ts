@@ -1,5 +1,5 @@
 import { TFile } from "../types";
-import { IItem } from "../types/TItem";
+import { IProducts } from "../types/TProducts";
 import { TUpdateList } from "../types/TList";
 import { TSampleUpdate } from "../types/TSample";
 import { TUpdateTask } from "../types/TTask";
@@ -375,8 +375,8 @@ export function getWorkApi() {
 
 //-------------------------------------------------------------------Commercial-Proposal--------------------------------------------------------------------------------------
 
-export function getCommercialProposalApi() {
-  return fetch(`${URL}/commercial-proposal`, {
+export function getByIdCommercialProposalApi(id:number) {
+  return fetch(`${URL}/list/${id}/commercial-proposal`, {
     headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }
@@ -384,7 +384,7 @@ export function getCommercialProposalApi() {
 export function addCommercialProposalApi(
   name: string,
   idList: number,
-  products: Array<IItem>
+  products: Array<IProducts>
 ) {
   return fetch(`${URL}/commercial-proposal`, {
     method: "POST",

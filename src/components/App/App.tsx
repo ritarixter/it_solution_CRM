@@ -21,12 +21,12 @@ import { getUser, getUsers } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
-import { CommercialProposal } from "../../pages/CommercialProposal/CommercialProposal";
 import { getSample } from "../../services/slices/sample";
 import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
-import { CommercialProposalEdit } from "../../pages/CommercialProposal/CommercialProposalEdit/CommercialProposalEdit";
+import { CommercialProposalCreate, CommercialProposal } from "../../pages/CommercialProposal";
+
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -71,20 +71,20 @@ export const App: FC = () => {
           }
         />
         <Route
-          path="/commercial-proposal/:id"
+          path="/commercial-proposal/create/:id"
           element={
             <ProtectedRoute>
               <DndProvider backend={HTML5Backend}>
-                <CommercialProposal />
+                <CommercialProposalCreate />
               </DndProvider>
             </ProtectedRoute>
           }
         />
         <Route
-          path="/commercial-proposal/edit/:id"
+          path="/commercial-proposal/:id"
           element={
             <ProtectedRoute>
-              <CommercialProposalEdit />
+              <CommercialProposal/>
             </ProtectedRoute>
           }
         />

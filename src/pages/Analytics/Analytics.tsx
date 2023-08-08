@@ -10,12 +10,14 @@ import { useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { access, statusConst } from "../../utils/constants";
+import { TList } from "../../types";
 
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
   const { list } = useAppSelector((state) => state.list);
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
+  const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
 
   useEffect(() => {
     if (tasks.length !== 0) {
@@ -29,6 +31,10 @@ export const Analytics: FC = () => {
     setCountAtWorkList(
       arr.filter((item) => item.status === statusConst.IN_WORK).length
     );
+    let dateLast7days = new Date();
+    dateLast7days.setDate(dateLast7days.getDate() - 7);
+    arr = arr.filter((item) => new Date(item.createdAt) > dateLast7days);
+    setListLast7days(arr.reverse());
   }, [list]);
   return (
     <Wrapper>
@@ -55,7 +61,11 @@ export const Analytics: FC = () => {
           <BlockList />
         </div>
         <div className={styles.container__bottom}>
-          <TableTask mini={true} list={list} currentAccess={access.SUPERUSER} />
+          <TableTask
+            mini={true}
+            list={listLast7days}
+            currentAccess={access.SUPERUSER}
+          />
           <Task tasksByDay={tasksByDay} />
           <CalendarComponent tasks={tasks} />
         </div>

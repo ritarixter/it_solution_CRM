@@ -1,20 +1,31 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./CommercialProposal.module.scss";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../components";
+<<<<<<< HEAD
 import { CommercialProposalItem } from "./CommercialProposalItem/CommercialProposalItem";
 import { titles } from "./constants";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { useAppSelector } from "../../services/hooks";
+=======
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+>>>>>>> 7f265a44645562139561154d5b20610a365b178a
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
-import { IItem } from "../../types/TItem";
-import { addCommercialProposalApi } from "../../utils/api";
-import { Input } from "../../components/Input";
+import { TCommercialProposal } from "../../types/TCommercialProposal";
+import { getByIdCommercialProposalApi } from "../../utils/api";
+import { titles } from "./constants";
+import { v4 as uuidv4 } from "uuid";
+import { IProducts } from "../../types/TProducts";
+import {
+  formateDateOnlyTime,
+  formateDateShort,
+} from "../../utils/utils-date";
+import { BlockButton } from "../../components/BlockButton/BlockButton";
 
 export const CommercialProposal: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
+<<<<<<< HEAD
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
@@ -76,6 +87,19 @@ export const CommercialProposal: FC = () => {
       return -1;
     }
   };
+=======
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id_list = Number(location.pathname.slice(21));
+  const [CP, setCP] = useState<TCommercialProposal>();
+
+  useEffect(() => {
+    getByIdCommercialProposalApi(id_list).then((res) => {
+      setCP(res.commercialProposal);
+    });
+  }, []);
+>>>>>>> 7f265a44645562139561154d5b20610a365b178a
   return (
     <Wrapper>
       {isLoadingUser ? (
@@ -84,20 +108,25 @@ export const CommercialProposal: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            <h2 className={styles.title}>Создание КП для заявки №{id_list}</h2>
-            <div className={styles.name}>
-              <Input
-                type="text"
-                name="Введите название КП"
-                setValue={setName}
-                value={name}
-                text="Название КП*"
-                error={nameError}
-                errorText={"Длина от 2 до 30 символов"}
-              />
-            </div>
+            <h2 className={styles.title}>КП "{CP?.name}"</h2>
+            <p className={styles.subtitle}>
+              {" "}
+              <span className={styles.subtitle__bold}>№{id_list}</span> ОТ{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.createdAt && formateDateShort(CP.createdAt)}
+              </span>{" "}
+              (ОБНОВЛЕНО{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.updatedAt && formateDateShort(CP.updatedAt)}
+              </span>{" "}
+              В{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.updatedAt && formateDateOnlyTime(CP.updatedAt)}
+              </span>
+              )
+            </p>
             <table className={styles.table}>
-              <thead>
+              <thead className={styles.table__head}>
                 <tr className={styles.row}>
                   {titles.map((title) => (
                     <th key={uuidv4()}>{title}</th>
@@ -105,26 +134,20 @@ export const CommercialProposal: FC = () => {
                 </tr>
               </thead>
               <tbody className={styles.table__container}>
-                {count > 0 ? (
-                  items.map((item) => (
-                    <CommercialProposalItem
-                      setError={setErrorItem}
-                      item={item}
-                      setCurrentItem={setCurrentItem}
-                      dropHandler={dropHandler}
-                      onDelete={() => {
-                        setCount(count - 1);
-                        setItems(
-                          items.filter((dataItem) => item.id !== dataItem.id)
-                        );
-                      }}
-                    />
-                  ))
-                ) : (
-                  <p className={styles.notFound}>Товаров нет</p>
-                )}
+                {CP?.products.map((item: IProducts) => (
+                  <tr className={`${styles.row} ${styles.row__watch}`}>
+                    <td>{item.name}</td>
+                    <td>{item.count}</td>
+                    <td>{item.price}</td>
+                    <td>{item.actualPrice}</td>
+                    <td>{item.date ? item.date : "Не указана"}</td>
+                    <td>{item.totalPrice}</td>
+                    <td>{item.marginalityPrice}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
+<<<<<<< HEAD
             <button
               className={styles.button__add}
               type="button"
@@ -147,15 +170,18 @@ export const CommercialProposal: FC = () => {
             >
               +Товар{" "}
             </button>
+=======
+>>>>>>> 7f265a44645562139561154d5b20610a365b178a
             <div className={styles.buttons}>
               <BlockButton
-                text={"Сохранить"}
-                disabled={errorItem}
-                onClick={handleClickCreateCP}
+                text={"Принять КП"}
+             
+                onClick={()=>{}}
               />
               <p
                 className={styles.cancel}
                 onClick={() => {
+<<<<<<< HEAD
                   setCount(1);
                   setItems([
                     {
@@ -170,9 +196,11 @@ export const CommercialProposal: FC = () => {
                       marginalityPrice: 0,
                     },
                   ]);
+=======
+>>>>>>> 7f265a44645562139561154d5b20610a365b178a
                 }}
               >
-                Отменить
+                Изменить
               </p>
             </div>
           </div>

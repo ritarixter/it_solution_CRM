@@ -3,13 +3,13 @@ import styles from "../CommercialProposal.module.scss";
 import { Input } from "../../../components/Input";
 import deleteIcon from "../../../images/icons/delete_black.svg";
 import dragIcon from "../../../images/icons/draganddrop.svg";
-import { IItem } from "../../../types/TItem";
+import { IProducts } from "../../../types/TProducts";
 
 type TCommercialProposalItem = {
   onDelete: () => void;
-  item: IItem;
-  setCurrentItem: (item: IItem) => void;
-  dropHandler: (e: DragEvent<HTMLTableRowElement>, item: IItem) => void;
+  item: IProducts;
+  setCurrentItem: (item: IProducts) => void;
+  dropHandler: (e: DragEvent<HTMLTableRowElement>, item: IProducts) => void;
   setError: (error: boolean) => void;
 };
 
@@ -36,7 +36,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
-  const dragStartHandler = (e: DragEvent<HTMLTableRowElement>, item: IItem) => {
+  const dragStartHandler = (e: DragEvent<HTMLTableRowElement>, item: IProducts) => {
     setCurrentItem(item);
   };
 

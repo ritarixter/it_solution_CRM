@@ -35,6 +35,10 @@
     width: 3px;
   }
 }
+&__head{
+  padding-right: 14px;
+  display: block;
+}
 }
 
 .row {
@@ -52,14 +56,19 @@
   padding: 4px 0;
   cursor: grab;
 
+  &__watch {
+    cursor: default;
+  }
+
   grid-template-columns: minmax(200px, 1fr) minmax(102px, 1fr) minmax(87px, 1fr) minmax(
       173px,
       1fr
-    ) minmax(150px, 1fr) 144px 144px 40px;
+    ) minmax(150px, 1fr) 144px 153px 40px;
   width: 100%;
 
   & > th {
-    font-weight: 400;
+    font-weight: 600;
+    color: $inputCaption;
   }
 
   & > td {
@@ -156,4 +165,14 @@ thead > tr {
   margin: 0;
   margin-top: 10px;
   color: $inputColor;
+}
+
+//----------------------------СТРАНИЦА ПРОСМОТРА КП------------------------------------------------------------------------------------------
+.subtitle {
+  font-size: 14px;
+  color: $inputCaption;
+  margin-bottom: 60px;
+  &__bold {
+    font-weight: 600;
+  }
 }

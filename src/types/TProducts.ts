@@ -1,5 +1,5 @@
 //Для КП
-export interface IItem {
+export interface IProducts {
     id: number;
     order: number;
     name: string;

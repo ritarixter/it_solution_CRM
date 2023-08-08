@@ -139,16 +139,16 @@ export const ApplicationsItemTree: FC = () => {
           <div className={styles.buttonCreate}>
             {currentList?.commercialProposal ? (
               <BlockButton
-                text={"Изменить КП"}
+                text={"Посмотреть КП"}
                 onClick={() => {
-                   navigate(`/commercial-proposal/edit/${id_list}`)
+                   navigate(`/commercial-proposal/${id_list}`)
                 }}
               />
             ) : (
               <BlockButton
                 text={"Создать КП"}
                 onClick={() => {
-                  navigate(`/commercial-proposal/${id_list}`);
+                  navigate(`/commercial-proposal/create/${id_list}`);
                 }}
               />
             )}

@@ -12,7 +12,6 @@ export type TAccess = {
     FITTER: string
 }
 
-
 export const URL_BACKEND = 'http://localhost:8000'
 
 export const NOT_ASSIGNED = 'Не назначено'

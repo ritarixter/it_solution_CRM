@@ -10,13 +10,17 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { access, statusConst } from "../../utils/constants";
+import { TList } from "../../types";
 
 export const Analytics: FC = () => {
-  const { tasks,tasksByDay,isLoadingTask } = useAppSelector((state) => state.task);
-  const { list,isLoadingList } = useAppSelector((state) => state.list);
-  const dispatch = useAppDispatch()
+  const { tasks, tasksByDay, isLoadingTask } = useAppSelector(
+    (state) => state.task
+  );
+  const { list, isLoadingList } = useAppSelector((state) => state.list);
+  const dispatch = useAppDispatch();
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
+  const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
 
   useEffect(() => {
     if (tasks.length !== 0) {
@@ -27,17 +31,20 @@ export const Analytics: FC = () => {
 
   useEffect(() => {
     let arr = [...list];
-    setCountAtWorkList(arr.filter((item) => item.status === statusConst.IN_WORK).length);
+    setCountAtWorkList(
+      arr.filter((item) => item.status === statusConst.IN_WORK).length
+    );
+    let dateLast7days = new Date();
+    dateLast7days.setDate(dateLast7days.getDate() - 7);
+    arr = arr.filter((item) => new Date(item.createdAt) > dateLast7days);
+    setListLast7days(arr.reverse());
   }, [list]);
   return (
-
     <Wrapper>
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
-          <Diagram 
-            list={list}
-          />
+          <Diagram list={list} />
           <BlockAnalics
             name={"Задачи"}
             count={tasks.length}
@@ -57,12 +64,15 @@ export const Analytics: FC = () => {
           <BlockList />
         </div>
         <div className={styles.container__bottom}>
-          <TableTask mini={true} list={list} currentAccess={access.SUPERUSER} />
+          <TableTask
+            mini={true}
+            list={listLast7days}
+            currentAccess={access.SUPERUSER}
+          />
           <Task tasksByDay={tasksByDay} />
           <CalendarComponent tasks={tasks} />
         </div>
       </div>
-   
     </Wrapper>
   );
 };

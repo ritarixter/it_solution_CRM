@@ -6,7 +6,7 @@ import { Wrapper } from "../../components";
 import { CommercialProposalItem } from "./CommercialProposalItem/CommercialProposalItem";
 import { titles } from "./constants";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useAppSelector } from "../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { IItem } from "../../types/TItem";
@@ -15,8 +15,7 @@ import { Input } from "../../components/Input";
 
 export const CommercialProposal: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
   const [items, setItems] = useState<Array<IItem>>([
@@ -29,7 +28,7 @@ export const CommercialProposal: FC = () => {
       actualPrice: 0,
       date: "",
       totalPrice: 0,
-      marginalityPrice: 0
+      marginalityPrice: 0,
     },
   ]);
   const [currentItem, setCurrentItem] = useState<IItem>(items[0]);
@@ -44,14 +43,14 @@ export const CommercialProposal: FC = () => {
       setNameError(false);
       addCommercialProposalApi(name, id_list, items).then((res) => {
         console.log(res);
-        navigate(-1)
+        navigate(-1);
       });
     }
   };
 
-  useEffect(()=> {
-    (name.length < 30 || name.length > 2) && setNameError(false)
-  },[name])
+  useEffect(() => {
+    (name.length < 30 || name.length > 2) && setNameError(false);
+  }, [name]);
 
   const dropHandler = (e: any, item: IItem) => {
     e.preventDefault();
@@ -77,11 +76,6 @@ export const CommercialProposal: FC = () => {
       return -1;
     }
   };
-
-  /*   if (user.access != "Главный инженер") {
-    return <Navigate to="/applications" state={{ from: location }} replace />;
-  } */
-
   return (
     <Wrapper>
       {isLoadingUser ? (
@@ -146,7 +140,7 @@ export const CommercialProposal: FC = () => {
                     actualPrice: 0,
                     date: "",
                     totalPrice: 0,
-                    marginalityPrice: 0
+                    marginalityPrice: 0,
                   })
                 );
               }}
@@ -173,7 +167,7 @@ export const CommercialProposal: FC = () => {
                       actualPrice: 0,
                       date: "",
                       totalPrice: 0,
-                      marginalityPrice: 0
+                      marginalityPrice: 0,
                     },
                   ]);
                 }}

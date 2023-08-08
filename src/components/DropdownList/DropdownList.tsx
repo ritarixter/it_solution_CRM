@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import styles from "./DropdownList.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
+import { impotance, statusConst } from "../../utils/constants";
 
 export type TDropdownList = {
   data: Array<string>;
@@ -15,7 +16,6 @@ export const DropdownList: FC<TDropdownList> = ({
   state,
   setState,
   name,
-  size,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -26,23 +26,26 @@ export const DropdownList: FC<TDropdownList> = ({
 
   return (
     <div className={styles.dropdownList}>
-      {/* <Label text={name} /> */}
       <p className={styles.caption}>{name}</p>
 
       <div
         className={`${styles.select} ${open && styles.select_open} 
         ${
-          (state.includes("Не назначен") || state.includes("Не назначена")) &&
+          (state.includes(statusConst.NOT_ASSIGNED_DEAD) ||
+            state.includes(impotance.NOT_ASSIGNED_DEAD)) &&
           styles.null
         } 
         ${
-          (state.includes("В работе") || state.includes("Средняя")) &&
+          (state.includes(statusConst.IN_WORK) ||
+            state.includes(impotance.AVERAGE)) &&
           styles.blue
         } ${
-          (state.includes("На согласовании") || state.includes("Высокая")) &&
+          (state.includes(statusConst.BE_AGREED) ||
+            state.includes(impotance.HIGH)) &&
           styles.red
         } ${
-          (state.includes("Закончено") || state.includes("Низкая")) &&
+          (state.includes(statusConst.FINISHED) ||
+            state.includes(impotance.LOW)) &&
           styles.green
         }
         
@@ -63,18 +66,21 @@ export const DropdownList: FC<TDropdownList> = ({
               <li
                 className={`${styles.option}  
                 ${
-                  (item.includes("Не назначен") || state.includes("Не назначена")) &&
+                  (item.includes(statusConst.NOT_ASSIGNED_DEAD) ||
+                    state.includes(impotance.NOT_ASSIGNED_DEAD)) &&
                   styles.null
                 } 
                 ${
-                  (item.includes("В работе") || item.includes("Средняя")) &&
+                  (item.includes(statusConst.IN_WORK) ||
+                    item.includes(impotance.AVERAGE)) &&
                   styles.blue
                 } ${
-                  (item.includes("На согласовании") ||
-                  item.includes("Высокая")) &&
+                  (item.includes(statusConst.BE_AGREED) ||
+                    item.includes(impotance.HIGH)) &&
                   styles.red
                 } ${
-                  (item.includes("Закончено") || item.includes("Низкая")) &&
+                  (item.includes(statusConst.FINISHED) ||
+                    item.includes(impotance.LOW)) &&
                   styles.green
                 }`}
                 key={item}

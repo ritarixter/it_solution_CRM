@@ -6,15 +6,14 @@ import editList from "../../images/icons/editList.svg";
 import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { TableTask, Task, Wrapper } from "../../components";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
 import { access, statusConst } from "../../utils/constants";
 
 export const Analytics: FC = () => {
-  const { tasks,tasksByDay,isLoadingTask } = useAppSelector((state) => state.task);
-  const { list,isLoadingList } = useAppSelector((state) => state.list);
-  const dispatch = useAppDispatch()
+  const { tasks, tasksByDay } = useAppSelector((state) => state.task);
+  const { list } = useAppSelector((state) => state.list);
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
 
@@ -27,17 +26,16 @@ export const Analytics: FC = () => {
 
   useEffect(() => {
     let arr = [...list];
-    setCountAtWorkList(arr.filter((item) => item.status === statusConst.IN_WORK).length);
+    setCountAtWorkList(
+      arr.filter((item) => item.status === statusConst.IN_WORK).length
+    );
   }, [list]);
   return (
-
     <Wrapper>
       <HeaderTop />
       <div className={styles.container}>
         <div className={styles.container__header}>
-          <Diagram 
-            list={list}
-          />
+          <Diagram list={list} />
           <BlockAnalics
             name={"Задачи"}
             count={tasks.length}
@@ -62,7 +60,6 @@ export const Analytics: FC = () => {
           <CalendarComponent tasks={tasks} />
         </div>
       </div>
-   
     </Wrapper>
   );
 };

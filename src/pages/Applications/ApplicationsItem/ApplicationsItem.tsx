@@ -12,11 +12,10 @@ import { getListByIdApi, uploadFiles } from "../../../utils/api";
 import { Link } from "react-router-dom";
 import edit_white from "../../../images/icons/edit_white.svg";
 import { Popup } from "../../../components/Popup";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { updateCompany } from "../../../services/slices/company";
 import { validateEmail } from "../../../utils/utils";
-import { deleteList, getList, updateList } from "../../../services/slices/list";
+import { deleteList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { notFound } from "../../../utils/constants";
 
@@ -25,7 +24,7 @@ type TCurrentList = {
   name: string;
   description: string;
   customer: string;
-  files: Array<TFile>
+  files: Array<TFile>;
   company: {
     INN: string;
     email?: string | undefined;
@@ -181,7 +180,7 @@ export const ApplicationsItem: FC = () => {
   };
 
   const handleUpdateList = () => {
-    if(files) {
+    if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
           id: currentList.id,
@@ -189,10 +188,10 @@ export const ApplicationsItem: FC = () => {
           description: textareaValue === "" ? undefined : textareaValue,
           name: codeValue === "" ? undefined : codeValue,
           idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
-          files: res
-        };       
+          files: res,
+        };
         dispatch(updateList(listNew));
-      })
+      });
     } else {
       const listNew = {
         id: currentList.id,
@@ -200,12 +199,10 @@ export const ApplicationsItem: FC = () => {
         description: textareaValue === "" ? undefined : textareaValue,
         name: codeValue === "" ? undefined : codeValue,
         idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
-        files: undefined
-      };       
+        files: undefined,
+      };
       dispatch(updateList(listNew));
     }
-   
-
   };
 
   return (
@@ -252,10 +249,14 @@ export const ApplicationsItem: FC = () => {
             </p>
           </div>
           <div className={styles.blockText}>
-          <p className={styles.blockText_title}>Файлы</p>
-          {currentList.files ? currentList.files.map((file) => (
-              <FileIcon name={file.name} url={file.url} />
-            )) : <span className={styles.blockText_text}>Файлов нет</span>}
+            <p className={styles.blockText_title}>Файлы</p>
+            {currentList.files ? (
+              currentList.files.map((file) => (
+                <FileIcon name={file.name} url={file.url} />
+              ))
+            ) : (
+              <span className={styles.blockText_text}>Файлов нет</span>
+            )}
           </div>
         </div>
         <div className={styles.conteiner}>

@@ -2,7 +2,6 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./BlockComments.module.scss";
 import clip from "../../images/icons/clip.svg";
 import close from "../../images/icons/close.svg";
-import JustValidate from "just-validate";
 
 type TBlockComments = {
   value: string;

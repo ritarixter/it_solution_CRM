@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import styles from "../Sample.module.scss";
+import styles from "./SampleItem.module.scss";
 import { UserBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { Input } from "../../../components/Input";
@@ -11,27 +11,13 @@ import {
   getSample,
   updateSample,
 } from "../../../services/slices/sample";
-import { getUser, getUsers } from "../../../services/slices/user";
-import { getWork } from "../../../services/slices/work";
 import { Link, useLocation } from "react-router-dom";
 import { TSample, TUser, TWork } from "../../../types";
-import {
-  getSampleByIdApi,
-  updateSampleApi,
-  uploadFiles,
-} from "../../../utils/api";
+import { getSampleByIdApi, uploadFiles } from "../../../utils/api";
 import { TWorkAbdExecuter } from "../../../types/TWorkAndExecuter";
 import { DropdownListForSample } from "../../../components/DropdownList/DropdownListForSample";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { NOT_ASSIGNED, notFound } from "../../../utils/constants";
-
-// type TCurrentSample = {
-//   id: number,
-//     title: string,
-//     description: string,
-//     works: TWork[];
-//   users?: TUser[];
-// }
 
 export const SampleItem: FC = () => {
   const [isWork, setIsWork] = useState<Array<TWorkAbdExecuter>>([]);

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-//import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
 import { TFile, TList } from "../../types";
@@ -79,14 +78,6 @@ export const updateList: AppThunk =
     dispatch(setLoading(true));
     updateListApi(
       list
-      // list.id,
-      // list.name,
-      // list.customer,
-      // list.description,
-      // list.idCompany,
-      // list.files,
-      // list.importance,
-      // list.status
     )
       .then((res) => {
         dispatch(setError(false));

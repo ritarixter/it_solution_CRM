@@ -1,8 +1,7 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import styles from "./MessagesPupup.module.scss";
 import moment from "moment";
 import "moment/locale/ru";
-import { useState } from "react";
 import { users } from "./constants";
 
 type TMessagesPopup = {
@@ -11,8 +10,6 @@ type TMessagesPopup = {
 };
 
 export const MessagesPopup: FC<TMessagesPopup> = ({ open, setOpen }) => {
-  // const [isOpen, setIsOpen] = useState<boolean>(true);
-
   return (
     <div
       className={`${styles.popup__container} ${

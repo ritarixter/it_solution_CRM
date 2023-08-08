@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import styles from "./Pagination.module.scss";
 import { DOTS, usePagination } from "./hooks/usePagintaion";
 
@@ -8,7 +8,7 @@ export type TPagination = {
   currentPage: number; //Текущая отображаемая страница
   setCurrentPage: (value: number) => void; //Изменение текущей страницы
   siblingCount?: number; //Как отображается пагинация: < 1 ... 30 > (значение: 1); < 1 2 ... 29 30 >(2); < 1 2 3 ... 28 29 30 >(3)
-  style?: 'blue'
+  style?: "blue";
 };
 
 export const Pagination: FC<TPagination> = ({
@@ -17,7 +17,7 @@ export const Pagination: FC<TPagination> = ({
   currentPage,
   setCurrentPage,
   siblingCount = 2,
-  style
+  style,
 }) => {
   const paginationRange = usePagination({
     currentPage,
@@ -42,7 +42,7 @@ export const Pagination: FC<TPagination> = ({
   return (
     <div className={styles.container}>
       <button
-        className={`${styles.arrow} ${style === 'blue' && styles.arrow__blue}`}
+        className={`${styles.arrow} ${style === "blue" && styles.arrow__blue}`}
         onClick={onPrevious}
         disabled={currentPage === 1}
       >{`<`}</button>
@@ -57,8 +57,11 @@ export const Pagination: FC<TPagination> = ({
           }
           return (
             <li
-              className={`${styles.pagination__item} ${style === 'blue' && styles.pagination__item_blue} ${
-                 pageNumber === currentPage && (style === 'blue' ? styles.active__blue : styles.active)
+              className={`${styles.pagination__item} ${
+                style === "blue" && styles.pagination__item_blue
+              } ${
+                pageNumber === currentPage &&
+                (style === "blue" ? styles.active__blue : styles.active)
               }`}
               onClick={() => setCurrentPage(Number(pageNumber))}
               key={index}
@@ -70,7 +73,7 @@ export const Pagination: FC<TPagination> = ({
         })}
       </ul>
       <button
-        className={`${styles.arrow} ${style === 'blue' && styles.arrow__blue}`}
+        className={`${styles.arrow} ${style === "blue" && styles.arrow__blue}`}
         onClick={onNext}
         disabled={currentPage === lastPage}
       >{`>`}</button>

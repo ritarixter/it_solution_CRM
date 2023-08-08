@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-//import { getCookie, setCookie } from "../../utils/cookies";
 
 import { AppDispatch, AppThunk } from "../store";
 import {
@@ -64,22 +63,23 @@ export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
-export const getTaskByDate: AppThunk = (date: Date) => (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
-  getTaskByDateApi(date)
-    .then((res) => {
-      dispatch(setTask(res));
-    })
-    .catch((err) => {
-      dispatch(setError(true));
-      dispatch(getTask());      // ВРЕМЕННЫЙ КОСТЫЛЬ
-  
-      console.log(err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-};
+export const getTaskByDate: AppThunk =
+  (date: Date) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    getTaskByDateApi(date)
+      .then((res) => {
+        dispatch(setTask(res));
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+        dispatch(getTask()); // ВРЕМЕННЫЙ КОСТЫЛЬ
+
+        console.log(err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
 
 export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
@@ -100,14 +100,7 @@ export const updateTask: AppThunk =
   (task: TUpdateTask) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
 
-    updateTaskUserApi(
-      task.id,
-      task.done,
-      task.status,
-      task.endDate,
-      task.title,
-      task.description
-    )
+    updateTaskUserApi(task)
       .then((res) => {
         dispatch(getTaskByDate());
       })

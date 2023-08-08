@@ -6,12 +6,10 @@ import deleteIcon from "../../../images/icons/delete.svg";
 import editIcon from "../../../images/icons/edit.svg";
 import { formateDate, formateDateOnlyTime } from "../../../utils/utils-date";
 import { TTask } from "../../../types";
-import { v4 as uuidv4 } from "uuid";
 import { PopupAddTask } from "../../PopupAddTask/PopupAddTask";
 import { useAppDispatch } from "../../../services/hooks";
 import { TUpdateTask } from "../../../types/TTask";
-import { getTaskByDate, updateTask } from "../../../services/slices/task";
-
+import { updateTask } from "../../../services/slices/task";
 
 interface IItem {
   task: TTask;
@@ -37,7 +35,6 @@ export const Item: FC<IItem> = ({
     if (time !== formateDateOnlyTime(task.endDate)) {
       resultDate = new Date();
       const times = time?.split(":");
-
       resultDate.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
     const taskNew: TUpdateTask = {
@@ -79,7 +76,7 @@ export const Item: FC<IItem> = ({
             className={styles.task__checkbox}
             checked={task.done}
             onChange={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               changeCheckedHandle(task.id, !task.done);
             }}
           />
@@ -88,12 +85,15 @@ export const Item: FC<IItem> = ({
           </p>
         </div>
         <div className={styles.task__icons}>
-          <button className={`${styles.button} ${styles.delete}`} type="button" onClick={() => handleDelete(task.id)}>
+          <button
+            className={`${styles.button} ${styles.delete}`}
+            type="button"
+            onClick={() => handleDelete(task.id)}
+          >
             <img
               src={deleteIcon}
               className={styles.task__icon}
               alt="Кнопка удаления"
-              
             />
           </button>
 

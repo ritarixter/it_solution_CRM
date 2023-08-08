@@ -11,23 +11,22 @@ export type TList = {
   customer: string;
   description: string | null;
   endDate: Date;
-  status: string  | null;
+  status: string | null;
   importance: string | null;
-  company: TCompany
+  company: TCompany;
   commercialProposal: any; //ПОМЕНЯТЬ
   users: TUser[];
   works: TWork[];
   files: TFile[];
 };
 
-
 export type TUpdateList = {
-  id:number,
-  idCompany?: number,
+  id: number;
+  idCompany?: number;
   name?: string;
   customer?: string;
   description?: string;
   files?: TFile[];
-  status?: string
-  importance?: string
-}
+  status?: string;
+  importance?: string;
+};

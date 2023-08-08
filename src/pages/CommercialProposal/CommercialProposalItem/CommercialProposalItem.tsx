@@ -50,19 +50,18 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   //ОБЩАЯ ВАЛИДАЦИЯ КП
 
   useEffect(() => {
-    if(dateError || priceError || nameError || countError || actualPriceError) {
-      setError(true)
-    } 
-    else {
-      setError(false)
+    if (
+      dateError ||
+      priceError ||
+      nameError ||
+      countError ||
+      actualPriceError
+    ) {
+      setError(true);
+    } else {
+      setError(false);
     }
-  }, [
-    dateError,
-    priceError,
-    nameError,
-    countError,
-    actualPriceError,
-  ]);
+  }, [dateError, priceError, nameError, countError, actualPriceError]);
 
   const totalPrice = useMemo(() => {
     return actualPrice * count;
@@ -87,7 +86,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     item.price = price;
     item.actualPrice = actualPrice;
     item.totalPrice = totalPrice;
-    item.marginalityPrice = marginalityPrice
+    item.marginalityPrice = marginalityPrice;
   }, [name, count, date, price, actualPrice, totalPrice]);
 
   const dragLeaveHandler = (e: DragEvent<HTMLTableRowElement>) => {

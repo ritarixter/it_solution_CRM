@@ -16,7 +16,7 @@ import { NOT_ASSIGNED, access } from "../../utils/constants";
 type TTableTask = {
   mini: boolean;
   list: Array<TList>;
-  currentAccess: string;  //"Менеджер" | "Главный инженер"
+  currentAccess: string; //"Менеджер" | "Главный инженер"
 };
 function addSevenDay(date = new Date()) {
   date.setDate(date.getDate() + 7);
@@ -37,14 +37,16 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
       company: item.company.nameCompany,
       name: item.name,
       createdAt: formateDate(item.createdAt),
-      endDate:item.endDate ? formateDate(item.endDate) : '',
+      endDate: item.endDate ? formateDate(item.endDate) : "",
       customer: item.company.name,
       phone: item.company.numberPhone,
-      implements: item.users ? item.users
-        .map((user) => {
-          return user.name;
-        })
-        .toString() : '',
+      implements: item.users
+        ? item.users
+            .map((user) => {
+              return user.name;
+            })
+            .toString()
+        : "",
       status: item.status || NOT_ASSIGNED,
       importance: item.importance || NOT_ASSIGNED,
       description: item.description || "",
@@ -65,7 +67,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
           "Приоритет",
           "Описание",
         ],
-        // accept two different data structures
         body: exportArr,
       },
     });
@@ -77,15 +78,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
       const date = addSevenDay();
 
       if (mini) {
-        /* let date = new Date();
-        arr = arr.filter(
-          (item) => {
-            console.log(date + ' < ' + item.createdAt)
-            if (date < item.createdAt) {
-              return item;
-            }
-          } //Заявки за 7 дней
-        );*/
         setCurrentData(
           arr.slice(currentPage * pageSize - pageSize, currentPage * pageSize)
         );
@@ -107,71 +99,78 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
         <PreloaderBlock />
       ) : (
         <>
-      <div>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
-            {mini ? "Заявки за последние 7 дней" : "Заявки"}
-          </h2>
-          <p className={styles.excel} onClick={handleDownloadExcel}>
-            <img
-              src={excel}
-              className={styles.excel__icon}
-              alt="Иконка excel"
-            />
-            Экспорт
-          </p>
-        </div>
-        <table className={`${styles.table} ${mini && styles.table_mini}`}>
-          <thead key={uuidv4()}>
-            <tr
-              className={`${styles.row} ${
-                mini ? styles.row_mini : styles.row_maxi
-              } ${styles.header}`}
-            >
-              {mini &&
-                currentAccess === access.SUPERUSER &&
-                titlesMini.map((title, index) => <th key={index}>{title}</th>)}
-              {!mini &&
-                currentAccess === access.SUPERUSER &&
-                titles.map((title, index) => <th key={index}>{title}</th>)}
-              {mini &&
-                currentAccess === access.MANAGER &&
-                titlesManager.map((title, index) => (
-                  <th key={index}>{title}</th>
-                ))}
-            </tr>
-          </thead>
-          <tbody>
-            {!error ? (
-              currentData.map((item) => (
-                <TableTaskItem item={item} mini={mini} currentAccess={currentAccess} />
-              ))
-            ) : (
-              <p className={styles.error}>Заявок нет</p>
+          <div>
+            <div className={styles.header}>
+              <h2 className={styles.title}>
+                {mini ? "Заявки за последние 7 дней" : "Заявки"}
+              </h2>
+              <p className={styles.excel} onClick={handleDownloadExcel}>
+                <img
+                  src={excel}
+                  className={styles.excel__icon}
+                  alt="Иконка excel"
+                />
+                Экспорт
+              </p>
+            </div>
+            <table className={`${styles.table} ${mini && styles.table_mini}`}>
+              <thead key={uuidv4()}>
+                <tr
+                  className={`${styles.row} ${
+                    mini ? styles.row_mini : styles.row_maxi
+                  } ${styles.header}`}
+                >
+                  {mini &&
+                    currentAccess === access.SUPERUSER &&
+                    titlesMini.map((title, index) => (
+                      <th key={index}>{title}</th>
+                    ))}
+                  {!mini &&
+                    currentAccess === access.SUPERUSER &&
+                    titles.map((title, index) => <th key={index}>{title}</th>)}
+                  {mini &&
+                    currentAccess === access.MANAGER &&
+                    titlesManager.map((title, index) => (
+                      <th key={index}>{title}</th>
+                    ))}
+                </tr>
+              </thead>
+              <tbody>
+                {!error ? (
+                  currentData.map((item) => (
+                    <TableTaskItem
+                      item={item}
+                      mini={mini}
+                      currentAccess={currentAccess}
+                    />
+                  ))
+                ) : (
+                  <p className={styles.error}>Заявок нет</p>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div
+            className={`${styles.pagination} ${
+              (!mini || currentAccess === access.MANAGER) &&
+              styles.pagination_without
+            }`}
+          >
+            {mini && currentAccess === access.SUPERUSER && (
+              <Link className={styles.linkAll} to="/applications">
+                Смотреть все
+              </Link>
             )}
-          </tbody>
-        </table>
-      </div>
-      <div
-        className={`${styles.pagination} ${
-          (!mini || currentAccess === access.MANAGER) && styles.pagination_without
-        }`}
-      >
-        {mini && currentAccess === access.SUPERUSER && (
-          <Link className={styles.linkAll} to="/applications">
-            Смотреть все
-          </Link>
-        )}
 
-        <Pagination
-          pageSize={pageSize}
-          totalCount={list.length}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          style={mini ? "blue" : undefined}
-        />
-      </div>
-      </>
+            <Pagination
+              pageSize={pageSize}
+              totalCount={list.length}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              style={mini ? "blue" : undefined}
+            />
+          </div>
+        </>
       )}
     </section>
   );

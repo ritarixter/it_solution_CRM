@@ -9,7 +9,6 @@ type TInput = {
   text?: string;
   error?: boolean;
   errorText?: string;
-
 };
 
 export const Input: FC<TInput> = ({
@@ -30,7 +29,9 @@ export const Input: FC<TInput> = ({
           setValue(e.target.value);
         }}
         value={value}
-        className={`${styles.input} ${error && styles.error} ${text && styles.mb_8}`}
+        className={`${styles.input} ${error && styles.error} ${
+          text && styles.mb_8
+        }`}
         placeholder={name}
       />
       {error && <span className={styles.error_text}>{errorText}</span>}

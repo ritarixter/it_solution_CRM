@@ -1,13 +1,13 @@
-import React from 'react';
+import { FC } from "react";
 import styles from "./ApplicationTree.module.scss";
-import { Scheme } from './Scheme/Scheme';
+import { Scheme } from "./Scheme/Scheme";
 
-export const ApplicationTree = () => {
-    return (
-        <div className={styles.applicationTree}>
-            <div className={styles.rightBlock}>
-                <Scheme />
-            </div>
-        </div>
-    );
+export const ApplicationTree: FC = () => {
+  return (
+    <div className={styles.applicationTree}>
+      <div className={styles.rightBlock}>
+        <Scheme />
+      </div>
+    </div>
+  );
 };

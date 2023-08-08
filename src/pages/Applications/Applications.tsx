@@ -3,15 +3,14 @@ import { TableTask, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import styles from "./Applications.module.scss";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-//import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import { ButtonCircle } from "../../components/ButtonCircle/ButtonCircle";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { Popup } from "../../components/Popup";
 import { Input } from "../../components/Input";
-import { addCompany, getCompanies } from "../../services/slices/company";
+import { addCompany } from "../../services/slices/company";
 import { TCompany } from "../../types";
-import { addList, getList } from "../../services/slices/list";
+import { addList } from "../../services/slices/list";
 import { validateEmail } from "../../utils/utils";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
@@ -144,7 +143,11 @@ export const Applications: FC = () => {
           <HeaderTop />
           <div className={styles.container}>
             {user.access === access.SUPERUSER && (
-              <TableTask mini={false} list={list} currentAccess={access.SUPERUSER} />
+              <TableTask
+                mini={false}
+                list={list}
+                currentAccess={access.SUPERUSER}
+              />
             )}
             {user.access === access.MANAGER && (
               <>
@@ -195,10 +198,6 @@ export const Applications: FC = () => {
                               </ul>
                             )}
                         </div>
-
-                        {/*   {companyError && (
-                      <span className={styles.error_text}>Ошибка</span>
-                    )} */}
                       </div>
                       <div className={styles.manager__input}>
                         <Input
@@ -252,7 +251,11 @@ export const Applications: FC = () => {
                       </p>
                     </div>
                   </div>
-                  <TableTask mini={true} list={list} currentAccess={access.MANAGER} />
+                  <TableTask
+                    mini={true}
+                    list={list}
+                    currentAccess={access.MANAGER}
+                  />
                 </section>
                 <Popup
                   onClickButton={handleAddCompany}

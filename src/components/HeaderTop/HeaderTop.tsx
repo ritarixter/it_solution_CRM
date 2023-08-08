@@ -20,8 +20,8 @@ export const HeaderTop: FC = () => {
   return (
     <div className={styles.block}>
       <div className={styles.block_help}>
-      <Search />
-      <NotificationsBlock />
+        <Search />
+        <NotificationsBlock />
       </div>
       {user ? (
         <div className={styles.block_users}>

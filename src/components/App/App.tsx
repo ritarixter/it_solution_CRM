@@ -25,7 +25,7 @@ import { getSample } from "../../services/slices/sample";
 import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
-import { CommercialProposalCreate, CommercialProposal } from "../../pages/CommercialProposal";
+import { CommercialProposalCreate, CommercialProposal, CommercialProposalEdit } from "../../pages/CommercialProposal";
 
 
 export const App: FC = () => {
@@ -76,6 +76,16 @@ export const App: FC = () => {
             <ProtectedRoute>
               <DndProvider backend={HTML5Backend}>
                 <CommercialProposalCreate />
+              </DndProvider>
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/commercial-proposal/edit/:id"
+          element={
+            <ProtectedRoute>
+              <DndProvider backend={HTML5Backend}>
+                <CommercialProposalEdit />
               </DndProvider>
             </ProtectedRoute>
           }

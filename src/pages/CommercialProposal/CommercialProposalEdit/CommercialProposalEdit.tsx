@@ -10,15 +10,25 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
-import { addCommercialProposalApi } from "../../../utils/api";
+import {
+  getByIdCommercialProposalApi,
+  updateCommercialProposalApi,
+} from "../../../utils/api";
 import { Input } from "../../../components/Input";
+import {
+  TCommercialProposal,
+  TUpdateCommercialProposal,
+} from "../../../types/TCommercialProposal";
+import {
+  formateDateOnlyTime,
+  formateDateShort,
+} from "../../../utils/utils-date";
 
-export const CommercialProposalCreate: FC = () => {
+export const CommercialProposalEdit: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
-  const id_list = Number(location.pathname.slice(28));
+  const id_list = Number(location.pathname.slice(26));
   const [items, setItems] = useState<Array<IProducts>>([
     {
       id: 0,
@@ -29,7 +39,7 @@ export const CommercialProposalCreate: FC = () => {
       actualPrice: 0,
       date: "",
       totalPrice: 0,
-      marginalityPrice: 0
+      marginalityPrice: 0,
     },
   ]);
   const [currentItem, setCurrentItem] = useState<IProducts>(items[0]);
@@ -37,20 +47,37 @@ export const CommercialProposalCreate: FC = () => {
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
   const [errorItem, setErrorItem] = useState<boolean>(false);
-  const handleClickCreateCP = () => {
+  const [CP, setCP] = useState<TCommercialProposal>();
+
+  useEffect(() => {
+    getByIdCommercialProposalApi(id_list).then((res) => {
+      setCP(res.commercialProposal);
+      setItems(res.commercialProposal.products);
+      setName(res.commercialProposal.name);
+      setCount(res.commercialProposal.products.length);
+    });
+  }, []);
+
+  const handleClickEditCP = () => {
     if (name.length > 30 || name.length < 2) {
       setNameError(true);
     } else {
       setNameError(false);
-      addCommercialProposalApi(name, id_list, items).then((res) => {
-        navigate(-1)
+      const newCommercialProposal = {
+        id: CP?.id ? CP.id : -1,
+        name: name === "" || name == CP?.name ? undefined : name,
+        products: items,
+      };
+      updateCommercialProposalApi(newCommercialProposal).then((res) => {
+        console.log(res)
+        navigate(-1);
       });
     }
   };
 
-  useEffect(()=> {
-    (name.length < 30 || name.length > 2) && setNameError(false)
-  },[name])
+  useEffect(() => {
+    (name.length < 30 || name.length > 2) && setNameError(false);
+  }, [name]);
 
   const dropHandler = (e: any, item: IProducts) => {
     e.preventDefault();
@@ -89,7 +116,23 @@ export const CommercialProposalCreate: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            <h2 className={styles.title}>Создание КП для заявки №{id_list}</h2>
+            <h2 className={styles.title}>Изменить КП "{CP?.name}"</h2>
+            <p className={styles.subtitle}>
+              {" "}
+              <span className={styles.subtitle__bold}>№{id_list}</span> ОТ{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.createdAt && formateDateShort(CP.createdAt)}
+              </span>{" "}
+              (ОБНОВЛЕНО{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.updatedAt && formateDateShort(CP.updatedAt)}
+              </span>{" "}
+              В{" "}
+              <span className={styles.subtitle__bold}>
+                {CP?.updatedAt && formateDateOnlyTime(CP.updatedAt)}
+              </span>
+              )
+            </p>
             <div className={styles.name}>
               <Input
                 type="text"
@@ -110,7 +153,7 @@ export const CommercialProposalCreate: FC = () => {
                 </tr>
               </thead>
               <tbody className={styles.table__container}>
-                {count > 0 ? (
+                {items ? (
                   items.map((item) => (
                     <CommercialProposalItem
                       setError={setErrorItem}
@@ -145,7 +188,7 @@ export const CommercialProposalCreate: FC = () => {
                     actualPrice: 0,
                     date: "",
                     totalPrice: 0,
-                    marginalityPrice: 0
+                    marginalityPrice: 0,
                   })
                 );
               }}
@@ -154,30 +197,17 @@ export const CommercialProposalCreate: FC = () => {
             </button>
             <div className={styles.buttons}>
               <BlockButton
-                text={"Сохранить"}
+                text={"Изменить"}
                 disabled={errorItem}
-                onClick={handleClickCreateCP}
+                onClick={handleClickEditCP}
               />
               <p
                 className={styles.cancel}
                 onClick={() => {
-                  setCount(1);
-                  setItems([
-                    {
-                      id: 0,
-                      order: 0,
-                      name: "",
-                      count: 0,
-                      price: 0,
-                      actualPrice: 0,
-                      date: "",
-                      totalPrice: 0,
-                      marginalityPrice: 0
-                    },
-                  ]);
+                  navigate(-1);
                 }}
               >
-                Очистить
+                Отменить
               </p>
             </div>
           </div>

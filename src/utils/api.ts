@@ -1,7 +1,6 @@
-import { TFile } from "../types";
-import { IProducts } from "../types/TProducts";
-import { TUpdateList } from "../types/TList";
+import { IProducts, TFile, TUpdateCommercialProposal, TUpdateList } from "../types";
 import { getCookie, setCookie } from "./cookies";
+
 
 export const URL = "http://localhost:8000";
 
@@ -412,6 +411,16 @@ export function addCommercialProposalApi(
       idList: idList,
       products: products,
     }),
+  }).then(responseCheck);
+}
+
+export function updateCommercialProposalApi(
+  commercialProposal: TUpdateCommercialProposal,
+) {
+  return fetch(`${URL}/commercial-proposal/${commercialProposal.id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn,
+    body: JSON.stringify(commercialProposal),
   }).then(responseCheck);
 }
 

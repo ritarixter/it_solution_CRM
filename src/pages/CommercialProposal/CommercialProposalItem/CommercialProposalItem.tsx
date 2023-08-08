@@ -36,33 +36,38 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
-  const dragStartHandler = (e: DragEvent<HTMLTableRowElement>, item: IProducts) => {
+  const dragStartHandler = (
+    e: DragEvent<HTMLTableRowElement>,
+    item: IProducts
+  ) => {
     setCurrentItem(item);
   };
+
 
   //ВАЛИДАЦИЯ КОНКРЕТНОГО ITEM
   useEffect(() => {
     name === "" ? setNameError(true) : setNameError(false);
-    count === 0 ? setCountError(true) : setCountError(false);
-    actualPrice === 0 ? setActualPriceError(true) : setActualPriceError(false);
+    count == 0 || !count ? setCountError(true) : setCountError(false);
+    actualPrice == 0 || !actualPrice
+      ? setActualPriceError(true)
+      : setActualPriceError(false);
   }, [name, count, actualPrice]);
 
   //ОБЩАЯ ВАЛИДАЦИЯ КП
 
   useEffect(() => {
-    if(dateError || priceError || nameError || countError || actualPriceError) {
-      setError(true)
-    } 
-    else {
-      setError(false)
+    if (
+      dateError ||
+      priceError ||
+      nameError ||
+      countError ||
+      actualPriceError
+    ) {
+      setError(true);
+    } else {
+      setError(false);
     }
-  }, [
-    dateError,
-    priceError,
-    nameError,
-    countError,
-    actualPriceError,
-  ]);
+  }, [dateError, priceError, nameError, countError, actualPriceError]);
 
   const totalPrice = useMemo(() => {
     return actualPrice * count;
@@ -87,7 +92,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     item.price = price;
     item.actualPrice = actualPrice;
     item.totalPrice = totalPrice;
-    item.marginalityPrice = marginalityPrice
+    item.marginalityPrice = marginalityPrice;
   }, [name, count, date, price, actualPrice, totalPrice]);
 
   const dragLeaveHandler = (e: DragEvent<HTMLTableRowElement>) => {

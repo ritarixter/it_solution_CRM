@@ -37,9 +37,6 @@
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
-  &.error {
-    // border: 1px solid $errorColor;
-  }
 
   &.error::after {
     left: 0;

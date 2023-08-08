@@ -18,7 +18,6 @@ import { BlockButton } from "../../components/BlockButton/BlockButton";
 
 export const CommercialProposal: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
@@ -85,6 +84,7 @@ export const CommercialProposal: FC = () => {
               <p
                 className={styles.cancel}
                 onClick={() => {
+                  navigate(`/commercial-proposal/edit/${id_list}`);
                 }}
               >
                 Изменить

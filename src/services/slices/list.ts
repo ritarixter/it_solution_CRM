@@ -9,7 +9,7 @@ import {
   getListApi,
   updateListApi,
 } from "../../utils/api";
-import { TUpdateListByManager } from "../../types/TList";
+import { TUpdateList } from "../../types/TList";
 
 interface listState {
   list: Array<TList>;
@@ -75,14 +75,18 @@ export const addList: AppThunk =
   };
 
 export const updateList: AppThunk =
-  (list: TUpdateListByManager) => (dispatch: AppDispatch) => {
+  (list: TUpdateList) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
     updateListApi(
-      list.id,
-      list.name,
-      list.customer,
-      list.description,
-      list.idCompany
+      list
+      // list.id,
+      // list.name,
+      // list.customer,
+      // list.description,
+      // list.idCompany,
+      // list.files,
+      // list.importance,
+      // list.status
     )
       .then((res) => {
         dispatch(setError(false));

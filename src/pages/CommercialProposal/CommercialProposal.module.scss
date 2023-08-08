@@ -17,6 +17,26 @@
   margin: 20px 0;
 }
 
+.table {
+  &__container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: block;
+  scroll-behavior: smooth;
+  max-height: 41vh;
+  padding-right: 10px;
+
+  &::-webkit-scrollbar-thumb {
+    background: $inputColor;
+    border-radius: 10px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+}
+}
+
 .row {
   position: relative;
   align-items: center;

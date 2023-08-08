@@ -3,7 +3,7 @@ import styles from "./ImpotanceBlock.module.scss";
 import { impotance } from "../../utils/constants";
 
 type TImpotanceBlock = {
-  type: string | null; //"Средняя" | "Низкая" | "Высокая" | "Статус"
+  type: string | null; //"Средняя" | "Низкая" | "Высокая" | "Не назначена"
 };
 
 export const ImpotanceBlock: FC<TImpotanceBlock> = ({ type }) => {

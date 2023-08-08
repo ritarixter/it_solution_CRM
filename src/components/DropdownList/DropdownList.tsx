@@ -1,13 +1,13 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./DropdownList.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
-import { at, isArray } from "lodash";
 
 export type TDropdownList = {
-  data:any;
+  data: Array<string>;
   state: string;
   setState: (value: string) => void;
   name: string;
+  size?: "big" | "small";
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -15,103 +15,76 @@ export const DropdownList: FC<TDropdownList> = ({
   state,
   setState,
   name,
+  size,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<Array<string>>([])
-  const defaultState = "Выберите ...";
-  let inSelected = selected!.join(", ");
 
   const handlerClick = (index: number) => {
-    let inArray = false;
-    if (selected && setSelected) {
-      selected.map((work) => {
-        if (work === data[index].name) {
-          setSelected(
-            selected.filter((currentWork) => {
-              return currentWork !== data[index].name;
-            })
-          );
-          setState(
-            selected.length - 1 > 0
-              ? arrForState(
-                  selected.filter((currentWork) => {
-                    return currentWork !== data[index].name;
-                  })
-                )
-              : defaultState
-          );
-          inArray = true;
-        }
-      });
-      if (!inArray) {
-        setSelected([...selected, data[index].name]);
-        setState(textForState(data[index].name));
-      }
-    }
+    setState(data[index]);
+    setOpen(false);
   };
-
-  const textForState = (selected: string) => {
-    if(inSelected.length < 1) inSelected += selected
-    else inSelected += ', ' + selected
-    return inSelected;
-  };
-
-  const arrForState = (selected: string[]) => {
-    inSelected = selected.join(", ")
-    return inSelected;
-  };
-
-  useEffect(() => {
-  }, [selected, inSelected]);
 
   return (
     <div className={styles.dropdownList}>
+      {/* <Label text={name} /> */}
       <p className={styles.caption}>{name}</p>
 
-      <div className={`${styles.select} ${open && styles.select_open}`}>
-        <span
-          className={styles.title}
-          onClick={() => {
-            setOpen(!open);
-          }}
-        >
-          {state}
-        </span>
+      <div
+        className={`${styles.select} ${open && styles.select_open} 
+        ${
+          (state.includes("Не назначен") || state.includes("Не назначена")) &&
+          styles.null
+        } 
+        ${
+          (state.includes("В работе") || state.includes("Средняя")) &&
+          styles.blue
+        } ${
+          (state.includes("На согласовании") || state.includes("Высокая")) &&
+          styles.red
+        } ${
+          (state.includes("Закончено") || state.includes("Низкая")) &&
+          styles.green
+        }
+        
+          `}
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        <span className={styles.title}>{state}</span>
         <img
           src={arrow}
           className={`${styles.arrow} ${open && styles.arrow_open}`}
-          onClick={() => {
-            setOpen(!open);
-          }}
           alt="Стрелка выпадающего списка"
         />
         {open && (
           <ul className={styles.menu}>
-            {data.map((item: any, index: number) => {
-              let clicked = "";
-              let isSelected = false;
-              if (selected) {
-                for (let i = 0; i < selected.length; i++) {
-                  if (item.name === selected[i]) {
-                    isSelected = true;
-                    break;
-                  }
-                }
-                if (isSelected) clicked = `${styles.clicked}`;
-                else clicked = "";
-              }
-              return (
-                <li
-                  className={`${styles.option} ${clicked}`}
-                  key={item.id}
-                  onClick={() => {
-                    handlerClick(index);
-                  }}
-                >
-                  {item.name}
-                </li>
-              );
-            })}
+            {data.map((item, index) => (
+              <li
+                className={`${styles.option}  
+                ${
+                  (item.includes("Не назначен") || state.includes("Не назначена")) &&
+                  styles.null
+                } 
+                ${
+                  (item.includes("В работе") || item.includes("Средняя")) &&
+                  styles.blue
+                } ${
+                  (item.includes("На согласовании") ||
+                  item.includes("Высокая")) &&
+                  styles.red
+                } ${
+                  (item.includes("Закончено") || item.includes("Низкая")) &&
+                  styles.green
+                }`}
+                key={item}
+                onClick={() => {
+                  handlerClick(index);
+                }}
+              >
+                {item}
+              </li>
+            ))}
           </ul>
         )}
       </div>

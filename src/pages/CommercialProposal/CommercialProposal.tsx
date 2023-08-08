@@ -110,7 +110,7 @@ export const CommercialProposal: FC = () => {
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className={styles.table__container}>
                 {count > 0 ? (
                   items.map((item) => (
                     <CommercialProposalItem

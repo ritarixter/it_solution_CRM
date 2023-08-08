@@ -28,7 +28,10 @@ export const ProfileWindowPopup: FC<TProfileWindowPopup> = ({
           key={item.id}
           onClick={() => {
             if (item.id === 2) {
+              console.log(getCookie("accessToken"))
                 deleteCookie("accessToken");
+                console.log('Удалили токен')
+                console.log(getCookie("accessToken"))
                 dispatch(logout());
                 dispatch(setAuth(false))
               }

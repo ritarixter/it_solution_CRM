@@ -26,6 +26,7 @@ import { getSample } from "../../services/slices/sample";
 import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
+import { CommercialProposalEdit } from "../../pages/CommercialProposal/CommercialProposalEdit/CommercialProposalEdit";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,6 @@ export const App: FC = () => {
 
   useEffect(() => {
     if (isAuth) {
-      navigate("/applications");
       dispatch(getUser());
       dispatch(getList());
       dispatch(getUsers());
@@ -77,6 +77,14 @@ export const App: FC = () => {
               <DndProvider backend={HTML5Backend}>
                 <CommercialProposal />
               </DndProvider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/commercial-proposal/edit/:id"
+          element={
+            <ProtectedRoute>
+              <CommercialProposalEdit />
             </ProtectedRoute>
           }
         />

@@ -1,5 +1,6 @@
 import { TFile } from "../types";
 import { IItem } from "../types/TItem";
+import { TUpdateList } from "../types/TList";
 import { getCookie, setCookie } from "./cookies";
 
 export const URL = "http://localhost:8000";
@@ -143,7 +144,7 @@ export function addTaskUserApi(
   }).then(responseCheck);
 }
 
-//Изменение статуса задачи 
+//Изменение статуса задачи
 export function updateTaskUserApi(
   id?: number,
   done?: boolean,
@@ -178,7 +179,7 @@ export function addListApi(
   customer: string,
   INNCompany: string,
   description?: string,
-  files?:Array<TFile>
+  files?: Array<TFile>
 ) {
   return fetch(`${URL}/list`, {
     method: "POST",
@@ -188,7 +189,7 @@ export function addListApi(
       customer: customer,
       INNCompany: INNCompany,
       description: description,
-      files: files
+      files: files,
     }),
   }).then(responseCheck);
 }
@@ -222,22 +223,13 @@ export function refreshToken() {
     });
 }
 
-export function updateListApi(
-  id: number,
-  name?: string,
-  customer?: string,
-  description?: string,
-  idCompany?: number
-) {
-  return fetch(`${URL}/list/${id}`, {
+export function updateListApi(list: TUpdateList) {
+  return fetch(`${URL}/list/${list.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn,
-    body: JSON.stringify({
-      name,
-      customer,
-      description,
-      idCompany,
-    }),
+    body: JSON.stringify(
+      list
+    ),
   }).then(responseCheck);
 }
 
@@ -423,14 +415,13 @@ export function addCommercialProposalApi(
   }).then(responseCheck);
 }
 
-
 //---------------------------------------------------------------FILES-------------------------------------------------------------------------------
 
 // Получение всех работ
-export function uploadFiles(files:any) {
+export function uploadFiles(files: any) {
   return fetch(`${URL}/upload`, {
     method: "POST",
-   headers:{
+    headers: {
       Authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: files,

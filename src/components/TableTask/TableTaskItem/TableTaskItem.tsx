@@ -122,8 +122,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({ item, mini, currentAccess })
         className={`${styles.row} ${mini ? styles.row_mini : styles.row_maxi} ${
           styles.link 
         }`} onClick={()=>navigate(`${item.id}`)}>
-          <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>{item.company.nameCompany}</td>
+          <td key={uuidv4()}>{item.name}</td>
           <td key={uuidv4()}>
             {item.company.email ? item.company.email : "Пусто"}
           </td>

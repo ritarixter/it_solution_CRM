@@ -69,7 +69,7 @@
   transition: opacity 0.2s ease;
   padding: 20px 0;
   text-align-last: left;
-  
+
   width: 100%;
 
   & > th {
@@ -101,6 +101,11 @@
     &:hover {
       opacity: 0.8;
     }
+  }
+
+  &::after{
+    content: '';
+    
   }
 }
 

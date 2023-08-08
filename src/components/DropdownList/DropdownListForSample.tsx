@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./DropdownList.module.scss";
+import styles from "./DropdownListForSample.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
 import { at, isArray } from "lodash";
 import { useAppSelector } from "../../services/hooks";

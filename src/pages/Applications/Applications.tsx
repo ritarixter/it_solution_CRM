@@ -108,18 +108,23 @@ export const Applications: FC = () => {
 
   const handleClickAddList = () => {
     if (workNameValue.length > 1 && workNameValue.length < 30) {
-      uploadFiles(files).then((res) => {
+      if (files) {
+        uploadFiles(files).then((res) => {
+          dispatch(
+            addList(
+              workNameValue,
+              customer,
+              currentCompany?.INN,
+              textareaValue,
+              res
+            )
+          );
+        });
+      } else {
         dispatch(
-          addList(
-            workNameValue,
-            customer,
-            currentCompany?.INN,
-            textareaValue,
-            res
-          )
+          addList(workNameValue, customer, currentCompany?.INN, textareaValue)
         );
-      });
-
+      }
       setCurrentCompany(undefined);
       setTextareaValue("");
       setCustomer("");

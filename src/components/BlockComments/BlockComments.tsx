@@ -7,7 +7,7 @@ import JustValidate from "just-validate";
 type TBlockComments = {
   value: string;
   setValue: (value: string) => void;
-  setFiles: (value: FormData) => void;
+  setFiles: (value: FormData | undefined) => void;
 };
 
 export const BlockComments: FC<TBlockComments> = ({
@@ -15,7 +15,6 @@ export const BlockComments: FC<TBlockComments> = ({
   setValue,
   setFiles,
 }) => {
-
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,29 +25,30 @@ export const BlockComments: FC<TBlockComments> = ({
       alert("Max 5");
       return;
     }
-
-    //setFile(e.target.files);
-    setCurrentFiles([...e.target.files])
-
-    let data = new FormData();
-
-    for (let i = 0; i < e.target.files.length; i++) {
-      data.append("media", e.target.files[i]);
-    }
-
-    setFiles(data);
+    setCurrentFiles([...e.target.files]);
   };
 
-/*   useEffect(() => {
-    setCurrentFiles(file ? [...file] : []);
-  }, [file]); */
+  useEffect(() => {
+    let data = new FormData();
+    if (currentfiles.length != 0) {
+      for (let i = 0; i < currentfiles.length; i++) {
+        data.append("media", currentfiles[i]);
+      }
+      setFiles(data);
+    } else {
+      setFiles(undefined);
+    }
+  }, [currentfiles]);
 
-  const deleteFile = (i: any) => {
-    const newFiles = [...currentfiles];
-    if(newFiles.length === 1) {
+  console.log(currentfiles);
+
+  const deleteFile = (i: number) => {
+    let newFiles = [...currentfiles];
+    if (newFiles.length === 1) {
       setCurrentFiles([]);
     } else {
-      setCurrentFiles(newFiles.splice(i, 1));
+      newFiles.splice(i, 1);
+      setCurrentFiles(newFiles);
     }
   };
 
@@ -64,7 +64,7 @@ export const BlockComments: FC<TBlockComments> = ({
       />
       <div className={styles.input_wrapper}>
         <input
-          accept=".jpg,.jpeg,.png"
+          accept="application/pdf, application/vnd.ms-excel, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/png, image/jpeg, image/jpg"
           type="file"
           className={styles.input__file}
           id="input__file"

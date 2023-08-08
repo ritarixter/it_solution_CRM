@@ -4,11 +4,11 @@ import { Input } from "../../../components/Input";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useLocation } from "react-router";
-import { TCompany, TUpdateCompany } from "../../../types";
+import { TCompany, TFile, TUpdateCompany } from "../../../types";
 import { ButtonCircle } from "../../../components/ButtonCircle/ButtonCircle";
 import { Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi } from "../../../utils/api";
+import { getListByIdApi, uploadFiles } from "../../../utils/api";
 import { Link } from "react-router-dom";
 import edit_white from "../../../images/icons/edit_white.svg";
 import { Popup } from "../../../components/Popup";
@@ -20,12 +20,14 @@ import {
 } from "../../../services/slices/company";
 import { validateEmail } from "../../../utils/utils";
 import { deleteList, getList, updateList } from "../../../services/slices/list";
+import { FileIcon } from "../../../components/File/FileIcon";
 
 type TCurrentList = {
   id: number;
   name: string;
   description: string;
   customer: string;
+  files: Array<TFile>
   company: {
     INN: string;
     email?: string | undefined;
@@ -34,6 +36,8 @@ type TCurrentList = {
     numberPhone: string;
   };
 };
+
+//---------------------------------------------------------СТРАНИЦА РЕДАКТИРОВАНИЯ ЗАЯВКИ ДЛЯ МЕНЕДЖЕРА-------------------------------------------------------------------------
 
 export const ApplicationsItem: FC = () => {
   const location = useLocation();
@@ -49,6 +53,7 @@ export const ApplicationsItem: FC = () => {
     name: "",
     description: "",
     customer: "",
+    files: [],
     company: {
       INN: "",
       email: undefined,
@@ -179,20 +184,37 @@ export const ApplicationsItem: FC = () => {
   };
 
   const handleUpdateList = () => {
-    const listNew = {
-      id: currentList.id,
-      customer: customer === "" ? undefined : customer,
-      description: textareaValue === "" ? undefined : textareaValue,
-      name: codeValue === "" ? undefined : codeValue,
-      idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
-    };
-    dispatch(updateList(listNew));
+    if(files) {
+      uploadFiles(files).then((res) => {
+        const listNew = {
+          id: currentList.id,
+          customer: customer === "" ? undefined : customer,
+          description: textareaValue === "" ? undefined : textareaValue,
+          name: codeValue === "" ? undefined : codeValue,
+          idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
+          files: res
+        };       
+        dispatch(updateList(listNew));
+      })
+    } else {
+      const listNew = {
+        id: currentList.id,
+        customer: customer === "" ? undefined : customer,
+        description: textareaValue === "" ? undefined : textareaValue,
+        name: codeValue === "" ? undefined : codeValue,
+        idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
+        files: undefined
+      };       
+      dispatch(updateList(listNew));
+    }
+   
+
   };
 
   return (
     <Wrapper>
       <HeaderTop />
-      <div className={styles.popup}>
+      <div className={`${styles.popup} ${styles.popup_manager}`}>
         <div className={styles.infomation}>
           <h2 className={styles.conteiner_title}>Текущая информация</h2>
           <div className={styles.blockText}>
@@ -227,6 +249,12 @@ export const ApplicationsItem: FC = () => {
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Комментарий</p>
             <p className={styles.blockText_text}>{currentList.description ? currentList.description : 'Комментариев нет'}</p>
+          </div>
+          <div className={styles.blockText}>
+          <p className={styles.blockText_title}>Файлы</p>
+          {currentList.files ? currentList.files.map((file) => (
+              <FileIcon name={file.name} url={file.url} />
+            )) : <span className={styles.blockText_text}>Файлов нет</span>}
           </div>
         </div>
         <div className={styles.conteiner}>

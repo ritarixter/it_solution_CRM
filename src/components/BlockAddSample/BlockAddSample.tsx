@@ -36,12 +36,6 @@ export const BlockAddSample: FC<TBlockAddSample> = ({ data }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUsers());
-    dispatch(getWork());
-    dispatch(getSample());
-  }, []);
-
-  useEffect(() => {
     if (data.length != 0) {
       let arr = [...data];
       setCurrentData(

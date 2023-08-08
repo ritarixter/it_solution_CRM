@@ -21,10 +21,13 @@ export type TList = {
 };
 
 
-export type TUpdateListByManager = {
+export type TUpdateList = {
   id:number,
   idCompany?: number,
   name?: string;
   customer?: string;
   description?: string;
+  files?: TFile[];
+  status?: string
+  importance?: string
 }

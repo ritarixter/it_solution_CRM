@@ -13,6 +13,23 @@ interface userState {
   isLoadingUser: boolean;
 }
 
+const initialStateLogout: userState = {
+  users: [],
+  user: {
+    id: 0,
+    createdAt: '',
+    updatedAt: '',
+    name: '',
+    avatar: '',
+    access: '',
+    username: "",
+    password: "",
+  },
+  isAuth: false,
+  isError: false,
+  isLoadingUser: false
+};
+
 const initialState: userState = {
   users: [],
   user: {
@@ -49,7 +66,7 @@ export const userSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoadingUser = action.payload;
     },
-    logout: () => initialState,
+    logout: () => initialStateLogout,
   },
 });
 

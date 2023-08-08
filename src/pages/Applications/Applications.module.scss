@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
   }
-  
+
   &__textarea {
     max-width: 422px;
   }
@@ -170,9 +170,20 @@
   background-color: $thirdColor;
   border-radius: 10px;
   margin-left: 30px;
-
-  // max-width: 880px;
   width: 100%;
+
+  &_manager {
+    max-width: 880px;
+  }
+
+  &_edit {
+    margin-top: 44px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
 }
 
 .conteiner {
@@ -187,15 +198,24 @@
     margin-top: 50px;
     margin-bottom: 14px;
   }
+  &_titleTree {
+    margin-top: 35px;
+    margin-bottom: 14px;
+  }
 }
 
 .infomation {
+  .infomation__container {
+    display: flex;
+    flex-direction: column;
+  }
   display: flex;
   flex-direction: column;
-  padding-left: 49px;
-  padding-right: 0px;
+  height: 100%;
+  justify-content: space-between;
+  padding: 0 40px;
   border-right: 1px solid $line;
-  padding-bottom: 62px;
+  padding-bottom: 50px;
 }
 
 .blockText {
@@ -254,20 +274,57 @@
   color: $statusHard;
 }
 
-
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ГЛАВНОЕГО ИНЖЕНЕРА---------------------------------------------------------------------------------------------------------------------------
 .tree {
   padding: 50px;
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  &__header {
+    display: flex;
+  }
 }
 
 .buttonCreate {
   justify-content: flex-end;
-
+  margin-top: 20px;
 }
 
 .filesContainer {
   display: flex;
+}
+
+.button__nav {
+  border: none;
+  outline: none;
+  background: none;
+  color: $primaryColor;
+  font-size: 16px;
+  margin-right: 17px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 7px;
+  }
+
+  &.active {
+    text-decoration: underline;
+    text-underline-offset: 7px;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.edit__container {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.editButton {
 }

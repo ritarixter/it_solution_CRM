@@ -2,7 +2,7 @@ import { FC } from "react";
 import styles from "./ImpotanceBlock.module.scss";
 
 type TImpotanceBlock = {
-  type: string | null; //"Средняя" | "Низкая" | "Высокая" | "Статус"
+  type: string | null; //"Средняя" | "Низкая" | "Высокая" | "Не назначена"
 };
 
 export const ImpotanceBlock: FC<TImpotanceBlock> = ({ type }) => {

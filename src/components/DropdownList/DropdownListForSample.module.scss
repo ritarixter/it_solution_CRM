@@ -6,7 +6,12 @@
 }
 
 .title {
-  margin: 0;
+  margin-right: 50px;
+  margin-bottom: 0;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .caption {
@@ -22,7 +27,7 @@
   margin: 0;
   margin-bottom: 8px;
   border: 1px solid $inputColor;
-  border-radius: 10px;
+  border-radius: 6px;
   outline: none;
   box-sizing: border-box;
   font-size: 14px;
@@ -30,16 +35,14 @@
   padding-top: 8px;
   padding-bottom: 7px;
   padding-left: 16px;
-  color: $inputColor;
   cursor: pointer;
 
   &_open {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-bottom: none;
   }
-  &.error {
-    // border: 1px solid $errorColor;
-  }
+
 
   &.error::after {
     left: 0;
@@ -60,10 +63,11 @@
   width: 100%;
   left: 0;
   max-height: 181px;
-  margin-top: 6px;
+  margin-top: 7px;
   -webkit-box-shadow: 0px 0px 0px 1px $inputColor;
   -moz-box-shadow: 0px 0px 0px 1px $inputColor;
   box-shadow: 0px 0px 0px 1px $inputColor;
+  border-top: none;
   &.bigHeight {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -85,42 +89,34 @@
   }
 }
 
+.placeholder {
+  color: $nullColor;
+}
+
 .option {
   background-color: $thirdColor;
+  color: $primaryColor;
   padding: 6px 12px 6px 16px;
-  transition: color 0.1s linear;
+  font-size: 14px;
+  transition: all 0.1s linear;
   box-sizing: border-box;
 
   &:hover:not(.disabled) {
     background:  rgb(241, 241, 241);;
-    //color: $primaryColor;
+    color: $primaryColor;
   }
-
+/* 
   &.disabled {
     background-color: rgb(241, 241, 241);
     cursor: not-allowed;
-  }
+  } */
 }
 
-.red {
- // background-color: $statusToDoColor;
-  color: #f47633;
+.clicked {
+  background:  rgb(241, 241, 241);;
+  color: $primaryColor;
+  font-weight: 600;
 }
-
-.green {
-  color: #20814d;
-  //background-color: $statusDoneColor;
-}
-
-.blue {
- // background-color: $statusDoColor;
-  color: #3b9acd;
-}
-
-.null {
-  color: $inputColor;
-}
-
 
 .arrow {
   position: absolute;

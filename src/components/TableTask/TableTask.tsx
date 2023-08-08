@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from "./TableTask.module.scss";
 import excel from "../../images/icons/excel_icon.svg";
-import { data, titles, titlesManager, titlesMini } from "./constants";
+import { titles, titlesManager, titlesMini } from "./constants";
 import { Pagination } from "../Pagination";
 import { v4 as uuidv4 } from "uuid";
 import { TableTaskItem } from "./TableTaskItem/TableTaskItem";

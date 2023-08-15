@@ -67,7 +67,7 @@ export const DropdownList: FC<TDropdownList> = ({
                 className={`${styles.option}  
                 ${
                   (item.includes(statusConst.NOT_ASSIGNED_DEAD) ||
-                    state.includes(impotance.NOT_ASSIGNED_DEAD)) &&
+                    item.includes(impotance.NOT_ASSIGNED_DEAD)) &&
                   styles.null
                 } 
                 ${

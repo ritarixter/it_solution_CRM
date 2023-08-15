@@ -26,6 +26,7 @@ import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
 import { CommercialProposalCreate, CommercialProposal, CommercialProposalEdit } from "../../pages/CommercialProposal";
+import { getCookie } from "../../utils/cookies";
 
 
 export const App: FC = () => {
@@ -105,6 +106,7 @@ export const App: FC = () => {
               {" "}
               {user.access === access.MANAGER && <ApplicationsItem />}
               {user.access === access.SUPERUSER && <ApplicationsItemTree />}
+
             </ProtectedRoute>
           }
         />

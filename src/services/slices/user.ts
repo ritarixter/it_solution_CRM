@@ -42,7 +42,7 @@ const initialState: userState = {
     username: "",
     password: "",
   },
-  isAuth: !!getCookie("accessToken"),
+  isAuth: !!localStorage.getItem("refreshToken"),//!!getCookie("accessToken"),
   isError: false,
   isLoadingUser: false
 };
@@ -53,6 +53,7 @@ export const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<TUser>) {
       state.user = action.payload;
+      state.isAuth = true
     },
     setUsers(state, action: PayloadAction<Array<TUser>>) {
       state.users = action.payload;
@@ -78,7 +79,7 @@ export const registerUser: AppThunk =
     signUp(username, password)
       .then((res) => {
         setCookie("accessToken", res.accessToken);
-        //setCookie('refreshToken', res.refreshToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
        dispatch(setAuth(true));
       })
       .catch((err) => {
@@ -96,7 +97,7 @@ export const loginUser: AppThunk =
     signIn(username, password)
       .then((res) => {
         setCookie("accessToken", res.accessToken);
-        //setCookie('refreshToken', res.refreshToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setError(false));
         dispatch(setAuth(true));
         dispatch(getUser())

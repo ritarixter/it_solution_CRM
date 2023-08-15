@@ -1,3 +1,4 @@
+import { TCommercialProposal } from "./TCommercialProposal";
 import { TCompany } from "./TCompany";
 import { TFile } from "./TFile";
 import { TUser } from "./TUser";
@@ -14,7 +15,7 @@ export type TList = {
   status: string | null;
   importance: string | null;
   company: TCompany;
-  commercialProposal: any; //ПОМЕНЯТЬ
+  commercialProposal: TCommercialProposal;
   users: TUser[];
   works: TWork[];
   files: TFile[];

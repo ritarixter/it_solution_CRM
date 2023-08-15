@@ -105,7 +105,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
               <h2 className={styles.title}>
                 {mini ? "Заявки за последние 7 дней" : "Заявки"}
               </h2>
-           <ExcelButton onClick={handleDownloadExcel}/>
+              <ExcelButton onClick={handleDownloadExcel} />
             </div>
             <table className={`${styles.table} ${mini && styles.table_mini}`}>
               <thead key={uuidv4()}>
@@ -121,6 +121,9 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
                     ))}
                   {!mini &&
                     currentAccess === access.SUPERUSER &&
+                    titles.map((title, index) => <th key={index}>{title}</th>)}
+                  {!mini &&
+                    currentAccess === access.ENGINEER &&
                     titles.map((title, index) => <th key={index}>{title}</th>)}
                   {mini &&
                     currentAccess === access.MANAGER &&

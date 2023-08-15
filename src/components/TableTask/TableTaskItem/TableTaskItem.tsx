@@ -88,6 +88,65 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               : NOT_ASSIGNED_DEAD}
           </td>
           <td key={uuidv4()}>
+            {/* {item.company.name.split(" ")[0] +
+              " " +
+              item.company.name.split(" ")[1][0] +
+              "."} */}
+          </td>
+          <td key={uuidv4()}>{item.company.numberPhone}</td>
+
+          {item.users.length != 0 ? (
+            <td className={styles.implements}>
+              {item.users.slice(0, 3).map((user) => (
+                <div className={styles.implements__item} key={user.id}>
+                  <UserBlock avatar={user.avatar} name={user.name} />
+                </div>
+              ))}
+              {item.users.length > 3 && (
+                <UserBlock name={`+${String(item.users.length - 3)}`} />
+              )}
+            </td>
+          ) : (
+            <td className={styles.implements__notfound}>{NOT_ASSIGNED}</td>
+          )}
+
+          <td key={uuidv4()}>
+            <StatusBlock type={item.status} />
+          </td>
+          <td key={uuidv4()}>
+            <ImpotanceBlock type={item.importance} />
+          </td>
+          <td key={uuidv4()}>
+            <WorkProgressBar />
+          </td>
+          <td key={uuidv4()}>
+            <div className={styles.implements__file}>
+              {item.files
+                ? item.files.map((file) => (
+                    <FileIcon name={file.name} url={file.url} />
+                  ))
+                : notFound.NO_FILES}
+            </div>
+          </td>
+        </tr>
+      )}
+      {/* ОТОБРАЖЕНИЕ ДЛЯ ИНЖЕНЕРА */}
+      {!mini && currentAccess === access.ENGINEER && (
+        <tr
+          onClick={() => navigate(`/applications/${item.id}`)}
+          className={`${styles.row} ${
+            mini ? styles.row_mini : styles.row_maxi
+          } ${styles.link}`}
+        >
+          <td key={uuidv4()}>{item.company.nameCompany}</td>
+          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
+          <td key={uuidv4()}>
+            {item.endDate != null
+              ? formateDateShort(item.endDate)
+              : NOT_ASSIGNED_DEAD}
+          </td>
+          <td key={uuidv4()}>
             {item.company.name.split(" ")[0] +
               " " +
               item.company.name.split(" ")[1][0] +
@@ -120,11 +179,13 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             <WorkProgressBar />
           </td>
           <td key={uuidv4()}>
-            {item.files
-              ? item.files.map((file) => (
-                  <FileIcon name={file.name} url={file.url} />
-                ))
-              : notFound.NO_FILES}
+            <div className={styles.implements__file}>
+              {item.files
+                ? item.files.map((file) => (
+                    <FileIcon name={file.name} url={file.url} />
+                  ))
+                : notFound.NO_FILES}
+            </div>
           </td>
         </tr>
       )}

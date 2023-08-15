@@ -1,3 +1,4 @@
+import { access } from "fs";
 import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
 import { getCookie, setCookie } from "./cookies";
 
@@ -52,6 +53,12 @@ export function getDataUser() {
 
 export function getUsersApi() {
   return fetch(`${URL}/user`, {
+    headers: headersWithAuthorizeFn,
+  }).then(responseCheck);
+}
+
+export function getUsersAccessApi(access: string) {
+  return fetch(`${URL}/user/${access}`, {
     headers: headersWithAuthorizeFn,
   }).then(responseCheck);
 }

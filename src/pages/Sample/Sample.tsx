@@ -6,7 +6,7 @@ import { TSample } from "../../types";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 import { useNavigate } from "react-router";
 import { Input } from "../../components/Input";
-import { DropdownListForSample } from "../../components/DropdownList/DropdownListForSample";
+import { DropdownListForUsers} from "../../components/DropdownList/DropdownListForUsers";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { uploadFiles } from "../../utils/api";
@@ -75,13 +75,13 @@ export const Sample: FC = () => {
               value={inputOne}
               setValue={setInputOne}
             />
-            <DropdownListForSample
+            <DropdownListForUsers
               name={"Виды работ"}
               state={isWork}
               setState={setIsWork}
               data={works}
             />
-            <DropdownListForSample
+            <DropdownListForUsers
               name={"Исполнители"}
               state={executor}
               setState={setExecutor}

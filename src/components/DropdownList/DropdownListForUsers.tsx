@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./DropdownListForSample.module.scss";
+import styles from "./DropdownListForUsers.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 
@@ -10,7 +10,7 @@ export type TDropdownList = {
   name: string;
 };
 
-export const DropdownListForSample: FC<TDropdownList> = ({
+export const DropdownListForUsers: FC<TDropdownList> = ({
   data,
   state,
   setState,

@@ -56,35 +56,12 @@ export const Scheme: FC = () => {
                     {getAvatars()}
                   </li>
                   <li className={styles.deputyEng}>
-                    <a href="#">Заместитель Инженера</a>
+                    <a href="#">Инженер</a>
+                    {getAvatars()}
                     <ul>
                       <li className={styles.firstEng}>
-                        <a href="#">Инженер</a>
-                        <ul>
-                          <li>
-                            <a href="#">Бригада монтажников</a>
-                            {getAvatars()}
-                          </li>
-                        </ul>
-                      </li>
-                      <li className={styles.secondEng}>
-                        <a href="#">Инженер</a>
-                        {isPriority && getInfo()}
-                        <ul>
-                          <li className={styles.thirdEngBrigade}>
-                            <a href="#">Бригада монтажников</a>
-                            {getAvatars()}
-                          </li>
-                        </ul>
-                      </li>
-                      <li className={styles.thirdEng}>
-                        <a href="#">Инженер</a>
-                        <ul>
-                          <li>
-                            <a href="#">Бригада монтажников</a>
-                            {getAvatars()}
-                          </li>
-                        </ul>
+                        <a href="#">Бригада монтажников</a>
+                        {getAvatars()}
                       </li>
                     </ul>
                   </li>
@@ -101,7 +78,7 @@ export const Scheme: FC = () => {
         <ul className={styles.colorInfo_list}>
           <li className={styles.colorInfo_item}> Закончено</li>
           <li className={styles.colorInfo_item}> В процессе</li>
-          <li className={styles.colorInfo_item}> Работу не началась</li>
+          <li className={styles.colorInfo_item}> Работа не началась</li>
         </ul>
       </div>
     </div>

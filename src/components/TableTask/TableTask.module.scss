@@ -108,6 +108,10 @@
   &__notfound {
     margin: 0;
   }
+
+  &__file {
+    display: flex;
+  }
 }
 
 .pagination {

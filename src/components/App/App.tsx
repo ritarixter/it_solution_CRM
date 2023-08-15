@@ -8,7 +8,6 @@ import {
   ApplicationsItemTree,
   Login,
   NotFound,
-  Test,
 } from "../../pages";
 import { Header } from "../Header";
 import { Analytics } from "../../pages/Analytics/Analytics";
@@ -53,7 +52,6 @@ export const App: FC = () => {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Test />} />
         <Route
           path="/analytics"
           element={

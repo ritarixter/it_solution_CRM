@@ -252,18 +252,30 @@
 }
 
 
+.title {
+	margin-bottom: 5px;
+}
 
-
-
-.tree .mainEng a,
-.tree .deputyEng a,
-.tree .secondEng a {
+.tree .mainEng a {
 	background-color: $statusDoColor;
 	color: $progressBar;
 }
 
+.tree .active a{
+	background-color: $statusDoColor;
+	color: $progressBar;
+}
+
+// 
+// .tree .deputyEng a,
+// .tree .secondEng a {
+// 	background-color: $statusDoColor;
+// 	color: $progressBar;
+// }
+
 
 .tree .purchasing a,
+.tree .deputyEng a,
 .tree .stock a,
 .tree .lawyer a,
 .tree .firstEng a,
@@ -272,4 +284,10 @@
 .tree .project a {
 	background-color: $bgNullColor;
 	color: $nullColor;
+}
+
+.deputyEng {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }

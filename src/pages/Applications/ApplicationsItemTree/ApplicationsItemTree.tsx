@@ -21,7 +21,7 @@ export const ApplicationsItemTree: FC = () => {
   const location = useLocation();
   const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
-  const [currentList, setCurrentList] = useState<TList | null>(null);                                                                                                                                        
+  const [currentList, setCurrentList] = useState<TList | null>(null);
   const [header, setHeader] = useState<"Дерево" | "Изменить информацию">(
     "Изменить информацию"
   );
@@ -58,41 +58,40 @@ export const ApplicationsItemTree: FC = () => {
   }, [users]);
 
   const handleChangeList = () => {
-    if(engineer.length >1) {
-      setEngineerError(true)
-    }
-    else {
-      setEngineerError(false)
+    if (engineer.length > 1) {
+      setEngineerError(true);
+    } else {
+      setEngineerError(false);
 
-    if (files) {
-      uploadFiles(files).then((res) => {
+      if (files) {
+        uploadFiles(files).then((res) => {
+          const listNew = {
+            id: id_list,
+            description:
+              textareaValue === "" || textareaValue === currentList?.description
+                ? undefined
+                : textareaValue,
+            files: res,
+            importance:
+              importance === currentList?.importance ? undefined : importance,
+            status: status === currentList?.status ? undefined : status,
+            users: engineer.length != 0 ? [engineer[0].id] : undefined,
+          };
+          dispatch(updateList(listNew));
+        });
+      } else {
         const listNew = {
           id: id_list,
-          description:
-            textareaValue === "" || textareaValue === currentList?.description
-              ? undefined
-              : textareaValue,
-          files: res,
+          description: textareaValue === "" ? undefined : textareaValue,
+          files: undefined,
           importance:
             importance === currentList?.importance ? undefined : importance,
           status: status === currentList?.status ? undefined : status,
           users: engineer.length != 0 ? [engineer[0].id] : undefined,
         };
         dispatch(updateList(listNew));
-      });
-    } else {
-      const listNew = {
-        id: id_list,
-        description: textareaValue === "" ? undefined : textareaValue,
-        files: undefined,
-        importance:
-          importance === currentList?.importance ? undefined : importance,
-        status: status === currentList?.status ? undefined : status,
-        users: engineer.length != 0 ? [engineer[0].id] : undefined,
-      };
-      dispatch(updateList(listNew));
+      }
     }
-  }
   };
 
   return (
@@ -155,17 +154,17 @@ export const ApplicationsItemTree: FC = () => {
                 : null}
             </div>
             <div className={styles.buttonCreate}>
-            {currentList?.commercialProposal ? (
-              <BlockButton
-                text={"Посмотреть КП"}
-                onClick={() => {
-                  navigate(`/commercial-proposal/${id_list}`);
-                }}
-              />
-            ) : (
-              <div></div>
-            )}
-          </div>
+              {currentList?.commercialProposal ? (
+                <BlockButton
+                  text={"Посмотреть КП"}
+                  onClick={() => {
+                    navigate(`/commercial-proposal/${id_list}`);
+                  }}
+                />
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
         </div>
         <section className={styles.tree}>
@@ -190,21 +189,21 @@ export const ApplicationsItemTree: FC = () => {
             </button>
           </div>
           {header === "Дерево" ? (
-            <ApplicationTree />
+            <ApplicationTree
+              users={currentList?.users ? currentList?.users : []}
+            />
           ) : (
             <div className={styles.popup_edit}>
               <form method="POST" className={styles.edit__container}>
-
                 <DropdownListForUsers
                   data={dataEngineer}
                   setState={setEngineer}
                   state={engineer}
                   name={"Ответсвенный инженер"}
                   error={engineerError}
-                  errorText={'Инженер может быть только 1'}
-      
+                  errorText={"Инженер может быть только 1"}
                 />
-      
+
                 <DropdownList
                   data={statusData}
                   setState={setStatus}

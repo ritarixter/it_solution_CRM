@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./DropdownListForSample.module.scss";
+import styles from "./DropdownListForUsers.module.scss";
 import arrow from "../../images/icons/arrow_down.svg";
 import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 
@@ -8,13 +8,17 @@ export type TDropdownList = {
   state: Array<TWorkAbdExecuter>;
   setState: (value: Array<TWorkAbdExecuter>) => void;
   name: string;
+  error?: boolean;
+  errorText?: string;
 };
 
-export const DropdownListForSample: FC<TDropdownList> = ({
+export const DropdownListForUsers: FC<TDropdownList> = ({
   data,
   state,
   setState,
   name,
+  error,
+  errorText
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<Array<TWorkAbdExecuter>>([]);
@@ -52,7 +56,6 @@ export const DropdownListForSample: FC<TDropdownList> = ({
       setState([...selected, { id: data[index].id, name: data[index].name }]);
       setDefaultState([...defaultState, data[index].name]);
     }
-    console.log(defaultState);
   };
 
   useEffect(() => {}, [selected, state]);
@@ -61,7 +64,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
     <div className={styles.dropdownList}>
       <p className={styles.caption}>{name}</p>
 
-      <div className={`${styles.select} ${open && styles.select_open}`}>
+      <div className={`${styles.select} ${open && styles.select_open} ${error && styles.error}`}>
         <span
           className={styles.title}
           onClick={() => {
@@ -112,6 +115,7 @@ export const DropdownListForSample: FC<TDropdownList> = ({
           </ul>
         )}
       </div>
+      {error && <span className={styles.error_text}>{errorText}</span>}
     </div>
   );
 };

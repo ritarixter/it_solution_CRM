@@ -2,12 +2,14 @@ export const access: TAccess = {
   SUPERUSER: "Главный инженер",
   MANAGER: "Менеджер",
   FITTER: "Монтажник",
+  ENGINEER: "Инженер"
 };
 
 export type TAccess = {
   SUPERUSER: string;
   MANAGER: string;
   FITTER: string;
+  ENGINEER: string
 };
 
 export const URL_BACKEND = "http://localhost:8000";

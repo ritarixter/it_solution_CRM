@@ -12,16 +12,16 @@ import { updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
-import { importanceData, statusData } from "./constants";
+import { importanceData, statusData } from "../ApplicationsItemTree/constants";
 import { access, notFound } from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 
-export const ApplicationsItemTree: FC = () => {
-  const navigate = useNavigate();
+export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
-  const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
-  const [currentList, setCurrentList] = useState<TList | null>(null);                                                                                                                                        
+  const { users } = useAppSelector((state) => state.user);
+  const [currentList, setCurrentList] = useState<TList | null>(null);
+  const navigate = useNavigate();
   const [header, setHeader] = useState<"Дерево" | "Изменить информацию">(
     "Изменить информацию"
   );
@@ -33,9 +33,9 @@ export const ApplicationsItemTree: FC = () => {
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [importance, setImportance] = useState<string>(importanceData[0]);
   const [status, setStatus] = useState<string>(statusData[0]);
-  const [engineer, setEngineer] = useState<Array<TWorkAbdExecuter>>([]);
-  const [engineerError, setEngineerError] = useState<boolean>(false);
-  const [dataEngineer, setDataEngineer] = useState<Array<TWorkAbdExecuter>>([]);
+  const [fitters, setFitters] = useState<Array<TWorkAbdExecuter>>([]);
+  const [dataFitters, setDataFitters] = useState<Array<TWorkAbdExecuter>>([]);
+
   //Получение информации о текущей заявке
   useEffect(() => {
     getListByIdApi(id_list).then((res) => {
@@ -54,16 +54,10 @@ export const ApplicationsItemTree: FC = () => {
 
   useEffect(() => {
     let arr = [...users];
-    setDataEngineer(arr.filter((item) => item.access === access.ENGINEER));
+    setFitters(arr.filter((item) => item.access === access.FITTER));
   }, [users]);
 
   const handleChangeList = () => {
-    if(engineer.length >1) {
-      setEngineerError(true)
-    }
-    else {
-      setEngineerError(false)
-
     if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
@@ -76,7 +70,6 @@ export const ApplicationsItemTree: FC = () => {
           importance:
             importance === currentList?.importance ? undefined : importance,
           status: status === currentList?.status ? undefined : status,
-          users: engineer.length != 0 ? [engineer[0].id] : undefined,
         };
         dispatch(updateList(listNew));
       });
@@ -88,11 +81,9 @@ export const ApplicationsItemTree: FC = () => {
         importance:
           importance === currentList?.importance ? undefined : importance,
         status: status === currentList?.status ? undefined : status,
-        users: engineer.length != 0 ? [engineer[0].id] : undefined,
       };
       dispatch(updateList(listNew));
     }
-  }
   };
 
   return (
@@ -154,7 +145,8 @@ export const ApplicationsItemTree: FC = () => {
                   ))
                 : null}
             </div>
-            <div className={styles.buttonCreate}>
+          </div>
+          <div className={styles.buttonCreate}>
             {currentList?.commercialProposal ? (
               <BlockButton
                 text={"Посмотреть КП"}
@@ -163,83 +155,53 @@ export const ApplicationsItemTree: FC = () => {
                 }}
               />
             ) : (
-              <div></div>
+              <BlockButton
+                text={"Создать КП"}
+                onClick={() => {
+                  navigate(`/commercial-proposal/create/${id_list}`);
+                }}
+              />
             )}
-          </div>
           </div>
         </div>
         <section className={styles.tree}>
           <div className={styles.tree__header}>
             <button
               type="button"
-              onClick={() => setHeader("Изменить информацию")}
-              className={`${styles.button__nav} ${
-                header === "Изменить информацию" && styles.active
-              }`}
+              className={`${styles.button__nav} ${styles.active}`}
             >
-              Изменить информацию
-            </button>
-            <button
-              type="button"
-              onClick={() => setHeader("Дерево")}
-              className={`${styles.button__nav} ${
-                header === "Дерево" && styles.active
-              }`}
-            >
-              Дерево
+              Назначить бригаду
             </button>
           </div>
-          {header === "Дерево" ? (
-            <ApplicationTree />
-          ) : (
-            <div className={styles.popup_edit}>
-              <form method="POST" className={styles.edit__container}>
-
-                <DropdownListForUsers
-                  data={dataEngineer}
-                  setState={setEngineer}
-                  state={engineer}
-                  name={"Ответсвенный инженер"}
-                  error={engineerError}
-                  errorText={'Инженер может быть только 1'}
-      
-                />
-      
-                <DropdownList
-                  data={statusData}
-                  setState={setStatus}
-                  state={status}
-                  name={"Статус"}
-                />
-                <DropdownList
-                  data={importanceData}
-                  setState={setImportance}
-                  state={importance}
-                  name={"Важность"}
-                />
-                <div className={styles.manager__textarea}>
-                  <BlockComments
-                    setFiles={setFiles}
-                    value={textareaValue}
-                    setValue={setTextareaValue}
-                  />
-                </div>
-              </form>
-              <div className={styles.editButton}>
-                <BlockButton
-                  text={"Изменить"}
-                  disabled={
-                    engineer.length === 0 &&
-                    importance === currentList?.importance &&
-                    status === currentList?.status &&
-                    textareaValue === currentList?.description &&
-                    !!!files
-                  }
-                  onClick={() => handleChangeList()}
+          <div className={styles.popup_edit}>
+            <form method="POST" className={styles.edit__container}>
+              <DropdownListForUsers
+                data={fitters}
+                state={dataFitters}
+                setState={setDataFitters}
+                name="Состав бригады"
+              />
+              <div className={styles.manager__textarea}>
+                <BlockComments
+                  setFiles={setFiles}
+                  value={textareaValue}
+                  setValue={setTextareaValue}
                 />
               </div>
+            </form>
+            <div className={styles.editButton}>
+              <BlockButton
+                text={"Изменить"}
+                disabled={
+                  importance === currentList?.importance &&
+                  status === currentList?.status &&
+                  textareaValue === currentList?.description &&
+                  !!!files
+                }
+                onClick={() => handleChangeList()}
+              />
             </div>
-          )}
+          </div>
         </section>
       </div>
     </Wrapper>

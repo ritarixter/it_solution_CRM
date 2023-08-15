@@ -17,7 +17,7 @@ import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTask } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
-import { getUser, getUsers } from "../../services/slices/user";
+import { getUser, getUsers} from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
@@ -26,7 +26,7 @@ import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
 import { CommercialProposalCreate, CommercialProposal, CommercialProposalEdit } from "../../pages/CommercialProposal";
-import { getCookie } from "../../utils/cookies";
+import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 
 
 export const App: FC = () => {
@@ -106,7 +106,7 @@ export const App: FC = () => {
               {" "}
               {user.access === access.MANAGER && <ApplicationsItem />}
               {user.access === access.SUPERUSER && <ApplicationsItemTree />}
-
+              {user.access === access.ENGINEER && <ApplicationsEngineer />}
             </ProtectedRoute>
           }
         />

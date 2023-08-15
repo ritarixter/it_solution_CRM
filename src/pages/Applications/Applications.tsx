@@ -149,6 +149,13 @@ export const Applications: FC = () => {
                 currentAccess={access.SUPERUSER}
               />
             )}
+            {user.access === access.ENGINEER && (
+              <TableTask
+                mini={false}
+                list={list}
+                currentAccess={access.ENGINEER}
+              />
+            )}
             {user.access === access.MANAGER && (
               <>
                 <section className={styles.manager}>

@@ -15,7 +15,7 @@ import { Link, useLocation } from "react-router-dom";
 import { TSample, TUser, TWork } from "../../../types";
 import { getSampleByIdApi, uploadFiles } from "../../../utils/api";
 import { TWorkAbdExecuter } from "../../../types/TWorkAndExecuter";
-import { DropdownListForSample } from "../../../components/DropdownList/DropdownListForSample";
+import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { NOT_ASSIGNED, notFound } from "../../../utils/constants";
 
@@ -141,13 +141,13 @@ export const SampleItem: FC = () => {
                 value={inputOne}
                 setValue={setInputOne}
               />
-              <DropdownListForSample
+              <DropdownListForUsers
                 name={"Виды работ"}
                 state={isWork}
                 setState={setIsWork}
                 data={works}
               />
-              <DropdownListForSample
+              <DropdownListForUsers
                 name={"Исполнители"}
                 state={executor}
                 setState={setExecutor}

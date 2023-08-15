@@ -3,6 +3,7 @@
 .dropdownList {
   min-width: 242px;
   width: 100%;
+
 }
 
 .title {
@@ -31,11 +32,14 @@
   outline: none;
   box-sizing: border-box;
   font-size: 14px;
-  line-height: auto;
   padding-top: 8px;
   padding-bottom: 7px;
   padding-left: 16px;
   cursor: pointer;
+
+  &.error {
+    margin-bottom: 0;
+  }
 
   &_open {
     border-bottom-left-radius: 0px;
@@ -44,13 +48,7 @@
   }
 
 
-  &.error::after {
-    left: 0;
-    bottom: -25px;
-    position: absolute;
-    content: "Обязательное поле";
-    // color: $errorColor;
-  }
+
 }
 
 .menu {
@@ -110,6 +108,13 @@
     background-color: rgb(241, 241, 241);
     cursor: not-allowed;
   } */
+}
+
+.error {
+  &_text {
+    font-size: 13px;
+    color: $statusHard;
+  }
 }
 
 .clicked {

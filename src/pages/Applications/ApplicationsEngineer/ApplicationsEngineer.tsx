@@ -58,6 +58,9 @@ export const ApplicationsEngineer: FC = () => {
   }, [users]);
 
   const handleChangeList = () => {
+    const fittersID = fitters.map((item) => {
+        return item.id;
+      });
     if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
@@ -67,9 +70,7 @@ export const ApplicationsEngineer: FC = () => {
               ? undefined
               : textareaValue,
           files: res,
-          importance:
-            importance === currentList?.importance ? undefined : importance,
-          status: status === currentList?.status ? undefined : status,
+          users: fittersID.length != 0 ? fittersID : undefined,
         };
         dispatch(updateList(listNew));
       });
@@ -78,9 +79,7 @@ export const ApplicationsEngineer: FC = () => {
         id: id_list,
         description: textareaValue === "" ? undefined : textareaValue,
         files: undefined,
-        importance:
-          importance === currentList?.importance ? undefined : importance,
-        status: status === currentList?.status ? undefined : status,
+        users: fittersID.length != 0 ? fittersID : undefined,
       };
       dispatch(updateList(listNew));
     }
@@ -193,8 +192,7 @@ export const ApplicationsEngineer: FC = () => {
               <BlockButton
                 text={"Изменить"}
                 disabled={
-                  importance === currentList?.importance &&
-                  status === currentList?.status &&
+                  fitters.length === 0 &&
                   textareaValue === currentList?.description &&
                   !!!files
                 }

@@ -17,6 +17,7 @@ import { access, notFound } from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 
 export const ApplicationsItemTree: FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
@@ -33,6 +34,8 @@ export const ApplicationsItemTree: FC = () => {
   const [importance, setImportance] = useState<string>(importanceData[0]);
   const [status, setStatus] = useState<string>(statusData[0]);
   const [engineer, setEngineer] = useState<Array<TWorkAbdExecuter>>([]);
+  const [engineerError, setEngineerError] = useState<boolean>(false);
+  const [dataEngineer, setDataEngineer] = useState<Array<TWorkAbdExecuter>>([]);
   //Получение информации о текущей заявке
   useEffect(() => {
     getListByIdApi(id_list).then((res) => {
@@ -51,10 +54,16 @@ export const ApplicationsItemTree: FC = () => {
 
   useEffect(() => {
     let arr = [...users];
-    setEngineer(arr.filter((item) => item.access === access.ENGINEER));
+    setDataEngineer(arr.filter((item) => item.access === access.ENGINEER));
   }, [users]);
 
   const handleChangeList = () => {
+    if(engineer.length >1) {
+      setEngineerError(true)
+    }
+    else {
+      setEngineerError(false)
+
     if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
@@ -67,6 +76,7 @@ export const ApplicationsItemTree: FC = () => {
           importance:
             importance === currentList?.importance ? undefined : importance,
           status: status === currentList?.status ? undefined : status,
+          users: engineer.length != 0 ? [engineer[0].id] : undefined,
         };
         dispatch(updateList(listNew));
       });
@@ -78,9 +88,11 @@ export const ApplicationsItemTree: FC = () => {
         importance:
           importance === currentList?.importance ? undefined : importance,
         status: status === currentList?.status ? undefined : status,
+        users: engineer.length != 0 ? [engineer[0].id] : undefined,
       };
       dispatch(updateList(listNew));
     }
+  }
   };
 
   return (
@@ -142,6 +154,18 @@ export const ApplicationsItemTree: FC = () => {
                   ))
                 : null}
             </div>
+            <div className={styles.buttonCreate}>
+            {currentList?.commercialProposal ? (
+              <BlockButton
+                text={"Посмотреть КП"}
+                onClick={() => {
+                  navigate(`/commercial-proposal/${id_list}`);
+                }}
+              />
+            ) : (
+              <div></div>
+            )}
+          </div>
           </div>
         </div>
         <section className={styles.tree}>
@@ -170,12 +194,17 @@ export const ApplicationsItemTree: FC = () => {
           ) : (
             <div className={styles.popup_edit}>
               <form method="POST" className={styles.edit__container}>
+
                 <DropdownListForUsers
-                  data={users}
+                  data={dataEngineer}
                   setState={setEngineer}
                   state={engineer}
                   name={"Ответсвенный инженер"}
+                  error={engineerError}
+                  errorText={'Инженер может быть только 1'}
+      
                 />
+      
                 <DropdownList
                   data={statusData}
                   setState={setStatus}
@@ -200,6 +229,7 @@ export const ApplicationsItemTree: FC = () => {
                 <BlockButton
                   text={"Изменить"}
                   disabled={
+                    engineer.length === 0 &&
                     importance === currentList?.importance &&
                     status === currentList?.status &&
                     textareaValue === currentList?.description &&

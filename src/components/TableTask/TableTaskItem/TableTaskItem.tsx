@@ -88,10 +88,10 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               : NOT_ASSIGNED_DEAD}
           </td>
           <td key={uuidv4()}>
-            {/* {item.company.name.split(" ")[0] +
+            {item.company.name.split(" ")[0] +
               " " +
               item.company.name.split(" ")[1][0] +
-              "."} */}
+              "."}
           </td>
           <td key={uuidv4()}>{item.company.numberPhone}</td>
 

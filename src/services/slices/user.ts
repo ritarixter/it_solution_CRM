@@ -3,19 +3,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getCookie, setCookie } from "../../utils/cookies";
 import { TUser } from "../../types";
 
-import { getDataUser, getUsersAccessApi, getUsersApi, signIn, signUp } from "../../utils/api";
+import { getDataUser, getUsersApi, signIn, signUp } from "../../utils/api";
 
 interface userState {
   user: TUser;
   users: Array<TUser>
-  usersAccess: Array<TUser>
   isAuth: boolean;
   isError: boolean;
   isLoadingUser: boolean;
 }
 
 const initialStateLogout: userState = {
-  usersAccess: [],
   users: [],
   user: {
     id: 0,
@@ -33,7 +31,6 @@ const initialStateLogout: userState = {
 };
 
 const initialState: userState = {
-  usersAccess: [],
   users: [],
   user: {
     id: 0,
@@ -132,21 +129,6 @@ export const getUsers: AppThunk =
 () => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   getUsersApi()
-    .then((res) => {
-      dispatch(setUsers(res)); 
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-};
-
-export const getUsersAccess: AppThunk =
-(access: string) => (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
-  getUsersAccessApi(access)
     .then((res) => {
       dispatch(setUsers(res)); 
     })

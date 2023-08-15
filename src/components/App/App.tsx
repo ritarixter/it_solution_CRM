@@ -17,7 +17,7 @@ import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTask } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
-import { getUser, getUsers, getUsersAccess } from "../../services/slices/user";
+import { getUser, getUsers} from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
@@ -43,7 +43,6 @@ export const App: FC = () => {
       dispatch(getSample());
       dispatch(getTask());
       dispatch(getCompanies());
-      dispatch(getUsersAccess("Инженер"));
     } else {
       navigate("/login");
     }

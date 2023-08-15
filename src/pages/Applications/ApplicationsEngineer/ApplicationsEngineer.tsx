@@ -34,6 +34,7 @@ export const ApplicationsEngineer: FC = () => {
   const [importance, setImportance] = useState<string>(importanceData[0]);
   const [status, setStatus] = useState<string>(statusData[0]);
   const [fitters, setFitters] = useState<Array<TWorkAbdExecuter>>([]);
+  const [dataFitters, setDataFitters] = useState<Array<TWorkAbdExecuter>>([]);
 
   //Получение информации о текущей заявке
   useEffect(() => {
@@ -175,9 +176,9 @@ export const ApplicationsEngineer: FC = () => {
           <div className={styles.popup_edit}>
             <form method="POST" className={styles.edit__container}>
               <DropdownListForUsers
-                data={users}
-                state={fitters}
-                setState={setFitters}
+                data={fitters}
+                state={dataFitters}
+                setState={setDataFitters}
                 name="Состав бригады"
               />
               <div className={styles.manager__textarea}>

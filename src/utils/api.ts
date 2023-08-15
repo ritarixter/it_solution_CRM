@@ -336,7 +336,7 @@ export function addCompanyApi(
       name: name,
       numberPhone: numberPhone,
       INN: INN,
-      email: email,
+      email: email === "" ? undefined : email,
     }),
   }).then(responseCheck);
 }

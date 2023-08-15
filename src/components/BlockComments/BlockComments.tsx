@@ -39,8 +39,6 @@ export const BlockComments: FC<TBlockComments> = ({
     }
   }, [currentfiles]);
 
-  console.log(currentfiles);
-
   const deleteFile = (i: number) => {
     let newFiles = [...currentfiles];
     if (newFiles.length === 1) {

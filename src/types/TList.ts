@@ -15,7 +15,7 @@ export type TList = {
   status: string | null;
   importance: string | null;
   company: TCompany;
-  commercialProposal: TCommercialProposal; //ПОМЕНЯТЬ
+  commercialProposal: TCommercialProposal;
   users: TUser[];
   works: TWork[];
   files: TFile[];

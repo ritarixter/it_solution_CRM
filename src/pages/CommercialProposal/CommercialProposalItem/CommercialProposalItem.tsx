@@ -1,9 +1,11 @@
 import { DragEvent, FC, useEffect, useMemo, useState } from "react";
-import styles from "../CommercialProposal.module.scss";
 import { Input } from "../../../components/Input";
+import { IProducts } from "../../../types/TProducts";
+import { useAppSelector } from "../../../services/hooks";
+import { DropdownList } from "../../../components/DropdownList";
 import deleteIcon from "../../../images/icons/delete_black.svg";
 import dragIcon from "../../../images/icons/draganddrop.svg";
-import { IProducts } from "../../../types/TProducts";
+import styles from "../CommercialProposal.module.scss";
 
 type TCommercialProposalItem = {
   onDelete: () => void;
@@ -20,6 +22,11 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   dropHandler,
   setError,
 }) => {
+
+  const { stocks } = useAppSelector((state) => state.stock)
+  const [allProducts, setAllProducts] = useState<Array<string>>([])
+  const [products, setProducts] = useState<string>('');
+
   const [name, setName] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -35,6 +42,11 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   const [priceError, setPriceError] = useState<boolean>(false);
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
+
+  useEffect(()=> {
+    let arr = [...stocks]
+    setAllProducts(arr.map((item) => item.name))
+  }, [stocks])
 
   const dragStartHandler = (
     e: DragEvent<HTMLTableRowElement>,
@@ -78,12 +90,14 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   }, [count, actualPrice, price]);
 
   useEffect(() => {
+
     setName(item.name);
     setCount(item.count);
     setPrice(item.price);
     setActualPrice(item.actualPrice);
     setDate(item.date);
   }, [item]);
+
 
   useEffect(() => {
     item.name = name;
@@ -128,12 +142,17 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
         alt="Иконка перетаскивания"
       />
       <td className={styles.table__list}>
-        <Input
+        {/* <Input
           value={name}
           setValue={setName}
           type={"text"}
           name={"Введите товар"}
           error={nameError}
+        /> */}
+        <DropdownList 
+          state={products}
+          setState={setProducts}
+          data={allProducts}
         />
       </td>
       <td>

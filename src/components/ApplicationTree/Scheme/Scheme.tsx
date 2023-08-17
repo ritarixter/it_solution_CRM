@@ -10,6 +10,7 @@ type TScheme = {
 };
 export const Scheme: FC<TScheme> = ({ users }) => {
   const engineer = users.filter((user) => user.access === access.ENGINEER);
+  const fitters = users.filter((user) => user.access === access.FITTER);
   return (
     <div className={styles.scheme}>
       <div className={styles.tree}>
@@ -34,8 +35,14 @@ export const Scheme: FC<TScheme> = ({ users }) => {
                   <li className={styles.lawyer}>
                     <a href="#">Юридический отдел</a>
                   </li>
-                  <li className={`${styles.deputyEng} ${engineer.length > 0 && styles.active}`}>
-                    <a className={styles.title} href="#">Инженер</a>
+                  <li
+                    className={`${styles.deputyEng} ${
+                      engineer.length > 0 && styles.active
+                    }`}
+                  >
+                    <a className={styles.title} href="#">
+                      Инженер
+                    </a>
                     {engineer.length > 0 ? (
                       <UserBlock
                         name={engineer[0].name}
@@ -48,6 +55,18 @@ export const Scheme: FC<TScheme> = ({ users }) => {
                     <ul>
                       <li className={styles.firstEng}>
                         <a href="#">Бригада монтажников</a>
+                        <div className={styles.block}>
+                        {fitters.length > 0 ? (
+                          fitters.map((item: any) => (
+                            <UserBlock
+                            name={item.name}
+                            avatar={item.avatar}
+                          />
+                          ))
+                        ) : (
+                          "Не назначен"
+                        )}
+                        </div>
                       </li>
                     </ul>
                   </li>

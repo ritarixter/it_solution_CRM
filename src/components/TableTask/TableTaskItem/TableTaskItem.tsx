@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "../TableTask.module.scss";
 import { UserBlock } from "../../UserBlock/UserBlock";
 import { ImpotanceBlock } from "../../ImpotanceBlock/ImpotanceBlock";
@@ -28,6 +28,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
   currentAccess,
 }) => {
   const navigate = useNavigate();
+
+  
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}

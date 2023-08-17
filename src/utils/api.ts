@@ -419,3 +419,12 @@ export function uploadFiles(files: any) {
     body: files,
   }).then(responseCheck);
 }
+
+//############################################################# STOCK #########################################################
+
+export async function getStockApi() {
+  const res = await fetch(`${URL}/stock`, {
+    headers: headersWithAuthorizeFn,
+  })
+  return responseCheck(res);
+}

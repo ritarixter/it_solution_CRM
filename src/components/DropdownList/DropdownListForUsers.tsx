@@ -5,8 +5,8 @@ import { TWorkAbdExecuter } from "../../types/TWorkAndExecuter";
 
 export type TDropdownList = {
   data: any;
-  state: Array<TWorkAbdExecuter>;
-  setState: (value: Array<TWorkAbdExecuter>) => void;
+  state: Array<any>;
+  setState: (value: Array<any>) => void;
   name: string;
   error?: boolean;
   errorText?: string;

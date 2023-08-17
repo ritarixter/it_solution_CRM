@@ -11,10 +11,10 @@ import { Input } from "../../components/Input";
 import { addCompany } from "../../services/slices/company";
 import { TCompany } from "../../types";
 import { addList } from "../../services/slices/list";
-import { validateEmail } from "../../utils/utils";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
 import { access } from "../../utils/constants";
+import { validateEmail, validateFIO } from "../../utils/utils-validate";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -273,7 +273,7 @@ export const Applications: FC = () => {
                   disabledButton={
                     nameCompanyValue === "" ||
                     INNValue.length != 10 ||
-                    nameValue === "" ||
+                    validateFIO(nameValue) ||
                     phoneValue === ""
                   }
                 >
@@ -287,14 +287,14 @@ export const Applications: FC = () => {
                     />
                     <Input
                       type={"text"}
-                      name={"Введите ИНН"}
+                      name={"Введите ИНН (10 символов)"}
                       text={"ИНН*"}
                       value={INNValue}
                       setValue={setINNValue}
                     />
                     <Input
                       type={"text"}
-                      name={"Введите ФИО"}
+                      name={"Введите ФИО (Иванов Иван)"}
                       text={"Контактное лицо компании*"}
                       value={nameValue}
                       setValue={setNameValue}
@@ -308,7 +308,7 @@ export const Applications: FC = () => {
                     />
                     <Input
                       type={"email"}
-                      name={"Введите почту"}
+                      name={"Введите почту (необязательно)"}
                       text={"Почта"}
                       value={emailValue}
                       setValue={setEmailValue}

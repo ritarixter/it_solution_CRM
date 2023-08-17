@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import pdf_icon from "../../images/icons/pdf.svg";
 import word_icon from "../../images/icons/Word.svg";
 import excel_icon from "../../images/icons/excel_logo.svg";
+import image_icon from "../../images/icons/img_icon.svg";
 
 type TFile = {
   name: string;
@@ -23,12 +24,20 @@ export const FileIcon: FC<TFile> = ({ name, url, fullName }) => {
       {(name.toLowerCase().includes(".doc") ||
         name.toLowerCase().includes(".docx") ||
         name.toLowerCase().includes(".docm")) && (
-        <img src={word_icon} alt={name} />
+        <img className={styles.img} src={word_icon} alt={name} />
       )}
-      {name.toLowerCase().includes(".pdf") && <img src={pdf_icon} alt={name} />}
+      {name.toLowerCase().includes(".pdf") && <img className={styles.img} src={pdf_icon} alt={name} />}
       {(name.toLowerCase().includes(".xls") ||
         name.toLowerCase().includes(".xlsx")) && (
-        <img src={excel_icon} alt={name} />
+        <img className={styles.img} src={excel_icon} alt={name} />
+      )}
+            {(name.toLowerCase().includes(".png") ||
+        name.toLowerCase().includes(".pjp") ||
+        name.toLowerCase().includes(".pjpeg") ||
+        name.toLowerCase().includes(".jpeg") ||
+        name.toLowerCase().includes(".jfif") ||
+        name.toLowerCase().includes(".jpg")) && (
+        <img className={styles.img} src={image_icon} alt={name} />
       )}
     </Link>
   );

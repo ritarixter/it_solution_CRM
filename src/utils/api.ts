@@ -57,12 +57,6 @@ export function getUsersApi() {
   }).then(responseCheck);
 }
 
-export function getUsersAccessApi(access: string) {
-  return fetch(`${URL}/user/${access}`, {
-    headers: headersWithAuthorizeFn,
-  }).then(responseCheck);
-}
-
 /* export async function logoutUser() {
   return fetch(`${URL}/logout`, {
     method: "POST",
@@ -342,7 +336,7 @@ export function addCompanyApi(
       name: name,
       numberPhone: numberPhone,
       INN: INN,
-      email: email,
+      email: email === "" ? undefined : email,
     }),
   }).then(responseCheck);
 }

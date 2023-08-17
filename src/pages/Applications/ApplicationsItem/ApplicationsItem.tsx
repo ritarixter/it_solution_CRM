@@ -14,10 +14,10 @@ import edit_white from "../../../images/icons/edit_white.svg";
 import { Popup } from "../../../components/Popup";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { updateCompany } from "../../../services/slices/company";
-import { validateEmail } from "../../../utils/utils";
 import { deleteList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { notFound } from "../../../utils/constants";
+import { validateFIO, validateEmail } from "../../../utils/utils-validate";
 
 type TCurrentList = {
   id: number;
@@ -66,8 +66,8 @@ export const ApplicationsItem: FC = () => {
   const [files, setFiles] = useState<FormData>();
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
-  const [right, setRight] = useState<boolean>(false);
-  const [openDropdownlist, setOpenDropdownlist] = useState(false);
+  const [right, setRight] = useState<boolean>(false); //
+  const [openDropdownlist, setOpenDropdownlist] = useState(false); //
   const [error, setError] = useState({
     nameCompany: false,
     name: false,
@@ -113,7 +113,7 @@ export const ApplicationsItem: FC = () => {
     if (INNValue.length != 10) {
       setError({ ...error, INN: true });
     }
-    if (nameValue === "") {
+    if (!validateFIO(nameValue)) {
       setError({ ...error, name: true });
     }
     if (phoneValue === "") {
@@ -126,7 +126,7 @@ export const ApplicationsItem: FC = () => {
     if (
       nameCompanyValue != "" &&
       INNValue.length === 10 &&
-      nameValue != "" &&
+      validateFIO(nameValue) &&
       phoneValue != ""
     ) {
       if (emailValue === "" || validateEmail(emailValue)) {
@@ -147,6 +147,8 @@ export const ApplicationsItem: FC = () => {
       setCurrentList(res);
       setCurrentCompany(res.company);
       setNameCompanyValue(res.company.nameCompany);
+
+      
     });
   }, [companies, list]);
 
@@ -250,13 +252,17 @@ export const ApplicationsItem: FC = () => {
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Файлы</p>
-            {currentList.files ? (
-              currentList.files.map((file) => (
-                <FileIcon name={file.name} url={file.url} />
-              ))
-            ) : (
-              <span className={styles.blockText_text}>Файлов нет</span>
-            )}
+            <ul className={styles.fileList}>
+              {currentList.files ? (
+                currentList.files.map((file) => (
+                  <li>
+                    <FileIcon name={file.name} url={file.url} />
+                  </li>
+                ))
+              ) : (
+                <li className={styles.blockText_text}>Файлов нет</li>
+              )}
+            </ul>
           </div>
         </div>
         <div className={styles.conteiner}>
@@ -296,11 +302,7 @@ export const ApplicationsItem: FC = () => {
                     />
                   </div>
                 </div>
-                {isError && (
-                  <span className={styles.error}>
-                    Неуспешно, такой ИНН уже существует
-                  </span>
-                )}
+
                 {openDropdownlist && currentCompanies?.length != 0 && (
                   <ul className={`${styles.dropdownlist}`}>
                     {currentCompanies?.map((company) => (
@@ -319,6 +321,11 @@ export const ApplicationsItem: FC = () => {
                   </ul>
                 )}
               </div>
+              {isError && (
+                <span className={styles.error}>
+                  Неуспешно, такой ИНН уже существует
+                </span>
+              )}
             </div>
             <div className={styles.manager__input}>
               <Input
@@ -396,7 +403,7 @@ export const ApplicationsItem: FC = () => {
           />
           <Input
             type={"text"}
-            name={"Введите ИНН"}
+            name={"Введите ИНН (10 символов)"}
             text={"ИНН"}
             value={INNValue}
             setValue={setINNValue}
@@ -405,12 +412,12 @@ export const ApplicationsItem: FC = () => {
           />
           <Input
             type={"text"}
-            name={"Введите ФИО"}
+            name={"Введите ФИО (Иванов Иван)"}
             text={"Контактное лицо компании"}
             value={nameValue}
             setValue={setNameValue}
             error={error.name}
-            errorText={"Обязательное поле"}
+            errorText={"Невалидное ФИО"}
           />
           <Input
             type={"text"}

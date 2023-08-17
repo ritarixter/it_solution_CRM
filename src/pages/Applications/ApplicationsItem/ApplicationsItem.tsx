@@ -381,7 +381,7 @@ export const ApplicationsItem: FC = () => {
           setOpenPopup(false);
         }}
         openPopup={openPopup}
-        buttonText={"Изменить"}
+        buttonText={"Сохранить"}
         textTitle={"Изменить компанию"}
         disabledButton={
           nameCompanyValue === currentCompany.nameCompany &&

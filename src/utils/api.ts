@@ -165,6 +165,8 @@ export function getListApi() {
   }).then(responseCheck);
 }
 
+
+
 export function addListApi(
   name: string,
   customer: string,
@@ -416,4 +418,13 @@ export function uploadFiles(files: any) {
     },
     body: files,
   }).then(responseCheck);
+}
+
+//############################################################# STOCK #########################################################
+
+export async function getStockApi() {
+  const res = await fetch(`${URL}/stock`, {
+    headers: headersWithAuthorizeFn,
+  })
+  return responseCheck(res);
 }

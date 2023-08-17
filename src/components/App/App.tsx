@@ -26,6 +26,7 @@ import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
 import { CommercialProposalCreate, CommercialProposal, CommercialProposalEdit } from "../../pages/CommercialProposal";
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
+import { getStock } from "../../services/slices/stock";
 
 
 export const App: FC = () => {
@@ -39,6 +40,7 @@ export const App: FC = () => {
       dispatch(getList());
       dispatch(getUsers());
       dispatch(getWork());
+      dispatch(getStock());
       dispatch(getSample());
       dispatch(getTask());
       dispatch(getCompanies());

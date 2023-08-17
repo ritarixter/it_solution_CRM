@@ -46,6 +46,7 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
   getListApi()
     .then((res) => {
+      
       dispatch(setList(res));
     })
     .catch((err) => {

@@ -1,9 +1,7 @@
 import { access } from "fs";
 import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
 import { getCookie, setCookie } from "./cookies";
-
-
-export const URL = "http://localhost:8000";
+import {URL} from './constants';
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn: HeadersInit = {

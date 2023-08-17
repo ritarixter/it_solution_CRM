@@ -1,3 +1,5 @@
+export const URL = "http://backend.corp.itsl.tel";
+
 export const access: TAccess = {
   SUPERUSER: "Главный инженер",
   MANAGER: "Менеджер",
@@ -12,7 +14,7 @@ export type TAccess = {
   ENGINEER: string
 };
 
-export const URL_BACKEND = "http://localhost:8000";
+export const URL_BACKEND = "http://backend.corp.itsl.tel";
 
 export const NOT_ASSIGNED = "Не назначено";
 

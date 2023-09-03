@@ -17,7 +17,7 @@ import { updateCompany } from "../../../services/slices/company";
 import { deleteList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { notFound } from "../../../utils/constants";
-import { validateFIO, validateEmail } from "../../../utils/utils-validate";
+import { validateEmail } from "../../../utils/utils-validate";
 
 type TCurrentList = {
   id: number;
@@ -113,7 +113,7 @@ export const ApplicationsItem: FC = () => {
     if (INNValue.length != 10) {
       setError({ ...error, INN: true });
     }
-    if (!validateFIO(nameValue)) {
+    if (nameValue.length < 2) {
       setError({ ...error, name: true });
     }
     if (phoneValue === "") {
@@ -126,7 +126,7 @@ export const ApplicationsItem: FC = () => {
     if (
       nameCompanyValue != "" &&
       INNValue.length === 10 &&
-      validateFIO(nameValue) &&
+      nameValue.length > 1 &&
       phoneValue != ""
     ) {
       if (emailValue === "" || validateEmail(emailValue)) {

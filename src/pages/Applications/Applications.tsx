@@ -10,11 +10,11 @@ import { Popup } from "../../components/Popup";
 import { Input } from "../../components/Input";
 import { addCompany } from "../../services/slices/company";
 import { TCompany } from "../../types";
-import { addList } from "../../services/slices/list";
+import { addList, getList } from "../../services/slices/list";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
 import { access } from "../../utils/constants";
-import { validateEmail, validateFIO } from "../../utils/utils-validate";
+import { validateEmail } from "../../utils/utils-validate";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -39,6 +39,16 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
+
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      dispatch(getList());
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     workNameValue.length > 1 &&
@@ -142,7 +152,7 @@ export const Applications: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            {user.access === access.SUPERUSER && (
+            {(user.access === access.SUPERUSER || user.access === access.BUYER) && (
               <TableTask
                 mini={false}
                 list={list}
@@ -273,7 +283,7 @@ export const Applications: FC = () => {
                   disabledButton={
                     nameCompanyValue === "" ||
                     INNValue.length != 10 ||
-                    validateFIO(nameValue) ||
+                    nameValue.length < 2 ||
                     phoneValue === ""
                   }
                 >

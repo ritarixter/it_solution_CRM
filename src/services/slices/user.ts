@@ -42,7 +42,7 @@ const initialState: userState = {
     username: "",
     password: "",
   },
-  isAuth: !!localStorage.getItem("refreshToken"),//!!getCookie("accessToken"),
+  isAuth:!!getCookie("accessToken"),
   isError: false,
   isLoadingUser: false
 };

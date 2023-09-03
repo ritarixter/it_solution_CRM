@@ -14,7 +14,7 @@ export const routes = [
     name: "Заявки",
     path: "/applications",
   },
-  {
+/*   {
     icon: sample,
     name: "Шаблоны",
     path: "/sample",
@@ -23,5 +23,5 @@ export const routes = [
     icon: clipboard,
     name: "Отчёты",
     path: "/reports",
-  },
+  }, */
 ];

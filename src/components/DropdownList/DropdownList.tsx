@@ -9,6 +9,7 @@ export type TDropdownList = {
   setState: (value: string) => void;
   name?: string;
   size?: "big" | "small";
+  error?: boolean;
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -16,6 +17,7 @@ export const DropdownList: FC<TDropdownList> = ({
   state,
   setState,
   name,
+  error
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -26,63 +28,25 @@ export const DropdownList: FC<TDropdownList> = ({
 
   return (
     <div className={styles.dropdownList}>
-      <p className={styles.caption}>{name}</p>
+     {name && <p className={styles.caption}>{name}</p>}
 
       <div
-        className={`${styles.select} ${open && styles.select_open} 
-        ${
-          (state.includes(statusConst.NOT_ASSIGNED_DEAD) ||
-            state.includes(impotance.NOT_ASSIGNED_DEAD)) &&
-          styles.null
-        } 
-        ${
-          (state.includes(statusConst.IN_WORK) ||
-            state.includes(impotance.AVERAGE)) &&
-          styles.blue
-        } ${
-          (state.includes(statusConst.BE_AGREED) ||
-            state.includes(impotance.HIGH)) &&
-          styles.red
-        } ${
-          (state.includes(statusConst.FINISHED) ||
-            state.includes(impotance.LOW)) &&
-          styles.green
-        }
-        
-          `}
+        className={`${styles.select} ${open && styles.select_open} ${error && styles.select_error} `}
         onClick={() => {
           setOpen(!open);
         }}
       >
-        <span className={styles.title}>{state}</span>
+        <span className={`${styles.title} ${state==='Выберите' && styles.title_null}`}>{state}</span>
         <img
           src={arrow}
           className={`${styles.arrow} ${open && styles.arrow_open}`}
           alt="Стрелка выпадающего списка"
         />
         {open && (
-          <ul className={styles.menu}>
+          <ul className={`${styles.menu} ${ error&& styles.menu_error}`}>
             {data.map((item, index) => (
               <li
-                className={`${styles.option}  
-                ${
-                  (item.includes(statusConst.NOT_ASSIGNED_DEAD) ||
-                    item.includes(impotance.NOT_ASSIGNED_DEAD)) &&
-                  styles.null
-                } 
-                ${
-                  (item.includes(statusConst.IN_WORK) ||
-                    item.includes(impotance.AVERAGE)) &&
-                  styles.blue
-                } ${
-                  (item.includes(statusConst.BE_AGREED) ||
-                    item.includes(impotance.HIGH)) &&
-                  styles.red
-                } ${
-                  (item.includes(statusConst.FINISHED) ||
-                    item.includes(impotance.LOW)) &&
-                  styles.green
-                }`}
+                className={`${styles.option}  `}
                 key={item}
                 onClick={() => {
                   handlerClick(index);

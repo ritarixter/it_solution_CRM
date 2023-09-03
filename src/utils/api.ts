@@ -1,4 +1,3 @@
-import { access } from "fs";
 import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
 import { getCookie, setCookie } from "./cookies";
 import {URL} from './constants';
@@ -11,9 +10,9 @@ const headersWithAuthorizeFn: HeadersInit = {
 
 const responseCheck = (res: Response) => {
   if (res.ok) {
-    return res.json();
+    return res.json()
   } else {
-    return Promise.reject(res.status);
+    return Promise.reject(res.status)
   }
 };
 

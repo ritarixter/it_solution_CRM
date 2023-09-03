@@ -10,6 +10,18 @@
   background: $thirdColor;
   padding: 40px;
   border-radius: 15px;
+
+  &__estimate {
+    display: flex;
+    gap: 120px;
+  }
+}
+
+.container1 {
+  background: $thirdColor;
+  padding: 40px;
+  padding-top: 0;
+  border-radius: 15px;
 }
 
 .name {
@@ -24,26 +36,26 @@
 
 .table {
   &__container {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: block;
-  scroll-behavior: smooth;
-  max-height: 41vh;
-  padding-right: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: block;
+    scroll-behavior: smooth;
+    height: 31vh;
+    padding-right: 10px;
 
-  &::-webkit-scrollbar-thumb {
-    background: $inputColor;
-    border-radius: 10px;
-    width: 3px;
+    &::-webkit-scrollbar-thumb {
+      background: $inputColor;
+      border-radius: 10px;
+      width: 3px;
+    }
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
   }
-  &::-webkit-scrollbar {
-    width: 3px;
+  &__head {
+    padding-right: 14px;
+    display: block;
   }
-}
-&__head{
-  padding-right: 14px;
-  display: block;
-}
 }
 
 .row {
@@ -61,14 +73,19 @@
   padding: 4px 0;
   cursor: grab;
 
+  &__item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__watch {
     cursor: default;
   }
 
-  grid-template-columns: minmax(200px, 1fr) minmax(102px, 1fr) minmax(87px, 1fr) minmax(
-      173px,
-      1fr
-    ) minmax(150px, 1fr) 144px 153px 40px;
+  grid-template-columns:
+    242px minmax(90px, 1fr) 55px minmax(156px, 1fr) minmax(156px, 1fr)
+    minmax(150px, 1fr) 144px 153px 40px;
   width: 100%;
 
   & > th {
@@ -78,26 +95,25 @@
 
   & > td {
     text-overflow: ellipsis;
-    white-space: nowrap; 
+    white-space: nowrap;
     // overflow: hidden;
   }
 
   &_drag {
-   opacity: 0.4;
+    opacity: 0.4;
   }
   & > .price {
-   // justify-self: center;
+    // justify-self: center;
     text-overflow: ellipsis;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     max-width: 144px;
   }
 }
 
-  
 thead > tr {
   &.row {
-    cursor:default;
+    cursor: default;
   }
 }
 
@@ -120,7 +136,7 @@ thead > tr {
     position: absolute;
     top: 14px;
     left: -20px;
-   
+
     height: 20px;
     transition: opacity 0.2s ease;
     &:hover {
@@ -128,7 +144,6 @@ thead > tr {
     }
   }
 }
-
 
 .buttons {
   margin-top: 25px;
@@ -157,7 +172,7 @@ thead > tr {
     font-weight: 500;
     font-size: 16px;
     cursor: pointer;
-    transition: color .2s ease;
+    transition: color 0.2s ease;
     margin-top: 40px;
     &:hover {
       color: $mainColor;
@@ -173,27 +188,25 @@ thead > tr {
 }
 
 .table__list {
-  width: auto;
-  overflow-y: scroll;
-  overflow-x: hidden;
+max-width: 242px;
   // height: 100px;
 }
-.table__list::-webkit-scrollbar {
-  width: 8px;
-}
+// .table__list::-webkit-scrollbar {
+//   width: 8px;
+// }
 
-.table__list::-webkit-scrollbar-track {
-  background-color: transparent;
-}
+// .table__list::-webkit-scrollbar-track {
+//   background-color: transparent;
+// }
 
-.table__list::-webkit-scrollbar-thumb {
-  background-color: #454545;
-  border-radius: 3px;
-}
+// .table__list::-webkit-scrollbar-thumb {
+//   background-color: #454545;
+//   border-radius: 3px;
+// }
 
-.table__list::-webkit-scrollbar-thumb:hover {
-  background-color: gray;
-}
+// .table__list::-webkit-scrollbar-thumb:hover {
+//   background-color: gray;
+// }
 
 //----------------------------СТРАНИЦА ПРОСМОТРА КП------------------------------------------------------------------------------------------
 .subtitle {
@@ -202,5 +215,190 @@ thead > tr {
   margin-bottom: 60px;
   &__bold {
     font-weight: 600;
+  }
+}
+
+//----------------------------СТРАНИЦА СОСТАВЛЕНИЯ СМЕТ------------------------------------------------------------------------------------------
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-right: 25px;
+  height: 50vh;
+
+  &::-webkit-scrollbar-thumb {
+    background: $inputColor;
+    border-radius: 10px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &__header {
+    font-weight: 600;
+    color: $inputCaption;
+  }
+  &__row {
+    margin-bottom: 13px;
+    display: grid;
+    grid-template-columns: 350px 100px;
+    color: $inputCaption;
+    &:last-child {
+      margin-bottom: 60px;
+    }
+  }
+
+  &__checkbox {
+    margin-right: 10px;
+
+  }
+  &__name {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  &__count {
+    text-align: center;
+  }
+}
+
+.estimates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-right: 25px;
+  height: 50vh;
+
+  &::-webkit-scrollbar-thumb {
+    background: $inputColor;
+    border-radius: 10px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+}
+
+.estimate {
+  margin-bottom: 13px;
+  color: $mainColor;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.75;
+  }
+  &__name {
+    margin-left: 13px;
+    width: 260px;
+  }
+}
+
+.deleteEstimate {
+  width: 16px;
+  height: 16px;
+}
+
+.content {
+  min-height: 200px;
+  margin-top: 40px;
+}
+
+//-------------------------------------------------------------INPUT--------------------------------------------------------------------------
+.input_file {
+  position: relative;
+  display:flex;
+  align-items: center;
+}
+.input_file_btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 16px;
+  width: 168px;
+
+  color: rgb(255 255 255);
+  font-family: "Montserrat", Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: $mainColor;
+  height: 40px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: opacity 0.2s;
+}
+.input_file_text {
+  padding: 0 10px;
+  font-size: 14px;
+  color: $inputCaption;
+
+  display: inline-block;
+}
+.input_file input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Hover/active */
+.input_file:hover .input_file_btn {
+  opacity: 0.75;
+}
+.input_file:active .input_file_btn {
+  background-color: #2e703a;
+}
+
+/* Disabled */
+.input_file input[type="file"]:disabled + .input_file_btn {
+  background-color: #eee;
+}
+
+
+.excel__files {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+
+  &__row {
+    font-weight: 400;
+    color: $mainColor;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .excel__name {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    box-sizing: border-box;
   }
 }

@@ -28,6 +28,7 @@ export const Input: FC<TInput> = ({
         onChange={(e) => {
           setValue(e.target.value);
         }}
+        min={0}
         value={value}
         className={`${styles.input} ${error && styles.error} ${
           text && styles.mb_8

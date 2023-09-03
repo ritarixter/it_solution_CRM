@@ -32,6 +32,7 @@ export const CommercialProposal: FC = () => {
     const exportArr = CP.products.map((item) => ({
       name: item.name,
       count: item.count,
+      units: item.units,
       price: item.price,
       actualPrice: item.actualPrice,
       date: item.date ? item.date : "Не указана",
@@ -44,9 +45,10 @@ export const CommercialProposal: FC = () => {
       tablePayload: {
         header: [
           "Наименование*",
-          "Количество, шт*",
+          "Количество*",
+          "Ед.изм.*",
           "Цена продажи, руб",
-          "Закупочная цена, руб*",
+          "Закупочная цена, руб",
           "Дата приезда на склад",
           "Сумма, руб",
           "Маржинальность, руб",
@@ -100,13 +102,18 @@ export const CommercialProposal: FC = () => {
               <tbody className={styles.table__container}>
                 {CP?.products.map((item: IProducts) => (
                   <tr className={`${styles.row} ${styles.row__watch}`}>
-                    <td>{item.name}</td>
-                    <td>{item.count}</td>
-                    <td>{item.price}</td>
-                    <td>{item.actualPrice}</td>
-                    <td>{item.date ? item.date : "Не указана"}</td>
-                    <td>{item.totalPrice}</td>
-                    <td>{item.marginalityPrice}</td>
+                    <td className={styles.row__item}>{item.name}</td>
+                    <td className={styles.row__item}>{item.count}</td>
+                    <td className={styles.row__item}>{item.units}</td>
+                    <td className={styles.row__item}>{item.price}</td>
+                    <td className={styles.row__item}>{item.actualPrice}</td>
+                    <td className={styles.row__item}>
+                      {item.date ? item.date : "Не указана"}
+                    </td>
+                    <td className={styles.row__item}>{item.totalPrice}</td>
+                    <td className={styles.row__item}>
+                      {item.marginalityPrice}
+                    </td>
                   </tr>
                 ))}
               </tbody>

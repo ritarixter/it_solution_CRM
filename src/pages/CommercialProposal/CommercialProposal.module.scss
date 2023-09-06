@@ -149,6 +149,11 @@ thead > tr {
   margin-top: 25px;
   display: flex;
   align-items: center;
+
+  &__marginality {
+    max-width: 290px;
+    width: 100%;
+  }
 }
 
 .cancel {

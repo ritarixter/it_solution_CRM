@@ -21,24 +21,9 @@ export const HeaderTop: FC = () => {
     <div className={styles.block}>
       <div className={styles.block_help}>
         <Search />
-        <NotificationsBlock />
       </div>
       {user ? (
         <div className={styles.block_users}>
-          <div
-            className={styles.block_icon}
-            onClick={() => {
-              setIsOpenMessages(!openMessages);
-            }}
-          >
-            <img src={message} alt="Сообщение" className={styles.message} />
-            <img
-              src={notice}
-              alt="Кол-во сообщений"
-              className={styles.notice}
-            />
-            <MessagesPopup open={openMessages} setOpen={setIsOpenMessages} />
-          </div>
           <div className={styles.popup_notification}>
             <img
               src={bell}
@@ -47,6 +32,11 @@ export const HeaderTop: FC = () => {
               onClick={() => {
                 setIsOpenNotification(!openNotification);
               }}
+            />
+            <img
+              src={notice}
+              alt="Кол-во сообщений"
+              className={styles.notice}
             />
             <NotificationsPopup
               open={openNotification}

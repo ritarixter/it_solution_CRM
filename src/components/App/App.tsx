@@ -34,6 +34,9 @@ import {
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 import { getStock } from "../../services/slices/stock";
 import { ApplicationsBuyer } from "../../pages/Applications";
+import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
+import { CommercialProposalVicePrezident } from "../../pages/CommercialProposal/CommercialProposaVicePrezident/CommercialProposalVicePrezident";
+import { Marginality } from "../../pages/Marginality/Marginality";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -133,6 +136,15 @@ export const App: FC = () => {
               {user.access === access.SUPERUSER && <ApplicationsItemTree />}
               {user.access === access.ENGINEER && <ApplicationsEngineer />}
               {user.access === access.BUYER && <ApplicationsBuyer />}
+              {user.access === access.VICEPREZIDENT && <ApplicationsVicePrezident/>}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marginality"
+          element={
+            <ProtectedRoute>
+              <Marginality />
             </ProtectedRoute>
           }
         />

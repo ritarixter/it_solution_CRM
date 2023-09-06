@@ -1,23 +1,22 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./CommercialProposal.module.scss";
-import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import { Wrapper } from "../../components";
-import { useAppSelector } from "../../services/hooks";
+import styles from "../CommercialProposal.module.scss";
+import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
+import { Wrapper } from "../../../components";
+import { useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
-import { Preloader } from "../../components/Preloader/Preloader";
-import { TCommercialProposal } from "../../types/TCommercialProposal";
-import { getByIdCommercialProposalApi } from "../../utils/api";
-import { titles } from "./constants";
+import { Preloader } from "../../../components/Preloader/Preloader";
+import { TCommercialProposal } from "../../../types/TCommercialProposal";
+import { getByIdCommercialProposalApi } from "../../../utils/api";
+import { titles } from "../constants";
 import { v4 as uuidv4 } from "uuid";
-import { IProducts } from "../../types/TProducts";
-import { formateDateOnlyTime, formateDateShort } from "../../utils/utils-date";
-import { BlockButton } from "../../components/BlockButton/BlockButton";
-import { ExcelButton } from "../../components/ExcelButton/ExcelButton";
+import { IProducts } from "../../../types/TProducts";
+import { formateDateOnlyTime, formateDateShort } from "../../../utils/utils-date";
+import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { downloadExcel } from "react-export-table-to-excel";
-import { access } from "../../utils/constants";
+import { ExcelButton } from "../../../components/ExcelButton/ExcelButton";
 
-export const CommercialProposal: FC = () => {
-  const { user, isLoadingUser } = useAppSelector((state) => state.user);
+export const CommercialProposalVicePrezident: FC = () => {
+  const { isLoadingUser } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
@@ -119,36 +118,9 @@ export const CommercialProposal: FC = () => {
                 ))}
               </tbody>
             </table>
-
-            {user.access === access.VICEPREZIDENT ? (
-              <div className={styles.buttons__marginality}>
-                <BlockButton
-                  text={"Рассчитать маржинальность"}
-                  bigWidth={true}
-                  onClick={() => {
-                    navigate(`/marginality`);
-                  }}
-                />
-              </div>
-            ) : (
-              <div className={styles.buttons}>
-                <div className={styles.buttonAksynia}>
-                  <BlockButton
-                    bigWidth={true}
-                    text={"Отправить заместителю директора"}
-                    onClick={() => {}}
-                  />
-                </div>
-                <p
-                  className={styles.cancel}
-                  onClick={() => {
-                    navigate(`/commercial-proposal/edit/${id_list}`);
-                  }}
-                >
-                  Изменить
-                </p>
-              </div>
-            )}
+            <div className={styles.buttons}>
+              <BlockButton text={"Расчитать маржинальность"} onClick={() => {}} />
+            </div>
           </div>
         </>
       )}

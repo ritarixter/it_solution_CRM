@@ -26,9 +26,6 @@ export const Scheme: FC<TScheme> = ({ users }) => {
                   <li className={styles.purchasing}>
                     <a href="#">Отдел закупок</a>
                   </li>
-                  <li className={styles.stock}>
-                    <a href="#">Склад</a>
-                  </li>
                   <li className={styles.project}>
                     <a href="#">Проектный отдел</a>
                   </li>

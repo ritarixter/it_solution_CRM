@@ -9,7 +9,10 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import * as XLSX from "xlsx";
 import close from "../../../images/icons/close.svg";
 import excel_logo from "../../../images/icons/excel_logo.svg";
-import { updateCommercialProposalApi } from "../../../utils/api";
+import {
+  getByIdCommercialProposalApi,
+  updateCommercialProposalApi,
+} from "../../../utils/api";
 import { IProducts } from "../../../types";
 
 export const CommercialProposalImport: FC = () => {
@@ -17,8 +20,15 @@ export const CommercialProposalImport: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(28));
+  const [idCP, setIdCP] = useState<number>(-1);
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
   const [newCP, setNewCP] = useState<Array<Array<Array<number | string>>>>([]);
+
+  useEffect(() => {
+    getByIdCommercialProposalApi(id_list).then((res) => {
+      setIdCP(res.commercialProposal.id);
+    });
+  }, []);
 
   const joinCP = async () => {
     if (newCP.length > 0) {
@@ -41,10 +51,8 @@ export const CommercialProposalImport: FC = () => {
           });
         });
       });
-      console.log(newCP);
-      console.log(items);
       const newCommercialProposal = {
-        id: id_list,
+        id: idCP,
         name: undefined,
         products: items,
       };

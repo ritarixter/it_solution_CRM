@@ -152,7 +152,7 @@ export const Applications: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            {(user.access === access.SUPERUSER || user.access === access.BUYER) && (
+            {(user.access === access.SUPERUSER || user.access === access.BUYER || user.access === access.VICEPREZIDENT) && (
               <TableTask
                 mini={false}
                 list={list}

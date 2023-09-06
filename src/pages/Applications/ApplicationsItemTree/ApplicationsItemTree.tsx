@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import { useLocation, useNavigate } from "react-router";
-import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
+import { ImpotanceBlock, StatusBlock, UserBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { getListByIdApi, uploadFiles } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
@@ -125,6 +125,7 @@ export const ApplicationsItemTree: FC = () => {
                   : notFound.NOT_SPECIFIED}
               </p>
             </div>
+            
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Комментарий</p>
               <p className={styles.blockText_text}>

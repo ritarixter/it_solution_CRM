@@ -119,7 +119,9 @@ export const CommercialProposal: FC = () => {
               </tbody>
             </table>
             <div className={styles.buttons}>
-              <BlockButton text={"Принять КП"} onClick={() => {}} />
+              <div className={styles.buttonAksynia}>
+              <BlockButton bigWidth={true} text={"Отправить заместителю директора"} onClick={() => {}} />
+              </div>
               <p
                 className={styles.cancel}
                 onClick={() => {

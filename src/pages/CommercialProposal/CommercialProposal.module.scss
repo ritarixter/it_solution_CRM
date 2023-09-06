@@ -187,6 +187,11 @@ thead > tr {
   color: $inputColor;
 }
 
+.buttonAksynia {
+  max-width: 400px;
+  margin-right: 17px;
+}
+
 .table__list {
 max-width: 242px;
   // height: 100px;
@@ -212,7 +217,7 @@ max-width: 242px;
 .subtitle {
   font-size: 14px;
   color: $inputCaption;
-  margin-bottom: 60px;
+  margin-bottom: 35px;
   &__bold {
     font-weight: 600;
   }
@@ -241,12 +246,18 @@ max-width: 242px;
   &__header {
     font-weight: 600;
     color: $inputCaption;
+    
   }
   &__row {
-    margin-bottom: 13px;
+    padding: 6px 0;
     display: grid;
     grid-template-columns: 350px 100px;
     color: $inputCaption;
+    &_add{
+    background-color: $dropDown;
+
+  }
+
     &:last-child {
       margin-bottom: 60px;
     }
@@ -315,6 +326,11 @@ max-width: 242px;
 .content {
   min-height: 200px;
   margin-top: 40px;
+}
+
+.inputSmetaName {
+  max-width: 300px;
+  margin-bottom: 20px;
 }
 
 //-------------------------------------------------------------INPUT--------------------------------------------------------------------------
@@ -391,6 +407,7 @@ max-width: 242px;
     align-items: center;
     margin-bottom: 15px;
     font-size: 14px;
+
   }
 
   .excel__name {

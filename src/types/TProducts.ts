@@ -11,4 +11,5 @@ export interface IProducts {
   totalPrice: number;
   marginalityPrice: number;
   checked?: boolean;
+  isAddInSmeta?:boolean;
 }

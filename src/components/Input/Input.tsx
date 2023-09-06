@@ -29,13 +29,14 @@ export const Input: FC<TInput> = ({
           setValue(e.target.value);
         }}
         min={0}
+        maxLength={40}
         value={value}
         className={`${styles.input} ${error && styles.error} ${
           text && styles.mb_8
         }`}
         placeholder={name}
       />
-      {error && <span className={styles.error_text}>{errorText}</span>}
+      {error && <p className={styles.error_text}>{errorText}</p>}
     </div>
   );
 };

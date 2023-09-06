@@ -25,7 +25,6 @@ export const stockSlice = createSlice({
   initialState,
   reducers: {
     setStock(state, action: PayloadAction<Array<TStock>>) {
-      debugger;
       state.stocks = action.payload;
     },
 
@@ -45,7 +44,6 @@ export const getStock: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
   getStockApi()
     .then((res) => {
-      debugger;
       dispatch(setStock(res));
     })
     .catch((err) => {

@@ -1,3 +1,6 @@
 export { CommercialProposal } from './CommercialProposal'
 export { CommercialProposalCreate } from './CommercialProposalCreate/CommercialProposalCreate'
 export { CommercialProposalEdit } from './CommercialProposalEdit/CommercialProposalEdit'
+export { CommercialProposalEstimate } from './CommercialProposalEstimate/CommercialProposalEstimate'
+export { CommercialProposalImport } from './CommercialProposalImport/CommercialProposalImport'
+export {CommercialProposalVicePrezident} from './CommercialProposaVicePrezident/CommercialProposalVicePrezident'

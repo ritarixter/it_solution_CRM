@@ -12,7 +12,8 @@ export const StatusBlock: FC<TStatusBlock> = ({ type }) => {
       className={`${styles.block} ${
         (type === statusConst.IN_WORK && styles.block__do) ||
         (type === statusConst.BE_AGREED && styles.block__todo) ||
-        (type === null && styles.null)
+        ((type === null || type === statusConst.NOT_ASSIGNED_DEAD) &&
+          styles.null)
       }`}
     >
       {type ? type : statusConst.NOT_ASSIGNED_DEAD}

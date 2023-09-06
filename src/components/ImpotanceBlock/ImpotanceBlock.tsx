@@ -12,7 +12,7 @@ export const ImpotanceBlock: FC<TImpotanceBlock> = ({ type }) => {
       className={`${styles.block} ${
         (type === impotance.AVERAGE && styles.block__do) ||
         (type === impotance.HIGH && styles.block__todo) ||
-        (type === null && styles.null)
+        ((type === null || type === impotance.NOT_ASSIGNED_DEAD) && styles.null)
       }`}
     >
       {type ? type : impotance.NOT_ASSIGNED_DEAD}

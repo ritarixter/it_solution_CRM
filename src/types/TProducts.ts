@@ -4,9 +4,11 @@ export interface IProducts {
   order: number;
   name: string;
   count: number;
+  units: string; //Ед.изм
   price: number;
   actualPrice: number;
   date: string;
   totalPrice: number;
   marginalityPrice: number;
+  checked?: boolean;
 }

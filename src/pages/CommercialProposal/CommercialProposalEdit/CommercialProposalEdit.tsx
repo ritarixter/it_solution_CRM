@@ -33,6 +33,7 @@ export const CommercialProposalEdit: FC = () => {
       id: 0,
       order: 0,
       name: "",
+      units: "",
       count: 0,
       price: 0,
       actualPrice: 0,
@@ -68,7 +69,6 @@ export const CommercialProposalEdit: FC = () => {
         products: items,
       };
       updateCommercialProposalApi(newCommercialProposal).then((res) => {
-        console.log(res)
         navigate(-1);
       });
     }
@@ -182,6 +182,7 @@ export const CommercialProposalEdit: FC = () => {
                     id: count,
                     order: count,
                     name: "",
+                    units: "",
                     count: 0,
                     price: 0,
                     actualPrice: 0,

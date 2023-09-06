@@ -1,0 +1,90 @@
+@import "../../styles/variables.scss";
+
+.input_file {
+  position: relative;
+  display:flex;
+  align-items: center;
+}
+.input_file_btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 16px;
+  width: 168px;
+
+  color: rgb(255 255 255);
+  font-family: "Montserrat", Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: $mainColor;
+  height: 40px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: opacity 0.2s;
+}
+.input_file_text {
+  padding: 0 10px;
+  font-size: 14px;
+  color: $inputCaption;
+
+  display: inline-block;
+}
+.input_file input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Hover/active */
+.input_file:hover .input_file_btn {
+  opacity: 0.75;
+}
+.input_file:active .input_file_btn {
+  background-color: #2e703a;
+}
+
+/* Disabled */
+.input_file input[type="file"]:disabled + .input_file_btn {
+  background-color: #eee;
+}
+
+.files {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+
+  &_title {
+    margin: 0;
+    margin-right: 10px;
+  }
+
+  &__row {
+    font-weight: 400;
+    color: $mainColor;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .name {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+}

@@ -22,18 +22,19 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   dropHandler,
   setError,
 }) => {
+  const { stocks } = useAppSelector((state) => state.stock);
+  const [allProducts, setAllProducts] = useState<Array<string>>([]);
+  const [products, setProducts] = useState<string>("");
 
-  const { stocks } = useAppSelector((state) => state.stock)
-  const [allProducts, setAllProducts] = useState<Array<string>>([])
-  const [products, setProducts] = useState<string>('');
-
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("Выберите");
+  const [units, setUnits] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [actualPrice, setActualPrice] = useState<number>(0);
   const [date, setDate] = useState<string>("");
 
   const [nameError, setNameError] = useState<boolean>(false);
+  const [unitsError, setUnitsError] = useState<boolean>(false);
   const [countError, setCountError] = useState<boolean>(false);
   const [actualPriceError, setActualPriceError] = useState<boolean>(false);
 
@@ -43,10 +44,10 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
-  useEffect(()=> {
-    let arr = [...stocks]
-    setAllProducts(arr.map((item) => item.name))
-  }, [stocks])
+  useEffect(() => {
+    let arr = [...stocks];
+    setAllProducts(arr.map((item) => item.name));
+  }, [stocks]);
 
   const dragStartHandler = (
     e: DragEvent<HTMLTableRowElement>,
@@ -55,15 +56,12 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     setCurrentItem(item);
   };
 
-
   //ВАЛИДАЦИЯ КОНКРЕТНОГО ITEM
   useEffect(() => {
-    name === "" ? setNameError(true) : setNameError(false);
+    name === "Выберите" ? setNameError(true) : setNameError(false);
+    units === "" ? setUnitsError(true) : setUnitsError(false);
     count == 0 || !count ? setCountError(true) : setCountError(false);
-    actualPrice == 0 || !actualPrice
-      ? setActualPriceError(true)
-      : setActualPriceError(false);
-  }, [name, count, actualPrice]);
+  }, [name, count, units]);
 
   //ОБЩАЯ ВАЛИДАЦИЯ КП
 
@@ -73,13 +71,21 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
       priceError ||
       nameError ||
       countError ||
-      actualPriceError
+      actualPriceError ||
+      unitsError
     ) {
       setError(true);
     } else {
       setError(false);
     }
-  }, [dateError, priceError, nameError, countError, actualPriceError]);
+  }, [
+    dateError,
+    priceError,
+    nameError,
+    countError,
+    actualPriceError,
+    unitsError,
+  ]);
 
   const totalPrice = useMemo(() => {
     return actualPrice * count;
@@ -90,7 +96,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   }, [count, actualPrice, price]);
 
   useEffect(() => {
-
+    setUnits(item.units);
     setName(item.name);
     setCount(item.count);
     setPrice(item.price);
@@ -98,16 +104,16 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     setDate(item.date);
   }, [item]);
 
-
   useEffect(() => {
     item.name = name;
     item.count = count;
     item.date = date;
+    item.units = units;
     item.price = price;
     item.actualPrice = actualPrice;
     item.totalPrice = totalPrice;
     item.marginalityPrice = marginalityPrice;
-  }, [name, count, date, price, actualPrice, totalPrice]);
+  }, [name, count, date, price, actualPrice, totalPrice, units]);
 
   const dragLeaveHandler = (e: DragEvent<HTMLTableRowElement>) => {
     setOnDragClass(false);
@@ -142,17 +148,11 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
         alt="Иконка перетаскивания"
       />
       <td className={styles.table__list}>
-        {/* <Input
-          value={name}
-          setValue={setName}
-          type={"text"}
-          name={"Введите товар"}
-          error={nameError}
-        /> */}
-        <DropdownList 
-          state={products}
-          setState={setProducts}
+        <DropdownList
+          state={name}
+          setState={setName}
           data={allProducts}
+          error={nameError}
         />
       </td>
       <td>
@@ -163,6 +163,16 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           type={"number"}
           name={"1"}
           error={countError}
+        />
+      </td>
+      <td>
+        {" "}
+        <Input
+          value={units}
+          setValue={setUnits}
+          type={"text"}
+          name={"шт"}
+          error={unitsError}
         />
       </td>
       <td>

@@ -7,22 +7,30 @@
 
 .title {
   margin: 0;
+  max-width: 190px;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 21px;
+  &_null {
+    color: $inputColor;
+  }
 }
 
 .caption {
-  color: $inputCaption;
+  color: $primaryColor;
   font-size: 14px;
   margin-bottom: 4px;
   margin-top: 0;
 }
 
 .select {
-  height: 36px;
+  height: 40px;
   position: relative;
   margin: 0;
-  margin-bottom: 8px;
   border: 1px solid $inputColor;
-  border-radius: 10px;
+  border-radius: 6px;
   outline: none;
   box-sizing: border-box;
   font-size: 14px;
@@ -30,21 +38,25 @@
   padding-top: 8px;
   padding-bottom: 7px;
   padding-left: 16px;
-  color: $inputColor;
+  color: $primaryColor;
   cursor: pointer;
+
+  &_error {
+    border-color: $statusHard;
+  }
 
   &_open {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
 
-  &.error::after {
+/*   &.error::after {
     left: 0;
     bottom: -25px;
     position: absolute;
     content: "Обязательное поле";
     // color: $errorColor;
-  }
+  } */
 }
 
 .menu {
@@ -56,12 +68,32 @@
   z-index: 2;
   width: 100%;
   left: 0;
-  max-height: 181px;
-  margin-top: 6px;
+  max-height: 120px;
+  margin-top: 10px;
   -webkit-box-shadow: 0px 0px 0px 1px $inputColor;
   -moz-box-shadow: 0px 0px 0px 1px $inputColor;
   box-shadow: 0px 0px 0px 1px $inputColor;
-  &.bigHeight {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar-thumb {
+    height: 50px;
+    background: $inputColor;
+    border-radius: 50px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: #fff;
+  }
+
+  &_error {
+    -webkit-box-shadow: 0px 0px 0px 1px $statusHard;
+    -moz-box-shadow: 0px 0px 0px 1px $statusHard;
+    box-shadow: 0px 0px 0px 1px $statusHard;
+  }
+  
+  /* &.bigHeight {
     overflow-y: scroll;
     overflow-x: hidden;
     scroll-behavior: smooth;
@@ -79,7 +111,7 @@
   &.bigWidth {
     z-index: 0;
     width: 514px;
-  }
+  } */
 }
 
 .option {
@@ -87,9 +119,14 @@
   padding: 6px 12px 6px 16px;
   transition: color 0.1s linear;
   box-sizing: border-box;
+  max-width: 240px;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   &:hover:not(.disabled) {
-    background:  rgb(241, 241, 241);;
+    background: rgb(241, 241, 241);
     //color: $primaryColor;
   }
 
@@ -100,7 +137,7 @@
 }
 
 .red {
- // background-color: $statusToDoColor;
+  // background-color: $statusToDoColor;
   color: #f47633;
 }
 
@@ -110,7 +147,7 @@
 }
 
 .blue {
- // background-color: $statusDoColor;
+  // background-color: $statusDoColor;
   color: #3b9acd;
 }
 
@@ -118,11 +155,10 @@
   color: $inputColor;
 }
 
-
 .arrow {
   position: absolute;
   top: 6px;
-  right: 16px;
+  right: 12px;
   transition: all 0.2s linear;
 
   &_open {

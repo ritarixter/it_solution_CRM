@@ -16,7 +16,7 @@ import { Reports } from "../../pages/Reports/Reports";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTask } from "../../services/slices/task";
 import { getList } from "../../services/slices/list";
-import { getUser, getUsers} from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { Sample } from "../../pages/Sample/Sample";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { getCompanies } from "../../services/slices/company";
@@ -24,10 +24,19 @@ import { getSample } from "../../services/slices/sample";
 import { access } from "../../utils/constants";
 import { getWork } from "../../services/slices/work";
 import { SampleItem } from "../../pages/Sample";
-import { CommercialProposalCreate, CommercialProposal, CommercialProposalEdit } from "../../pages/CommercialProposal";
+import {
+  CommercialProposalCreate,
+  CommercialProposal,
+  CommercialProposalEdit,
+  CommercialProposalEstimate,
+  CommercialProposalImport,
+} from "../../pages/CommercialProposal";
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 import { getStock } from "../../services/slices/stock";
-
+import { ApplicationsBuyer } from "../../pages/Applications";
+import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
+import { CommercialProposalVicePrezident } from "../../pages/CommercialProposal/CommercialProposaVicePrezident/CommercialProposalVicePrezident";
+import { Marginality } from "../../pages/Marginality/Marginality";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +57,7 @@ export const App: FC = () => {
       navigate("/login");
     }
   }, []);
+
 
   return (
     <div className={styles.app}>
@@ -81,7 +91,7 @@ export const App: FC = () => {
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/commercial-proposal/edit/:id"
           element={
             <ProtectedRoute>
@@ -95,7 +105,25 @@ export const App: FC = () => {
           path="/commercial-proposal/:id"
           element={
             <ProtectedRoute>
-              <CommercialProposal/>
+              <CommercialProposal />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/commercial-proposal/estimate/:id"
+          element={
+            <ProtectedRoute>
+              {user.access === access.BUYER && <CommercialProposalEstimate />}
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/commercial-proposal/import/:id"
+          element={
+            <ProtectedRoute>
+              {user.access === access.BUYER && <CommercialProposalImport />}
             </ProtectedRoute>
           }
         />
@@ -107,10 +135,20 @@ export const App: FC = () => {
               {user.access === access.MANAGER && <ApplicationsItem />}
               {user.access === access.SUPERUSER && <ApplicationsItemTree />}
               {user.access === access.ENGINEER && <ApplicationsEngineer />}
+              {user.access === access.BUYER && <ApplicationsBuyer />}
+              {user.access === access.VICEPREZIDENT && <ApplicationsVicePrezident/>}
             </ProtectedRoute>
           }
         />
         <Route
+          path="/marginality"
+          element={
+            <ProtectedRoute>
+              <Marginality />
+            </ProtectedRoute>
+          }
+        />
+        {/*         <Route
           path="/sample"
           element={
             <ProtectedRoute>
@@ -127,7 +165,7 @@ export const App: FC = () => {
               <SampleItem />{" "}
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/reports"
           element={

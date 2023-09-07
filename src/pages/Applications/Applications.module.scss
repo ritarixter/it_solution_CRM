@@ -359,22 +359,28 @@
   }
 }
 
-.blockInfo {
-  margin-bottom: 20px;
-   
-  &_title {
-    font-size: 16px;
-    line-height: normal;
-    font-weight: 600;
-    margin-bottom: 8px;
-    margin-top: 0;
-    color: $inputCaption;
-  }
+.margin {
+  display: flex;
+  flex-direction: row;
 
-  &_text {
-    margin: 0;
+  &__table {
+    margin-top: 35px;
     font-size: 14px;
-    line-height: auto;
-    color: $primaryColor;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    &_cell {
+    width: 294px;
+    padding-bottom: 31px;
+    }
+
+    &_text {
+      padding-top: 4px;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
   }
 }

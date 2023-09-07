@@ -15,6 +15,7 @@ import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "./constants";
 import { access, notFound } from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
+import { Performers } from "../../../components/Performers/Performers";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const ApplicationsItemTree: FC = () => {
   const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
-  const [header, setHeader] = useState<"Дерево" | "Изменить информацию">(
+  const [header, setHeader] = useState<"Дерево" | "Изменить информацию" | "Исполнители">(
     "Изменить информацию"
   );
   const id_list = Number(location.pathname.slice(14));
@@ -188,12 +189,21 @@ export const ApplicationsItemTree: FC = () => {
             >
               Дерево
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Исполнители")}
+              className={`${styles.button__nav} ${
+                header === "Исполнители" && styles.active
+              }`}
+            >
+              Исполнители
+            </button>
           </div>
           {header === "Дерево" ? (
             <ApplicationTree
               users={currentList?.users ? currentList?.users : []}
             />
-          ) : (
+          ) : header === "Изменить информацию" ? (
             <div className={styles.popup_edit}>
               <form method="POST" className={styles.edit__container}>
                 <DropdownListForUsers
@@ -239,6 +249,10 @@ export const ApplicationsItemTree: FC = () => {
                 />
               </div>
             </div>
+          ) : header === "Исполнители" ? (
+            <Performers />
+          ) : (
+            <div></div>
           )}
         </section>
       </div>

@@ -121,22 +121,26 @@ export const CommercialProposal: FC = () => {
             </table>
             {user.access === access.VICEPREZIDENT ? (
               <div className={styles.buttons__marginality}>
-              <BlockButton text={"Рассчитать маржинальность"} bigWidth={true} onClick={() => {navigate(`/marginality`);}} />
-            
-            </div>
-              
+                <BlockButton
+                  text={"Рассчитать маржинальность"}
+                  bigWidth={true}
+                  onClick={() => {
+                    navigate(`/marginality`);
+                  }}
+                />
+              </div>
             ) : (
               <div className={styles.buttons}>
-              <BlockButton text={"Принять КП"} onClick={() => {}} />
-              <p
-                className={styles.cancel}
-                onClick={() => {
-                  navigate(`/commercial-proposal/edit/${id_list}`);
-                }}
-              >
-                Изменить
-              </p>
-            </div>
+                <BlockButton text={"Принять КП"} onClick={() => {}} />
+                <p
+                  className={styles.cancel}
+                  onClick={() => {
+                    navigate(`/commercial-proposal/edit/${id_list}`);
+                  }}
+                >
+                  Изменить
+                </p>
+              </div>
             )}
           </div>
         </>

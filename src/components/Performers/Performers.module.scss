@@ -1,0 +1,26 @@
+@import "../../styles/variables.scss";
+
+.blockInfo {
+    margin-top: 35px;
+    margin-bottom: 20px;
+  
+    &_title {
+      font-size: 16px;
+      line-height: normal;
+      font-weight: 600;
+      margin-bottom: 8px;
+      margin-top: 0;
+      color: $inputCaption;
+    }
+  
+    &_text {
+      margin: 0;
+      font-size: 14px;
+      line-height: auto;
+      color: $primaryColor;
+    }
+
+    &:last-child {
+        margin-top: 0;
+    }
+}

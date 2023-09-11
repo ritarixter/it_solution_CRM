@@ -12,8 +12,8 @@ import { BlockMarginality } from "../../components/BlockMarginality/BlockMargina
 export const Marginality: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [startWork, setStartWork] = useState(String);
-  const [endWork, setEndWork] = useState(String);
+  const [startWork, setStartWork] = useState(Date);
+  const [endWork, setEndWork] = useState(Date);
   const [bribe, setBribe] = useState(String);
   const [recycling, setRecycling] = useState(String);
   const [fitter, setFitter] = useState(String);
@@ -25,7 +25,7 @@ export const Marginality: FC = () => {
   const id_list = Number(location.pathname.slice(21));
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
-    name: "",
+    name: " ",
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
@@ -36,8 +36,12 @@ export const Marginality: FC = () => {
   //     setCP(res.commercialProposal);
   //   });
   // }, []);
-console.log(CP?.name);
 
+  const colDay = () => {
+    
+  }
+console.log(startWork);
+console.log(endWork);
   return (
     <>
       <Wrapper>

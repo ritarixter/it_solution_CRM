@@ -37,11 +37,7 @@ export const Marginality: FC = () => {
   //   });
   // }, []);
 
-  const colDay = () => {
-    
-  }
-console.log(startWork);
-console.log(endWork);
+
   return (
     <>
       <Wrapper>

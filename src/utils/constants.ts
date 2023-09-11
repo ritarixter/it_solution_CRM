@@ -7,7 +7,8 @@ export const access: TAccess = {
   FITTER: "Монтажник",
   ENGINEER: "Инженер",
   BUYER: "Закупщик",
-  VICEPREZIDENT: "Зам директора"
+  VICEPREZIDENT: "Зам директора",
+  LAWYER: "Юрист"
 };
 
 export type TAccess = {
@@ -16,7 +17,8 @@ export type TAccess = {
   FITTER: string;
   ENGINEER: string;
   BUYER:string,
-  VICEPREZIDENT: string
+  VICEPREZIDENT: string,
+  LAWYER: string
 };
 
 // export const URL_BACKEND = "http://backend.corp.itsl.tel";

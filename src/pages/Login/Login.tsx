@@ -8,6 +8,7 @@ import { loginUser } from "../../services/slices/user";
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch();
+  
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [typeInput, setTypeInput] = useState<boolean>(true);
@@ -25,7 +26,8 @@ export const Login: FC = () => {
   );
 
   if (isAuth) {
-    return <Navigate to="/applications" state={{ from: location }} replace />;
+    return <Navigate to="/applications
+    " state={{ from: location }} replace />;
   }
 
   return (

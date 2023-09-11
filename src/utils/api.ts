@@ -72,6 +72,7 @@ export function editUsers(
   username?: string,
   password?: string,
   avatar?: string,
+  phone?: string,
   name?: string,
   access?: string
 ) {
@@ -82,6 +83,7 @@ export function editUsers(
       username: username,
       password: password,
       avatar: avatar,
+      phone: phone,
       name: name,
       access: access,
     }),

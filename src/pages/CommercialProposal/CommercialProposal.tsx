@@ -63,6 +63,7 @@ export const CommercialProposal: FC = () => {
       setCP(res.commercialProposal);
     });
   }, []);
+
   return (
     <Wrapper>
       {isLoadingUser ? (

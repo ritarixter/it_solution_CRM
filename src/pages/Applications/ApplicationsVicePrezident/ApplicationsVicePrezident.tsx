@@ -5,17 +5,22 @@ import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import {
   ImpotanceBlock,
   StatusBlock,
-  UserBlock,
   Wrapper,
 } from "../../../components";
-import { TList } from "../../../types";
-import { NOT_ASSIGNED, notFound } from "../../../utils/constants";
+import { TList, TUser } from "../../../types";
+import {
+  notFound,
+} from "../../../utils/constants";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { getListByIdApi } from "../../../utils/api";
 import { useLocation, useNavigate } from "react-router";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
+import { ApplicationsVicePrezidentItem } from "./ApplicationsVicePrezidentItem";
+import { Performers } from "../../../components/Performers/Performers";
+
 
 export const ApplicationsVicePrezident: FC = () => {
+  
   const location = useLocation();
   const navigate = useNavigate();
   const { list } = useAppSelector((state) => state.list);
@@ -105,6 +110,9 @@ export const ApplicationsVicePrezident: FC = () => {
                 <div></div>
               )}
             </div>
+            <div className={styles.buttonCreate}>
+              <BlockButton text={"Закрыть заявку"} onClick={() => {}} />
+            </div>
           </div>
         </div>
         <div className={styles.blockUsers}>
@@ -131,38 +139,11 @@ export const ApplicationsVicePrezident: FC = () => {
             </div>
           </div>
           {header === "Исполнители" ? (
-            <>
-              <div className={styles.blockInfo}>
-                <p className={styles.blockInfo_title}>Ответсвенный инженер</p>
-                <p className={styles.blockInfo_text}>
-                  {currentList?.users
-                    ? currentList.users.map((user) => (
-                        <UserBlock
-                          name={user.name}
-                          avatar={user.avatar}
-                          fullName={true}
-                        />
-                      ))
-                    : NOT_ASSIGNED}
-                </p>
-              </div>
-              <div className={styles.blockInfo}>
-                <p className={styles.blockInfo_title}>Бригада</p>
-                <p className={styles.blockInfo_text}>
-                  {currentList?.users
-                    ? currentList.users.map((user) => (
-                        <UserBlock
-                          name={user.name}
-                          avatar={user.avatar}
-                          fullName={true}
-                        />
-                      ))
-                    : NOT_ASSIGNED}
-                </p>
-              </div>
-            </>
+              <Performers />
           ) : (
-            <div></div>
+            <div>
+              <ApplicationsVicePrezidentItem />
+            </div>
           )}
         </div>
       </div>

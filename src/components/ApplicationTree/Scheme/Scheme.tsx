@@ -5,7 +5,7 @@ import { AvatarDefault } from "../../AvatarDefault/AvatarDefault";
 import styles from "./Scheme.module.scss";
 import { TUser } from "../../../types";
 import { access } from "../../../utils/constants";
-type TScheme = {
+export type TScheme = {
   users: Array<TUser>;
 };
 export const Scheme: FC<TScheme> = ({ users }) => {

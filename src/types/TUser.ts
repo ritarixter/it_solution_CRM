@@ -4,6 +4,7 @@ export type TUser = {
   updatedAt: string;
   name: string;
   avatar: string;
+  phone: string;
   access: string;
   username: string;
   password?: string;

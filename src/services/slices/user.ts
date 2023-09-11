@@ -1,7 +1,8 @@
 import { AppDispatch, AppThunk } from "../store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getCookie, setCookie } from "../../utils/cookies";
+//import { getCookie, setCookie } from "../../utils/cookies";
 import { TUser } from "../../types";
+import Cookies from 'js-cookie';
 
 import { getDataUser, getUsersApi, signIn, signUp } from "../../utils/api";
 
@@ -42,7 +43,7 @@ const initialState: userState = {
     username: "",
     password: "",
   },
-  isAuth:!!getCookie("accessToken"),
+  isAuth:!!Cookies.get("accessToken"),
   isError: false,
   isLoadingUser: false
 };
@@ -78,7 +79,7 @@ export const registerUser: AppThunk =
     dispatch(setLoading(true));
     signUp(username, password)
       .then((res) => {
-        setCookie("accessToken", res.accessToken);
+        Cookies.set("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
        dispatch(setAuth(true));
       })
@@ -96,10 +97,10 @@ export const loginUser: AppThunk =
     dispatch(setLoading(true));
     signIn(username, password)
       .then((res) => {
-        setCookie("accessToken", res.accessToken);
+        Cookies.set("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setError(false));
-        dispatch(setAuth(true));
+        dispatch(setAuth(true))
         dispatch(getUser())
       })
       .catch((err) => {

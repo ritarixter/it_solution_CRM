@@ -15,6 +15,8 @@ import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
 import { access } from "../../utils/constants";
 import { validateEmail } from "../../utils/utils-validate";
+import { getUser } from "../../services/slices/user";
+import { Navigate, useLocation } from "react-router";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -39,6 +41,7 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
+  let location = useLocation();
 
   useEffect(()=>{
     const interval = setInterval(() => {

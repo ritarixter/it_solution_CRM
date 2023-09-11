@@ -1,11 +1,12 @@
 import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
-import { getCookie, setCookie } from "./cookies";
+//import { getCookie, setCookie } from "./cookies";
+import Cookies from 'js-cookie';
 import {URL} from './constants';
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn: HeadersInit = {
   "Content-Type": "application/json",
-  Authorization: `Bearer ${getCookie("accessToken")}`,
+  Authorization: `Bearer ${Cookies.get("accessToken")}`,
 };
 
 const responseCheck = (res: Response) => {
@@ -208,7 +209,7 @@ export function refreshToken() {
         return Promise.reject(refreshData);
       }
       localStorage.setItem("token", refreshData.refreshToken);
-      setCookie("accessToken", refreshData.accessToken);
+      Cookies.set("accessToken", refreshData.accessToken, { expires: 1/24 });
       return refreshData;
     });
 }
@@ -411,7 +412,7 @@ export function uploadFiles(files: any) {
   return fetch(`${URL}/upload`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${getCookie("accessToken")}`,
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
     },
     body: files,
   }).then(responseCheck);

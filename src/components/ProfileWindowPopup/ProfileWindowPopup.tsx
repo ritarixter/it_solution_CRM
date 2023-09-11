@@ -3,7 +3,8 @@ import styles from "./ProfileWindowPopup.module.scss";
 import { useNavigate } from "react-router";
 import { items } from "./constants";
 import { useAppDispatch } from "../../services/hooks";
-import { deleteCookie, getCookie } from "../../utils/cookies";
+//import { deleteCookie, getCookie } from "../../utils/cookies";
+import Cookies from 'js-cookie';
 import { logout, setAuth } from "../../services/slices/user";
 type TProfileWindowPopup = {
   open: boolean;
@@ -25,7 +26,7 @@ export const ProfileWindowPopup: FC<TProfileWindowPopup> = ({ open }) => {
           onClick={() => {
             if (item.id === 2) {
               localStorage.removeItem("refreshToken");
-              deleteCookie("accessToken");
+              Cookies.remove("accessToken");
               dispatch(logout());
               dispatch(setAuth(false));
             }

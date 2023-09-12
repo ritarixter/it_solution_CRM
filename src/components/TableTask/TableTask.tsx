@@ -25,7 +25,6 @@ function addSevenDay(date = new Date()) {
   return date;
 }
 export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
-  const { isLoadingTask } = useAppSelector((state) => state.task);
   const { isLoadingList } = useAppSelector((state) => state.list);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
@@ -96,7 +95,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
 
   return (
     <section className={`${styles.container} ${mini && styles.mini}`}>
-      {isLoadingTask || isLoadingList ? (
+      { isLoadingList ? (
         <PreloaderBlock />
       ) : (
         <>

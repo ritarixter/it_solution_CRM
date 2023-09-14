@@ -5,7 +5,7 @@ import { Wrapper } from "../../components";
 import { Input } from "../../components/Input";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { TCommercialProposal } from "../../types";
-import { getByIdCommercialProposalApi } from "../../utils/api";
+import { getListByIdApi } from "../../utils/api";
 import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../components/BlockMarginality/BlockMarginality";
 import moment from 'moment';
@@ -39,20 +39,25 @@ export const Marginality: FC = () => {
   const [housing, setHousing] = useState(0);                        // Затраты на жилье
   const [unforeseen, setUnforeseen] = useState(0);                  // Затраты непредвиденные
   const [marginality, setMarginality] = useState(0)                 // Маржинальность
-  const id_list = Number(location.pathname.slice(21));
+  const id_list = Number(location.pathname.slice(13));
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
     name: " ",
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
+    summa: " ",
+    marginality: "",
+    variablesForMarginality: [],
   });
 
-  // useEffect(() => {
-  //   getByIdCommercialProposalApi(id_list).then((res) => {
-  //     setCP(res.commercialProposal);
-  //   });
-  // }, []);
+  useEffect(() => {
+    getListByIdApi(id_list).then((res) => {
+      setCP(res.commercialProposal);
+      console.log(res)
+    });
+   }, []);
+
   const holidays = ['1 Jan ', '2 Jan ', '3 Jan ', '4 Jan ', '5 Jan ', '6 Jan ', '7 Jan ', '8 Jan ', '23 Feb ', '8 Mar ', '1 May ', '9 May ', '12 Jun ', '4 Nov '] // праздники
 
   useEffect(() => {
@@ -265,7 +270,9 @@ export const Marginality: FC = () => {
           <div className={styles.button}>
             <BlockButton
               text={"Сохранить"}
-              onClick={() => {}}
+              onClick={() => {
+                navigate(`/applications/${id_list}`)
+              }}
               style={true}
             />
           </div>

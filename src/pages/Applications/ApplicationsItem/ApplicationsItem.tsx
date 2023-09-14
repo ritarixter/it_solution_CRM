@@ -147,8 +147,6 @@ export const ApplicationsItem: FC = () => {
       setCurrentList(res);
       setCurrentCompany(res.company);
       setNameCompanyValue(res.company.nameCompany);
-
-      
     });
   }, [companies, list]);
 
@@ -204,6 +202,7 @@ export const ApplicationsItem: FC = () => {
         files: undefined,
       };
       dispatch(updateList(listNew));
+    
     }
   };
 

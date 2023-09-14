@@ -7,6 +7,7 @@ import {
   deleteListApi,
   getListApi,
   updateListApi,
+  updateStepApi,
 } from "../../utils/api";
 import { TUpdateList } from "../../types/TList";
 
@@ -65,6 +66,7 @@ export const addList: AppThunk =
     addListApi(name, customer, INNCompany, description, files)
       .then((res) => {
         dispatch(getList());
+        updateStepApi(res.step.id, 1)
       })
       .catch((err) => {
         dispatch(setError(true));

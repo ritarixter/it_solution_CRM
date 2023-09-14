@@ -150,6 +150,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
       <td className={styles.table__list}>
         <DropdownList
           state={name}
+          size={"small"}
           setState={setName}
           data={allProducts}
           error={nameError}

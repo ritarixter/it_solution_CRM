@@ -10,12 +10,12 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
-import { addCommercialProposalApi } from "../../../utils/api";
+import { addCommercialProposalApi, updateStepApi } from "../../../utils/api";
 import { Input } from "../../../components/Input";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate()
   const location = useLocation();
   const id_list = Number(location.pathname.slice(28));
@@ -43,7 +43,10 @@ export const CommercialProposalCreate: FC = () => {
       setNameError(true);
     } else {
       setNameError(false);
+      let arr = [...list]
+      const currentList = arr.filter((item)=>item.id===id_list)
       addCommercialProposalApi(name, id_list, items).then((res) => {
+        updateStepApi(currentList[0].step.id, 3);
         navigate(-1)
       });
     }

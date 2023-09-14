@@ -18,6 +18,9 @@
       font-size: 14px;
       line-height: auto;
       color: $primaryColor;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     &:last-child {

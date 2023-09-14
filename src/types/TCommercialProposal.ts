@@ -6,6 +6,9 @@ export type TCommercialProposal = {
   updatedAt: Date;
   name: string;
   products: Array<IProducts>;
+  summa: string;
+  marginality: string;
+  variablesForMarginality: Array<TUpdateCommercialProposal>;
 };
 
 export type TUpdateCommercialProposal = {

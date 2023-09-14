@@ -103,7 +103,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
         style={true}
       />
       </div>
-      <BlockMarginality />
+      <BlockMarginality/>
     </div>
   );
 };

@@ -46,13 +46,11 @@ export const Marginality: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
+    summa: " ",
+    marginality: "",
+    variablesForMarginality: [],
   });
-
-  // useEffect(() => {
-  //   getByIdCommercialProposalApi(id_list).then((res) => {
-  //     setCP(res.commercialProposal);
-  //   });
-  // }, []);
+  
   const holidays = ['1 Jan ', '2 Jan ', '3 Jan ', '4 Jan ', '5 Jan ', '6 Jan ', '7 Jan ', '8 Jan ', '23 Feb ', '8 Mar ', '1 May ', '9 May ', '12 Jun ', '4 Nov '] // праздники
 
   useEffect(() => {

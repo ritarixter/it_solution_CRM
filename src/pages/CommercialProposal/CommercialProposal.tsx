@@ -27,6 +27,9 @@ export const CommercialProposal: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
+    summa: " ",
+    marginality: "",
+    variablesForMarginality: [],
   });
 
   function handleDownloadExcel() {

@@ -119,11 +119,15 @@
   padding: 6px 12px 6px 16px;
   transition: color 0.1s linear;
   box-sizing: border-box;
-  max-width: 240px;
+  
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+
+  &_small {
+    max-width: 240px;
+  }
 
   &:hover:not(.disabled) {
     background: rgb(241, 241, 241);

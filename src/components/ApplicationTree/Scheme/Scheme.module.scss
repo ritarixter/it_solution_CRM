@@ -1,161 +1,159 @@
 @import "../../../styles/variables.scss";
 
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .scheme {
-	position: relative;
-
+  position: relative;
 }
 
 .tree ul {
-	width: 100%;
-	padding-top: 50px;
-	position: relative;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row;
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
+  width: 100%;
+  padding-top: 50px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
 }
 
 .tree li {
-	float: right;
-	text-align: center;
-	list-style-type: none;
-	position: relative;
-	padding: 50px 10px 0;
-	width: 100%;
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
+  float: right;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 50px 10px 0;
+  width: 100%;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
 }
 
 .info {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .info img {
-	position: absolute;
-	right: calc(50% - 90px);
-	top: -40px;
+  position: absolute;
+  right: calc(50% - 90px);
+  top: -40px;
 }
 
 .priority {
-	width: 145px;
-	margin-top: 4px;
-	border-radius: 4px;
-	background: rgba(250, 118, 22, 0.10);
-	color: #F47633;
-	font-size: 13px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: -0.14px;
+  width: 145px;
+  margin-top: 4px;
+  border-radius: 4px;
+  background: rgba(250, 118, 22, 0.1);
+  color: #f47633;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.14px;
 }
 
 .deadline {
-	width: 145px;
-	margin-top: 4px;
-	border-radius: 4px;
-	background: #E0E6FF;
-	color: #3B9ACD;
-	font-size: 13px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: -0.14px;
+  width: 145px;
+  margin-top: 4px;
+  border-radius: 4px;
+  background: #e0e6ff;
+  color: #3b9acd;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.14px;
 }
 
 .gotToWork {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .tree li::before,
 .tree li::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 50%;
-	border-top: 1px solid $schemeBorder;
-	width: 50%;
-	height: 49px;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1px solid $schemeBorder;
+  width: 50%;
+  height: 49px;
 }
 
 .tree li::after {
-	right: auto;
-	left: 50%;
-	border-left: 1px solid $schemeBorder;
+  right: auto;
+  left: 50%;
+  border-left: 1px solid $schemeBorder;
 }
 
 .tree li:only-child::after,
 .tree li:only-child::before {
-	display: none;
+  display: none;
 }
 
 .tree li:only-child {
-	padding-top: 0;
+  padding-top: 0;
 }
 
-.tree li+ul li {
-	// width: 1200px;
+.tree li + ul li {
+  // width: 1200px;
 }
 
 .tree li:first-child::before,
 .tree li:last-child::after {
-	border: 0 none;
+  border: 0 none;
 }
 
 .tree li:last-child::before {
-	border-right: 1px solid $schemeBorder;
-	border-radius: 0 5px 0 0;
-	-webkit-border-radius: 0 5px 0 0;
-	-moz-border-radius: 0 5px 0 0;
+  border-right: 1px solid $schemeBorder;
+  border-radius: 0 5px 0 0;
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
 }
 
 .tree li:first-child::after {
-	border-radius: 5px 0 0 0;
-	-webkit-border-radius: 5px 0 0 0;
-	-moz-border-radius: 5px 0 0 0;
+  border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
 }
 
 .tree ul ul::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 50%;
-	border-left: 1px solid $schemeBorder;
-	width: 0;
-	height: 50px;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid $schemeBorder;
+  width: 0;
+  height: 50px;
 }
 
 .tree li a {
-	border-radius: 5px;
-	min-width: 138px;
-	height: 40px;
-	padding: 10px 10px;
-	text-decoration: none;
-	background-color: $mainColor;
-	color: $thirdColor;
-	font-size: 13px;
-	display: inline-block;
-	white-space: nowrap;
+  border-radius: 5px;
+  min-width: 138px;
+  height: 40px;
+  padding: 10px 10px;
+  text-decoration: none;
+  background-color: $bgNullColor;
+  color: $nullColor;
+  font-size: 13px;
+  display: inline-block;
+  white-space: nowrap;
 
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
 }
-
 
 // .tree ul li a + ul li a + ul li a{
 //     height: 72px;
@@ -167,132 +165,180 @@
 // }
 
 .tree li a:hover,
-.tree li a:hover+ul li a {
-	opacity: 0.8;
-	border: 0px solid $mainColor;
+.tree li a:hover + ul li a {
+  opacity: 0.8;
+  border: 0px solid $mainColor;
 }
 
-.tree li a:hover+ul li::after,
-.tree li a:hover+ul li::before,
-.tree li a:hover+ul::before,
-.tree li a:hover+ul ul::before {
-	border-color: #94a0b4;
+.tree li a:hover + ul li::after,
+.tree li a:hover + ul li::before,
+.tree li a:hover + ul::before,
+.tree li a:hover + ul ul::before {
+  border-color: #94a0b4;
 }
-
 
 .acsynya a {
-	position: absolute;
-	top: 0;
-	margin: 50px 0 0 50px;
-	border-radius: 5px;
-	min-width: 144px;
-	height: 40px;
-	text-decoration: none;
-	background-color: $bgNullColor;
-	color: $nullColor;
-	font-size: 13px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	white-space: nowrap;
+  position: absolute;
+  top: 0;
+  margin: 50px 0 0 50px;
+  border-radius: 5px;
+  min-width: 144px;
+  height: 40px;
+  text-decoration: none;
+  background-color: $bgNullColor;
+  color: $nullColor;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
 }
 
 .colorInfo {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 50px 0 0 50px;
-	padding-left: 26px;
-	list-style: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 50px 0 0 50px;
+  padding-left: 26px;
+  list-style: none;
 
-	&_item {
-		position: relative;
-		margin: 5px 0;
-		padding-left: 30px;
-		line-height: 18px;
-		color: #828690;
-		cursor: pointer;
-	}
+  &_item {
+    position: relative;
+    margin: 5px 0;
+    padding-left: 30px;
+    line-height: 18px;
+    color: #828690;
+    cursor: pointer;
+  }
 
-	&_item:hover {
-		opacity: 0.8;
-	}
+  &_item:hover {
+    opacity: 0.8;
+  }
 
-	&_item::before {
-		content: "";
-		position: absolute;
-		top: 2px;
-		left: -10px;
+  &_item::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: -10px;
 
-		width: 30px;
-		height: 14px;
+    width: 30px;
+    height: 14px;
 
-		border-radius: 3px;
-	}
+    border-radius: 3px;
+  }
 
-	&_item:nth-child(1)::before {
-		background-color: $mainColor;
-	}
+  &_item:nth-child(1)::before {
+    background-color: $mainColor;
+  }
 
-	&_item:nth-child(2)::before {
-		background-color: $statusDoColor;
-	}
+  &_item:nth-child(2)::before {
+    background-color: $statusDoColor;
+  }
 
-	&_item:nth-child(3)::before {
-		background-color: $bgNullColor;
-	}
+  &_item:nth-child(3)::before {
+    background-color: $bgNullColor;
+  }
 
-	& li {
-		list-style-type: none;
-	}
+  & li {
+    list-style-type: none;
+  }
 }
-
 
 .title {
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
-.tree .mainEng a {
-	background-color: $statusDoColor;
-	color: $progressBar;
-}
+// .tree .mainEng a {
+// 	background-color: $statusDoColor;
+// 	color: $progressBar;
+// }
 
-.tree .active a{
-	background-color: $statusDoColor;
-	color: $progressBar;
-}
-
-// 
+//
 // .tree .deputyEng a,
 // .tree .secondEng a {
 // 	background-color: $statusDoColor;
 // 	color: $progressBar;
 // }
 
+// .tree .purchasing a,
+// .tree .manager,
+// .tree .deputyEng a,
+// .tree .stock a,
+// .tree .lawyer a,
+// .tree .firstEng a,
+// .tree .thirdEng a,
+// .tree .thirdEngBrigade a,
+// .tree .mainEng a,
+// .tree .project a {
+// 	background-color: $bgNullColor;
+// 	color: $nullColor;
+// }
 
-.tree .purchasing a,
-.tree .deputyEng a,
-.tree .stock a,
-.tree .lawyer a,
-.tree .firstEng a,
-.tree .thirdEng a,
-.tree .thirdEngBrigade a,
-.tree .project a {
-	background-color: $bgNullColor;
-	color: $nullColor;
+// .tree .purchasing.active a,
+// .tree .manager.active,
+// .tree .deputyEng.active a,
+// .tree .stock.active a,
+// .tree .lawyer.active a,
+// .tree .firstEng.active a,
+// .tree .thirdEng.active a,
+// .tree .thirdEngBrigade.active a,
+// .tree .mainEng.active a,
+// .tree .project.active a {
+// 	background-color: $statusDoColor;
+// 	color: $progressBar;
+// }
+
+.tree {
+  .purchasing,
+  .stock,
+  .lawyer,
+  .firstEng,
+  .thirdEng,
+  .thirdEngBrigade,
+  .project {
+    &.active a {
+      background-color: $statusDoColor;
+      color: $progressBar;
+    }
+  }
+  .manager {
+    background-color: $mainColor;
+    color: $thirdColor;
+  }
+
+  .deputyEng {
+    &.active .title {
+      background-color: $statusDoColor;
+      color: $progressBar;
+    }
+  }
+
+  .mainEng {
+    &.active .eng {
+      background-color: $statusDoColor;
+      color: $progressBar;
+    }
+  }
 }
 
 .deputyEng {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .block {
-	display: flex;
-	justify-content: center;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.acsynya.active a {
+  background-color: $statusDoColor;
+  color: $progressBar;
 }

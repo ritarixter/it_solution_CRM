@@ -97,7 +97,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           </td>
           <td key={uuidv4()}>{item.company.numberPhone}</td>
 
-          {item.users.length != 0 ? (
+          {item.users && item.users.length != 0 ? (
             <td className={styles.implements}>
               {item.users.slice(0, 3).map((user) => (
                 <div className={styles.implements__item} key={user.id}>

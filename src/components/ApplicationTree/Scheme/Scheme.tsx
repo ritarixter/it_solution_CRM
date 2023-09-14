@@ -3,12 +3,17 @@ import avatar from "../../../images/photo_3.jpg";
 import { UserBlock } from "../../UserBlock/UserBlock";
 import { AvatarDefault } from "../../AvatarDefault/AvatarDefault";
 import styles from "./Scheme.module.scss";
-import { TUser } from "../../../types";
+import { TList, TUser } from "../../../types";
 import { access } from "../../../utils/constants";
+import { useLocation } from "react-router";
+import { TStep } from "../../../types/TStep";
 export type TScheme = {
   users: Array<TUser>;
+  list: TList | null;
 };
-export const Scheme: FC<TScheme> = ({ users }) => {
+export const Scheme: FC<TScheme> = ({ users, list }) => {
+  const [steps, setSteps] = useState<TStep | null>(list ? list.step : null);
+
   const engineer = users.filter((user) => user.access === access.ENGINEER);
   const fitters = users.filter((user) => user.access === access.FITTER);
   return (
@@ -16,26 +21,42 @@ export const Scheme: FC<TScheme> = ({ users }) => {
       <div className={styles.tree}>
         <ul>
           <li>
-            <a href="#">Менеджер</a>
+            <a href="#" className={`${styles.manager}`}>
+              Менеджер
+            </a>
             <ul>
-              <li className={styles.mainEng}>
-                <a href="#">Главный Инженер</a>
+              <li
+                className={`${styles.mainEng} ${
+                  steps?.createList_step1 && styles.active
+                }`}
+              >
+                <a href="#" className={styles.eng}>
+                  Главный Инженер
+                </a>
 
                 {/* {isPriority && getInfo()} */}
                 <ul>
-                  <li className={styles.purchasing}>
+                  <li
+                    className={`${styles.purchasing}  ${
+                      steps?.createCP_step3 && styles.active
+                    }`}
+                  >
                     <a href="#">Отдел закупок</a>
                   </li>
                   <li className={styles.project}>
                     <a href="#">Проектный отдел</a>
                   </li>
-                  <li className={styles.lawyer}>
+                  <li
+                    className={`${styles.lawyer} ${
+                      steps?.calcMarginality_step6 && styles.active
+                    }`}
+                  >
                     <a href="#">Юридический отдел</a>
                   </li>
                   <li
-                    className={`${styles.deputyEng} ${
-                      engineer.length > 0 && styles.active
-                    }`}
+                    className={`${styles.deputyEng}
+                     ${steps?.chooseEngineer_step2 && styles.active}
+                      `}
                   >
                     <a className={styles.title} href="#">
                       Инженер
@@ -50,19 +71,21 @@ export const Scheme: FC<TScheme> = ({ users }) => {
                       "Не назначен"
                     )}
                     <ul>
-                      <li className={styles.firstEng}>
+                      <li
+                        className={`${styles.firstEng} ${
+                          steps?.ChooseFitter_step3_1 && styles.active
+                        }`}
+                      >
                         <a href="#">Бригада монтажников</a>
                         <div className={styles.block}>
-                        {fitters.length > 0 ? (
-                          fitters.map((item: any) => (
-                            <UserBlock
-                            name={item.name}
-                            avatar={item.avatar}
-                          />
-                          ))
-                        ) : (
-                          "Не назначен"
-                        )}
+                          {fitters.length > 0
+                            ? fitters.map((item: any) => (
+                                <UserBlock
+                                  name={item.name}
+                                  avatar={item.avatar}
+                                />
+                              ))
+                            : "Не назначен"}
                         </div>
                       </li>
                     </ul>
@@ -73,7 +96,11 @@ export const Scheme: FC<TScheme> = ({ users }) => {
           </li>
         </ul>
       </div>
-      <div className={styles.acsynya}>
+      <div
+        className={`${styles.acsynya} ${
+          steps?.checkCPbySuperEngineer_step5 && styles.active
+        }`}
+      >
         <a href="#">Аксинья</a>
       </div>
       <div className={styles.colorInfo}>

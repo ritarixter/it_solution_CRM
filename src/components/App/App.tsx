@@ -44,7 +44,6 @@ export const App: FC = () => {
   const { isAuth, user, isLoadingUser } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-
     if (isAuth) {
       dispatch(getUser());
       dispatch(getList());
@@ -144,10 +143,10 @@ export const App: FC = () => {
             }
           />
           <Route
-            path="/marginality"
+            path="/marginality/:id"
             element={
               <ProtectedRoute>
-                <Marginality />
+                {(user.access === access.VICEPREZIDENT || user.access === access.SUPERUSER )&& <Marginality />}
               </ProtectedRoute>
             }
           />

@@ -1,6 +1,7 @@
 import { TCommercialProposal } from "./TCommercialProposal";
 import { TCompany } from "./TCompany";
 import { TFile } from "./TFile";
+import { TStep } from "./TStep";
 import { TUser } from "./TUser";
 import { TWork } from "./TWork";
 
@@ -19,6 +20,7 @@ export type TList = {
   users: TUser[];
   works: TWork[];
   files: TFile[];
+  step: TStep;
 };
 
 export type TUpdateList = {

@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
-import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss"
+import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss";
 import { useLocation, useNavigate } from "react-router";
 import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi} from "../../../utils/api";
+import { getListByIdApi, updateStepApi } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { IProducts, TCommercialProposal, TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -12,7 +12,10 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { notFound } from "../../../utils/constants";
 import { downloadExcel } from "react-export-table-to-excel";
 import { ExcelButton } from "../../../components/ExcelButton/ExcelButton";
-import { formateDateShort, formateDateOnlyTime } from "../../../utils/utils-date";
+import {
+  formateDateShort,
+  formateDateOnlyTime,
+} from "../../../utils/utils-date";
 import { v4 as uuidv4 } from "uuid";
 import { titles } from "../../CommercialProposal/constants";
 
@@ -68,7 +71,7 @@ export const ApplicationsBuyer: FC = () => {
   useEffect(() => {
     getListByIdApi(id_list).then((res) => {
       setCurrentList(res);
-      setCP(res.commercialProposal)
+      setCP(res.commercialProposal);
     });
   }, [list]);
 
@@ -134,19 +137,28 @@ export const ApplicationsBuyer: FC = () => {
           </div>
         </div>
 
-       {CP && CP.id !=0 ? <div className={stylesCP.container1}>
+        {CP && CP.id != 0 ? (
+          <div className={stylesCP.container1}>
             <div className={stylesCP.header}>
               <h2 className={styles.conteiner_titleTree}>КП "{CP?.name}"</h2>
               <div className={styles.excelButtons}>
-              <ExcelButton onClick={()=>{
-                navigate(`/commercial-proposal/import/${id_list}`)
-              }} text={"Загрузить КП"}/>
-              <ExcelButton onClick={handleDownloadExcel} text={"Выгрузить КП"}/>
+                <ExcelButton
+                  onClick={() => {
+                    navigate(`/commercial-proposal/import/${id_list}`);
+                  }}
+                  text={"Загрузить КП"}
+                />
+                <ExcelButton
+                  onClick={handleDownloadExcel}
+                  text={"Выгрузить КП"}
+                />
               </div>
             </div>
             <p className={stylesCP.subtitle}>
               {" "}
-              <span className={stylesCP.subtitle__bold}>№{id_list}</span> ОТ{" "}
+              <span className={stylesCP.subtitle__bold}>
+                №{id_list}
+              </span> ОТ{" "}
               <span className={stylesCP.subtitle__bold}>
                 {CP?.createdAt && formateDateShort(CP.createdAt)}
               </span>{" "}
@@ -177,20 +189,34 @@ export const ApplicationsBuyer: FC = () => {
                     <td className={stylesCP.row__item}>{item.units}</td>
                     <td className={stylesCP.row__item}>{item.price}</td>
                     <td className={stylesCP.row__item}>{item.actualPrice}</td>
-                    <td className={stylesCP.row__item}>{item.date ? item.date : "Не указана"}</td>
+                    <td className={stylesCP.row__item}>
+                      {item.date ? item.date : "Не указана"}
+                    </td>
                     <td className={stylesCP.row__item}>{item.totalPrice}</td>
-                    <td className={stylesCP.row__item}>{item.marginalityPrice}</td>
+                    <td className={stylesCP.row__item}>
+                      {item.marginalityPrice}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <div className={stylesCP.buttons}>
               <div className={styles.bigWidthButton}>
-              <BlockButton bigWidth={true} text={"Отправить главному инженеру"} onClick={() => {}} />
+                <BlockButton
+                  bigWidth={true}
+                  text={"Отправить главному инженеру"}
+                  onClick={() => {
+                    currentList?.step && updateStepApi(currentList?.step.id, 4);
+                    navigate('/applications')
+                  }}
+                />
               </div>
-              <BlockButton text={"Составить сметы"} onClick={() => {
-                navigate(`/commercial-proposal/estimate/${id_list}`)
-              }} />
+              <BlockButton
+                text={"Составить сметы"}
+                onClick={() => {
+                  navigate(`/commercial-proposal/estimate/${id_list}`);
+                }}
+              />
               <p
                 className={stylesCP.cancel}
                 onClick={() => {
@@ -200,9 +226,13 @@ export const ApplicationsBuyer: FC = () => {
                 Изменить
               </p>
             </div>
-          </div>:
-          <div className={stylesCP.container1}> <h2 className={styles.conteiner_titleTree}>КП еще не создано</h2></div>
-          }
+          </div>
+        ) : (
+          <div className={stylesCP.container1}>
+            {" "}
+            <h2 className={styles.conteiner_titleTree}>КП еще не создано</h2>
+          </div>
+        )}
       </div>
     </Wrapper>
   );

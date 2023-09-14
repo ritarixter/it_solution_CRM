@@ -165,8 +165,6 @@ export function getListApi() {
   }).then(responseCheck);
 }
 
-
-
 export function addListApi(
   name: string,
   customer: string,
@@ -427,4 +425,20 @@ export async function getStockApi() {
     headers: headersWithAuthorizeFn(),
   })
   return responseCheck(res);
+}
+
+
+//---------------------------------------------------------------STEP-------------------------------------------------------------------------------
+
+export function updateStepApi(
+  id: number,
+  idStep: number
+) {
+  return fetch(`${URL}/step/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      idStep: idStep
+    }),
+  }).then(responseCheck);
 }

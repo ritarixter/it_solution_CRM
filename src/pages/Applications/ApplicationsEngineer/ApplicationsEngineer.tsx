@@ -3,7 +3,7 @@ import styles from "../Applications.module.scss";
 import { useLocation, useNavigate } from "react-router";
 import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi, uploadFiles } from "../../../utils/api";
+import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList, TWorkAbdExecuter } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -73,6 +73,7 @@ export const ApplicationsEngineer: FC = () => {
           users: fittersID.length != 0 ? fittersID : undefined,
         };
         dispatch(updateList(listNew));
+        (currentList && fittersID.length != 0) && updateStepApi(currentList.step.id, 3.1);
       });
     } else {
       const listNew = {
@@ -82,6 +83,7 @@ export const ApplicationsEngineer: FC = () => {
         users: fittersID.length != 0 ? fittersID : undefined,
       };
       dispatch(updateList(listNew));
+      (currentList && fittersID.length != 0) && updateStepApi(currentList.step.id, 3.1);
     }
   };
 
@@ -168,6 +170,7 @@ export const ApplicationsEngineer: FC = () => {
             <button
               type="button"
               className={`${styles.button__nav} ${styles.active}`}
+              
             >
               Назначить бригаду
             </button>

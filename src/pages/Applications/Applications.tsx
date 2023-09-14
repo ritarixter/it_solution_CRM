@@ -43,7 +43,8 @@ export const Applications: FC = () => {
   const [files, setFiles] = useState<FormData>();
   let location = useLocation();
 
-  useEffect(()=>{
+  useEffect(() => {
+    dispatch(getList());
     const interval = setInterval(() => {
       dispatch(getList());
     }, 5000);
@@ -125,17 +126,22 @@ export const Applications: FC = () => {
         uploadFiles(files).then((res) => {
           dispatch(
             addList(
-              workNameValue,
-              customer,
+              String(workNameValue),
+              String(customer),
               currentCompany?.INN,
-              textareaValue,
+              String(textareaValue),
               res
             )
           );
         });
       } else {
         dispatch(
-          addList(workNameValue, customer, currentCompany?.INN, textareaValue)
+          addList(
+            String(workNameValue),
+            String(customer),
+            currentCompany?.INN,
+            String(textareaValue)
+          )
         );
       }
       setCurrentCompany(undefined);
@@ -155,7 +161,9 @@ export const Applications: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            {(user.access === access.SUPERUSER || user.access === access.BUYER || user.access === access.VICEPREZIDENT) && (
+            {(user.access === access.SUPERUSER ||
+              user.access === access.BUYER ||
+              user.access === access.VICEPREZIDENT) && (
               <TableTask
                 mini={false}
                 list={list}
@@ -251,8 +259,8 @@ export const Applications: FC = () => {
                       <BlockButton
                         text={"Сохранить"}
                         disabled={
-                          customer === "" ||
-                          workNameValue === "" ||
+                          customer === "" || 
+                          workNameValue === "" || 
                           currentCompany === undefined
                         }
                         onClick={handleClickAddList}

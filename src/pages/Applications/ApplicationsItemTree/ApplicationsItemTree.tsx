@@ -1,9 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import { useLocation, useNavigate } from "react-router";
-import { ImpotanceBlock, StatusBlock, UserBlock, Wrapper } from "../../../components";
+import {
+  ImpotanceBlock,
+  StatusBlock,
+  UserBlock,
+  Wrapper,
+} from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi, uploadFiles } from "../../../utils/api";
+import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList, TWorkAbdExecuter } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -23,9 +28,9 @@ export const ApplicationsItemTree: FC = () => {
   const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
-  const [header, setHeader] = useState<"Дерево" | "Изменить информацию" | "Исполнители">(
-    "Изменить информацию"
-  );
+  const [header, setHeader] = useState<
+    "Дерево" | "Изменить информацию" | "Исполнители"
+  >("Изменить информацию");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
 
@@ -91,6 +96,7 @@ export const ApplicationsItemTree: FC = () => {
           users: engineer.length != 0 ? [engineer[0].id] : undefined,
         };
         dispatch(updateList(listNew));
+       (currentList?.step && engineer.length != 0 ) && updateStepApi(currentList?.step.id, 2);
       }
     }
   };
@@ -126,7 +132,7 @@ export const ApplicationsItemTree: FC = () => {
                   : notFound.NOT_SPECIFIED}
               </p>
             </div>
-            
+
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Комментарий</p>
               <p className={styles.blockText_text}>
@@ -202,6 +208,7 @@ export const ApplicationsItemTree: FC = () => {
           {header === "Дерево" ? (
             <ApplicationTree
               users={currentList?.users ? currentList?.users : []}
+              list={currentList}
             />
           ) : header === "Изменить информацию" ? (
             <div className={styles.popup_edit}>

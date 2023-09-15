@@ -13,8 +13,9 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "../ApplicationsItemTree/constants";
-import { access, notFound } from "../../../utils/constants";
+import { NOT_ASSIGNED, NOT_ASSIGNED_DEAD, access, notFound } from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
+import { Performers } from "../../../components/Performers/Performers";
 
 export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
@@ -22,8 +23,8 @@ export const ApplicationsEngineer: FC = () => {
   const { users } = useAppSelector((state) => state.user);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
-  const [header, setHeader] = useState<"Дерево" | "Изменить информацию">(
-    "Изменить информацию"
+  const [header, setHeader] = useState<"Назначить бригаду" | "Исполнители">(
+    "Назначить бригаду"
   );
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -58,7 +59,8 @@ export const ApplicationsEngineer: FC = () => {
   }, [users]);
 
   const handleChangeList = () => {
-    const fittersID = fitters.map((item) => {
+ 
+    const fittersID = dataFitters.map((item) => {
         return item.id;
       });
     if (files) {
@@ -85,6 +87,7 @@ export const ApplicationsEngineer: FC = () => {
       dispatch(updateList(listNew));
       (currentList && fittersID.length != 0) && updateStepApi(currentList.step.id, 3.1);
     }
+    alert('Состав бригады обновлен')
   };
 
   return (
@@ -93,6 +96,7 @@ export const ApplicationsEngineer: FC = () => {
       <div className={styles.popup}>
         <div className={styles.infomation}>
           <div className={styles.infomation__container}>
+            <div>
             <h2 className={styles.conteiner_titleTree}>Текущая информация</h2>
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Название компании</p>
@@ -102,7 +106,7 @@ export const ApplicationsEngineer: FC = () => {
             </div>
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Кодовое имя</p>
-              <p className={styles.blockText_text}>{currentList?.name}</p>
+              <p className={styles.blockText_text}>{currentList?.name != "" ? currentList?.name : NOT_ASSIGNED}</p>
             </div>
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Телефон</p>
@@ -118,6 +122,14 @@ export const ApplicationsEngineer: FC = () => {
                   : notFound.NOT_SPECIFIED}
               </p>
             </div>
+            <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Адрес</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.address
+                    ? currentList.address
+                    : NOT_ASSIGNED_DEAD}
+                </p>
+              </div>
             <div className={styles.blockText}>
               <p className={styles.blockText_title}>Комментарий</p>
               <p className={styles.blockText_text}>
@@ -139,13 +151,7 @@ export const ApplicationsEngineer: FC = () => {
                 type={currentList?.importance ? currentList.importance : null}
               />
             </div>
-            <div className={styles.filesContainer}>
-              {currentList?.files
-                ? currentList.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
-                : null}
-            </div>
+          </div>
           </div>
           <div className={styles.buttonCreate}>
             {currentList?.commercialProposal ? (
@@ -166,16 +172,31 @@ export const ApplicationsEngineer: FC = () => {
           </div>
         </div>
         <section className={styles.tree}>
-          <div className={styles.tree__header}>
+        <div className={styles.tree__header}>
             <button
               type="button"
-              className={`${styles.button__nav} ${styles.active}`}
-              
+              onClick={() => setHeader("Назначить бригаду")}
+              className={`${styles.button__nav} ${
+                header === "Назначить бригаду" && styles.active
+              }`}
             >
               Назначить бригаду
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Исполнители")}
+              className={`${styles.button__nav} ${
+                header === "Исполнители" && styles.active
+              }`}
+            >
+              Исполнители
+            </button>
+          
           </div>
-          <div className={styles.popup_edit}>
+        
+
+            { header === "Назначить бригаду" && 
+              <div className={styles.popup_edit}>
             <form method="POST" className={styles.edit__container}>
               <DropdownListForUsers
                 data={fitters}
@@ -202,7 +223,11 @@ export const ApplicationsEngineer: FC = () => {
                 onClick={() => handleChangeList()}
               />
             </div>
-          </div>
+            </div>
+      
+            }
+            {header === "Исполнители" && <Performers users={currentList?.users ? currentList?.users : []}/> }
+    
         </section>
       </div>
     </Wrapper>

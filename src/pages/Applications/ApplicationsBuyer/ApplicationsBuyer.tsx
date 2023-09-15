@@ -33,7 +33,6 @@ export const ApplicationsBuyer: FC = () => {
     products: [],
     summa: " ",
     marginality: "",
-    variablesForMarginality: [],
   });
 
   function handleDownloadExcel() {

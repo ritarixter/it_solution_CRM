@@ -16,11 +16,12 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { updateCompany } from "../../../services/slices/company";
 import { deleteList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
-import { notFound } from "../../../utils/constants";
+import { NOT_ASSIGNED, NOT_ASSIGNED_DEAD, notFound } from "../../../utils/constants";
 import { validateEmail } from "../../../utils/utils-validate";
 
 type TCurrentList = {
   id: number;
+  address: string;
   name: string;
   description: string;
   customer: string;
@@ -42,14 +43,16 @@ export const ApplicationsItem: FC = () => {
   const { companies, isError } = useAppSelector((state) => state.company);
   const { list } = useAppSelector((state) => state.list);
   const [codeValue, setCodeValue] = useState("");
+  const [codeValueError, setCodeValueError] = useState(false);
   const [nameValue, setNameValue] = useState("");
   const [nameCompanyValue, setNameCompanyValue] = useState<string>("");
   const [customer, setCustomer] = useState<string>("");
   const [currentList, setCurrentList] = useState<TCurrentList>({
     id: 0,
-    name: "",
+    address: "",
     description: "",
     customer: "",
+    name: "",
     files: [],
     company: {
       INN: "",
@@ -179,38 +182,56 @@ export const ApplicationsItem: FC = () => {
     }
   };
 
+  useEffect(() => {
+    codeValue.length > 1 &&
+    codeValue.length < 60 &&
+    setCodeValueError(false);
+  }, [codeValue]);
+
   const handleUpdateList = () => {
+    if (codeValue != "") { 
+      if (codeValue.length > 1 && codeValue.length < 60) {
+        setCodeValueError(false)
+      }else {
+        setCodeValueError(true)
+      }
+    }
+
+    if (!codeValueError) {
     if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
           id: currentList.id,
           customer: customer === "" ? undefined : customer,
           description: textareaValue === "" ? undefined : textareaValue,
-          name: codeValue === "" ? undefined : codeValue,
+          address: codeValue === "" ? undefined : codeValue,
           idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
           files: res,
         };
         dispatch(updateList(listNew));
       });
     } else {
+      
       const listNew = {
         id: currentList.id,
         customer: customer === "" ? undefined : customer,
         description: textareaValue === "" ? undefined : textareaValue,
-        name: codeValue === "" ? undefined : codeValue,
+        address: codeValue === "" ? undefined : codeValue,
         idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
         files: undefined,
-      };
+      };console.log(listNew)
       dispatch(updateList(listNew));
     
-    }
+    }}
   };
 
   return (
     <Wrapper>
       <HeaderTop />
       <div className={`${styles.popup} ${styles.popup_manager}`}>
+
         <div className={styles.infomation}>
+          <div>
           <h2 className={styles.conteiner_title}>Текущая информация</h2>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Название компании</p>
@@ -220,7 +241,7 @@ export const ApplicationsItem: FC = () => {
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Кодовое имя</p>
-            <p className={styles.blockText_text}>{currentList.name}</p>
+            <p className={styles.blockText_text}>{currentList.name != "" ? currentList.name : NOT_ASSIGNED}</p>
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Телефон</p>
@@ -237,8 +258,16 @@ export const ApplicationsItem: FC = () => {
             </p>
           </div>
           <div className={styles.blockText}>
+            <p className={styles.blockText_title}>Адрес</p>
+            <p className={styles.blockText_text}>
+              {currentList.address
+                ? currentList.address
+                : NOT_ASSIGNED_DEAD}
+            </p>
+          </div>
+          <div className={styles.blockText}>
             <p className={styles.blockText_title}>От кого заявка?</p>
-            <p className={styles.blockText_text}>{currentList.customer}</p>
+            <p className={styles.blockText_text}>{currentList.customer }</p>
           </div>
 
           <div className={styles.blockText}>
@@ -262,6 +291,7 @@ export const ApplicationsItem: FC = () => {
                 <li className={styles.blockText_text}>Файлов нет</li>
               )}
             </ul>
+          </div>
           </div>
         </div>
         <div className={styles.conteiner}>
@@ -329,10 +359,12 @@ export const ApplicationsItem: FC = () => {
             <div className={styles.manager__input}>
               <Input
                 type={"text"}
-                name={"Введите кодовое имя"}
-                text={"Кодовое имя"}
+                name={"Введите адрес"}
+                text={"Адрес объекта"}
                 value={codeValue}
                 setValue={setCodeValue}
+                error={codeValueError}
+                errorText={"Длина от 2 до 60"}
               />
             </div>
             <div className={styles.manager__input}>

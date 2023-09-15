@@ -131,7 +131,7 @@ export const ApplicationsVicePrezident: FC = () => {
             </div>
           </div>
           {header === "Исполнители" ? (
-            <Performers />
+            <Performers users={currentList?.users ? currentList?.users : []}/>
           ) : (
             <div>
               {currentList?.commercialProposal ? (

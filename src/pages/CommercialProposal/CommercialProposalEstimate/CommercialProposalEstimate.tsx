@@ -47,7 +47,6 @@ export const CommercialProposalEstimate: FC = () => {
     products: [],
     summa: " ",
     marginality: "",
-    variablesForMarginality: [],
   });
   const [estimates, setEstimates] = useState<TEstimate[]>([]);
 

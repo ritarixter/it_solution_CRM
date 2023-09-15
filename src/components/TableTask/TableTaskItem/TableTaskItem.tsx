@@ -40,7 +40,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}
         >
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>
             <ImpotanceBlock type={item.importance} />
           </td>
@@ -82,7 +82,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           } ${styles.link}`}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
           <td key={uuidv4()}>
             {item.endDate != null
@@ -141,7 +141,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           } ${styles.link}`}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
           <td key={uuidv4()}>
             {item.endDate != null
@@ -200,7 +200,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           onClick={() => navigate(`${item.id}`)}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>
             {item.company.email ? item.company.email : "Пусто"}
           </td>

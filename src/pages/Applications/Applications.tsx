@@ -8,14 +8,14 @@ import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { Popup } from "../../components/Popup";
 import { Input } from "../../components/Input";
-import { addCompany } from "../../services/slices/company";
+import { addCompany, getCompanies } from "../../services/slices/company";
 import { TCompany } from "../../types";
 import { addList, getList } from "../../services/slices/list";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
 import { access } from "../../utils/constants";
 import { validateEmail } from "../../utils/utils-validate";
-import { getUser } from "../../services/slices/user";
+import { getUser, getUsers } from "../../services/slices/user";
 import { Navigate, useLocation } from "react-router";
 
 export const Applications: FC = () => {
@@ -45,6 +45,8 @@ export const Applications: FC = () => {
 
   useEffect(() => {
     dispatch(getList());
+    dispatch(getUsers());
+    dispatch(getCompanies());
     const interval = setInterval(() => {
       dispatch(getList());
     }, 5000);
@@ -56,7 +58,7 @@ export const Applications: FC = () => {
 
   useEffect(() => {
     workNameValue.length > 1 &&
-      workNameValue.length < 30 &&
+      workNameValue.length < 60 &&
       setWorkNameValueError(false);
   }, [workNameValue]);
 
@@ -121,7 +123,7 @@ export const Applications: FC = () => {
   };
 
   const handleClickAddList = () => {
-    if (workNameValue.length > 1 && workNameValue.length < 30) {
+    if (workNameValue.length > 1 && workNameValue.length < 60) {
       if (files) {
         uploadFiles(files).then((res) => {
           dispatch(
@@ -230,19 +232,19 @@ export const Applications: FC = () => {
                       <div className={styles.manager__input}>
                         <Input
                           type={"text"}
-                          name={"Введите кодовое имя"}
-                          text={"Кодовое имя"}
+                          name={"Введите адрес"}
+                          text={"Адрес объекта*"}
                           value={workNameValue}
                           setValue={setWorkNameValue}
                           error={workNameValueError}
-                          errorText={"Длина от 2 до 30 символов"}
+                          errorText={"Длина от 2 до 60 символов"}
                         />
                       </div>
                       <div className={styles.manager__input}>
                         <Input
                           type={"text"}
                           name={"Введите ФИО"}
-                          text={"От кого заявка?"}
+                          text={"От кого заявка?*"}
                           value={customer}
                           setValue={setCustomer}
                         />

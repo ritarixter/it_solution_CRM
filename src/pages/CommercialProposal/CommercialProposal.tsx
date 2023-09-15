@@ -30,7 +30,6 @@ export const CommercialProposal: FC = () => {
     products: [],
     summa: " ",
     marginality: "",
-    variablesForMarginality: [],
   });
 
   function handleDownloadExcel() {

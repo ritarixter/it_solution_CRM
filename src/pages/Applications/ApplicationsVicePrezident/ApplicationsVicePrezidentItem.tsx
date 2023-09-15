@@ -4,7 +4,7 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../../components/BlockMarginality/BlockMarginality";
 import { useAppSelector } from "../../../services/hooks";
-import { updateStepApi } from "../../../utils/api";
+import { updateCommercialProposalApi, updateStepApi } from "../../../utils/api";
 
 export const ApplicationsVicePrezidentItem: FC = () => {
   const location = useLocation();

@@ -212,9 +212,11 @@
 }
 
 .infomation {
-  .infomation__container {
+  &__container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
   display: flex;
   flex-direction: column;
@@ -386,4 +388,8 @@
 
 .buttonsAksynia {
   display: flex;
+}
+
+.dropdownlist_padding {
+  margin-bottom: 8px;
 }

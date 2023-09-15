@@ -28,6 +28,7 @@ import { DropdownListForUsers } from "../../../components/DropdownList/DropdownL
 import { Performers } from "../../../components/Performers/Performers";
 import { Input } from "../../../components/Input";
 import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
+import { FilesBlock } from "../../../components/FilesBlock";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export const ApplicationsItemTree: FC = () => {
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const [header, setHeader] = useState<
-    "Дерево" | "Изменить информацию" | "Исполнители"
+    "Дерево" | "Изменить информацию" | "Исполнители" | "Файлы"
   >("Изменить информацию");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -266,13 +267,23 @@ export const ApplicationsItemTree: FC = () => {
             >
               Исполнители
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Файлы")}
+              className={`${styles.button__nav} ${
+                header === "Файлы" && styles.active
+              }`}
+            >
+              Файлы
+            </button>
           </div>
-          {header === "Дерево" ? (
+          {header === "Дерево" && (
             <ApplicationTree
               users={currentList?.users ? currentList?.users : []}
               list={currentList}
             />
-          ) : header === "Изменить информацию" ? (
+          )}{" "}
+          {header === "Изменить информацию" && (
             <div className={styles.popup_edit}>
               <form method="POST" className={styles.edit__container}>
                 <Input
@@ -332,11 +343,12 @@ export const ApplicationsItemTree: FC = () => {
                 />
               </div>
             </div>
-          ) : header === "Исполнители" ? (
-            <Performers users={currentList?.users ? currentList?.users : []} />
-          ) : (
-            <div></div>
           )}
+          {header === "Исполнители" && (
+            <Performers users={currentList?.users ? currentList?.users : []} />
+          )}
+          {header === "Файлы" && 
+          <div className={styles.applications__container}><FilesBlock files={currentList?.files ? currentList?.files : []} /></div>}
         </section>
       </div>
     </Wrapper>

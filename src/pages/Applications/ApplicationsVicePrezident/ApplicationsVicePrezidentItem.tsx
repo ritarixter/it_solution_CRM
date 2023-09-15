@@ -15,7 +15,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
   const currentList = arr.filter((item) => item.id === id_list);
   return (
     <div className={styles.margin}>
-      <div>
+      <div className={styles.margin__container}>
         <table className={styles.margin__table}>
           <tr className={styles.margin__table_row}>
             <td className={styles.margin__table_cell}>

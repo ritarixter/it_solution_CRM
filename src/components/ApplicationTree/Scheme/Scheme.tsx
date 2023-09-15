@@ -4,7 +4,7 @@ import { UserBlock } from "../../UserBlock/UserBlock";
 import { AvatarDefault } from "../../AvatarDefault/AvatarDefault";
 import styles from "./Scheme.module.scss";
 import { TList, TUser } from "../../../types";
-import { access } from "../../../utils/constants";
+import { NOT_ASSIGNED_DEAD, NOT_ASSIGNED_DEAD_W, access } from "../../../utils/constants";
 import { useLocation } from "react-router";
 import { TStep } from "../../../types/TStep";
 export type TScheme = {
@@ -68,7 +68,7 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                         avatar={engineer[0].avatar}
                       />
                     ) : (
-                      "Не назначен"
+                      NOT_ASSIGNED_DEAD
                     )}
                     <ul>
                       <li
@@ -85,7 +85,7 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                                   avatar={item.avatar}
                                 />
                               ))
-                            : "Не назначен"}
+                            : NOT_ASSIGNED_DEAD_W}
                         </div>
                       </li>
                     </ul>

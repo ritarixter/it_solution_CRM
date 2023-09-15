@@ -29,7 +29,6 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
 }) => {
   const navigate = useNavigate();
 
-  
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
@@ -124,10 +123,15 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           <td key={uuidv4()}>
             <div className={styles.implements__file}>
               {item.files
-                ? item.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
+                ? item.files
+                    .slice(0, 2)
+                    .map((file) => <FileIcon name={file.name} url={file.url} />)
                 : notFound.NO_FILES}
+              {item.files && item.files.length > 2 && (
+                <div className={styles.fileText}>
+                  и еще {item.files.length - 2}
+                </div>
+              )}
             </div>
           </td>
         </tr>
@@ -182,11 +186,16 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           </td>
           <td key={uuidv4()}>
             <div className={styles.implements__file}>
-              {item.files
-                ? item.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
+            {item.files
+                ? item.files
+                    .slice(0, 2)
+                    .map((file) => <FileIcon name={file.name} url={file.url} />)
                 : notFound.NO_FILES}
+              {item.files && item.files.length > 2 && (
+                <div className={styles.fileText}>
+                  и еще {item.files.length - 2}
+                </div>
+              )}
             </div>
           </td>
         </tr>

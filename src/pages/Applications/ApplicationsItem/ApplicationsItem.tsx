@@ -184,13 +184,13 @@ export const ApplicationsItem: FC = () => {
 
   useEffect(() => {
     codeValue.length > 1 &&
-    codeValue.length < 60 &&
+    codeValue.length < 120 &&
     setCodeValueError(false);
   }, [codeValue]);
 
   const handleUpdateList = () => {
     if (codeValue != "") { 
-      if (codeValue.length > 1 && codeValue.length < 60) {
+      if (codeValue.length > 1 && codeValue.length < 120) {
         setCodeValueError(false)
       }else {
         setCodeValueError(true)
@@ -364,7 +364,7 @@ export const ApplicationsItem: FC = () => {
                 value={codeValue}
                 setValue={setCodeValue}
                 error={codeValueError}
-                errorText={"Длина от 2 до 60"}
+                errorText={"Длина от 2 до 120"}
               />
             </div>
             <div className={styles.manager__input}>

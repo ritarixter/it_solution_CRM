@@ -13,9 +13,15 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "../ApplicationsItemTree/constants";
-import { NOT_ASSIGNED, NOT_ASSIGNED_DEAD, access, notFound } from "../../../utils/constants";
+import {
+  NOT_ASSIGNED,
+  NOT_ASSIGNED_DEAD,
+  access,
+  notFound,
+} from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 import { Performers } from "../../../components/Performers/Performers";
+import { FilesBlock } from "../../../components/FilesBlock";
 
 export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
@@ -23,9 +29,9 @@ export const ApplicationsEngineer: FC = () => {
   const { users } = useAppSelector((state) => state.user);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
-  const [header, setHeader] = useState<"Назначить бригаду" | "Исполнители">(
-    "Назначить бригаду"
-  );
+  const [header, setHeader] = useState<
+    "Назначить бригаду" | "Исполнители" | "Файлы"
+  >("Назначить бригаду");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
 
@@ -59,10 +65,9 @@ export const ApplicationsEngineer: FC = () => {
   }, [users]);
 
   const handleChangeList = () => {
- 
     const fittersID = dataFitters.map((item) => {
-        return item.id;
-      });
+      return item.id;
+    });
     if (files) {
       uploadFiles(files).then((res) => {
         const listNew = {
@@ -75,7 +80,9 @@ export const ApplicationsEngineer: FC = () => {
           users: fittersID.length != 0 ? fittersID : undefined,
         };
         dispatch(updateList(listNew));
-        (currentList && fittersID.length != 0) && updateStepApi(currentList.step.id, 3.1);
+        currentList &&
+          fittersID.length != 0 &&
+          updateStepApi(currentList.step.id, 3.1);
       });
     } else {
       const listNew = {
@@ -85,9 +92,11 @@ export const ApplicationsEngineer: FC = () => {
         users: fittersID.length != 0 ? fittersID : undefined,
       };
       dispatch(updateList(listNew));
-      (currentList && fittersID.length != 0) && updateStepApi(currentList.step.id, 3.1);
+      currentList &&
+        fittersID.length != 0 &&
+        updateStepApi(currentList.step.id, 3.1);
     }
-    alert('Состав бригады обновлен')
+    alert("Состав бригады обновлен");
   };
 
   return (
@@ -97,32 +106,34 @@ export const ApplicationsEngineer: FC = () => {
         <div className={styles.infomation}>
           <div className={styles.infomation__container}>
             <div>
-            <h2 className={styles.conteiner_titleTree}>Текущая информация</h2>
-            <div className={styles.blockText}>
-              <p className={styles.blockText_title}>Название компании</p>
-              <p className={styles.blockText_text}>
-                {currentList?.company.nameCompany}
-              </p>
-            </div>
-            <div className={styles.blockText}>
-              <p className={styles.blockText_title}>Кодовое имя</p>
-              <p className={styles.blockText_text}>{currentList?.name != "" ? currentList?.name : NOT_ASSIGNED}</p>
-            </div>
-            <div className={styles.blockText}>
-              <p className={styles.blockText_title}>Телефон</p>
-              <p className={styles.blockText_text}>
-                {currentList?.company.numberPhone}
-              </p>
-            </div>
-            <div className={styles.blockText}>
-              <p className={styles.blockText_title}>Почта</p>
-              <p className={styles.blockText_text}>
-                {currentList?.company.email
-                  ? currentList.company.email
-                  : notFound.NOT_SPECIFIED}
-              </p>
-            </div>
-            <div className={styles.blockText}>
+              <h2 className={styles.conteiner_titleTree}>Текущая информация</h2>
+              <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Название компании</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.company.nameCompany}
+                </p>
+              </div>
+              <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Кодовое имя</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.name != "" ? currentList?.name : NOT_ASSIGNED}
+                </p>
+              </div>
+              <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Телефон</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.company.numberPhone}
+                </p>
+              </div>
+              <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Почта</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.company.email
+                    ? currentList.company.email
+                    : notFound.NOT_SPECIFIED}
+                </p>
+              </div>
+              <div className={styles.blockText}>
                 <p className={styles.blockText_title}>Адрес</p>
                 <p className={styles.blockText_text}>
                   {currentList?.address
@@ -130,28 +141,28 @@ export const ApplicationsEngineer: FC = () => {
                     : NOT_ASSIGNED_DEAD}
                 </p>
               </div>
-            <div className={styles.blockText}>
-              <p className={styles.blockText_title}>Комментарий</p>
-              <p className={styles.blockText_text}>
-                {currentList?.description
-                  ? currentList.description
-                  : notFound.NO_COMMENTS}
-              </p>
-            </div>
+              <div className={styles.blockText}>
+                <p className={styles.blockText_title}>Комментарий</p>
+                <p className={styles.blockText_text}>
+                  {currentList?.description
+                    ? currentList.description
+                    : notFound.NO_COMMENTS}
+                </p>
+              </div>
 
-            <div className={styles.blockInf}>
-              <span>Статус: </span>
-              <StatusBlock
-                type={currentList?.status ? currentList.status : null}
-              />
+              <div className={styles.blockInf}>
+                <span>Статус: </span>
+                <StatusBlock
+                  type={currentList?.status ? currentList.status : null}
+                />
+              </div>
+              <div className={styles.blockInf}>
+                <span>Важность: </span>
+                <ImpotanceBlock
+                  type={currentList?.importance ? currentList.importance : null}
+                />
+              </div>
             </div>
-            <div className={styles.blockInf}>
-              <span>Важность: </span>
-              <ImpotanceBlock
-                type={currentList?.importance ? currentList.importance : null}
-              />
-            </div>
-          </div>
           </div>
           <div className={styles.buttonCreate}>
             {currentList?.commercialProposal ? (
@@ -172,7 +183,7 @@ export const ApplicationsEngineer: FC = () => {
           </div>
         </div>
         <section className={styles.tree}>
-        <div className={styles.tree__header}>
+          <div className={styles.tree__header}>
             <button
               type="button"
               onClick={() => setHeader("Назначить бригаду")}
@@ -191,43 +202,57 @@ export const ApplicationsEngineer: FC = () => {
             >
               Исполнители
             </button>
-          
+            <button
+              type="button"
+              onClick={() => setHeader("Файлы")}
+              className={`${styles.button__nav} ${
+                header === "Файлы" && styles.active
+              }`}
+            >
+              Файлы
+            </button>
           </div>
-        
-
-            { header === "Назначить бригаду" && 
-              <div className={styles.popup_edit}>
-            <form method="POST" className={styles.edit__container}>
-              <DropdownListForUsers
-                data={fitters}
-                state={dataFitters}
-                setState={setDataFitters}
-                name="Состав бригады"
-              />
-              <div className={styles.manager__textarea}>
-                <BlockComments
-                  setFiles={setFiles}
-                  value={textareaValue}
-                  setValue={setTextareaValue}
+          {header === "Назначить бригаду" && (
+            <div className={styles.popup_edit}>
+              <form method="POST" className={styles.edit__container}>
+                <DropdownListForUsers
+                  data={fitters}
+                  state={dataFitters}
+                  setState={setDataFitters}
+                  name="Состав бригады"
+                />
+                <div className={styles.manager__textarea}>
+                  <BlockComments
+                    setFiles={setFiles}
+                    value={textareaValue}
+                    setValue={setTextareaValue}
+                  />
+                </div>
+              </form>
+              <div className={styles.editButton}>
+                <BlockButton
+                  text={"Изменить"}
+                  disabled={
+                    fitters.length === 0 &&
+                    textareaValue === currentList?.description &&
+                    !!!files
+                  }
+                  onClick={() => handleChangeList()}
                 />
               </div>
-            </form>
-            <div className={styles.editButton}>
-              <BlockButton
-                text={"Изменить"}
-                disabled={
-                  fitters.length === 0 &&
-                  textareaValue === currentList?.description &&
-                  !!!files
-                }
-                onClick={() => handleChangeList()}
+              
+            </div>
+          )}
+          {header === "Исполнители" && (
+            <Performers users={currentList?.users ? currentList?.users : []} />
+          )}
+          {header === "Файлы" && (
+            <div className={styles.applications__container}>
+              <FilesBlock
+                files={currentList?.files ? currentList?.files : []}
               />
             </div>
-            </div>
-      
-            }
-            {header === "Исполнители" && <Performers users={currentList?.users ? currentList?.users : []}/> }
-    
+          )}
         </section>
       </div>
     </Wrapper>

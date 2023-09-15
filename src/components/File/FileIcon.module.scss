@@ -2,16 +2,31 @@
 
 .link {
   text-decoration: none;
-  width: 32px;
-  height: 32px;
+  max-width: 200px;
   margin-right: 5px;
-  display: block;
+  display: flex;
+  align-items: center;
+  transition: opacity .15s linear;
   &:last-child {
     margin-right: 0;
+  }
+
+  &:hover {
+    opacity: .7;
   }
 }
 
 .img {
   width: 32px;
   height: 32px;
+}
+
+.file {
+  &__name {
+    margin-left: 7px;
+    color: $primaryColor;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }

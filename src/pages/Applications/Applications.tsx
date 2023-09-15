@@ -58,7 +58,7 @@ export const Applications: FC = () => {
 
   useEffect(() => {
     workNameValue.length > 1 &&
-      workNameValue.length < 60 &&
+      workNameValue.length < 120 &&
       setWorkNameValueError(false);
   }, [workNameValue]);
 
@@ -123,7 +123,7 @@ export const Applications: FC = () => {
   };
 
   const handleClickAddList = () => {
-    if (workNameValue.length > 1 && workNameValue.length < 60) {
+    if (workNameValue.length > 1 && workNameValue.length < 120) {
       if (files) {
         uploadFiles(files).then((res) => {
           dispatch(
@@ -237,7 +237,7 @@ export const Applications: FC = () => {
                           value={workNameValue}
                           setValue={setWorkNameValue}
                           error={workNameValueError}
-                          errorText={"Длина от 2 до 60 символов"}
+                          errorText={"Длина от 2 до 120 символов"}
                         />
                       </div>
                       <div className={styles.manager__input}>

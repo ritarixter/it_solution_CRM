@@ -17,14 +17,14 @@ interface IItem {
   changeCheckedHandle: (id: number, checked: boolean) => void;
 }
 
-export const Item: FC<IItem> = ({
+export const Item: FC<IItem> = ({                         // КОМПОНЕНТ ДЛЯ КАЖДОЙ ЗАДАЧИ
   task,
   handleDelete,
   changeCheckedHandle,
 }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const update = (
+  const update = (                                        // Ф-Я ДЛЯ ЕДИТА
     name?: string,
     description?: string,
     time?: string,
@@ -32,12 +32,12 @@ export const Item: FC<IItem> = ({
     id?: number
   ) => {
     let resultDate = undefined;
-    if (time !== formateDateOnlyTime(task.endDate)) {
+    if (time !== formateDateOnlyTime(task.endDate)) {     // сверка новой времени и старой
       resultDate = new Date();
       const times = time?.split(":");
       resultDate.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
-    const taskNew: TUpdateTask = {
+    const taskNew: TUpdateTask = {                        // измененная задача
       id: id,
       title: name ? name : undefined,
       done: undefined,

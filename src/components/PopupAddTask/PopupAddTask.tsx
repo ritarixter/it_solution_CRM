@@ -5,7 +5,7 @@ import "moment/locale/ru";
 import { TTask } from "../../types";
 import { formateDateOnlyTime } from "../../utils/utils-date";
 
-type TPopupAddTask = {
+type TPopupAddTask = {                           
   title?: string;
   date?: string;
   isOpen: boolean;
@@ -21,7 +21,7 @@ type TPopupAddTask = {
   ) => void;
 };
 
-export const PopupAddTask: FC<TPopupAddTask> = ({
+export const PopupAddTask: FC<TPopupAddTask> = ({                   // К-ТА ДЛЯ ДОБАВЛЕНИЯ ИЛИ ИЗМЕНЕНИЯ ЗАДАЧ
   title,
   date,
   isOpen,
@@ -141,7 +141,7 @@ export const PopupAddTask: FC<TPopupAddTask> = ({
             text={titleButton || "Добавить задачу"}
             disabled={nameError || timeError || updateError}
             onClick={() => {
-              onClick(name, description, time, status, task?.id);
+              onClick(name, description, time, status, task?.id);       // ДАННЫЕ ДЛЯ ЕДИТА
               setName("");
               setDescription("");
               setTime("");

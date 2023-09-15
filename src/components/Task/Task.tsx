@@ -3,7 +3,7 @@ import styles from "./Task.module.scss";
 import { Item } from "./Item/Item";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { TTask } from "../../types";
-import { addTask, deleteTask, updateTask } from "../../services/slices/task";
+import { addTask, deleteTask, getTaskByDate, updateTask } from "../../services/slices/task";
 import { PopupAddTask } from "../PopupAddTask/PopupAddTask";
 import { ButtonCircle } from "../ButtonCircle/ButtonCircle";
 import { formateDateShort } from "../../utils/utils-date";
@@ -14,7 +14,7 @@ type ITask = {
   tasksByDay: Array<TTask>;
 };
 
-const sortData = (arr: Array<TTask>) => {
+const sortData = (arr: Array<TTask>) => {   // СОРТИРОВКА ДЛЯ... НЕ ЗНАЮ ДЛЯ ЧЕГО
   return arr
     .sort((a, b) => {
       if (a.status < b.status) return 1;
@@ -29,7 +29,7 @@ const sortData = (arr: Array<TTask>) => {
 };
 
 export const Task: FC<ITask> = ({ tasksByDay }) => {
-  const { isLoadingTask } = useAppSelector((state) => state.task);
+  const { isLoadingTask, selectedDay } = useAppSelector((state) => state.task);
   const { isLoadingList } = useAppSelector((state) => state.list);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [tasksData, setTasksData] = useState<Array<TTask>>([]);
@@ -37,10 +37,11 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = (id: number) => {
-    dispatch(deleteTask(id));
+    dispatch(deleteTask(id, selectedDay));
+    dispatch(getTaskByDate(selectedDay)); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
   };
 
-  const changeCheckedHandle = (id: number, checked: boolean) => {
+  const changeCheckedHandle = (id: number, checked: boolean) => { // ИЗМЕНЕНИЯ ЗАДАЧИ
     const newTask: TUpdateTask = {
       id: id,
       done: checked,
@@ -52,17 +53,18 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
     dispatch(updateTask(newTask));
   };
 
-  const createTask = (
+  const createTask = (                      // ДОБАВЛЕНИЕ ЗАДАЧ !!!!!!!!!НУЖНО СДЕЛАТЬ ЕЕ АСИНХРОННОЙ
     name?: string,
     description?: string,
     time?: string,
     status?: string
   ) => {
-    let date = new Date();
+    let date = new Date(selectedDay);       // ДАТА ДЛЯ ЗАДАЧИ
     const times = time?.split(":");
-    date.setHours(Number(times![0]) + 3, Number(times![0]), 0, 0); //КОСТЫЛЬ КАК В Item
+    date?.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
+    dispatch(getTaskByDate(date.toJSON())); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
   };
 
   useEffect(() => {
@@ -86,9 +88,9 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
             <ButtonCircle onClick={() => setPopupOpen(true)} />
             <PopupAddTask
               title={"Задача"}
-              date={
-                tasksByDay.length > 0
-                  ? formateDateShort(tasksByDay[0].endDate)
+              date={                        // ДЛЯ ОТОБРАЖЕНИЯ ВЫБРАННОЙ ДАТЫ
+                String(selectedDay).length > 0
+                  ? formateDateShort(selectedDay)
                   : ""
               }
               isOpen={isPopupOpen}
@@ -96,7 +98,7 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
               onClick={createTask}
             />
           </div>
-          {!error ? (
+          {!error ? (                       // ЕСЛИ ЗАДАЧИ ЕСТЬ
             <ul className={styles.task}>
               {tasksData.map((item) => (
                 <Item
@@ -106,7 +108,7 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
                 />
               ))}
             </ul>
-          ) : (
+          ) : (                             // ЕСЛИ НЕТ ЗАДАЧ
             <p className={styles.error}>Задач нет</p>
           )}
         </>

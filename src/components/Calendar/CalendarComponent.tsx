@@ -9,13 +9,15 @@ import { getTaskByDate } from "../../services/slices/task";
 import moment from "moment";
 
 export type TCalendar = {
-  tasks: Array<TTask>;
+  tasks?: Array<TTask>;
 };
 
-export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
+export const CalendarComponent: FC<TCalendar> = () => {
+  const { tasks } = useAppSelector((state) => state.task);
   const [task, setTask] = useState<Array<TTask>>([]);
   const [clickedDay, setClickedDay] = useState<String>();
   const dispatch = useAppDispatch();
+  console.log(tasks);
 
   const onClickDay = (value: any, event: any) => {
     setClickedDay(value);
@@ -29,29 +31,29 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
       else element[0].style.opacity = "1";
     }
 
-    dispatch(getTaskByDate(value.toJSON()));
+    dispatch(getTaskByDate(value.toJSON()));              // для получения данных по выбранному дню
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
   };
 
   if (!clickedDay) {
-    dispatch(getTaskByDate(moment().format()));
-    setClickedDay(moment().format()); //КОСТЫЛЬ
+    dispatch(getTaskByDate(moment().format()));           // по умолчанию выбран сег день
+    setClickedDay(moment().format());                     //
   }
 
-  const checkEvents = () => {
+  const checkEvents = () => {                             // проверка задач по дням
     const element = document.getElementsByClassName(
       "react-calendar__tile"
     ) as HTMLCollectionOf<HTMLElement>;
-    if (element.length !== 0 && task.length != 0) {
-      for (let i = 0; i < element.length; i++) {
+    if (element.length !== 0 && task.length != 0) {       // element это все кнопки (дни месяца и тп)
+      for (let i = 0; i < element.length; i++) {          // ПРОБЕЖКА ПО КАЖДОМУ ЭЛЕМЕНТУ
         let day = element[i].children[0].ariaLabel?.split(" ")[0];
         day = day?.length !== 1 ? day : "0" + day;
         const month = parseMonth(
           element[i].children[0].ariaLabel?.split(" ")[1]
         );
         const year = element[i].children[0].ariaLabel?.split(" ")[2];
-        const thisDate = year + "-" + month + "-" + day;
-        for (let j = 0; j < task.length; j++) {
+        const thisDate = year + "-" + month + "-" + day;  // из каждого эл-та получаю дату чтобы переформировать в таком формате yy-mm-dd
+        for (let j = 0; j < task.length; j++) {           // ПРОБЕЖКА ПО КАЖДОМУ ТАСКУ ДЛЯ СВЕРКИ ДАТЫ
           if (
             thisDate == formateDate(task[j].endDate).split(",")[0] &&
             !task[j].done
@@ -70,7 +72,7 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
     return <></>;
   };
 
-  const parseMonth = (month: string | undefined) => {
+  const parseMonth = (month: string | undefined) => {     // текста перевожу в текстовый формат месяца
     switch (month) {
       case "января":
         return "01";
@@ -101,14 +103,15 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
     }
   };
 
-  const elementClick = (e: any) => {
-    setTimeout(() => {
+  const elementClick = (e: any) => {                      // для случай перехода к след или пред месяц или год (можно было использовать useLayoutEffect)
+    setTimeout(() => {                                    // чтобы сделать асинхронным (можно было использовать промисы)
       checkEvents();
     }, 0);
   };
 
   useEffect(() => {
     setTask(tasks);
+    checkEvents();
   }, [tasks]);
 
   return (

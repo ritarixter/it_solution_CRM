@@ -70,7 +70,7 @@ export const Analytics: FC = () => {
             countMade={countAtWorkList}
           />
 
-          <BlockList />
+          <BlockList />                             {/* БЛОК ДЛЯ Эффективности */}
         </div>
         <div className={styles.container__bottom}>
           <TableTask
@@ -79,7 +79,7 @@ export const Analytics: FC = () => {
             currentAccess={access.SUPERUSER}
           />
           <Task tasksByDay={tasksByDay} />
-          <CalendarComponent tasks={tasks} />
+          <CalendarComponent />
         </div>
       </div>
     </Wrapper>

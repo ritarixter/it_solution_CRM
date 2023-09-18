@@ -10,11 +10,12 @@ import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../components/BlockMarginality/BlockMarginality";
 import moment from 'moment';
 import 'moment-weekday-calc';
+import { formateDateShort } from "../../utils/utils-date";
 moment.locale(); 
 
 declare module "moment" {
   interface Moment {
-      isoWeekdayCalc(d1: Date | string, d2: Date | string, weekDays: number[], exclusions?: string[], inclusion?: string[]): number
+      isoWeekdayCalc(d1: Date | string, d2: Date | string, weekDays?: number[], exclusions?: string[], inclusion?: string[]): number
       weekdayCalc(d1: Date | string, d2: Date | string, weekDays: string[] | number[], exclusions?: string[], inclusion?: string[]): number
   }
 }
@@ -22,19 +23,24 @@ declare module "moment" {
 export const Marginality: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [startWork, setStartWork] = useState<Date>(new Date(moment().format()));
-  const [endWork, setEndWork] = useState<Date>(new Date(moment().format()));
+  const currentDay = new Date(moment().format('DD.MM.yyyy'));
+  const [startWork, setStartWork] = useState<Date>(currentDay);
+  const [endWork, setEndWork] = useState<Date>(currentDay);
   const [summaCP, setSummaCP] = useState(398542);                   // сумма кп
   const [tax, setTax] = useState(summaCP * 0.06);                   // налог
   const [materialPurchase, setMaterialPurchase] = useState(105000); // Сумма закупки материала
+  const [installerSalaryPH, setInstallerSalaryPH] = useState(75000/22/8)// Оклад монтажника В ЧАС
+  const [installerSalary, setInstallerSalary] = useState(0)         // Оклад монтажников в целом
   const [workingDay, setWorkingDay] = useState(0);                  // Количество рабочих дней
+  const [allWorkDay, setAllWorkDay] = useState(0);                  // Количество дней стройки
   const [bribe, setBribe] = useState(0);                            // Взятка
   const [recycling, setRecycling] = useState(0);                    // Количество переработанных часов
+  const [summaRecycling, setSummaRecycling] = useState(0);          // Оплата за переработанных часов
   const [fitter, setFitter] = useState(2);                          // Количество монтажников
   const [travelExpenses, setTravelExpenses] = useState(0);          // Затраты на командировочные в день
-  const [fot, setFot] = useState(0);                                // ФОТ монтажников
-  const [ticketHead, setTicketHead] = useState(0);                  // Билеты руководители
-  const [ticketFitter, setTicketFitter] = useState(0);              // Билеты монтажники 
+  const [fot, setFot] = useState(0);                                // ФОТ монтажников (Оклад монтажников в целом в день)
+  const [ticketHead, setTicketHead] = useState(0);                  // Билеты руководители (кол)  
+  const [ticketFitter, setTicketFitter] = useState(0);              // Билеты монтажники (кол)
   const [transport, setTransport] = useState(0);                    // Доставка транспортной
   const [housing, setHousing] = useState(0);                        // Затраты на жилье
   const [unforeseen, setUnforeseen] = useState(0);                  // Затраты непредвиденные
@@ -51,13 +57,6 @@ export const Marginality: FC = () => {
     variablesForMarginality: [],
   });
 
-  useEffect(() => {
-    getListByIdApi(id_list).then((res) => {
-      setCP(res.commercialProposal);
-      console.log(res)
-    });
-   }, []);
-
   const holidays = ['1 Jan ', '2 Jan ', '3 Jan ', '4 Jan ', '5 Jan ', '6 Jan ', '7 Jan ', '8 Jan ', '23 Feb ', '8 Mar ', '1 May ', '9 May ', '12 Jun ', '4 Nov '] // праздники
 
   useEffect(() => {
@@ -71,13 +70,20 @@ export const Marginality: FC = () => {
           getExclusionsDates()
         )
       );                                                                                                    // расчет календарных дней
+      setAllWorkDay(                                                                                        // расчет всех дней
+        moment().isoWeekdayCalc(
+          startWork,
+          endWork,
+          [1, 2, 3, 4, 5, 6, 7]
+        )
+      )
     }
   }, [startWork, endWork]);
   
   useEffect(() => {
     setTravelExpenses(fitter * 700 * workingDay)
     setFot(workingDay * 3400 * fitter);
-  }, [workingDay])
+  }, [workingDay, fitter])
 
   const getExclusionsDates = () => {                                                                        // дни для исключения (праздники)
     if (new Date(startWork).getFullYear() === new Date(endWork).getFullYear()) 
@@ -93,13 +99,24 @@ export const Marginality: FC = () => {
     }
   }
 
-  const addYear = (year: number, holidays: string[]) => {                                                   //принимает год и массив праздников
+  const addYear = (year: number, holidays: string[]) => {                                                   // принимает год и массив праздников
     return holidays.map(item => item + year)                                                                // каждому празднику добавляет год
   }
 
   useEffect(() => {
-    setMarginality(+(summaCP - tax - materialPurchase - ticketFitter - ticketHead - transport - housing - travelExpenses - unforeseen - fot).toFixed(2))
-  })
+    setSummaRecycling(+(installerSalaryPH * recycling * 1.5).toFixed(2))                                                  // расчет переработанных часов
+  }, [recycling, installerSalaryPH])
+
+  useEffect(() => {
+    setMarginality(+(summaCP - tax - materialPurchase - ticketFitter - ticketHead - transport - housing - travelExpenses - unforeseen - fot - summaRecycling - bribe).toFixed(2))
+  }, [summaCP, tax, materialPurchase, ticketFitter, ticketHead, transport, housing, travelExpenses, unforeseen, fot, summaRecycling, bribe])
+
+  useEffect(() => {
+    getListByIdApi(id_list).then((res) => {
+      setCP(res.commercialProposal);
+    });
+   }, [id_list]);
+
 
   return (
     <>
@@ -245,7 +262,7 @@ export const Marginality: FC = () => {
                 </td>
                 <td className={styles.tableTwo_celling}>
                   Количество дней стройки
-                  <p className={styles.tableTwo_celling_text}>0</p>
+                  <p className={styles.tableTwo_celling_text}>{allWorkDay}</p>
                 </td>
               </tr>
               <tr className={styles.tableTwo_row}>
@@ -259,7 +276,7 @@ export const Marginality: FC = () => {
                 </td>
                 <td className={styles.tableTwo_celling}>
                   Сумма пеработки
-                  <p className={styles.tableTwo_celling_text}>0</p>
+                  <p className={styles.tableTwo_celling_text}>{summaRecycling}</p>
                 </td>
               </tr>
             </table>

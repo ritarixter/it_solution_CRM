@@ -38,7 +38,9 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
 
   const handleDelete = (id: number) => {
     dispatch(deleteTask(id, selectedDay));
-    dispatch(getTaskByDate(selectedDay)); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+    setTimeout(() => {
+      dispatch(getTaskByDate(selectedDay)); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+    }, 0);
   };
 
   const changeCheckedHandle = (id: number, checked: boolean) => { // ИЗМЕНЕНИЯ ЗАДАЧИ
@@ -64,7 +66,9 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
     date?.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
-    dispatch(getTaskByDate(date.toJSON())); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+    setTimeout(() => {
+      dispatch(getTaskByDate(date.toJSON())); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+    }, 0);
   };
 
   useEffect(() => {

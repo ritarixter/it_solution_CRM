@@ -60,10 +60,10 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 export const addList: AppThunk =
-  (name: string, customer: string, INNCompany: string, description?: string, files?: Array<TFile>) =>
+  (address: string, customer: string, INNCompany: string, description?: string, files?: Array<TFile>) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    addListApi(name, customer, INNCompany, description, files)
+    addListApi(address, customer, INNCompany, description, files)
       .then((res) => {
         dispatch(getList());
         updateStepApi(res.step.id, 1)

@@ -8,15 +8,13 @@ type TUserBlock = {
   name: string;
   fullName?: boolean; //Отображение всего имени
   phone?: string;
-  fullPhone?: boolean;
 };
 
 export const UserBlock: FC<TUserBlock> = ({
   avatar,
   name,
   phone,
-  fullName = false,
-  fullPhone = false,
+  fullName = false
 }) => {
   return (
     <div className={styles.user}>
@@ -31,7 +29,7 @@ export const UserBlock: FC<TUserBlock> = ({
       )}
 
       {fullName && <p className={styles.name}>{name}</p>}
-      {fullPhone && <p className={styles.name}>{phone}</p>}
+      {phone && <a className={styles.phone} href={`tel:${phone}`}>Тел: {phone}</a>}
     </div>
   );
 };

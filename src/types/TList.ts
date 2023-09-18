@@ -11,6 +11,7 @@ export type TList = {
   updatedAt: Date;
   name: string;
   customer: string;
+  address: string;
   description: string | null;
   endDate: Date;
   status: string | null;
@@ -27,6 +28,7 @@ export type TUpdateList = {
   id: number;
   idCompany?: number;
   name?: string;
+  address?: string;
   customer?: string;
   description?: string;
   files?: TFile[];

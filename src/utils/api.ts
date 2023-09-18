@@ -166,7 +166,7 @@ export function getListApi() {
 }
 
 export function addListApi(
-  name: string,
+  address: string,
   customer: string,
   INNCompany: string,
   description?: string,
@@ -176,7 +176,7 @@ export function addListApi(
     method: "POST",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
-      name: name,
+      address: address,
       customer: customer,
       INNCompany: INNCompany,
       description: description,

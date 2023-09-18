@@ -15,3 +15,12 @@
   color: $primaryColor;
   margin-left: 6px;
 }
+
+.phone {
+  margin: 0;
+  color: $primaryColor;
+  margin-left: 10px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}

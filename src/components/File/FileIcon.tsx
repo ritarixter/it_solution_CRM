@@ -26,12 +26,14 @@ export const FileIcon: FC<TFile> = ({ name, url, fullName }) => {
         name.toLowerCase().includes(".docm")) && (
         <img className={styles.img} src={word_icon} alt={name} />
       )}
-      {name.toLowerCase().includes(".pdf") && <img className={styles.img} src={pdf_icon} alt={name} />}
+      {name.toLowerCase().includes(".pdf") && (
+        <img className={styles.img} src={pdf_icon} alt={name} />
+      )}
       {(name.toLowerCase().includes(".xls") ||
         name.toLowerCase().includes(".xlsx")) && (
         <img className={styles.img} src={excel_icon} alt={name} />
       )}
-            {(name.toLowerCase().includes(".png") ||
+      {(name.toLowerCase().includes(".png") ||
         name.toLowerCase().includes(".pjp") ||
         name.toLowerCase().includes(".pjpeg") ||
         name.toLowerCase().includes(".jpeg") ||
@@ -39,6 +41,7 @@ export const FileIcon: FC<TFile> = ({ name, url, fullName }) => {
         name.toLowerCase().includes(".jpg")) && (
         <img className={styles.img} src={image_icon} alt={name} />
       )}
+      {fullName && <p className={styles.file__name}>{name}</p>}
     </Link>
   );
 };

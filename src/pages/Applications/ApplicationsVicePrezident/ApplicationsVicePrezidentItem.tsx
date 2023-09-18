@@ -4,7 +4,7 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../../components/BlockMarginality/BlockMarginality";
 import { useAppSelector } from "../../../services/hooks";
-import { updateStepApi } from "../../../utils/api";
+import { updateCommercialProposalApi, updateStepApi } from "../../../utils/api";
 
 export const ApplicationsVicePrezidentItem: FC = () => {
   const location = useLocation();
@@ -15,7 +15,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
   const currentList = arr.filter((item) => item.id === id_list);
   return (
     <div className={styles.margin}>
-      <div>
+      <div className={styles.margin__container}>
         <table className={styles.margin__table}>
           <tr className={styles.margin__table_row}>
             <td className={styles.margin__table_cell}>

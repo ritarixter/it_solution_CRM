@@ -28,6 +28,8 @@ export const NOT_ASSIGNED = "Не назначено";
 
 export const NOT_ASSIGNED_DEAD = "Не назначен";
 
+export const NOT_ASSIGNED_DEAD_W = "Не назначена";
+
 export const notFound = {
   NO_FILES: "Файлов нет",
   NO_COMMENTS: "Комментариев нет",

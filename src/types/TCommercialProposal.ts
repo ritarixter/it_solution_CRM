@@ -1,4 +1,5 @@
 import { IProducts } from "./TProducts";
+import { TVariablesForMarginality } from "./TVariablesForMarginality";
 
 export type TCommercialProposal = {
   id: number;
@@ -8,7 +9,7 @@ export type TCommercialProposal = {
   products: Array<IProducts>;
   summa: string;
   marginality: string;
-  variablesForMarginality: Array<TUpdateCommercialProposal>;
+  variablesForMarginality?: TVariablesForMarginality;
 };
 
 export type TUpdateCommercialProposal = {

@@ -49,11 +49,6 @@ export const ApplicationsLawyer: FC = () => {
     });
   };
 
-  const handleDeadline = () => {
-    setShowDeadline(true);
-   
-  }
-
   const onClickDay = (value: any, event: any) => {
     setClickedDay(value);
     value.setUTCHours(24);
@@ -66,10 +61,13 @@ export const ApplicationsLawyer: FC = () => {
       else element[0].style.opacity = "1";
     }
     setDeadline(new Date(value).toLocaleDateString("en-US"));
+
     setOpenCalendar(false);
     // для получения данных по выбранному дню
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
+    console.log(new Date(value).getDay());
   };
+
 
   return (
     <Wrapper>
@@ -185,36 +183,54 @@ export const ApplicationsLawyer: FC = () => {
             </div>
           )}
           {header === "Дедлайн" && (
-            <> 
+            <>
+            {!showDeadline ? (
               <div className={styles.calendar}>
-                <div>
-                  <div className={styles.calendar_block}>
-                    <Input
-                      type={"text"}
-                      name={"Выберите дату"}
-                      text={"Установите дедлайн по договору"}
-                      value={deadline}
-                      setValue={setDeadline}
-                    />
-                    <img
-                      src={calendar}
-                      className={styles.calendar_icon}
-                      alt="иконка календаря"
-                      onClick={() => setOpenCalendar(true)}
-                    />
-                  </div>
-                  {openCalendar && (
-                      <ReactCalendar
-                        onClickDay={(value, event) => onClickDay(value, event)}
-                      />
-                  )}
+              <div>
+                <div className={styles.calendar_block}>
+                  <Input
+                    type={"text"}
+                    name={"Выберите дату"}
+                    text={"Установите дедлайн по договору"}
+                    value={deadline}
+                    setValue={setDeadline}
+                  />
+                  <img
+                    src={calendar}
+                    className={styles.calendar_icon}
+                    alt="иконка календаря"
+                    onClick={() => setOpenCalendar(true)}
+                  />
                 </div>
-                <BlockButton
-                  text={"Сохранить"}
-                  onClick={() => handleDeadline()}
-                />
+                {openCalendar && (
+                  <ReactCalendar
+                    onClickDay={(value, event) => onClickDay(value, event)}
+                  />
+                )}
               </div>
-              {showDeadline && <div className={styles.deadline}>ghfjkdsvnjekadnm</div>}
+              <BlockButton
+                text={"Сохранить"}
+                onClick={() => setShowDeadline(true)}
+              />
+            </div>
+              ) : (
+                <div className={styles.deadline}>
+                <p className={styles.deadline__week}>Вторник</p>
+                <p className={styles.deadline__day}>
+                  Вы установили дедлайн на {deadline}
+                </p>
+                <BlockButton text={"Изменить дедлайн"} onClick={() => setShowDeadline(false)} bigWidth={true}/>
+              </div>
+              )}
+              {/* {showDeadline && (
+                <div className={styles.deadline}>
+                  <p className={styles.deadline__week}>Вторник</p>
+                  <p className={styles.deadline__day}>
+                    Вы установили дедлайн на {deadline}
+                  </p>
+                  <BlockButton text={"Изменить дедлайн"} onClick={() => setShowDeadline(false)} bigWidth={true}/>
+                </div>
+              )} */}
             </>
           )}
         </div>

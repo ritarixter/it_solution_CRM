@@ -41,7 +41,7 @@ import { users } from "../MessagesPupup/constants";
 export const App: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuth, user, isLoadingUser } = useAppSelector((state) => state.user);
+  const { isAuth, user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (isAuth) {

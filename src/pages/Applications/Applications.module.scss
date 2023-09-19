@@ -413,3 +413,30 @@
   position: absolute;
   right: 33px;
 }
+
+//СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ЮРИСТОВ---------------------------------------------------------------------------------------------------------------------------
+
+.calendar {
+ max-width: 383px;
+ width: 100%;
+ height: 100%;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+
+ &_block {
+  position: relative;
+ }
+
+ &_icon {
+  right: 21px;
+  top: 32px;
+  position: absolute;
+  cursor: pointer;
+ }
+ 
+}
+
+.deadline {
+  background-color: aqua;
+}

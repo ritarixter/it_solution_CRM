@@ -165,7 +165,8 @@ export const Applications: FC = () => {
           <div className={styles.container}>
             {(user.access === access.SUPERUSER ||
               user.access === access.BUYER ||
-              user.access === access.VICEPREZIDENT) && (
+              user.access === access.VICEPREZIDENT ||
+              user.access === access.LAWYER) && (
               <TableTask
                 mini={false}
                 list={list}
@@ -261,8 +262,8 @@ export const Applications: FC = () => {
                       <BlockButton
                         text={"Сохранить"}
                         disabled={
-                          customer === "" || 
-                          workNameValue === "" || 
+                          customer === "" ||
+                          workNameValue === "" ||
                           currentCompany === undefined
                         }
                         onClick={handleClickAddList}

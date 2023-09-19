@@ -44,8 +44,6 @@ export const CalendarComponent: FC<TCalendar> = () => {
     const element = document.getElementsByClassName(
       "react-calendar__tile"
     ) as HTMLCollectionOf<HTMLElement>;
-    let taskOnCalendar = document.createElement('div');
-          taskOnCalendar.className = 'taskOnCalendar'
     if (element.length !== 0 && task.length != 0) {       // element это все кнопки (дни месяца и тп)
       for (let i = 0; i < element.length; i++) {          // ПРОБЕЖКА ПО КАЖДОМУ ЭЛЕМЕНТУ
         let day = element[i].children[0].ariaLabel?.split(" ")[0];
@@ -57,18 +55,22 @@ export const CalendarComponent: FC<TCalendar> = () => {
         const thisDate = year + "-" + month + "-" + day;  // из каждого эл-та получаю дату чтобы переформировать в таком формате yy-mm-dd
         for (let j = 0; j < task.length; j++) {           // ПРОБЕЖКА ПО КАЖДОМУ ТАСКУ ДЛЯ СВЕРКИ ДАТЫ
           // let taskOnCalendar = document.getElementsByClassName('taskOnCalendar')
+          let taskOnCalendar = document.createElement('div');
+            taskOnCalendar.id = 'taskOnCalendar'
+            taskOnCalendar.className = 'taskOnCalendar'
           if (
             thisDate == formateDate(task[j].endDate).split(",")[0] &&
             !task[j].done
           ) {
-            // <div className='taskOnCalendar' style={{position: 'absolute'}}></div>
-            // taskOnCalendar.style.position = "absolute";
-            // taskOnCalendar.style.width = "10px";
-            // taskOnCalendar.style.height = "10px";
-            // taskOnCalendar.style.background = "#F47633";
-            // taskOnCalendar.style.borderRadius = "10px";
+            // setTimeout(() => {
+            //   element[i].prepend(taskOnCalendar); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+            // }, 0);
             element[i].prepend(taskOnCalendar);
           }
+          // else {
+          //   let elem = document.getElementById('taskOnCalendar');
+          //   elem?.remove();
+          // }
         }
       }
     }

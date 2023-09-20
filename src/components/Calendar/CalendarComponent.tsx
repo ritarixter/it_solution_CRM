@@ -73,7 +73,6 @@ export const CalendarComponent: FC<TCalendar> = () => {
             setTimeout(() => {
               element[i].prepend(taskOnCalendar); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
             }, 0);
-            // element[i].prepend(taskOnCalendar);
           }
           else {
             document.getElementById('taskOnCalendar')?.remove();

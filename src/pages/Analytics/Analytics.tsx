@@ -78,12 +78,11 @@ export const Analytics: FC = () => {
             <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
-            {/* <TableTask
+            <TableTask
             mini={true}
             list={listLast7days}
             currentAccess={access.SUPERUSER}
-          /> */}
-            <LineChart />
+          />
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
           </div>
@@ -111,6 +110,7 @@ export const Analytics: FC = () => {
             <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
+            <LineChart />
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
           </div>

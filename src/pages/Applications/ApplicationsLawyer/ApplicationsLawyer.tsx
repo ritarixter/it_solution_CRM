@@ -11,9 +11,8 @@ import { getListByIdApi, uploadFiles } from "../../../utils/api";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { Input } from "../../../components/Input";
-import { CalendarComponent } from "../../../components/Calendar/CalendarComponent";
 import ReactCalendar from "react-calendar";
-import "./Calendar.css";
+import "../../../components/Calendar/Calendar.css";
 import calendar from "../../../images/icons/calendar_grey.svg";
 
 export const ApplicationsLawyer: FC = () => {
@@ -204,9 +203,11 @@ export const ApplicationsLawyer: FC = () => {
                   />
                 </div>
                 {openCalendar && (
+                  <div className={styles.calendar_style}>
                   <ReactCalendar
                     onClickDay={(value, event) => onClickDay(value, event)}
                   />
+                  </div>
                 )}
               </div>
               <BlockButton

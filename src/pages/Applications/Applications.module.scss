@@ -433,6 +433,11 @@
     position: absolute;
     cursor: pointer;
   }
+
+  &_style {
+    border: 1px solid #C8C6C6;
+    border-radius: 10px
+  }
 }
 
 .deadline {

@@ -32,9 +32,10 @@ export const Item: FC<IItem> = ({                         // КОМПОНЕНТ 
     id?: number
   ) => {
     let resultDate = undefined;
-    if (time !== formateDateOnlyTime(task.endDate)) {     // сверка новой времени и старой
+    if (time !== formateDateOnlyTime(task.endDate)) {   // сверка новой времени и старой
+      // resultDate = new Date(task?.endDate);             // на этапе тестирования (МОЖНО ИСПОЛЬЗОВАТЬ)
       resultDate = new Date();
-      const times = time?.split(":");
+      const times = time?.split(":");                   // ДАТА ДЛЯ ИЗМЕНЯЕМОЙ ЗАДАЧИ
       resultDate.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа??
     }
     const taskNew: TUpdateTask = {                        // измененная задача

@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../components/BlockMarginality/BlockMarginality";
 import moment from "moment";
 import "moment-weekday-calc";
+import { formateDateShort } from "../../utils/utils-date";
 moment.locale();
 
 declare module "moment" {
@@ -34,13 +35,12 @@ declare module "moment" {
 export const Marginality: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentDay = new Date(moment().format('DD.MM.yyyy'));
-  const [startWork, setStartWork] = useState<Date>(currentDay);
-  const [endWork, setEndWork] = useState<Date>(currentDay);
+  const [startWork, setStartWork] = useState<Date>(new Date(moment().format("yyyy-MM-DD")));
+  const [endWork, setEndWork] = useState<Date>(new Date(moment().format("yyyy-MM-DD")));
   const [summaCP, setSummaCP] = useState(398542);                   // сумма кп
   const [tax, setTax] = useState(summaCP * 0.06);                   // налог
   const [materialPurchase, setMaterialPurchase] = useState(105000); // Сумма закупки материала
-  const [installerSalaryPH, setInstallerSalaryPH] = useState(75000/22/8)// Оклад монтажника В ЧАС
+  const [installerSalaryPH, setInstallerSalaryPH] = useState(75000 / 22 / 8)// Оклад монтажника В ЧАС
   const [installerSalary, setInstallerSalary] = useState(0)         // Оклад монтажников в целом
   const [workingDay, setWorkingDay] = useState(0);                  // Количество рабочих дней
   const [allWorkDay, setAllWorkDay] = useState(0);                  // Количество дней стройки
@@ -64,7 +64,7 @@ export const Marginality: FC = () => {
     updatedAt: new Date(),
     products: [],
     summaSale: "",
-    summaBuy:"",
+    summaBuy: "",
     marginality: "",
   });
 
@@ -80,14 +80,14 @@ export const Marginality: FC = () => {
           [1, 2, 3, 4, 5],
           getExclusionsDates()
         )
-      );                                                                                                    // расчет календарных дней
-      setAllWorkDay(                                                                                        // расчет всех дней
+      );                                // расчет рабочих дней
+      setAllWorkDay(                    // расчет всех дней
         moment().isoWeekdayCalc(
           startWork,
           endWork,
           [1, 2, 3, 4, 5, 6, 7]
         )
-      ); // расчет календарных дней
+      );                                // расчет календарных дней
     }
   }, [startWork, endWork]);
 
@@ -96,40 +96,37 @@ export const Marginality: FC = () => {
     setFot(workingDay * 3400 * fitter);
   }, [workingDay, fitter])
 
-  const getExclusionsDates = () => {
-    // дни для исключения (праздники)
+  const getExclusionsDates = () => {              // дни для исключения (праздники)
     if (new Date(startWork).getFullYear() === new Date(endWork).getFullYear())
       return addYear(
         new Date(startWork).getFullYear(),
         holidays
-      ); // если год начальной даты и конечной даты в одинаковы
-    else {
-      // если они разные
-      let multiYear: any = []; // для календарных дней
+      );                                          // если год начальной даты и конечной даты в одинаковы
+    else {                                        // если они разные
+      let multiYear: any = [];                    // для календарных дней
       for (
         let i = 0;
         i <=
         new Date(endWork).getFullYear() - new Date(startWork).getFullYear();
         i++
-      ) {
-        // 2025-2023=2
-        let oldArray: string[] = multiYear; // копия для конкатенации
+      ) {                                         // 2025-2023=2
+        let oldArray: string[] = multiYear;       // копия для конкатенации
         let yearAdded: string[] = addYear(
           new Date(startWork).getFullYear() + i,
           holidays
-        ); // праздничные дни каждого года
-        multiYear = oldArray.concat(yearAdded); // конкатенация
+        );                                        // праздничные дни каждого года
+        multiYear = oldArray.concat(yearAdded);   // конкатенация
       }
-      return multiYear; // все праздники
+      return multiYear;                           // все праздники
     }
   };
 
-  const addYear = (year: number, holidays: string[]) => {                                                   // принимает год и массив праздников
-    return holidays.map(item => item + year)                                                                // каждому празднику добавляет год
+  const addYear = (year: number, holidays: string[]) => {                   // принимает год и массив праздников
+    return holidays.map(item => item + year)                                // каждому празднику добавляет год
   }
 
   useEffect(() => {
-    setSummaRecycling(+(installerSalaryPH * recycling * 1.5).toFixed(2))                                                  // расчет переработанных часов
+    setSummaRecycling(+(installerSalaryPH * recycling * 1.5).toFixed(2))    // расчет переработанных часов
   }, [recycling, installerSalaryPH])
 
   useEffect(() => {
@@ -140,7 +137,7 @@ export const Marginality: FC = () => {
     getListByIdApi(id_list).then((res) => {
       setCP(res.commercialProposal);
     });
-   }, [id_list]);
+  }, [id_list]);
 
 
   return (
@@ -165,7 +162,7 @@ export const Marginality: FC = () => {
             <div className={styles.blockSumm__one}>
               <p className={styles.blockSumm__one_title}>Налог 6%</p>
               <p className={styles.blockSumm__one_text}>{tax}</p>{" "}
-              {/*Сделать формулу рассчета налога от суммы */}
+              {/*Сделать формулу расчета налога от суммы */}
             </div>
           </div>
           <div className={styles.blockTable}>
@@ -174,21 +171,21 @@ export const Marginality: FC = () => {
                 <td className={styles.table_cell}>
                   Дата начала работ
                   <Input
-                    value={startWork}
+                    value={startWork?.constructor.name === 'Date' ? startWork?.toJSON().slice(0, 10) : startWork}
                     setValue={setStartWork}
                     type={"date"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
                   Дата окончания работ
                   <Input
-                    value={endWork}
+                    value={endWork?.constructor.name === 'Date' ? endWork?.toJSON().slice(0, 10) : endWork}
                     setValue={setEndWork}
                     type={"date"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -198,7 +195,7 @@ export const Marginality: FC = () => {
                     setValue={setBribe}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -208,7 +205,7 @@ export const Marginality: FC = () => {
                     setValue={setRecycling}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -218,7 +215,7 @@ export const Marginality: FC = () => {
                     setValue={setFitter}
                     type={"number"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
               </tr>
@@ -230,7 +227,7 @@ export const Marginality: FC = () => {
                     setValue={setTicketHead}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -240,7 +237,7 @@ export const Marginality: FC = () => {
                     setValue={setTicketFitter}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -250,7 +247,7 @@ export const Marginality: FC = () => {
                     setValue={setTransport}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -260,7 +257,7 @@ export const Marginality: FC = () => {
                     setValue={setHousing}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
                 <td className={styles.table_cell}>
@@ -270,7 +267,7 @@ export const Marginality: FC = () => {
                     setValue={setUnforeseen}
                     type={"text"}
                     name={"0"}
-                    // error={countError}
+                  // error={countError}
                   />
                 </td>
               </tr>
@@ -321,21 +318,21 @@ export const Marginality: FC = () => {
                   id: CP?.id ? CP.id : -1,
                   variablesForMarginality: {
                     materialPurchase: materialPurchase, //Сумма закупки материала
-                    dateStart: startWork, // Дата начала работ
-                    dateEnd: endWork, // Дата окончания работ
-                    bribe: bribe, // Взятка
-                    ticketHead: ticketHead, // Билеты руководители
-                    ticketFitter: ticketFitter, // Билеты монтажники
-                    transport: transport, // Доставка транспортной
-                    workingDay: workingDay, // Количество рабочих дней
-                    constructionDays: 0, // Количество дней стройки
-                    fitter: fitter, // Количество монтажников
-                    summaFinalWork: 0, // Сумма работ наша окончательная
-                    travelExpenses: travelExpenses, // Затраты на командировочные в день
-                    housing: housing, // Затраты на жилье
-                    summaRecast: 0, // Сумма пеработки
-                    recycling: recycling, // Количество переработанных часов
-                    unforeseen: unforeseen, // Затраты непредвиденные
+                    dateStart: startWork,               // Дата начала работ
+                    dateEnd: endWork,                   // Дата окончания работ
+                    bribe: bribe,                       // Взятка
+                    ticketHead: ticketHead,             // Билеты руководители
+                    ticketFitter: ticketFitter,         // Билеты монтажники
+                    transport: transport,               // Доставка транспортной
+                    workingDay: workingDay,             // Количество рабочих дней
+                    constructionDays: 0,                // Количество дней стройки
+                    fitter: fitter,                     // Количество монтажников
+                    summaFinalWork: 0,                  // Сумма работ наша окончательная
+                    travelExpenses: travelExpenses,     // Затраты на командировочные в день
+                    housing: housing,                   // Затраты на жилье
+                    summaRecast: 0,                     // Сумма переработки
+                    recycling: recycling,               // Количество переработанных часов
+                    unforeseen: unforeseen,             // Затраты непредвиденные
                   },
                 };
                 updateCommercialProposalApi(newCommercialProposal).then(

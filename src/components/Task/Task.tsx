@@ -38,9 +38,6 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
 
   const handleDelete = (id: number) => {
     dispatch(deleteTask(id, selectedDay));
-    setTimeout(() => {
-      dispatch(getTaskByDate(selectedDay)); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
-    }, 0);
   };
 
   const changeCheckedHandle = (id: number, checked: boolean) => { // ИЗМЕНЕНИЯ ЗАДАЧИ
@@ -49,7 +46,7 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
       done: checked,
       title: undefined,
       status: undefined,
-      endDate: undefined,
+      endDate: new Date(selectedDay),
       description: undefined,
     };
     dispatch(updateTask(newTask));
@@ -66,9 +63,8 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
     date?.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
-    setTimeout(() => {
-      dispatch(getTaskByDate(date.toJSON())); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
-    }, 0);
+ 
+
   };
 
   useEffect(() => {

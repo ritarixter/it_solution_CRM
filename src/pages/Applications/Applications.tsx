@@ -166,7 +166,7 @@ export const Applications: FC = () => {
             {(user.access === access.SUPERUSER ||
               user.access === access.BUYER ||
               user.access === access.VICEPREZIDENT ||
-              user.access === access.LAWYER) && (
+              user.access === access.LAWYER || user.access === access.PLANNER) && (
               <TableTask
                 mini={false}
                 list={list}

@@ -28,7 +28,8 @@ export const CommercialProposal: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
-    summa: " ",
+    summaSale: "",
+    summaBuy:"",
     marginality: "",
   });
 
@@ -133,16 +134,19 @@ export const CommercialProposal: FC = () => {
                     navigate(`/marginality/${id_list}`);
                   }}
                 />
-              </div>)}
-            {(user.access === access.SUPERUSER && 
+              </div>
+            )}
+            {user.access === access.SUPERUSER && (
               <div className={styles.buttons}>
                 <div className={styles.buttonAksynia}>
                   <BlockButton
                     bigWidth={true}
                     text={"Отправить заместителю директора"}
                     onClick={() => {
-                      let arr = [...list]
-                      const currentList = arr.filter((item)=>item.id===id_list)
+                      let arr = [...list];
+                      const currentList = arr.filter(
+                        (item) => item.id === id_list
+                      );
                       updateStepApi(currentList[0].step.id, 5);
                       navigate(`/applications/${id_list}`);
                     }}
@@ -155,6 +159,27 @@ export const CommercialProposal: FC = () => {
                   }}
                 >
                   Изменить
+                </p>
+              </div>
+            )}
+
+            {user.access === access.ENGINEER && (
+              <div className={styles.buttons}>
+                <div className={styles.buttonAksynia}>
+                  <BlockButton
+                    text={"Изменить"}
+                    onClick={() => {
+                      navigate(`/commercial-proposal/edit/${id_list}`);
+                    }}
+                  />
+                </div>
+                <p
+                  className={styles.cancel}
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Отмена
                 </p>
               </div>
             )}

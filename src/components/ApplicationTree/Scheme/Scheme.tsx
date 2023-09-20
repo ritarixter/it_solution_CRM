@@ -43,7 +43,7 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                   >
                     <a href="#">Отдел закупок</a>
                   </li>
-                  <li className={styles.project}>
+                  <li className={`${styles.project}  ${steps?.chooseEngineer_step2 && styles.active}`}>
                     <a href="#">Проектный отдел</a>
                   </li>
                   <li

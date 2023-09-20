@@ -7,7 +7,8 @@ export type TCommercialProposal = {
   updatedAt: Date;
   name: string;
   products: Array<IProducts>;
-  summa: string;
+  summaSale: string;
+  summaBuy: string;
   marginality: string;
   variablesForMarginality?: TVariablesForMarginality;
 };
@@ -16,4 +17,8 @@ export type TUpdateCommercialProposal = {
   id: number;
   name?: string;
   products?: Array<IProducts>;
+  summaSale?: string;
+  summaBuy?: string;
+  marginality?: string;
+  variablesForMarginality?: TVariablesForMarginality;
 };

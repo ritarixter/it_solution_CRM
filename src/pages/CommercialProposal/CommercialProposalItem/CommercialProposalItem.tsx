@@ -88,7 +88,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   ]);
 
   const totalPrice = useMemo(() => {
-    return actualPrice * count;
+    return actualPrice * count; //закуп цена * кол во
   }, [count, actualPrice]);
 
   const marginalityPrice = useMemo(() => {

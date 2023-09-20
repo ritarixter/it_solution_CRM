@@ -33,7 +33,7 @@ import {
 } from "../../pages/CommercialProposal";
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 import { getStock } from "../../services/slices/stock";
-import { ApplicationsBuyer, ApplicationsLawyer } from "../../pages/Applications";
+import { ApplicationsBuyer, ApplicationsLawyer, ApplicationsPlanner } from "../../pages/Applications";
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
 import { users } from "../MessagesPupup/constants";
@@ -75,6 +75,7 @@ export const App: FC = () => {
           />
           <Route
             path="/applications"
+            index
             element={
               <ProtectedRoute>
                 <Applications />
@@ -136,6 +137,7 @@ export const App: FC = () => {
                 {user.access === access.MANAGER && <ApplicationsItem />}
                 {user.access === access.SUPERUSER && <ApplicationsItemTree />}
                 {user.access === access.ENGINEER && <ApplicationsEngineer />}
+                {user.access === access.PLANNER && <ApplicationsPlanner />}
                 {user.access === access.BUYER && <ApplicationsBuyer />}
                 {user.access === access.VICEPREZIDENT && (
                   <ApplicationsVicePrezident />

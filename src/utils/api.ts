@@ -156,9 +156,7 @@ export function updateTaskUserApi(task: TUpdateTask) {
   return fetch(`${URL}/tasks/${task.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
-    body: JSON.stringify({
-      task,
-    }),
+    body: JSON.stringify(task),
   }).then(responseCheck);
 }
 
@@ -398,7 +396,9 @@ export function getByIdCommercialProposalApi(id: number) {
 export function addCommercialProposalApi(
   name: string,
   idList: number,
-  products: Array<IProducts>
+  products: Array<IProducts>,
+  summaBuy: string,
+  summaSale: string
 ) {
   return fetch(`${URL}/commercial-proposal`, {
     method: "POST",
@@ -407,6 +407,8 @@ export function addCommercialProposalApi(
       name: name,
       idList: idList,
       products: products,
+      summaBuy: summaBuy,
+      summaSale: summaSale,
     }),
   }).then(responseCheck);
 }

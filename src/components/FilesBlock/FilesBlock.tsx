@@ -8,7 +8,7 @@ import { BlockButton } from "../BlockButton/BlockButton";
 import { deleteFilesApi, deleteListFileApi } from "../../utils/api";
 import { useLocation } from "react-router";
 import { getList } from "../../services/slices/list";
-import { useAppDispatch } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { translitRuEn } from "../../utils/utils";
 
 type TFilesBlock = {
@@ -28,7 +28,16 @@ export const FilesBlock: FC<TFilesBlock> = ({
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
+  const [data, setData] = useState<Array<TFile>>([]);
+  const { user } = useAppSelector((state) => state.user);
 
+  useEffect(() => {
+    if (user.access === access.PLANNER) {
+      setData(fileData.filter((item) => item.access === access.PLANNER));
+    } else {
+      setData(fileData);
+    }
+  }, [fileData]);
   useEffect(() => {
     files === undefined && setCurrentFiles([]);
   }, [files]);
@@ -113,7 +122,7 @@ export const FilesBlock: FC<TFilesBlock> = ({
         </div>
 
         <ul>
-          {fileData.map((file) => (
+          {data.map((file) => (
             <li className={styles.block__item}>
               <div className={`${styles.columns} `}>
                 <p className={styles.columns__item}>
@@ -126,6 +135,7 @@ export const FilesBlock: FC<TFilesBlock> = ({
                   {file.access === access.MANAGER && access.MANAGER}
                   {file.access === access.VICEPREZIDENT && access.VICEPREZIDENT}
                   {file.access === access.BUYER && access.BUYER}
+                  {file.access === access.PLANNER && access.PLANNER}
                 </p>
               </div>
               <img

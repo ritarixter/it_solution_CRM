@@ -17,7 +17,6 @@ export const CalendarComponent: FC<TCalendar> = () => {
   const [task, setTask] = useState<Array<TTask>>([]);
   const [clickedDay, setClickedDay] = useState<String>();
   const dispatch = useAppDispatch();
-  console.log(tasks);
 
   const onClickDay = (value: any, event: any) => {
     setClickedDay(value);
@@ -39,6 +38,11 @@ export const CalendarComponent: FC<TCalendar> = () => {
     dispatch(getTaskByDate(moment().format())); // по умолчанию выбран сег день
     setClickedDay(moment().format()); //
   }
+
+  useEffect(() => {
+    setTask(tasks);
+    checkEvents();
+  }, [tasks]);
 
   const checkEvents = () => {
     // проверка задач по дням
@@ -121,10 +125,7 @@ export const CalendarComponent: FC<TCalendar> = () => {
     }, 0);
   };
 
-  useEffect(() => {
-    setTask(tasks);
-    checkEvents();
-  }, [tasks]);
+
 
   return (
     <div className={styles.calendarTittleArea} onClick={(e) => elementClick(e)}>

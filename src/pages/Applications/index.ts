@@ -4,4 +4,5 @@ export { ApplicationsItemTree } from "../Applications/ApplicationsItemTree/Appli
 export { ApplicationsBuyer } from "../Applications/ApplicationsBuyer/ApplicationsBuyer";
 export { ApplicationsVicePrezident } from "../Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 export { ApplicationsVicePrezidentItem } from "../Applications/ApplicationsVicePrezident/ApplicationsVicePrezidentItem";
-export {ApplicationsLawyer} from "../Applications/ApplicationsLawyer/ApplicationsLawyer";
+export { ApplicationsLawyer } from "../Applications/ApplicationsLawyer/ApplicationsLawyer";
+export { ApplicationsPlanner } from "../Applications/ApplicationsPlanner/ApplicationsPlanner";

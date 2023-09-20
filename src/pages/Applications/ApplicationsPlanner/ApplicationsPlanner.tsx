@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
-import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss";
 import { useLocation, useNavigate } from "react-router";
 import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
@@ -8,27 +7,25 @@ import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { IProducts, TCommercialProposal, TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { FileIcon } from "../../../components/File/FileIcon";
 import { NOT_ASSIGNED_DEAD, notFound } from "../../../utils/constants";
-import { downloadExcel } from "react-export-table-to-excel";
-import { ExcelButton } from "../../../components/ExcelButton/ExcelButton";
-import {
-  formateDateShort,
-  formateDateOnlyTime,
-} from "../../../utils/utils-date";
-import { v4 as uuidv4 } from "uuid";
-import { titles } from "../../CommercialProposal/constants";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
-
-export const ApplicationsBuyer: FC = () => {
+import { downloadExcel } from "react-export-table-to-excel";
+import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss";
+import { ExcelButton } from "../../../components/ExcelButton/ExcelButton";
+import {
+  formateDateOnlyTime,
+  formateDateShort,
+} from "../../../utils/utils-date";
+import { titles, titlesPlanner } from "../../CommercialProposal/constants";
+import { v4 as uuidv4 } from "uuid";
+export const ApplicationsPlanner: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
+  const [header, setHeader] = useState<"Файлы" | "КП">("КП");
   const navigate = useNavigate();
-  const [header, setHeader] = useState<"КП" | "Файлы">("КП");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
-
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
     name: "",
@@ -36,10 +33,9 @@ export const ApplicationsBuyer: FC = () => {
     updatedAt: new Date(),
     products: [],
     summaSale: "",
-    summaBuy:"",
+    summaBuy: "",
     marginality: "",
   });
-
   function handleDownloadExcel() {
     const exportArr = CP.products.map((item) => ({
       name: item.name,
@@ -86,9 +82,9 @@ export const ApplicationsBuyer: FC = () => {
         files: res,
       };
       dispatch(updateList(listNew));
-      setFiles(undefined)
+      setFiles(undefined);
     });
-}
+  };
 
   return (
     <Wrapper>
@@ -151,13 +147,6 @@ export const ApplicationsBuyer: FC = () => {
                   type={currentList?.importance ? currentList.importance : null}
                 />
               </div>
-              {/* <div className={styles.filesContainer}>
-              {currentList?.files
-                ? currentList.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
-                : null}
-            </div> */}
             </div>
           </div>
         </div>
@@ -183,7 +172,6 @@ export const ApplicationsBuyer: FC = () => {
               Файлы
             </button>
           </div>
-
           {header === "КП" && (
             <div className={styles.infomation__container}>
               {CP && CP.id != 0 ? (
@@ -195,7 +183,7 @@ export const ApplicationsBuyer: FC = () => {
                       >
                         КП "{CP?.name}"
                       </h2>
-                      <div className={styles.excelButtons}>
+                      {/* <div className={styles.excelButtons}>
                         <ExcelButton
                           onClick={() => {
                             navigate(`/commercial-proposal/import/${id_list}`);
@@ -206,7 +194,7 @@ export const ApplicationsBuyer: FC = () => {
                           onClick={handleDownloadExcel}
                           text={"Выгрузить КП"}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <p className={stylesCP.subtitle}>
                       {" "}
@@ -231,7 +219,7 @@ export const ApplicationsBuyer: FC = () => {
                     <table className={stylesCP.table}>
                       <thead className={stylesCP.table__head}>
                         <tr className={stylesCP.row}>
-                          {titles.map((title) => (
+                          {titlesPlanner.map((title) => (
                             <th key={uuidv4()}>{title}</th>
                           ))}
                         </tr>
@@ -244,25 +232,12 @@ export const ApplicationsBuyer: FC = () => {
                             <td className={stylesCP.row__item}>{item.name}</td>
                             <td className={stylesCP.row__item}>{item.count}</td>
                             <td className={stylesCP.row__item}>{item.units}</td>
-                            <td className={stylesCP.row__item}>{item.price}</td>
-                            <td className={stylesCP.row__item}>
-                              {item.actualPrice}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.date ? item.date : "Не указана"}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.totalPrice}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.marginalityPrice}
-                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <div className={stylesCP.buttons}>
+                  {/* <div className={stylesCP.buttons}>
                     <div className={styles.bigWidthButton}>
                       <BlockButton
                         bigWidth={true}
@@ -288,7 +263,7 @@ export const ApplicationsBuyer: FC = () => {
                     >
                       Изменить
                     </p>
-                  </div>
+                  </div> */}
                 </>
               ) : (
                 <div className={stylesCP.container1}>
@@ -300,16 +275,19 @@ export const ApplicationsBuyer: FC = () => {
               )}
             </div>
           )}
-
           {header === "Файлы" && (
-              <div className={styles.infomation__container}>
+            <div className={styles.infomation__container}>
               <FilesBlock
                 fileData={currentList?.files ? currentList?.files : []}
                 addFile={true}
                 setFiles={setFiles}
                 files={files}
               />
-              <BlockButton text={"Сохранить"} disabled={files === undefined} onClick={handleUploadFiles} />
+              <BlockButton
+                text={"Сохранить"}
+                disabled={files === undefined}
+                onClick={handleUploadFiles}
+              />
             </div>
           )}
         </div>

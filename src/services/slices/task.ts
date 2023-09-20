@@ -93,7 +93,6 @@ export const deleteTask: AppThunk = (id: number, date: Date) => (dispatch: AppDi
   deleteTaskUserApi(id)
     .then((res) => {
       dispatch(getTask());
-
       dispatch(getTaskByDate(date));
       
       // getTaskByDateApi(date)              // НА ЭТАПЕ ТЕСТИРОВАНИЯ
@@ -117,13 +116,14 @@ export const deleteTask: AppThunk = (id: number, date: Date) => (dispatch: AppDi
     });
 };
 
+
 export const updateTask: AppThunk =
   (task: TUpdateTask) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-
     updateTaskUserApi(task)
       .then((res) => {
-        dispatch(getTaskByDate());
+        dispatch(getTask());
+        dispatch(getTaskByDate(task.endDate));
       })
       .catch((err) => {
         dispatch(setError(true));
@@ -147,6 +147,7 @@ export const addTask: AppThunk =
     addTaskUserApi(title, status, endDate, done, description)
       .then((res) => {
         dispatch(getTask());
+        dispatch(getTaskByDate(endDate));
       })
       .catch((err) => {
         dispatch(setError(true));

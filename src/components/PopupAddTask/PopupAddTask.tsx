@@ -5,7 +5,7 @@ import "moment/locale/ru";
 import { TTask } from "../../types";
 import { formateDateOnlyTime } from "../../utils/utils-date";
 
-type TPopupAddTask = {                           
+type TPopupAddTask = {
   title?: string;
   date?: string;
   isOpen: boolean;
@@ -21,7 +21,8 @@ type TPopupAddTask = {
   ) => void;
 };
 
-export const PopupAddTask: FC<TPopupAddTask> = ({                   // К-ТА ДЛЯ ДОБАВЛЕНИЯ ИЛИ ИЗМЕНЕНИЯ ЗАДАЧ
+export const PopupAddTask: FC<TPopupAddTask> = ({
+  // К-ТА ДЛЯ ДОБАВЛЕНИЯ ИЛИ ИЗМЕНЕНИЯ ЗАДАЧ
   title,
   date,
   isOpen,
@@ -51,12 +52,15 @@ export const PopupAddTask: FC<TPopupAddTask> = ({                   // К-ТА �
     if (task) {
       setName(task.title);
       setDescription(task.description || "");
+
       setStatus(task.status);
+      console.log(task.status);
       setTime(formateDateOnlyTime(task.endDate));
 
       setNameDefault(task.title);
       setDescriptionDefault(task.description || "");
       setStatusDefault(task.status);
+
       setTimeDefault(formateDateOnlyTime(task.endDate));
     }
   }, [task]);
@@ -123,15 +127,16 @@ export const PopupAddTask: FC<TPopupAddTask> = ({                   // К-ТА �
                 setStatus(e.target.value);
               }}
             >
-              <option value="Срочно" className={styles.dropdown_red}>
-                Срочно
-              </option>
+              {" "}
               <option
-                selected
+                selected={status==="Несрочно"}
                 value="Несрочно"
                 className={styles.dropdown_green}
               >
                 Несрочно
+              </option>
+              <option value="Срочно" className={styles.dropdown_red} selected={status==="Срочно"}>
+                Срочно
               </option>
             </select>
           </div>
@@ -141,7 +146,7 @@ export const PopupAddTask: FC<TPopupAddTask> = ({                   // К-ТА �
             text={titleButton || "Добавить задачу"}
             disabled={nameError || timeError || updateError}
             onClick={() => {
-              onClick(name, description, time, status, task?.id);       // ДАННЫЕ ДЛЯ ЕДИТА
+              onClick(name, description, time, status, task?.id); // ДАННЫЕ ДЛЯ ЕДИТА
               setName("");
               setDescription("");
               setTime("");

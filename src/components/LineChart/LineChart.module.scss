@@ -1,7 +1,11 @@
 @import "../../styles/variables.scss";
 
 .lineChart {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     background-color: $thirdColor;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

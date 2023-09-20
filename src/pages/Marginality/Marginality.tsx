@@ -63,7 +63,8 @@ export const Marginality: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
-    summa: " ",
+    summaSale: "",
+    summaBuy:"",
     marginality: "",
   });
 

@@ -76,8 +76,7 @@ export const CalendarComponent: FC<TCalendar> = () => {
             // element[i].prepend(taskOnCalendar);
           }
           else {
-            let elem = document.getElementById('taskOnCalendar');
-            elem?.remove();
+            document.getElementById('taskOnCalendar')?.remove();
           }
         }
       }

@@ -255,6 +255,7 @@ export const Applications: FC = () => {
                           value={textareaValue}
                           setValue={setTextareaValue}
                           setFiles={setFiles}
+                          files={files}
                         />
                       </div>
                     </div>

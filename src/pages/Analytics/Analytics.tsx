@@ -13,6 +13,7 @@ import { access, statusConst } from "../../utils/constants";
 import { TList } from "../../types";
 import { getList } from "../../services/slices/list";
 import { LineChart } from "../../components/LineChart/LineChart";
+import { Navigate, useLocation } from "react-router";
 
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
@@ -21,9 +22,10 @@ export const Analytics: FC = () => {
   const [countDoneTasks, setCountDoneTasks] = useState<number>(0);
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
   const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const location = useLocation()
 
-  useEffect(()=>{
+  useEffect(() => {
     const interval = setInterval(() => {
       dispatch(getList());
     }, 5000);
@@ -50,71 +52,69 @@ export const Analytics: FC = () => {
     arr = arr.filter((item) => new Date(item.createdAt) > dateLast7days);
     setListLast7days(arr.reverse());
   }, [list]);
+  
   return (
     <Wrapper>
       <HeaderTop />
       {/* Отображение для главного инженера */}
       {user.access === access.SUPERUSER && (
-      <div className={styles.container}>
-        <div className={styles.container__header}>
-          <Diagram list={list} />
-          <BlockAnalics
-            name={"Задачи"}
-            count={tasks.length}
-            icon={editTasks}
-            title={"Завершенные задачи"}
-            countMade={countDoneTasks}
-          />
-
-          <BlockAnalics
-            name={"Заявки"}
-            count={list.length}
-            icon={editList}
-            title={"В работе"}
-            countMade={countAtWorkList}
-          />
-
-          <BlockList />                             {/* БЛОК ДЛЯ Эффективности */}
-        </div>
-        <div className={styles.container__bottom}>
-          {/* <TableTask
+        <div className={styles.container}>
+          <div className={styles.container__header}>
+            <Diagram list={list} />
+            <BlockAnalics
+              name={"Задачи"}
+              count={tasks.length}
+              icon={editTasks}
+              title={"Завершенные задачи"}
+              countMade={countDoneTasks}
+            />
+            <BlockAnalics
+              name={"Заявки"}
+              count={list.length}
+              icon={editList}
+              title={"В работе"}
+              countMade={countAtWorkList}
+            />
+            <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
+          </div>
+          <div className={styles.container__bottom}>
+            {/* <TableTask
             mini={true}
             list={listLast7days}
             currentAccess={access.SUPERUSER}
           /> */}
-          <LineChart />
-          <Task tasksByDay={tasksByDay} />
-          <CalendarComponent />
+            <LineChart />
+            <Task tasksByDay={tasksByDay} />
+            <CalendarComponent />
+          </div>
         </div>
-      </div>
       )}
       {/* Отображение для зам директора */}
       {user.access === access.VICEPREZIDENT && (
         <div className={styles.container}>
-        <div className={styles.container__header}>
-          <Diagram list={list} />
-          <BlockAnalics
-            name={"Задачи"}
-            count={tasks.length}
-            icon={editTasks}
-            title={"Завершенные задачи"}
-            countMade={countDoneTasks}
-          /> 
-          <BlockAnalics
-            name={"Заявки"}
-            count={list.length}
-            icon={editList}
-            title={"В работе"}
-            countMade={countAtWorkList}
-          />
-
-          <BlockList />                             {/* БЛОК ДЛЯ Эффективности */}
+          <div className={styles.container__header}>
+            <Diagram list={list} />
+            <BlockAnalics
+              name={"Задачи"}
+              count={tasks.length}
+              icon={editTasks}
+              title={"Завершенные задачи"}
+              countMade={countDoneTasks}
+            />
+            <BlockAnalics
+              name={"Заявки"}
+              count={list.length}
+              icon={editList}
+              title={"В работе"}
+              countMade={countAtWorkList}
+            />
+            <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
+          </div>
+          <div className={styles.container__bottom}>
+            <Task tasksByDay={tasksByDay} />
+            <CalendarComponent />
+          </div>
         </div>
-        <div className={styles.container__bottom}>
-          <Task tasksByDay={tasksByDay} />
-          <CalendarComponent />
-        </div>
-      </div>
       )}
     </Wrapper>
   );

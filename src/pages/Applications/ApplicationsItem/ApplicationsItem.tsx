@@ -381,6 +381,7 @@ export const ApplicationsItem: FC = () => {
                 setFiles={setFiles}
                 value={textareaValue}
                 setValue={setTextareaValue}
+                files={files}
               />
             </div>
           </form>

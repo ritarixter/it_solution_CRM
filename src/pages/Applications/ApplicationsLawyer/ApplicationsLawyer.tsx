@@ -215,22 +215,13 @@ export const ApplicationsLawyer: FC = () => {
             </div>
               ) : (
                 <div className={styles.deadline}>
-                <p className={styles.deadline__week}>Вторник</p>
+                <p className={styles.deadline__week}>{new Date(deadline).toLocaleString('ru', {weekday: 'long'})}</p>
                 <p className={styles.deadline__day}>
                   Вы установили дедлайн на {deadline}
                 </p>
                 <BlockButton text={"Изменить дедлайн"} onClick={() => setShowDeadline(false)} bigWidth={true}/>
               </div>
               )}
-              {/* {showDeadline && (
-                <div className={styles.deadline}>
-                  <p className={styles.deadline__week}>Вторник</p>
-                  <p className={styles.deadline__day}>
-                    Вы установили дедлайн на {deadline}
-                  </p>
-                  <BlockButton text={"Изменить дедлайн"} onClick={() => setShowDeadline(false)} bigWidth={true}/>
-                </div>
-              )} */}
             </>
           )}
         </div>

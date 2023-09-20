@@ -21,7 +21,7 @@ export const ApplicationsVicePrezident: FC = () => {
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const [header, setHeader] = useState<
     "Исполнители" | "Маржинальность" | "Файлы"
-  >("Исполнители");
+  >("Маржинальность");
 
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -127,15 +127,6 @@ export const ApplicationsVicePrezident: FC = () => {
           <div className={styles.tree__header}>
             <button
               type="button"
-              onClick={() => setHeader("Исполнители")}
-              className={`${styles.button__nav} ${
-                header === "Исполнители" && styles.active
-              }`}
-            >
-              Исполнители
-            </button>
-            <button
-              type="button"
               onClick={() => setHeader("Маржинальность")}
               className={`${styles.button__nav} ${
                 header === "Маржинальность" && styles.active
@@ -151,6 +142,15 @@ export const ApplicationsVicePrezident: FC = () => {
               }`}
             >
               Файлы
+            </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Исполнители")}
+              className={`${styles.button__nav} ${
+                header === "Исполнители" && styles.active
+              }`}
+            >
+              Исполнители
             </button>
 
             <div className={styles.buttonClose}>

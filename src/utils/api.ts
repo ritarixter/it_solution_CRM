@@ -1,7 +1,14 @@
-import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
+import {
+  IProducts,
+  TFile,
+  TSampleUpdate,
+  TUpdateCommercialProposal,
+  TUpdateList,
+  TUpdateTask,
+} from "../types";
 //import { getCookie, setCookie } from "./cookies";
-import Cookies from 'js-cookie';
-import {URL} from './constants';
+import Cookies from "js-cookie";
+import { URL } from "./constants";
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn = () => ({
@@ -11,9 +18,9 @@ const headersWithAuthorizeFn = () => ({
 
 const responseCheck = (res: Response) => {
   if (res.ok) {
-    return res.json()
+    return res.json();
   } else {
-    return Promise.reject(res.status)
+    return Promise.reject(res.status);
   }
 };
 
@@ -145,14 +152,12 @@ export function addTaskUserApi(
 }
 
 //Изменение статуса задачи
-export function updateTaskUserApi(
-  task: TUpdateTask
-) {
+export function updateTaskUserApi(task: TUpdateTask) {
   return fetch(`${URL}/tasks/${task.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
-      task
+      task,
     }),
   }).then(responseCheck);
 }
@@ -209,7 +214,7 @@ export function refreshToken() {
         return Promise.reject(refreshData);
       }
       localStorage.setItem("token", refreshData.refreshToken);
-      Cookies.set("accessToken", refreshData.accessToken, { expires: 1/24 });
+      Cookies.set("accessToken", refreshData.accessToken, { expires: 1 / 24 });
       return refreshData;
     });
 }
@@ -226,6 +231,21 @@ export function deleteListApi(id: number) {
   return fetch(`${URL}/list/${id}`, {
     method: "DELETE",
     headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteListFileApi(
+  id: number,
+  pathFile: string,
+  access: string
+) {
+  return fetch(`${URL}/list/${id}/upload`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      filePath: pathFile,
+      access: access,
+    }),
   }).then(responseCheck);
 }
 
@@ -292,15 +312,11 @@ export function addSampleApi(
 }
 
 // Изменение шаблона
-export function updateSampleApi(
-sample: TSampleUpdate
-) {
+export function updateSampleApi(sample: TSampleUpdate) {
   return fetch(`${URL}/plan/${sample.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
-    body: JSON.stringify(
-      sample
-    ),
+    body: JSON.stringify(sample),
   }).then(responseCheck);
 }
 
@@ -373,7 +389,7 @@ export function getWorkApi() {
 
 //-------------------------------------------------------------------Commercial-Proposal--------------------------------------------------------------------------------------
 
-export function getByIdCommercialProposalApi(id:number) {
+export function getByIdCommercialProposalApi(id: number) {
   return fetch(`${URL}/list/${id}/commercial-proposal`, {
     headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
@@ -396,7 +412,7 @@ export function addCommercialProposalApi(
 }
 
 export function updateCommercialProposalApi(
-  commercialProposal: TUpdateCommercialProposal,
+  commercialProposal: TUpdateCommercialProposal
 ) {
   return fetch(`${URL}/commercial-proposal/${commercialProposal.id}`, {
     method: "PATCH",
@@ -418,27 +434,33 @@ export function uploadFiles(files: any) {
   }).then(responseCheck);
 }
 
+export function deleteFilesApi(filePath: string) {
+  return fetch(`${URL}/upload`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      filePath: filePath,
+    }),
+  }).then(responseCheck);
+}
+
 //############################################################# STOCK #########################################################
 
 export async function getStockApi() {
   const res = await fetch(`${URL}/stock`, {
     headers: headersWithAuthorizeFn(),
-  })
+  });
   return responseCheck(res);
 }
 
-
 //---------------------------------------------------------------STEP-------------------------------------------------------------------------------
 
-export function updateStepApi(
-  id: number,
-  idStep: number
-) {
+export function updateStepApi(id: number, idStep: number) {
   return fetch(`${URL}/step/${id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
-      idStep: idStep
+      idStep: idStep,
     }),
   }).then(responseCheck);
 }

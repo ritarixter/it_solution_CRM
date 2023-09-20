@@ -32,7 +32,7 @@ import { FilesBlock } from "../../../components/FilesBlock";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation();  
   const { users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
@@ -132,6 +132,8 @@ export const ApplicationsItemTree: FC = () => {
             users: engineer != engineerDefault ? [engineer.id] : undefined,
           };
           dispatch(updateList(listNew));
+          setFiles(undefined)
+
         });
       } else {
         const listNew = {
@@ -150,6 +152,7 @@ export const ApplicationsItemTree: FC = () => {
           updateStepApi(currentList?.step.id, 2);
       }
     }
+    
   };
 
   return (
@@ -325,6 +328,7 @@ export const ApplicationsItemTree: FC = () => {
                     setFiles={setFiles}
                     value={textareaValue}
                     setValue={setTextareaValue}
+                    files={files}
                   />
                 </div>
               </form>
@@ -348,7 +352,7 @@ export const ApplicationsItemTree: FC = () => {
             <Performers users={currentList?.users ? currentList?.users : []} />
           )}
           {header === "Файлы" && 
-          <div className={styles.applications__container}><FilesBlock files={currentList?.files ? currentList?.files : []} /></div>}
+          <div className={styles.applications__container}><FilesBlock fileData={currentList?.files ? currentList?.files : []} /></div>}
         </section>
       </div>
     </Wrapper>

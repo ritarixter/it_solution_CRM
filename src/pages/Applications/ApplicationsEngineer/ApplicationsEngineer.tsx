@@ -226,6 +226,7 @@ export const ApplicationsEngineer: FC = () => {
                     setFiles={setFiles}
                     value={textareaValue}
                     setValue={setTextareaValue}
+                    files={files}
                   />
                 </div>
               </form>
@@ -249,7 +250,7 @@ export const ApplicationsEngineer: FC = () => {
           {header === "Файлы" && (
             <div className={styles.applications__container}>
               <FilesBlock
-                files={currentList?.files ? currentList?.files : []}
+                fileData={currentList?.files ? currentList?.files : []}
               />
             </div>
           )}

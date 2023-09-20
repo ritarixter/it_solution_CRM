@@ -171,9 +171,10 @@ export const ApplicationsLawyer: FC = () => {
           {header === "Файлы" && (
             <div className={styles.infomation__container}>
               <FilesBlock
-                files={currentList?.files ? currentList?.files : []}
+                fileData={currentList?.files ? currentList?.files : []}
                 addFile={true}
                 setFiles={setFiles}
+                files={files}
               />
               <BlockButton
                 text={"Сохранить"}

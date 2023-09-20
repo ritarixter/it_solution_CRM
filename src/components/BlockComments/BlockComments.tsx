@@ -2,17 +2,20 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./BlockComments.module.scss";
 import clip from "../../images/icons/clip.svg";
 import close from "../../images/icons/close.svg";
+import { translitRuEn } from "../../utils/utils";
 
 type TBlockComments = {
   value: string;
   setValue: (value: string) => void;
   setFiles: (value: FormData | undefined) => void;
+  files: FormData | undefined;
 };
 
 export const BlockComments: FC<TBlockComments> = ({
   value,
   setValue,
   setFiles,
+  files,
 }) => {
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
 
@@ -28,10 +31,18 @@ export const BlockComments: FC<TBlockComments> = ({
   };
 
   useEffect(() => {
+    files === undefined && setCurrentFiles([]);
+  }, [files]);
+
+  useEffect(() => {
     let data = new FormData();
     if (currentfiles.length != 0) {
       for (let i = 0; i < currentfiles.length; i++) {
-        data.append("media", currentfiles[i]);
+        data.append(
+          "media",
+          currentfiles[i],
+          translitRuEn(currentfiles[i].name)
+        );
       }
       setFiles(data);
     } else {

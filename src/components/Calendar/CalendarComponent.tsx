@@ -70,18 +70,19 @@ export const CalendarComponent: FC<TCalendar> = () => {
             thisDate == formateDate(task[j].endDate).split(",")[0] &&
             !task[j].done
           ) {
-            // setTimeout(() => {
-            //   element[i].prepend(taskOnCalendar); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
-            // }, 0);
-            element[i].prepend(taskOnCalendar);
+            setTimeout(() => {
+              element[i].prepend(taskOnCalendar); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+            }, 0);
+            // element[i].prepend(taskOnCalendar);
           }
-          // else {
-          //   let elem = document.getElementById('taskOnCalendar');
-          //   elem?.remove();
-          // }
+          else {
+            let elem = document.getElementById('taskOnCalendar');
+            elem?.remove();
+          }
         }
       }
     }
+    else document.getElementById('taskOnCalendar')?.remove();
     return <></>;
   };
 

@@ -16,6 +16,7 @@ import {
   formateDateOnlyTime,
 } from "../../../utils/utils-date";
 import close from "../../../images/icons/close.svg";
+import { Input } from "../../../components/Input";
 
 type TEstimate = {
   id: string;
@@ -33,7 +34,8 @@ type TExportArr = {
 
 export const CommercialProposalEstimate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  const [nameSmeta, setNameSmeta] = useState<string>("");
+  const [nameSmetaError, setNameSmetaError] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(30));
@@ -43,6 +45,9 @@ export const CommercialProposalEstimate: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
+    summaSale: "",
+    summaBuy:"",
+    marginality: "",
   });
   const [estimates, setEstimates] = useState<TEstimate[]>([]);
 
@@ -51,6 +56,7 @@ export const CommercialProposalEstimate: FC = () => {
       (res: { commercialProposal: TCommercialProposal }) => {
         res.commercialProposal.products.forEach((product) => {
           product.checked = false;
+          product.isAddInSmeta = false;
         });
         setCP(res.commercialProposal);
       }
@@ -69,7 +75,7 @@ export const CommercialProposalEstimate: FC = () => {
 
   function handleDownloadExcel(exportArr: TEstimate) {
     downloadExcel({
-      fileName: `Смета №${exportArr.name}`,
+      fileName: `${exportArr.name}`,
       sheet: "Сметы",
       tablePayload: {
         header: [
@@ -84,6 +90,10 @@ export const CommercialProposalEstimate: FC = () => {
       },
     });
   }
+
+  useEffect(() => {
+    nameSmeta === "" ? setNameSmetaError(true) : setNameSmetaError(false);
+  }, [nameSmeta]);
 
   return (
     <Wrapper>
@@ -115,13 +125,27 @@ export const CommercialProposalEstimate: FC = () => {
                 </span>
                 )
               </p>
+              <div className={styles.inputSmetaName}>
+                <Input
+                  type="text"
+                  name="Введите название"
+                  value={nameSmeta}
+                  setValue={setNameSmeta}
+                  text={"Название сметы"}
+                  error={nameSmetaError}
+                />
+              </div>
               <ul className={styles.list}>
                 <li className={`${styles.list__row} ${styles.list__header}`}>
                   <span>Наименование</span> <span>Количество</span>
                 </li>
                 {CP?.products ? (
                   CP?.products.map((product) => (
-                    <li className={styles.list__row}>
+                    <li
+                      className={`${styles.list__row} ${
+                        product.isAddInSmeta && styles.list__row_add
+                      }`}
+                    >
                       <label className={styles.list__name}>
                         <input
                           type="checkbox"
@@ -143,13 +167,16 @@ export const CommercialProposalEstimate: FC = () => {
               <div className={styles.buttons}>
                 <BlockButton
                   text={"Составить смету"}
-                  disabled={CP.products.every((product) => !product.checked)}
+                  disabled={
+                    CP.products.every((product) => !product.checked) ||
+                    nameSmetaError
+                  }
                   onClick={() => {
                     setEstimates([
                       ...estimates,
                       {
                         id: uuidv4(),
-                        name: String(Math.random()).slice(2, 9),
+                        name: nameSmeta,
                         products: CP.products
                           .filter((item) => item.checked)
                           .map((item) => ({
@@ -159,10 +186,18 @@ export const CommercialProposalEstimate: FC = () => {
                             price: item.price,
                             actualPrice: item.actualPrice,
                             date: item.date ? item.date : "Не указана",
-
                           })),
                       },
                     ]);
+                    setCP({
+                      ...CP,
+                      products: CP.products.map((item) =>
+                        item.checked
+                          ? { ...item, isAddInSmeta: true }
+                          : item
+                      ),
+                    });
+                    setNameSmeta("");
                   }}
                 />
                 <p
@@ -183,8 +218,13 @@ export const CommercialProposalEstimate: FC = () => {
                   estimates.map((estimate) => (
                     <li className={styles.estimate}>
                       <img src={excel_logo} alt="excel logo" />
-                      <span className={styles.estimate__name} onClick={()=>{handleDownloadExcel(estimate)}}>
-                        Скачать в XLS смету №{estimate.name}
+                      <span
+                        className={styles.estimate__name}
+                        onClick={() => {
+                          handleDownloadExcel(estimate);
+                        }}
+                      >
+                        Скачать в XLS смету "{estimate.name}"
                       </span>
                       <img
                         className={styles.deleteEstimate}

@@ -6,7 +6,7 @@ import { useAppSelector } from "../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { TCommercialProposal } from "../../types/TCommercialProposal";
-import { getByIdCommercialProposalApi } from "../../utils/api";
+import { getByIdCommercialProposalApi, updateStepApi } from "../../utils/api";
 import { titles } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { IProducts } from "../../types/TProducts";
@@ -18,6 +18,7 @@ import { access } from "../../utils/constants";
 
 export const CommercialProposal: FC = () => {
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
+  const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
@@ -27,6 +28,9 @@ export const CommercialProposal: FC = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     products: [],
+    summaSale: "",
+    summaBuy:"",
+    marginality: "",
   });
 
   function handleDownloadExcel() {
@@ -63,6 +67,7 @@ export const CommercialProposal: FC = () => {
       setCP(res.commercialProposal);
     });
   }, []);
+
   return (
     <Wrapper>
       {isLoadingUser ? (
@@ -119,19 +124,34 @@ export const CommercialProposal: FC = () => {
                 ))}
               </tbody>
             </table>
-            {user.access === access.VICEPREZIDENT ? (
+
+            {user.access === access.VICEPREZIDENT && (
               <div className={styles.buttons__marginality}>
                 <BlockButton
                   text={"Рассчитать маржинальность"}
                   bigWidth={true}
                   onClick={() => {
-                    navigate(`/marginality`);
+                    navigate(`/marginality/${id_list}`);
                   }}
                 />
               </div>
-            ) : (
+            )}
+            {user.access === access.SUPERUSER && (
               <div className={styles.buttons}>
-                <BlockButton text={"Принять КП"} onClick={() => {}} />
+                <div className={styles.buttonAksynia}>
+                  <BlockButton
+                    bigWidth={true}
+                    text={"Отправить заместителю директора"}
+                    onClick={() => {
+                      let arr = [...list];
+                      const currentList = arr.filter(
+                        (item) => item.id === id_list
+                      );
+                      updateStepApi(currentList[0].step.id, 5);
+                      navigate(`/applications/${id_list}`);
+                    }}
+                  />
+                </div>
                 <p
                   className={styles.cancel}
                   onClick={() => {
@@ -139,6 +159,27 @@ export const CommercialProposal: FC = () => {
                   }}
                 >
                   Изменить
+                </p>
+              </div>
+            )}
+
+            {user.access === access.ENGINEER && (
+              <div className={styles.buttons}>
+                <div className={styles.buttonAksynia}>
+                  <BlockButton
+                    text={"Изменить"}
+                    onClick={() => {
+                      navigate(`/commercial-proposal/edit/${id_list}`);
+                    }}
+                  />
+                </div>
+                <p
+                  className={styles.cancel}
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Отмена
                 </p>
               </div>
             )}

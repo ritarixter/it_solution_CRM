@@ -88,7 +88,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   ]);
 
   const totalPrice = useMemo(() => {
-    return actualPrice * count;
+    return actualPrice * count; //закуп цена * кол во
   }, [count, actualPrice]);
 
   const marginalityPrice = useMemo(() => {
@@ -150,6 +150,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
       <td className={styles.table__list}>
         <DropdownList
           state={name}
+          size={"small"}
           setState={setName}
           data={allProducts}
           error={nameError}

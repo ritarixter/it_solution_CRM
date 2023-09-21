@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, AppThunk } from "../store";
 import { TFile, TList } from "../../types";
 import {
+  addCommentApi,
   addListApi,
   deleteListApi,
   getListApi,
   updateListApi,
+  updateStepApi,
 } from "../../utils/api";
 import { TUpdateList } from "../../types/TList";
 
@@ -46,7 +48,6 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
   setLoading(true);
   getListApi()
     .then((res) => {
-      
       dispatch(setList(res));
     })
     .catch((err) => {
@@ -59,12 +60,23 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
 };
 
 export const addList: AppThunk =
-  (name: string, customer: string, INNCompany: string, description?: string, files?: Array<TFile>) =>
+  (
+    userId: number,
+    address: string,
+    customer: string,
+    INNCompany: string,
+    description?: string,
+    files?: Array<TFile>
+  ) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    addListApi(name, customer, INNCompany, description, files)
+    addListApi(address, customer, INNCompany, files)
       .then((res) => {
         dispatch(getList());
+        if (description) {
+          addCommentApi(res.id, userId, description);
+        }
+        updateStepApi(res.step.id, 1);
       })
       .catch((err) => {
         dispatch(setError(true));
@@ -77,9 +89,7 @@ export const addList: AppThunk =
 export const updateList: AppThunk =
   (list: TUpdateList) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-    updateListApi(
-      list
-    )
+    updateListApi(list)
       .then((res) => {
         dispatch(setError(false));
         dispatch(getList());

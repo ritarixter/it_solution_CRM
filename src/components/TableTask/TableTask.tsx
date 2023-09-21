@@ -25,7 +25,6 @@ function addSevenDay(date = new Date()) {
   return date;
 }
 export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
-  const { isLoadingTask } = useAppSelector((state) => state.task);
   const { isLoadingList } = useAppSelector((state) => state.list);
   const { user } = useAppSelector((state) => state.user);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -52,7 +51,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
         : "",
       status: item.status || NOT_ASSIGNED,
       importance: item.importance || NOT_ASSIGNED,
-      description: item.description || "",
     }));
     downloadExcel({
       fileName: "list_table",
@@ -68,7 +66,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
           "Исполнители",
           "Статус",
           "Приоритет",
-          "Описание",
         ],
         body: exportArr,
       },
@@ -98,7 +95,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
 
   return (
     <section className={`${styles.container} ${mini && styles.mini}`}>
-      {isLoadingTask || isLoadingList ? (
+      { isLoadingList ? (
         <PreloaderBlock />
       ) : (
         <>

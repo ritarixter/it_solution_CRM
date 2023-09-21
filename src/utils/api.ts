@@ -1,18 +1,26 @@
-import { IProducts, TFile, TSampleUpdate, TUpdateCommercialProposal, TUpdateList, TUpdateTask } from "../types";
-import { getCookie, setCookie } from "./cookies";
-import {URL} from './constants';
+import {
+  IProducts,
+  TFile,
+  TSampleUpdate,
+  TUpdateCommercialProposal,
+  TUpdateList,
+  TUpdateTask,
+} from "../types";
+//import { getCookie, setCookie } from "./cookies";
+import Cookies from "js-cookie";
+import { URL } from "./constants";
 
 const headersWithContentType = { "Content-Type": "application/json" };
-const headersWithAuthorizeFn: HeadersInit = {
+const headersWithAuthorizeFn = () => ({
   "Content-Type": "application/json",
-  Authorization: `Bearer ${getCookie("accessToken")}`,
-};
+  Authorization: `Bearer ${Cookies.get("accessToken")}`,
+});
 
 const responseCheck = (res: Response) => {
   if (res.ok) {
-    return res.json()
+    return res.json();
   } else {
-    return Promise.reject(res.status)
+    return Promise.reject(res.status);
   }
 };
 
@@ -44,13 +52,13 @@ export function signUp(username: string, password: string) {
 //Получение профиля
 export function getDataUser() {
   return fetch(`${URL}/user/me`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
 export function getUsersApi() {
   return fetch(`${URL}/user`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -77,7 +85,7 @@ export function editUsers(
 ) {
   return fetch(`${URL}/users`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       username: username,
       password: password,
@@ -93,7 +101,7 @@ export function editUsers(
 export function deleteUsers(usernameId: any) {
   return fetch(`${URL}/users/${usernameId}`, {
     method: "DELETE",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -102,14 +110,14 @@ export function deleteUsers(usernameId: any) {
 // Получение всех задач конкретного пользователя
 export function getTasksUserApi() {
   return fetch(`${URL}/tasks`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
 export function getTaskByDateApi(date: Date) {
   return fetch(`${URL}/tasks/byDate`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({ endDate: new Date(date) }),
   }).then(responseCheck);
 }
@@ -118,7 +126,7 @@ export function getTaskByDateApi(date: Date) {
 export function deleteTaskUserApi(id: number) {
   return fetch(`${URL}/tasks/${id}`, {
     method: "DELETE",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -132,7 +140,7 @@ export function addTaskUserApi(
 ) {
   return fetch(`${URL}/tasks`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       done: done,
       status: status,
@@ -144,15 +152,11 @@ export function addTaskUserApi(
 }
 
 //Изменение статуса задачи
-export function updateTaskUserApi(
-  task: TUpdateTask
-) {
+export function updateTaskUserApi(task: TUpdateTask) {
   return fetch(`${URL}/tasks/${task.id}`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
-    body: JSON.stringify({
-      task
-    }),
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify(task),
   }).then(responseCheck);
 }
 
@@ -160,27 +164,23 @@ export function updateTaskUserApi(
 // Получение всех заявок
 export function getListApi() {
   return fetch(`${URL}/list`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
-
-
 export function addListApi(
-  name: string,
+  address: string,
   customer: string,
   INNCompany: string,
-  description?: string,
   files?: Array<TFile>
 ) {
   return fetch(`${URL}/list`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
-      name: name,
+      address: address,
       customer: customer,
       INNCompany: INNCompany,
-      description: description,
       files: files,
     }),
   }).then(responseCheck);
@@ -189,7 +189,7 @@ export function addListApi(
 export function getListByIdApi(id: number) {
   return fetch(`${URL}/list/${id}`, {
     method: "GET",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -210,7 +210,7 @@ export function refreshToken() {
         return Promise.reject(refreshData);
       }
       localStorage.setItem("token", refreshData.refreshToken);
-      setCookie("accessToken", refreshData.accessToken);
+      Cookies.set("accessToken", refreshData.accessToken, { expires: 1 / 24 });
       return refreshData;
     });
 }
@@ -218,7 +218,7 @@ export function refreshToken() {
 export function updateListApi(list: TUpdateList) {
   return fetch(`${URL}/list/${list.id}`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify(list),
   }).then(responseCheck);
 }
@@ -226,7 +226,22 @@ export function updateListApi(list: TUpdateList) {
 export function deleteListApi(id: number) {
   return fetch(`${URL}/list/${id}`, {
     method: "DELETE",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteListFileApi(
+  id: number,
+  pathFile: string,
+  access: string
+) {
+  return fetch(`${URL}/list/${id}/upload`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      filePath: pathFile,
+      access: access,
+    }),
   }).then(responseCheck);
 }
 
@@ -260,14 +275,14 @@ export function deleteListApi(id: number) {
 // Получение всех шаблонов
 export function getSampleApi() {
   return fetch(`${URL}/plan`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
 export function getSampleByIdApi(id: number) {
   return fetch(`${URL}/plan/${id}`, {
     method: "GET",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -281,7 +296,7 @@ export function addSampleApi(
 ) {
   return fetch(`${URL}/plan`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       usersId: users,
       worksId: works,
@@ -293,15 +308,11 @@ export function addSampleApi(
 }
 
 // Изменение шаблона
-export function updateSampleApi(
-sample: TSampleUpdate
-) {
+export function updateSampleApi(sample: TSampleUpdate) {
   return fetch(`${URL}/plan/${sample.id}`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
-    body: JSON.stringify(
-      sample
-    ),
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify(sample),
   }).then(responseCheck);
 }
 
@@ -309,7 +320,7 @@ sample: TSampleUpdate
 export function deleteSampleApi(id: number) {
   return fetch(`${URL}/plan/${id}`, {
     method: "DELETE",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -317,7 +328,7 @@ export function deleteSampleApi(id: number) {
 
 export function getCompaniesApi() {
   return fetch(`${URL}/company`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
@@ -331,7 +342,7 @@ export function addCompanyApi(
 ) {
   return fetch(`${URL}/company`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       nameCompany: nameCompany,
       name: name,
@@ -352,7 +363,7 @@ export function updateCompanyApi(
 ) {
   return fetch(`${URL}/company/${id}`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       nameCompany,
       name,
@@ -368,40 +379,44 @@ export function updateCompanyApi(
 // Получение всех работ
 export function getWorkApi() {
   return fetch(`${URL}/work`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
 //-------------------------------------------------------------------Commercial-Proposal--------------------------------------------------------------------------------------
 
-export function getByIdCommercialProposalApi(id:number) {
+export function getByIdCommercialProposalApi(id: number) {
   return fetch(`${URL}/list/${id}/commercial-proposal`, {
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }
 
 export function addCommercialProposalApi(
   name: string,
   idList: number,
-  products: Array<IProducts>
+  products: Array<IProducts>,
+  summaBuy: string,
+  summaSale: string
 ) {
   return fetch(`${URL}/commercial-proposal`, {
     method: "POST",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       name: name,
       idList: idList,
       products: products,
+      summaBuy: summaBuy,
+      summaSale: summaSale,
     }),
   }).then(responseCheck);
 }
 
 export function updateCommercialProposalApi(
-  commercialProposal: TUpdateCommercialProposal,
+  commercialProposal: TUpdateCommercialProposal
 ) {
   return fetch(`${URL}/commercial-proposal/${commercialProposal.id}`, {
     method: "PATCH",
-    headers: headersWithAuthorizeFn,
+    headers: headersWithAuthorizeFn(),
     body: JSON.stringify(commercialProposal),
   }).then(responseCheck);
 }
@@ -413,9 +428,19 @@ export function uploadFiles(files: any) {
   return fetch(`${URL}/upload`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${getCookie("accessToken")}`,
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
     },
     body: files,
+  }).then(responseCheck);
+}
+
+export function deleteFilesApi(filePath: string) {
+  return fetch(`${URL}/upload`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      filePath: filePath,
+    }),
   }).then(responseCheck);
 }
 
@@ -423,7 +448,61 @@ export function uploadFiles(files: any) {
 
 export async function getStockApi() {
   const res = await fetch(`${URL}/stock`, {
-    headers: headersWithAuthorizeFn,
-  })
+    headers: headersWithAuthorizeFn(),
+  });
   return responseCheck(res);
+}
+
+//---------------------------------------------------------------STEP-------------------------------------------------------------------------------
+
+export function updateStepApi(id: number, idStep: number) {
+  return fetch(`${URL}/step/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      idStep: idStep,
+    }),
+  }).then(responseCheck);
+}
+
+//---------------------------------------------------------------COMMENT-------------------------------------------------------------------------------
+export function getCommentsApi() {
+  return fetch(`${URL}/comment`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteCommentApi(id: number) {
+  return fetch(`${URL}/comment/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function addCommentApi(listId: number, userId: number, comment: string) {
+  return fetch(`${URL}/comment`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      userId: userId,
+      comment: comment,
+    }),
+  }).then(responseCheck);
+}
+
+export function updateCommentApi(
+  listId: number,
+  userId: number,
+  comment: string
+) {
+  return fetch(`${URL}/comment`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      userId: userId,
+      comment: comment,
+    }),
+  }).then(responseCheck);
 }

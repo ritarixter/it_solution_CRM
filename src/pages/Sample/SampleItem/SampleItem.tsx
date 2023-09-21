@@ -158,6 +158,7 @@ export const SampleItem: FC = () => {
               value={textareaValue}
               setValue={setTextareaValue}
               setFiles={setFiles}
+              files={files}
             />
             <div className={styles.button}>
               <BlockButton text={"Изменить"} onClick={handleUpdateSample} />

@@ -14,13 +14,15 @@ import { TUpdateTask } from "../../types/TTask";
 interface tasksState {
   tasks: Array<TTask>;
   tasksByDay: Array<TTask>;
+  selectedDay: Date;
   isError: boolean;
   isLoadingTask: boolean;
 }
 
 const initialState: tasksState = {
-  tasks: [],
-  tasksByDay: [],
+  tasks: [],                // все таски
+  tasksByDay: [],           // стор для выбранной даты
+  selectedDay: new Date(),  // выбранная дата
   isError: false,
   isLoadingTask: true,
 };
@@ -37,6 +39,10 @@ export const taskSlice = createSlice({
       state.tasksByDay = action.payload;
     },
 
+    setSelectedDay(state, action: PayloadAction<Date>) {
+      state.selectedDay = action.payload;
+    },
+
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
     },
@@ -47,7 +53,7 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { setTasks, setTask, setError, setLoading } = taskSlice.actions;
+export const { setTasks, setTask, setSelectedDay, setError, setLoading } = taskSlice.actions;
 export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   getTasksUserApi()
@@ -65,6 +71,7 @@ export const getTask: AppThunk = () => (dispatch: AppDispatch) => {
 
 export const getTaskByDate: AppThunk =
   (date: Date) => (dispatch: AppDispatch) => {
+    dispatch(setSelectedDay(date))
     dispatch(setLoading(true));
     getTaskByDateApi(date)
       .then((res) => {
@@ -72,7 +79,7 @@ export const getTaskByDate: AppThunk =
       })
       .catch((err) => {
         dispatch(setError(true));
-        dispatch(getTask()); // ВРЕМЕННЫЙ КОСТЫЛЬ
+        // dispatch(getTask()); 
 
         console.log(err);
       })
@@ -81,11 +88,12 @@ export const getTaskByDate: AppThunk =
       });
   };
 
-export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
+export const deleteTask: AppThunk = (id: number, date: Date) => (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
   deleteTaskUserApi(id)
     .then((res) => {
       dispatch(getTask());
+      dispatch(getTaskByDate(date));
     })
     .catch((err) => {
       dispatch(setError(true));
@@ -96,13 +104,14 @@ export const deleteTask: AppThunk = (id: number) => (dispatch: AppDispatch) => {
     });
 };
 
+
 export const updateTask: AppThunk =
   (task: TUpdateTask) => (dispatch: AppDispatch) => {
     dispatch(setLoading(true));
-
     updateTaskUserApi(task)
       .then((res) => {
-        dispatch(getTaskByDate());
+        dispatch(getTask());
+        dispatch(getTaskByDate(task.endDate));
       })
       .catch((err) => {
         dispatch(setError(true));
@@ -126,6 +135,7 @@ export const addTask: AppThunk =
     addTaskUserApi(title, status, endDate, done, description)
       .then((res) => {
         dispatch(getTask());
+        dispatch(getTaskByDate(endDate));
       })
       .catch((err) => {
         dispatch(setError(true));

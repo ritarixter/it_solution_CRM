@@ -9,8 +9,7 @@ type TPerformers = {
   users: Array<TUser>;
 };
 
-export const Performers: FC = () => {
-    const { users, isLoadingUser } = useAppSelector((state) => state.user);
+export const Performers: FC<TPerformers> = ({users}) => {
   const engineer = users.filter((user) => user.access === access.ENGINEER);
   const fitters = users.filter((user) => user.access === access.FITTER);
   return (
@@ -23,6 +22,7 @@ export const Performers: FC = () => {
               name={engineer[0].name}
               fullName={true}
               avatar={engineer[0].avatar}
+              phone={engineer[0].phone}
             />
           ) : (
             NOT_ASSIGNED_DEAD
@@ -38,7 +38,7 @@ export const Performers: FC = () => {
                   name={item.name}
                   avatar={item.avatar}
                   fullName={true}
-                  fullPhone={true}
+                  phone={item.phone}
                 />
               ))
             : NOT_ASSIGNED_DEAD}

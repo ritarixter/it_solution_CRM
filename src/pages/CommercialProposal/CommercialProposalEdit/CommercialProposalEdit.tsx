@@ -63,10 +63,24 @@ export const CommercialProposalEdit: FC = () => {
       setNameError(true);
     } else {
       setNameError(false);
+      const summaBuy = items.reduce(
+        (total, item) => (total = total + item.totalPrice),
+        0
+      );
+ 
+      const summaSale = items.reduce(
+        (total, item) => (total = total + item.price*item.count),
+        0
+      );
+      console.log(summaSale)
+  
       const newCommercialProposal = {
         id: CP?.id ? CP.id : -1,
         name: name === "" || name == CP?.name ? undefined : name,
         products: items,
+        summaBuy: String(summaBuy),
+        summaSale: String(summaSale)
+        
       };
       updateCommercialProposalApi(newCommercialProposal).then((res) => {
         navigate(-1);

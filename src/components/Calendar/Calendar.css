@@ -2,9 +2,8 @@
     width: 384px;
     /* min-height: 488px; */
     /* height: 45vh; */
-    height: 452px;
+    height: 100%;
     max-width: 100%;
-    background-color: #fff;
     color: #828690;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -187,4 +186,20 @@
   }
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
+  }
+
+  .taskOnCalendar {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #F47633;
+    border-radius: 10px;
+  }
+
+  .taskOffCalendar {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 10px;
   }

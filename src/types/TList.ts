@@ -1,6 +1,8 @@
+import { TComment } from "./TComment";
 import { TCommercialProposal } from "./TCommercialProposal";
 import { TCompany } from "./TCompany";
 import { TFile } from "./TFile";
+import { TStep } from "./TStep";
 import { TUser } from "./TUser";
 import { TWork } from "./TWork";
 
@@ -10,7 +12,7 @@ export type TList = {
   updatedAt: Date;
   name: string;
   customer: string;
-  description: string | null;
+  address: string;
   endDate: Date;
   status: string | null;
   importance: string | null;
@@ -19,14 +21,16 @@ export type TList = {
   users: TUser[];
   works: TWork[];
   files: TFile[];
+  step: TStep;
+  comments?: TComment[]
 };
 
 export type TUpdateList = {
   id: number;
   idCompany?: number;
   name?: string;
+  address?: string;
   customer?: string;
-  description?: string;
   files?: TFile[];
   status?: string;
   importance?: string;

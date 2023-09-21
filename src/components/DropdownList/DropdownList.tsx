@@ -10,6 +10,7 @@ export type TDropdownList = {
   name?: string;
   size?: "big" | "small";
   error?: boolean;
+
 };
 
 export const DropdownList: FC<TDropdownList> = ({
@@ -18,6 +19,10 @@ export const DropdownList: FC<TDropdownList> = ({
   setState,
   name,
   error,
+<<<<<<< HEAD
+=======
+  size
+>>>>>>> e363aef33db4dba27d02f968c084c9f0d50727f7
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -56,7 +61,7 @@ export const DropdownList: FC<TDropdownList> = ({
           <ul className={`${styles.menu} ${error && styles.menu_error}`}>
             {data.map((item, index) => (
               <li
-                className={`${styles.option}  `}
+                className={`${styles.option} ${size==='small' && styles.option_small} `}
                 key={item}
                 onClick={() => {
                   handlerClick(index);

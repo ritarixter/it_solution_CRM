@@ -2,14 +2,14 @@ import { FC } from "react";
 import styles from "./BlockMarginality.module.scss";
 
 type TBlockMarginality = {
-    style?: boolean
+    marginality: number
 }
 
-export const BlockMarginality: FC<TBlockMarginality> = ({style}) => {
+export const BlockMarginality: FC<TBlockMarginality> = ({ marginality}) => {
     return (
-        <div className={`${styles.conteiner} ${style && styles.conteiner_style}`}>
+        <div className={`${styles.conteiner} ${(marginality < 0) && styles.conteiner_style}`}>
             <p className={styles.conteiner_title}>Маржинальность</p>
-            <p className={styles.conteiner_count}>254 354</p>
+            <p className={styles.conteiner_count}>{marginality}</p>
         </div>
     )
 }

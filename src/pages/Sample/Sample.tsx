@@ -92,6 +92,7 @@ export const Sample: FC = () => {
             value={textareaValue}
             setValue={setTextareaValue}
             setFiles={setFiles}
+            files={files}
           />
           <div className={styles.button}>
             <BlockButton

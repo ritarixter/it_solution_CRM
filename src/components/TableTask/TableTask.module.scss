@@ -108,6 +108,7 @@
   list-style: none;
   display: flex;
 
+
   &__item {
     margin-right: -7px;
   }
@@ -118,6 +119,7 @@
 
   &__file {
     display: flex;
+    align-items: center;
   }
 }
 
@@ -147,3 +149,10 @@
   cursor: pointer;
   text-underline-offset:3px;
 }
+
+.fileText {
+
+  color:$nullColor;
+
+}
+

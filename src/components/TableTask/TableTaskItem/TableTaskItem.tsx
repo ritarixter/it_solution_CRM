@@ -28,8 +28,12 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
   currentAccess,
 }) => {
   const navigate = useNavigate();
+<<<<<<< HEAD
   const location = useLocation()
   
+=======
+
+>>>>>>> e363aef33db4dba27d02f968c084c9f0d50727f7
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
@@ -40,7 +44,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             mini ? styles.row_mini : styles.row_maxi
           } ${styles.link}`}
         >
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>
             <ImpotanceBlock type={item.importance} />
           </td>
@@ -82,7 +86,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           } ${styles.link}`}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
           <td key={uuidv4()}>
             {item.endDate != null
@@ -97,7 +101,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           </td>
           <td key={uuidv4()}>{item.company.numberPhone}</td>
 
-          {item.users.length != 0 ? (
+          {item.users && item.users.length != 0 ? (
             <td className={styles.implements}>
               {item.users.slice(0, 3).map((user) => (
                 <div className={styles.implements__item} key={user.id}>
@@ -124,10 +128,15 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           <td key={uuidv4()}>
             <div className={styles.implements__file}>
               {item.files
-                ? item.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
+                ? item.files
+                    .slice(0, 2)
+                    .map((file) => <FileIcon name={file.name} url={file.url} />)
                 : notFound.NO_FILES}
+              {item.files && item.files.length > 2 && (
+                <div className={styles.fileText}>
+                  и еще {item.files.length - 2}
+                </div>
+              )}
             </div>
           </td>
         </tr>
@@ -141,7 +150,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           } ${styles.link}`}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
           <td key={uuidv4()}>
             {item.endDate != null
@@ -182,11 +191,16 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           </td>
           <td key={uuidv4()}>
             <div className={styles.implements__file}>
-              {item.files
-                ? item.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
+            {item.files
+                ? item.files
+                    .slice(0, 2)
+                    .map((file) => <FileIcon name={file.name} url={file.url} />)
                 : notFound.NO_FILES}
+              {item.files && item.files.length > 2 && (
+                <div className={styles.fileText}>
+                  и еще {item.files.length - 2}
+                </div>
+              )}
             </div>
           </td>
         </tr>
@@ -200,7 +214,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           onClick={() => navigate(`${item.id}`)}
         >
           <td key={uuidv4()}>{item.company.nameCompany}</td>
-          <td key={uuidv4()}>{item.name}</td>
+          <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
           <td key={uuidv4()}>
             {item.company.email ? item.company.email : "Пусто"}
           </td>

@@ -1,0 +1,223 @@
+@import "../../../styles/variables.scss";
+
+.dropdownList {
+  min-width: 242px;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  max-width: 190px;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 21px;
+  &_null {
+
+      color: $nullColor;
+
+  }
+}
+
+.caption {
+  color: $inputCaption;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.select {
+  height: 40px;
+  position: relative;
+  margin: 0;
+  border: 1px solid $inputColor;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: auto;
+  padding-top: 8px;
+  padding-bottom: 7px;
+  padding-left: 16px;
+  color: $primaryColor;
+  cursor: pointer;
+
+  &_error {
+    border-color: $statusHard;
+  }
+
+  &_open {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+/*   &.error::after {
+    left: 0;
+    bottom: -25px;
+    position: absolute;
+    content: "Обязательное поле";
+    // color: $errorColor;
+  } */
+}
+
+.menu {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  left: 0;
+  max-height: 130px;
+  margin-top: 10px;
+  -webkit-box-shadow: 0px 0px 0px 1px $inputColor;
+  -moz-box-shadow: 0px 0px 0px 1px $inputColor;
+  box-shadow: 0px 0px 0px 1px $inputColor;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar-thumb {
+    height: 50px;
+    background: $inputColor;
+    border-radius: 50px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: #fff;
+  }
+
+  &_error {
+    -webkit-box-shadow: 0px 0px 0px 1px $statusHard;
+    -moz-box-shadow: 0px 0px 0px 1px $statusHard;
+    box-shadow: 0px 0px 0px 1px $statusHard;
+  }
+  
+  /* &.bigHeight {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      width: 3px;
+      background: #e4e4e4;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      height: 42px;
+      background: #8d8d8d;
+      border-radius: 3px;
+    }
+  }
+  &.bigWidth {
+    z-index: 0;
+    width: 514px;
+  } */
+}
+
+.option {
+  background-color: $thirdColor;
+  padding: 6px 12px 6px 16px;
+  transition: color 0.1s linear;
+  box-sizing: border-box;
+  
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &_small {
+    max-width: 240px;
+  }
+
+  &:hover:not(.disabled) {
+    background: rgb(241, 241, 241);
+    //color: $primaryColor;
+  }
+
+  &.disabled {
+    background-color: rgb(241, 241, 241);
+    cursor: not-allowed;
+  }
+}
+
+.red {
+  // background-color: $statusToDoColor;
+  color: #f47633;
+}
+
+.green {
+  color: #20814d;
+  //background-color: $statusDoneColor;
+}
+
+.blue {
+  // background-color: $statusDoColor;
+  color: #3b9acd;
+}
+
+.null {
+  color: $inputColor;
+}
+
+.arrow {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  transition: all 0.2s linear;
+
+  &_open {
+    transform: rotateX(180deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .select {
+    padding: 8px 0;
+  }
+
+  .arrow {
+    top: 16px;
+  }
+
+  .menu {
+    width: 100.4%;
+    margin-left: -1.5px;
+    max-height: 181px;
+    margin-top: 8.5px;
+    &.bigWidth {
+      width: 100.4%;
+    }
+  }
+
+  .title {
+    margin-left: 14px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .option {
+    padding: 4px 10px 4px 14px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+@media (max-width: 570px) {
+  .menu {
+    width: 100.6%;
+    &.bigWidth {
+      width: 100.6%;
+    }
+  }
+}
+
+@media (max-width: 386px) {
+  .menu {
+    width: 100.8%;
+    &.bigWidth {
+      width: 100.8%;
+    }
+  }
+}

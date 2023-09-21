@@ -1,7 +1,6 @@
 @import "../../styles/variables.scss";
 
 .blockInfo {
-    margin-top: 35px;
     margin-bottom: 20px;
   
     &_title {
@@ -18,6 +17,9 @@
       font-size: 14px;
       line-height: auto;
       color: $primaryColor;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     &:last-child {

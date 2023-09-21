@@ -8,21 +8,28 @@ import { TCompany, TFile, TUpdateCompany } from "../../../types";
 import { ButtonCircle } from "../../../components/ButtonCircle/ButtonCircle";
 import { Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi, uploadFiles } from "../../../utils/api";
+import { addCommentApi, getListByIdApi, uploadFiles } from "../../../utils/api";
 import { Link } from "react-router-dom";
 import edit_white from "../../../images/icons/edit_white.svg";
 import { Popup } from "../../../components/Popup";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { updateCompany } from "../../../services/slices/company";
-import { deleteList, updateList } from "../../../services/slices/list";
+import { deleteList, getList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
-import { notFound } from "../../../utils/constants";
+import {
+  NOT_ASSIGNED,
+  NOT_ASSIGNED_DEAD,
+  notFound,
+} from "../../../utils/constants";
 import { validateEmail } from "../../../utils/utils-validate";
+
+import { TComment } from "../../../types/TComment";
+import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 
 type TCurrentList = {
   id: number;
+  address: string;
   name: string;
-  description: string;
   customer: string;
   files: Array<TFile>;
   company: {
@@ -32,6 +39,7 @@ type TCurrentList = {
     nameCompany: string;
     numberPhone: string;
   };
+  comments: TComment[];
 };
 
 //---------------------------------------------------------СТРАНИЦА РЕДАКТИРОВАНИЯ ЗАЯВКИ ДЛЯ МЕНЕДЖЕРА-------------------------------------------------------------------------
@@ -42,14 +50,16 @@ export const ApplicationsItem: FC = () => {
   const { companies, isError } = useAppSelector((state) => state.company);
   const { list } = useAppSelector((state) => state.list);
   const [codeValue, setCodeValue] = useState("");
+  const [codeValueError, setCodeValueError] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
   const [nameValue, setNameValue] = useState("");
   const [nameCompanyValue, setNameCompanyValue] = useState<string>("");
   const [customer, setCustomer] = useState<string>("");
   const [currentList, setCurrentList] = useState<TCurrentList>({
     id: 0,
-    name: "",
-    description: "",
+    address: "",
     customer: "",
+    name: "",
     files: [],
     company: {
       INN: "",
@@ -58,6 +68,7 @@ export const ApplicationsItem: FC = () => {
       nameCompany: "",
       numberPhone: "",
     },
+    comments: [],
   });
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [phoneValue, setPhoneValue] = useState("");
@@ -85,7 +96,7 @@ export const ApplicationsItem: FC = () => {
     INN: "",
     email: "",
   });
-
+console.log(currentList.files)
   //Выпадающий список
   useEffect(() => {
     if (right) {
@@ -145,6 +156,7 @@ export const ApplicationsItem: FC = () => {
   useEffect(() => {
     getListByIdApi(Number(location.pathname.slice(14))).then((res) => {
       setCurrentList(res);
+      console.log('ты5к')
       setCurrentCompany(res.company);
       setNameCompanyValue(res.company.nameCompany);
     });
@@ -179,29 +191,49 @@ export const ApplicationsItem: FC = () => {
     }
   };
 
+  useEffect(() => {
+    codeValue.length > 1 && codeValue.length < 120 && setCodeValueError(false);
+  }, [codeValue]);
+
   const handleUpdateList = () => {
-    if (files) {
-      uploadFiles(files).then((res) => {
+    if (codeValue != "") {
+      if (codeValue.length > 1 && codeValue.length < 120) {
+        setCodeValueError(false);
+      } else {
+        setCodeValueError(true);
+      }
+    }
+
+    if (!codeValueError) {
+      if (files) {
+        uploadFiles(files).then((res) => {
+          const listNew = {
+            id: currentList.id,
+            customer: customer === "" ? undefined : customer,
+            address: codeValue === "" ? undefined : codeValue,
+            idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
+            files: res,
+          };
+          dispatch(updateList(listNew));
+        });
+      } else {
         const listNew = {
           id: currentList.id,
           customer: customer === "" ? undefined : customer,
-          description: textareaValue === "" ? undefined : textareaValue,
-          name: codeValue === "" ? undefined : codeValue,
+          address: codeValue === "" ? undefined : codeValue,
           idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
-          files: res,
+          files: undefined,
         };
-        dispatch(updateList(listNew));
-      });
-    } else {
-      const listNew = {
-        id: currentList.id,
-        customer: customer === "" ? undefined : customer,
-        description: textareaValue === "" ? undefined : textareaValue,
-        name: codeValue === "" ? undefined : codeValue,
-        idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
-        files: undefined,
-      };
-      dispatch(updateList(listNew));
+        dispatch(updateList(listNew));      
+      }
+
+      setCustomer("")
+      setCodeValue("")
+      if (textareaValue != "") {
+        addCommentApi(currentList.id, user.id, textareaValue);
+        setTextareaValue("");
+      }
+
     }
   };
 
@@ -210,57 +242,59 @@ export const ApplicationsItem: FC = () => {
       <HeaderTop />
       <div className={`${styles.popup} ${styles.popup_manager}`}>
         <div className={styles.infomation}>
-          <h2 className={styles.conteiner_title}>Текущая информация</h2>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Название компании</p>
-            <p className={styles.blockText_text}>
-              {currentList.company.nameCompany}
-            </p>
-          </div>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Кодовое имя</p>
-            <p className={styles.blockText_text}>{currentList.name}</p>
-          </div>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Телефон</p>
-            <p className={styles.blockText_text}>
-              {currentList.company.numberPhone}
-            </p>
-          </div>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Почта</p>
-            <p className={styles.blockText_text}>
-              {currentList.company.email
-                ? currentList.company.email
-                : notFound.NOT_SPECIFIED}
-            </p>
-          </div>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>От кого заявка?</p>
-            <p className={styles.blockText_text}>{currentList.customer}</p>
-          </div>
+          <div>
+            <h2 className={styles.conteiner_title}>Текущая информация</h2>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Название компании</p>
+              <p className={styles.blockText_text}>
+                {currentList.company.nameCompany}
+              </p>
+            </div>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Кодовое имя</p>
+              <p className={styles.blockText_text}>
+                {currentList.name != "" ? currentList.name : NOT_ASSIGNED}
+              </p>
+            </div>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Телефон</p>
+              <p className={styles.blockText_text}>
+                {currentList.company.numberPhone}
+              </p>
+            </div>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Почта</p>
+              <p className={styles.blockText_text}>
+                {currentList.company.email
+                  ? currentList.company.email
+                  : notFound.NOT_SPECIFIED}
+              </p>
+            </div>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Адрес</p>
+              <p className={styles.blockText_text}>
+                {currentList.address ? currentList.address : NOT_ASSIGNED_DEAD}
+              </p>
+            </div>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>От кого заявка?</p>
+              <p className={styles.blockText_text}>{currentList.customer}</p>
+            </div>
 
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Комментарий</p>
-            <p className={styles.blockText_text}>
-              {currentList.description
-                ? currentList.description
-                : notFound.NO_COMMENTS}
-            </p>
-          </div>
-          <div className={styles.blockText}>
-            <p className={styles.blockText_title}>Файлы</p>
-            <ul className={styles.fileList}>
-              {currentList.files ? (
-                currentList.files.map((file) => (
-                  <li>
-                    <FileIcon name={file.name} url={file.url} />
-                  </li>
-                ))
-              ) : (
-                <li className={styles.blockText_text}>Файлов нет</li>
-              )}
-            </ul>
+            <div className={styles.blockText}>
+              <p className={styles.blockText_title}>Файлы</p>
+              <ul className={styles.fileList}>
+                {currentList.files ? (
+                  currentList.files.map((file) => (
+                    <li>
+                      <FileIcon name={file.name} url={file.url} />
+                    </li>
+                  ))
+                ) : (
+                  <li className={styles.blockText_text}>Файлов нет</li>
+                )}
+              </ul>
+            </div>
           </div>
         </div>
         <div className={styles.conteiner}>
@@ -328,10 +362,12 @@ export const ApplicationsItem: FC = () => {
             <div className={styles.manager__input}>
               <Input
                 type={"text"}
-                name={"Введите кодовое имя"}
-                text={"Кодовое имя"}
+                name={"Введите адрес"}
+                text={"Адрес объекта"}
                 value={codeValue}
                 setValue={setCodeValue}
+                error={codeValueError}
+                errorText={"Длина от 2 до 120"}
               />
             </div>
             <div className={styles.manager__input}>
@@ -348,6 +384,7 @@ export const ApplicationsItem: FC = () => {
                 setFiles={setFiles}
                 value={textareaValue}
                 setValue={setTextareaValue}
+                files={files}
               />
             </div>
           </form>
@@ -370,6 +407,11 @@ export const ApplicationsItem: FC = () => {
               Удалить
             </Link>
           </div>
+        </div>
+        <div className={styles.commentsManager}>
+          {" "}
+          <h2 className={styles.conteiner_title}>Комментарии</h2>
+          <CommentsBlock/>
         </div>
       </div>
 

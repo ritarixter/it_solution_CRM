@@ -7,7 +7,9 @@ export const access: TAccess = {
   FITTER: "Монтажник",
   ENGINEER: "Инженер",
   BUYER: "Закупщик",
-  VICEPREZIDENT: "Зам директора"
+  VICEPREZIDENT: "Зам директора",
+  LAWYER: "Юрист",
+  PLANNER: "Проектировщик",
 };
 
 export type TAccess = {
@@ -16,7 +18,9 @@ export type TAccess = {
   FITTER: string;
   ENGINEER: string;
   BUYER:string,
-  VICEPREZIDENT: string
+  VICEPREZIDENT: string,
+  LAWYER: string,
+  PLANNER:string
 };
 
 // export const URL_BACKEND = "http://backend.corp.itsl.tel";
@@ -25,6 +29,9 @@ export const URL_BACKEND = "http://localhost:8000";
 export const NOT_ASSIGNED = "Не назначено";
 
 export const NOT_ASSIGNED_DEAD = "Не назначен";
+
+export const NOT_ASSIGNED_DEAD_W = "Не назначена";
+export const NOT_COUNTED = "не подсчитано";
 
 export const notFound = {
   NO_FILES: "Файлов нет",

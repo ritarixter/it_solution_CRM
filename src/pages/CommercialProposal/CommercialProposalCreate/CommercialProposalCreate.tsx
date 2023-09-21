@@ -10,27 +10,27 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
-import { addCommercialProposalApi } from "../../../utils/api";
+import { addCommercialProposalApi, updateStepApi } from "../../../utils/api";
 import { Input } from "../../../components/Input";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const { list } = useAppSelector((state) => state.list);
+  const navigate = useNavigate();
   const location = useLocation();
-  const id_list = Number(location.pathname.slice(28));
+  const id_list = Number(location.pathname.slice(28));  
   const [items, setItems] = useState<Array<IProducts>>([
     {
       id: 0,
       order: 0,
       name: "",
-      units:"",
+      units: "",
       count: 0,
       price: 0,
       actualPrice: 0,
       date: "",
       totalPrice: 0,
-      marginalityPrice: 0
+      marginalityPrice: 0,
     },
   ]);
   const [currentItem, setCurrentItem] = useState<IProducts>(items[0]);
@@ -38,20 +38,34 @@ export const CommercialProposalCreate: FC = () => {
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
   const [errorItem, setErrorItem] = useState<boolean>(false);
+
   const handleClickCreateCP = () => {
     if (name.length > 30 || name.length < 2) {
       setNameError(true);
     } else {
       setNameError(false);
-      addCommercialProposalApi(name, id_list, items).then((res) => {
-        navigate(-1)
+      let arr = [...list];
+      const currentList = arr.filter((item) => item.id === id_list);
+      const summaBuy = items.reduce(
+        (total, item) => (total = total + item.totalPrice),
+        0
+      );
+ 
+      const summaSale = items.reduce(
+        (total, item) => (total = total + item.price*item.count),
+        0
+      );
+  
+      addCommercialProposalApi(name, id_list, items, String(summaBuy), String(summaSale)).then((res) => {
+        updateStepApi(currentList[0].step.id, 3);
+        navigate(-1);
       });
     }
   };
 
-  useEffect(()=> {
-    (name.length < 30 || name.length > 2) && setNameError(false)
-  },[name])
+  useEffect(() => {
+    (name.length < 30 || name.length > 2) && setNameError(false);
+  }, [name]);
 
   const dropHandler = (e: any, item: IProducts) => {
     e.preventDefault();
@@ -142,12 +156,12 @@ export const CommercialProposalCreate: FC = () => {
                     order: count,
                     name: "",
                     count: 0,
-                    units:"",
+                    units: "",
                     price: 0,
                     actualPrice: 0,
                     date: "",
                     totalPrice: 0,
-                    marginalityPrice: 0
+                    marginalityPrice: 0,
                   })
                 );
               }}
@@ -169,13 +183,13 @@ export const CommercialProposalCreate: FC = () => {
                       id: 0,
                       order: 0,
                       name: "",
-                      units:"",
+                      units: "",
                       count: 0,
                       price: 0,
                       actualPrice: 0,
                       date: "",
                       totalPrice: 0,
-                      marginalityPrice: 0
+                      marginalityPrice: 0,
                     },
                   ]);
                 }}

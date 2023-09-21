@@ -1,0 +1,151 @@
+@import "../../styles/variables.scss";
+.container {
+  display: flex;
+  gap: 150px;
+
+
+  &__files {
+    width: 400px
+  }
+}
+.block {
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: block;
+  scroll-behavior: smooth;
+  height:59vh;
+  max-width: 405px;
+  padding-right: 15px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $inputColor;
+    border-radius: 10px;
+    width: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+}
+
+.blockFiles {
+  margin-bottom: 50px;
+}
+.columns {
+  display: flex;
+  gap: 30px;
+
+  align-items: center;
+  &__item {
+    &:first-child {
+      width: 200px;
+    }
+
+    width: 150px;
+    display: flex;
+    align-items: center;
+  }
+  &__header {
+    margin-bottom: 14px;
+  }
+}
+
+.header {
+  color: $subtitleColor;
+}
+
+.close {
+  cursor: pointer;
+  transition: opacity 0.15s linear;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+
+  &__name {
+    margin-right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 350px;
+    display: block;
+
+  }
+
+  &__row {
+    display: flex;
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.input_file {
+  position: relative;
+  // display: flex;
+  // align-items: center;
+}
+.input_file_btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 16px;
+  width: 168px;
+
+  color: rgb(255 255 255);
+  font-family: "Montserrat", Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: $notifyColor;
+  height: 40px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: opacity 0.2s;
+}
+.input_file_text {
+  //padding: 0 10px;
+  margin-top: 7px;
+  font-size: 14px;
+  color: $inputCaption;
+
+  display: inline-block;
+}
+.input_file input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Hover/active */
+.input_file:hover .input_file_btn {
+  opacity: 0.75;
+}
+.input_file:active .input_file_btn {
+  background-color: $notifyColor;
+}
+
+/* Disabled */
+.input_file input[type="file"]:disabled + .input_file_btn {
+  background-color: #eee;
+}

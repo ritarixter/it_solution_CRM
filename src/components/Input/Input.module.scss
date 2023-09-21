@@ -21,13 +21,14 @@
   }
 
   &.error {
-    margin-bottom: 0;
+
     border: 1px solid $statusHard;
   }
 }
 
 .error {
   &_text {
+    line-height: 1;
     font-size: 13px;
     color: $statusHard;
   }

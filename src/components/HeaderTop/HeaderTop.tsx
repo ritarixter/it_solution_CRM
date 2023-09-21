@@ -24,15 +24,13 @@ export const HeaderTop: FC = () => {
       </div>
       {user ? (
         <div className={styles.block_users}>
-          <div className={styles.popup_notification}>
-            <img
-              src={bell}
-              alt="Уведомление"
-              className={styles.bell}
-              onClick={() => {
-                setIsOpenNotification(!openNotification);
-              }}
-            />
+          <div
+            className={styles.popup_notification}
+            onClick={() => {
+              setIsOpenNotification(!openNotification);
+            }}
+          >
+            <img src={bell} alt="Уведомление" className={styles.bell} />
             <img
               src={notice}
               alt="Кол-во сообщений"

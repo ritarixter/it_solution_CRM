@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height:80vh;
+    height: 80vh;
   }
 
   &__title {
@@ -162,6 +162,16 @@
 }
 
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ МЕНЕДЖЕРА---------------------------------------------------------------------------------------------------------------------------
+.commentsManager {
+  max-width: 600px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #fff;
+  padding-left: 66px;
+  padding-right: 50px;
+  padding-bottom: 62px;
+}
+
 .popup {
   display: flex;
   flex-direction: row;
@@ -171,12 +181,7 @@
   border-radius: 10px;
   width: 100%;
 
-  &_manager {
-    max-width: 880px;
-  }
-
   &_edit {
-    margin-top: 44px;
     max-width: 350px;
     display: flex;
     flex-direction: column;
@@ -208,13 +213,18 @@
   &_titleTree {
     margin-top: 35px;
     margin-bottom: 14px;
+    &_mt0 {
+      margin-top: 0;
+    }
   }
 }
 
 .infomation {
-  .infomation__container {
+  &__container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
   display: flex;
   flex-direction: column;
@@ -283,6 +293,7 @@
 
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ГЛАВНОЕГО ИНЖЕНЕРА---------------------------------------------------------------------------------------------------------------------------
 .tree {
+  position: relative;
   padding: 50px;
   display: flex;
   flex-direction: column;
@@ -290,12 +301,8 @@
 
   &__header {
     display: flex;
+    margin-bottom: 35px;
   }
-}
-
-.buttonCreate {
-  justify-content: flex-end;
-  margin-top: 20px;
 }
 
 .filesContainer {
@@ -339,10 +346,6 @@
   margin-right: 20px;
 }
 
-.excelButtons {
-  margin-top: 35px;
-}
-
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ЗАМ ДИРЕКТОРА---------------------------------------------------------------------------------------------------------------------------
 
 .blockUsers {
@@ -361,18 +364,24 @@
 
 .margin {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 63.5vh;
+  }
 
   &__table {
-    margin-top: 35px;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 
     &_cell {
-    width: 294px;
-    padding-bottom: 31px;
+      width: 294px;
+      padding-bottom: 31px;
     }
 
     &_text {
@@ -382,5 +391,72 @@
       font-weight: 400;
       line-height: normal;
     }
+  }
+}
+
+.buttonsAksynia {
+  display: flex;
+}
+
+.dropdownlist_padding {
+  margin-bottom: 8px;
+}
+
+.applications__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+//СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ЮРИСТОВ---------------------------------------------------------------------------------------------------------------------------
+
+.calendar {
+  max-width: 383px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &_block {
+    position: relative;
+  }
+
+  &_icon {
+    right: 21px;
+    top: 32px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  &_style {
+    border: 1px solid #c8c6c6;
+    border-radius: 10px;
+  }
+}
+
+.deadline {
+  max-width: 271px;
+  width: 100%;
+  background-color: $statusDoneColor;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 25px 34px 26px 23px;
+
+  &__week {
+    font-size: 24px;
+    font-weight: 800;
+    color: $primaryColor;
+    margin: 0;
+    margin-bottom: 26px;
+  }
+
+  &__day {
+    font-size: 15px;
+    font-weight: 400;
+    color: $mainColor;
+    margin-bottom: 36px;
   }
 }

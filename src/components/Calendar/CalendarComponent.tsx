@@ -1,18 +1,19 @@
 import React, { FC, useEffect, useState } from "react";
-import styles from "./Calendar.module.scss";
+import moment from "moment";
 import ReactCalendar from "react-calendar";
-import "./Calendar.css";
 import { TTask } from "../../types";
 import { formateDate } from "./../../utils/utils-date";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getTaskByDate } from "../../services/slices/task";
-import moment from "moment";
+import styles from "./Calendar.module.scss";
+import "./Calendar.css";
 
 export type TCalendar = {
-  tasks: Array<TTask>;
+  tasks?: Array<TTask>;
 };
 
-export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
+export const CalendarComponent: FC<TCalendar> = () => {
+  const { tasks } = useAppSelector((state) => state.task);
   const [task, setTask] = useState<Array<TTask>>([]);
   const [clickedDay, setClickedDay] = useState<String>();
   const dispatch = useAppDispatch();
@@ -29,48 +30,57 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
       else element[0].style.opacity = "1";
     }
 
-    dispatch(getTaskByDate(value.toJSON()));
+    dispatch(getTaskByDate(value.toJSON()));                          // для получения данных по выбранному дню
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
   };
 
   if (!clickedDay) {
-    dispatch(getTaskByDate(moment().format()));
-    setClickedDay(moment().format()); //КОСТЫЛЬ
+    dispatch(getTaskByDate(moment().format("yyyy-MM-DD")));           // по умолчанию выбран сег день
+    setClickedDay(moment().format());                                 // ЧТОБЫ ПРОПУСТИТЬ ЭТО УСЛОВИЕ
   }
 
-  const checkEvents = () => {
+  useEffect(() => {
+    setTask(tasks);
+    checkEvents();
+  }, [tasks]);
+
+  const checkEvents = () => {                                         // проверка задач по дням
     const element = document.getElementsByClassName(
       "react-calendar__tile"
     ) as HTMLCollectionOf<HTMLElement>;
-    if (element.length !== 0 && task.length != 0) {
-      for (let i = 0; i < element.length; i++) {
+    if (element.length !== 0 && task.length != 0) {                   // element это все кнопки (дни месяца и тп)
+      for (let i = 0; i < element.length; i++) {                      // ПРОБЕЖКА ПО КАЖДОМУ ЭЛЕМЕНТУ
         let day = element[i].children[0].ariaLabel?.split(" ")[0];
         day = day?.length !== 1 ? day : "0" + day;
         const month = parseMonth(
           element[i].children[0].ariaLabel?.split(" ")[1]
         );
         const year = element[i].children[0].ariaLabel?.split(" ")[2];
-        const thisDate = year + "-" + month + "-" + day;
-        for (let j = 0; j < task.length; j++) {
+        const thisDate = year + "-" + month + "-" + day;              // из каждого эл-та получаю дату чтобы переформировать в таком формате yy-mm-dd
+        for (let j = 0; j < task.length; j++) {                       // ПРОБЕЖКА ПО КАЖДОМУ ТАСКУ ДЛЯ СВЕРКИ ДАТЫ
+          // let taskOnCalendar = document.getElementsByClassName('taskOnCalendar')
+          let taskOnCalendar = document.createElement("div");
+          taskOnCalendar.id = "taskOnCalendar";
+          taskOnCalendar.className = "taskOnCalendar";
           if (
             thisDate == formateDate(task[j].endDate).split(",")[0] &&
-            !task[j].done
-          ) {
-            let taskOnCalendar = document.createElement("div");
-            taskOnCalendar.style.position = "absolute";
-            taskOnCalendar.style.width = "10px";
-            taskOnCalendar.style.height = "10px";
-            taskOnCalendar.style.background = "#F47633";
-            taskOnCalendar.style.borderRadius = "10px";
-            element[i].prepend(taskOnCalendar);
+            !task[j].done                 
+          ) {                                                         // ЕСЛИ ЕСТЬ ЗАДАЧА
+            setTimeout(() => {                                        // АСИНХ ЧТОБЫ ОБОЙТИ УДАЛЕНИЕ
+              element[i].prepend(taskOnCalendar);                     // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+            }, 0);
+          }
+          else {
+            document.getElementById('taskOnCalendar')?.remove();      // ЕСЛИ ЗАДАЧА БЫЛА УДАЛЕНА
           }
         }
       }
     }
+    else document.getElementById('taskOnCalendar')?.remove();         // ЕСЛИ ЗАДАЧ ВООБЩЕ НЕТ
     return <></>;
   };
 
-  const parseMonth = (month: string | undefined) => {
+  const parseMonth = (month: string | undefined) => {                 // текста перевожу в текстовый формат месяца
     switch (month) {
       case "января":
         return "01";
@@ -101,21 +111,18 @@ export const CalendarComponent: FC<TCalendar> = ({ tasks }) => {
     }
   };
 
-  const elementClick = (e: any) => {
-    setTimeout(() => {
+  const elementClick = (e: any) => {      // для случай перехода к след или пред месяц или год (можно было использовать useLayoutEffect)
+    setTimeout(() => {                    // чтобы сделать асинхронным (можно было использовать промисы)
       checkEvents();
     }, 0);
   };
 
-  useEffect(() => {
-    setTask(tasks);
-  }, [tasks]);
+
 
   return (
     <div className={styles.calendarTittleArea} onClick={(e) => elementClick(e)}>
-      <div>
-        <strong className={styles.calendarTittle}>Календарь</strong>
-      </div>
+      <strong className={styles.calendarTittle}>Календарь</strong>
+
       <div className="calendar-container">
         <ReactCalendar
           onActiveStartDateChange={checkEvents}

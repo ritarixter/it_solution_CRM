@@ -1,5 +1,5 @@
 export interface ICookieProps {
-  [name: string]: string | number | boolean | Date | undefined;
+[name: string]: string | number | boolean | Date | undefined;
   expires?: Date | number | string;
 }
 

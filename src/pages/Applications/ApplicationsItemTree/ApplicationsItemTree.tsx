@@ -8,12 +8,17 @@ import {
   Wrapper,
 } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
+import {
+  addCommentApi,
+  getListByIdApi,
+  updateStepApi,
+  uploadFiles,
+} from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList, TWorkAbdExecuter } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
-import { updateList } from "../../../services/slices/list";
+import { getList, updateList } from "../../../services/slices/list";
 import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
@@ -29,15 +34,17 @@ import { Performers } from "../../../components/Performers/Performers";
 import { Input } from "../../../components/Input";
 import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
 import { FilesBlock } from "../../../components/FilesBlock";
+import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
+
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();  
-  const { users } = useAppSelector((state) => state.user);
+  const location = useLocation();
+  const { users, user } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const [header, setHeader] = useState<
-    "Дерево" | "Изменить информацию" | "Исполнители" | "Файлы"
+    "Дерево" | "Изменить информацию" | "Исполнители" | "Файлы" | "Комментарии"
   >("Изменить информацию");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -85,9 +92,9 @@ export const ApplicationsItemTree: FC = () => {
       if (res.status) {
         setStatus(res.status);
       }
-      if (res.description) {
-        setTextareaValue(res.description);
-      }
+      // if (res.description) {
+      //   setTextareaValue(res.description);
+      // }
     });
   }, [list]);
 
@@ -113,16 +120,11 @@ export const ApplicationsItemTree: FC = () => {
 
   const handleChangeList = () => {
     if (engineerError || workNameValueError) {
-      console.log("валидация");
     } else {
       if (files) {
         uploadFiles(files).then((res) => {
           const listNew = {
             id: id_list,
-            description:
-              textareaValue === "" || textareaValue === currentList?.description
-                ? undefined
-                : textareaValue,
             files: res,
             name:
               workNameValue === currentList?.name ? undefined : workNameValue,
@@ -132,13 +134,11 @@ export const ApplicationsItemTree: FC = () => {
             users: engineer != engineerDefault ? [engineer.id] : undefined,
           };
           dispatch(updateList(listNew));
-          setFiles(undefined)
-
+          setFiles(undefined);
         });
       } else {
         const listNew = {
           id: id_list,
-          description: textareaValue === "" ? undefined : textareaValue,
           name: workNameValue === currentList?.name ? undefined : workNameValue,
           files: undefined,
           importance:
@@ -151,8 +151,12 @@ export const ApplicationsItemTree: FC = () => {
           engineer != engineerDefault &&
           updateStepApi(currentList?.step.id, 2);
       }
+dispatch(getList())
+      if (textareaValue != "") {
+        addCommentApi(id_list, user.id, textareaValue);
+        setTextareaValue("")
+      }
     }
-    
   };
 
   return (
@@ -196,14 +200,6 @@ export const ApplicationsItemTree: FC = () => {
                   {currentList?.address
                     ? currentList.address
                     : NOT_ASSIGNED_DEAD}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Комментарий</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.description
-                    ? currentList.description
-                    : notFound.NO_COMMENTS}
                 </p>
               </div>
 
@@ -279,6 +275,15 @@ export const ApplicationsItemTree: FC = () => {
             >
               Файлы
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Комментарии")}
+              className={`${styles.button__nav} ${
+                header === "Комментарии" && styles.active
+              }`}
+            >
+              Комментарии
+            </button>
           </div>
           {header === "Дерево" && (
             <ApplicationTree
@@ -339,8 +344,7 @@ export const ApplicationsItemTree: FC = () => {
                     workNameValue === currentList?.name &&
                     engineer.id === engineerDefault.id &&
                     importance === currentList?.importance &&
-                    status === currentList?.status &&
-                    textareaValue === currentList?.description &&
+                    status === currentList?.status && textareaValue === "" &&
                     !!!files
                   }
                   onClick={() => handleChangeList()}
@@ -351,8 +355,16 @@ export const ApplicationsItemTree: FC = () => {
           {header === "Исполнители" && (
             <Performers users={currentList?.users ? currentList?.users : []} />
           )}
-          {header === "Файлы" && 
-          <div className={styles.applications__container}><FilesBlock fileData={currentList?.files ? currentList?.files : []} /></div>}
+          {header === "Файлы" && (
+            <div className={styles.applications__container}>
+              <FilesBlock
+                fileData={currentList?.files ? currentList?.files : []}
+              />
+            </div>
+          )}
+                 {header === "Комментарии" && (
+            <CommentsBlock/>
+          )}
         </section>
       </div>
     </Wrapper>

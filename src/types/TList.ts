@@ -1,3 +1,4 @@
+import { TComment } from "./TComment";
 import { TCommercialProposal } from "./TCommercialProposal";
 import { TCompany } from "./TCompany";
 import { TFile } from "./TFile";
@@ -12,7 +13,6 @@ export type TList = {
   name: string;
   customer: string;
   address: string;
-  description: string | null;
   endDate: Date;
   status: string | null;
   importance: string | null;
@@ -22,6 +22,7 @@ export type TList = {
   works: TWork[];
   files: TFile[];
   step: TStep;
+  comments?: TComment[]
 };
 
 export type TUpdateList = {
@@ -30,7 +31,6 @@ export type TUpdateList = {
   name?: string;
   address?: string;
   customer?: string;
-  description?: string;
   files?: TFile[];
   status?: string;
   importance?: string;

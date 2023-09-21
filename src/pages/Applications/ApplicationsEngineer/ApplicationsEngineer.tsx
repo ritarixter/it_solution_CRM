@@ -3,7 +3,12 @@ import styles from "../Applications.module.scss";
 import { useLocation, useNavigate } from "react-router";
 import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
+import {
+  addCommentApi,
+  getListByIdApi,
+  updateStepApi,
+  uploadFiles,
+} from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList, TWorkAbdExecuter } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -22,15 +27,16 @@ import {
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 import { Performers } from "../../../components/Performers/Performers";
 import { FilesBlock } from "../../../components/FilesBlock";
+import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 
 export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
-  const { users } = useAppSelector((state) => state.user);
+  const { users, user } = useAppSelector((state) => state.user);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
   const [header, setHeader] = useState<
-    "Назначить бригаду" | "Исполнители" | "Файлы"
+    "Назначить бригаду" | "Исполнители" | "Файлы" | "Комментарии"
   >("Назначить бригаду");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -53,9 +59,6 @@ export const ApplicationsEngineer: FC = () => {
       if (res.status) {
         setStatus(res.status);
       }
-      if (res.description) {
-        setTextareaValue(res.description);
-      }
     });
   }, [list]);
 
@@ -72,10 +75,6 @@ export const ApplicationsEngineer: FC = () => {
       uploadFiles(files).then((res) => {
         const listNew = {
           id: id_list,
-          description:
-            textareaValue === "" || textareaValue === currentList?.description
-              ? undefined
-              : textareaValue,
           files: res,
           users: fittersID.length != 0 ? fittersID : undefined,
         };
@@ -87,7 +86,6 @@ export const ApplicationsEngineer: FC = () => {
     } else {
       const listNew = {
         id: id_list,
-        description: textareaValue === "" ? undefined : textareaValue,
         files: undefined,
         users: fittersID.length != 0 ? fittersID : undefined,
       };
@@ -96,7 +94,13 @@ export const ApplicationsEngineer: FC = () => {
         fittersID.length != 0 &&
         updateStepApi(currentList.step.id, 3.1);
     }
-    alert("Состав бригады обновлен");
+
+    if (textareaValue != "") {
+      addCommentApi(id_list, user.id, textareaValue);
+      setTextareaValue("")
+    }
+    setDataFitters([])
+    setFiles(undefined)
   };
 
   return (
@@ -139,14 +143,6 @@ export const ApplicationsEngineer: FC = () => {
                   {currentList?.address
                     ? currentList.address
                     : NOT_ASSIGNED_DEAD}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Комментарий</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.description
-                    ? currentList.description
-                    : notFound.NO_COMMENTS}
                 </p>
               </div>
 
@@ -211,6 +207,15 @@ export const ApplicationsEngineer: FC = () => {
             >
               Файлы
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Комментарии")}
+              className={`${styles.button__nav} ${
+                header === "Комментарии" && styles.active
+              }`}
+            >
+              Комментарии
+            </button>
           </div>
           {header === "Назначить бригаду" && (
             <div className={styles.popup_edit}>
@@ -233,15 +238,10 @@ export const ApplicationsEngineer: FC = () => {
               <div className={styles.editButton}>
                 <BlockButton
                   text={"Изменить"}
-                  disabled={
-                    fitters.length === 0 &&
-                    textareaValue === currentList?.description &&
-                    !!!files
-                  }
+                  disabled={dataFitters.length === 0 && !!!files && textareaValue===""}
                   onClick={() => handleChangeList()}
                 />
               </div>
-              
             </div>
           )}
           {header === "Исполнители" && (
@@ -253,6 +253,9 @@ export const ApplicationsEngineer: FC = () => {
                 fileData={currentList?.files ? currentList?.files : []}
               />
             </div>
+          )}
+                {header === "Комментарии" && (
+            <CommentsBlock/>
           )}
         </section>
       </div>

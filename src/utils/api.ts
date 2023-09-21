@@ -172,7 +172,6 @@ export function addListApi(
   address: string,
   customer: string,
   INNCompany: string,
-  description?: string,
   files?: Array<TFile>
 ) {
   return fetch(`${URL}/list`, {
@@ -182,7 +181,6 @@ export function addListApi(
       address: address,
       customer: customer,
       INNCompany: INNCompany,
-      description: description,
       files: files,
     }),
   }).then(responseCheck);
@@ -463,6 +461,48 @@ export function updateStepApi(id: number, idStep: number) {
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       idStep: idStep,
+    }),
+  }).then(responseCheck);
+}
+
+//---------------------------------------------------------------COMMENT-------------------------------------------------------------------------------
+export function getCommentsApi() {
+  return fetch(`${URL}/comment`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteCommentApi(id: number) {
+  return fetch(`${URL}/comment/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function addCommentApi(listId: number, userId: number, comment: string) {
+  return fetch(`${URL}/comment`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      userId: userId,
+      comment: comment,
+    }),
+  }).then(responseCheck);
+}
+
+export function updateCommentApi(
+  listId: number,
+  userId: number,
+  comment: string
+) {
+  return fetch(`${URL}/comment`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      userId: userId,
+      comment: comment,
     }),
   }).then(responseCheck);
 }

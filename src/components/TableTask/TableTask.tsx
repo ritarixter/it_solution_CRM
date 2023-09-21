@@ -49,7 +49,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
         : "",
       status: item.status || NOT_ASSIGNED,
       importance: item.importance || NOT_ASSIGNED,
-      description: item.description || "",
     }));
     downloadExcel({
       fileName: "list_table",
@@ -65,7 +64,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
           "Исполнители",
           "Статус",
           "Приоритет",
-          "Описание",
         ],
         body: exportArr,
       },

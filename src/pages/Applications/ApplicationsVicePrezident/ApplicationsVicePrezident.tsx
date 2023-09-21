@@ -85,14 +85,6 @@ export const ApplicationsVicePrezident: FC = () => {
                     : NOT_ASSIGNED_DEAD}
                 </p>
               </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Комментарий</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.description
-                    ? currentList.description
-                    : notFound.NO_COMMENTS}
-                </p>
-              </div>
 
               <div className={styles.blockInf}>
                 <span>Статус: </span>

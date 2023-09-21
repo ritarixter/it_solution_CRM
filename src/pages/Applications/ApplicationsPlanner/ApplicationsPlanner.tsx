@@ -17,7 +17,7 @@ import {
   formateDateOnlyTime,
   formateDateShort,
 } from "../../../utils/utils-date";
-import { titles, titlesPlanner } from "../../CommercialProposal/constants";
+import { titlesPlanner } from "../../CommercialProposal/constants";
 import { v4 as uuidv4 } from "uuid";
 export const ApplicationsPlanner: FC = () => {
   const location = useLocation();
@@ -126,14 +126,7 @@ export const ApplicationsPlanner: FC = () => {
                     : NOT_ASSIGNED_DEAD}
                 </p>
               </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Комментарий</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.description
-                    ? currentList.description
-                    : notFound.NO_COMMENTS}
-                </p>
-              </div>
+
 
               <div className={styles.blockInf}>
                 <span>Статус: </span>

@@ -20,13 +20,14 @@ import { v4 as uuidv4 } from "uuid";
 import { titles } from "../../CommercialProposal/constants";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
+import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 
 export const ApplicationsBuyer: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
-  const [header, setHeader] = useState<"КП" | "Файлы">("КП");
+  const [header, setHeader] = useState<"КП" | "Файлы" | "Комментарии">("КП");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
 
   const [CP, setCP] = useState<TCommercialProposal>({
@@ -36,7 +37,7 @@ export const ApplicationsBuyer: FC = () => {
     updatedAt: new Date(),
     products: [],
     summaSale: "",
-    summaBuy:"",
+    summaBuy: "",
     marginality: "",
   });
 
@@ -86,9 +87,9 @@ export const ApplicationsBuyer: FC = () => {
         files: res,
       };
       dispatch(updateList(listNew));
-      setFiles(undefined)
+      setFiles(undefined);
     });
-}
+  };
 
   return (
     <Wrapper>
@@ -128,14 +129,6 @@ export const ApplicationsBuyer: FC = () => {
                   {currentList?.address
                     ? currentList.address
                     : NOT_ASSIGNED_DEAD}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Комментарий</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.description
-                    ? currentList.description
-                    : notFound.NO_COMMENTS}
                 </p>
               </div>
 
@@ -182,8 +175,16 @@ export const ApplicationsBuyer: FC = () => {
             >
               Файлы
             </button>
+            <button
+              type="button"
+              onClick={() => setHeader("Комментарии")}
+              className={`${styles.button__nav} ${
+                header === "Комментарии" && styles.active
+              }`}
+            >
+              Комментарии
+            </button>
           </div>
-
           {header === "КП" && (
             <div className={styles.infomation__container}>
               {CP && CP.id != 0 ? (
@@ -291,27 +292,26 @@ export const ApplicationsBuyer: FC = () => {
                   </div>
                 </>
               ) : (
-                <div className={stylesCP.container1}>
-                  {" "}
-                  <h2 className={styles.conteiner_titleTree}>
-                    КП еще не создано
-                  </h2>
-                </div>
+                <p>КП еще не создано</p>
               )}
             </div>
           )}
-
           {header === "Файлы" && (
-              <div className={styles.infomation__container}>
+            <div className={styles.infomation__container}>
               <FilesBlock
                 fileData={currentList?.files ? currentList?.files : []}
                 addFile={true}
                 setFiles={setFiles}
                 files={files}
               />
-              <BlockButton text={"Сохранить"} disabled={files === undefined} onClick={handleUploadFiles} />
+              <BlockButton
+                text={"Сохранить"}
+                disabled={files === undefined}
+                onClick={handleUploadFiles}
+              />
             </div>
-          )}
+          )}{" "}
+          {header === "Комментарии" && <CommentsBlock />}
         </div>
       </div>
     </Wrapper>

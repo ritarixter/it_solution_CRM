@@ -162,6 +162,17 @@
 }
 
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ МЕНЕДЖЕРА---------------------------------------------------------------------------------------------------------------------------
+.commentsManager {
+  max-width: 600px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #fff;
+  padding-left: 66px;
+  padding-right: 50px;
+  padding-bottom: 62px;
+  
+}
+
 .popup {
   display: flex;
   flex-direction: row;
@@ -171,9 +182,7 @@
   border-radius: 10px;
   width: 100%;
 
-  &_manager {
-    max-width: 880px;
-  }
+
 
   &_edit {
     max-width: 350px;
@@ -291,13 +300,15 @@
   padding: 50px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+
 
   &__header {
     display: flex;
     margin-bottom: 35px;
   }
 }
+
+
 
 .buttonCreate {
   justify-content: flex-end;
@@ -435,8 +446,8 @@
   }
 
   &_style {
-    border: 1px solid #C8C6C6;
-    border-radius: 10px
+    border: 1px solid #c8c6c6;
+    border-radius: 10px;
   }
 }
 

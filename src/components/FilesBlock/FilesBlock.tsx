@@ -115,11 +115,13 @@ export const FilesBlock: FC<TFilesBlock> = ({
           )}
         </div>
       )}
+      {data && data.length != 0 ? 
       <div className={styles.block}>
         <div className={`${styles.columns} ${styles.columns__header}`}>
           <p className={`${styles.columns__item} ${styles.header}`}>Название</p>
           <p className={`${styles.columns__item} ${styles.header}`}>Отдел</p>
         </div>
+
 
         <ul>
           {data.map((file) => (
@@ -138,36 +140,39 @@ export const FilesBlock: FC<TFilesBlock> = ({
                   {file.access === access.PLANNER && access.PLANNER}
                 </p>
               </div>
-              <img
-                src={close}
-                alt="Закрыть"
-                className={styles.close}
-                onClick={() => {
-                  deleteListFileApi(id_list, file.url, file.access)
-                    .then((res) => {
-                      deleteFilesApi(file.url)
-                        .then((res) => {
-                          if (res) {
-                            dispatch(getList());
-                          }
-                        })
-                        .catch((e) => {
-                          if (e === 404) {
-                            alert("Файл не найден");
-                          }
-                        });
-                    })
-                    .catch((e) => {
-                      if (e === 403) {
-                        alert("Вы не можете удалять чужие файлы");
-                      }
-                    });
-                }}
-              />
+
+                <img
+                  src={close}
+                  alt="Закрыть"
+                  className={styles.close}
+                  onClick={() => {
+                    deleteListFileApi(id_list, file.url, file.access)
+                      .then((res) => {
+                        deleteFilesApi(file.url)
+                          .then((res) => {
+                            if (res) {
+                              dispatch(getList());
+                            }
+                          })
+                          .catch((e) => {
+                            if (e === 404) {
+                              alert("Файл не найден");
+                            }
+                          });
+                      })
+                      .catch((e) => {
+                        if (e === 403) {
+                          alert("Вы не можете удалять чужие файлы");
+                        }
+                      });
+                  }}
+                />
+           
             </li>
           ))}
         </ul>
-      </div>
+    
+      </div>    : <p>Файлы не добавлены</p>}
     </section>
   );
 };

@@ -282,7 +282,7 @@ export const Applications: FC = () => {
                   textTitle={"Создание компании"}
                   disabledButton={
                     nameCompanyValue === "" ||
-                    INNValue.length != 10 ||
+                    INNValue.length > 12 || INNValue.length < 10 ||
                     nameValue.length < 2 ||
                     phoneValue === ""
                   }
@@ -297,7 +297,7 @@ export const Applications: FC = () => {
                     />
                     <Input
                       type={"text"}
-                      name={"Введите ИНН (10 символов)"}
+                      name={"Введите ИНН (10 или 12 символов)"}
                       text={"ИНН*"}
                       value={INNValue}
                       setValue={setINNValue}

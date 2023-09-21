@@ -7,7 +7,7 @@ import { StatusBlock } from "../../StatusBlock/StatusBlock";
 import { v4 as uuidv4 } from "uuid";
 import { formateDateShort } from "../../../utils/utils-date";
 import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { FileIcon } from "../../File/FileIcon";
 import {
   NOT_ASSIGNED,
@@ -28,12 +28,12 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
   currentAccess,
 }) => {
   const navigate = useNavigate();
-
+  const location = useLocation()
   
   return (
     <>
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА МИНИ-ВЕРСИЯ */}
-      {mini && currentAccess === access.SUPERUSER && (
+      {(mini && currentAccess === access.SUPERUSER && location.pathname != "/applications/history") && (
         <tr
           onClick={() => navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
@@ -74,7 +74,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
         </tr>
       )}{" "}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ГЛАВНОГО ИНЖЕНЕРА ПОЛНАЯ ВЕРСИЯ */}
-      {!mini && currentAccess === access.SUPERUSER && (
+      {(!mini && currentAccess === access.SUPERUSER && location.pathname != "/applications/history") && (
         <tr
           onClick={() => navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
@@ -133,7 +133,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
         </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ ИНЖЕНЕРА */}
-      {!mini && currentAccess === access.ENGINEER && (
+      {(!mini && currentAccess === access.ENGINEER && location.pathname != "/applications/history") && (
         <tr
           onClick={() => navigate(`/applications/${item.id}`)}
           className={`${styles.row} ${
@@ -192,7 +192,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
         </tr>
       )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}
-      {mini && currentAccess === access.MANAGER && (
+      {(mini && currentAccess === access.MANAGER && location.pathname != "/applications/history")&& (
         <tr
           className={`${styles.row} ${
             mini ? styles.row_mini : styles.row_maxi
@@ -211,6 +211,27 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               "."}
           </td>
           <td key={uuidv4()}>{item.company.numberPhone}</td>
+          <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
+        </tr>
+      )}
+
+            {/* ОТОБРАЖЕНИЕ ИСТОРИИ ЗАЯВОК */}
+            {(mini && (currentAccess === access.SUPERUSER || currentAccess === access.VICEPREZIDENT) && location.pathname === "/applications/history")&& (
+        <tr
+          className={`${styles.row} ${
+            mini ? styles.row_mini : styles.row_maxi
+          } ${styles.link}`}
+          onClick={() => navigate(`/applications/${item.id}`)}
+        >
+          <td key={uuidv4()}>{`Заявка №${item.id}`}</td>
+          <td key={uuidv4()}>{item.company.nameCompany}</td>
+          <td key={uuidv4()}>
+            30000
+          </td>
+          <td key={uuidv4()}>
+            50000
+          </td>
+          <td key={uuidv4()}><StatusBlock type={'Закончено'} /></td>
           <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
         </tr>
       )}

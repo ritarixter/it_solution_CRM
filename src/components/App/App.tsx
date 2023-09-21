@@ -33,7 +33,7 @@ import {
 } from "../../pages/CommercialProposal";
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 import { getStock } from "../../services/slices/stock";
-import { ApplicationsBuyer } from "../../pages/Applications";
+import { ApplicationsBuyer, ApplicationsHistory } from "../../pages/Applications";
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { CommercialProposalVicePrezident } from "../../pages/CommercialProposal/CommercialProposaVicePrezident/CommercialProposalVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
@@ -79,6 +79,15 @@ export const App: FC = () => {
           element={
             <ProtectedRoute>
               <Applications />
+            </ProtectedRoute>
+          }
+        />
+
+<Route
+          path="/applications/history"
+          element={
+            <ProtectedRoute>
+              <ApplicationsHistory />
             </ProtectedRoute>
           }
         />

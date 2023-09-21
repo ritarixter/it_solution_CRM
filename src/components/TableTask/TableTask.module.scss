@@ -7,7 +7,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 1688px;
+  max-width: 1688px;
+  width: 100%;
   padding: 30px 15px;
   box-sizing: border-box;
   &.mini {
@@ -23,6 +24,11 @@
   line-height: 24px;
   color: $dashboardTitleColor;
   margin: 0;
+
+  &__block {
+    display: flex;
+    gap: 10px;
+  }
 }
 .header {
   display: flex;
@@ -62,12 +68,14 @@
   }
   &_mini {
     column-gap: 8px;
-    grid-template-columns: minmax(120px,1fr) minmax(123px,1fr) 140px minmax(110px,1fr) minmax(132px,1fr) minmax(85px,1fr);
+    grid-template-columns: minmax(120px, 1fr) minmax(123px, 1fr) 140px minmax(
+        110px,
+        1fr
+      ) minmax(132px, 1fr) minmax(85px, 1fr);
     & > td {
       text-overflow: ellipsis;
-      white-space: nowrap; 
+      white-space: nowrap;
       overflow: hidden;
-
     }
   }
   & > li {
@@ -88,9 +96,8 @@
     }
   }
 
-  &::after{
-    content: '';
-    
+  &::after {
+    content: "";
   }
 }
 
@@ -132,4 +139,11 @@
 .error {
   font-size: 14px;
   margin: 0;
+}
+
+.historyButton {
+  color: $subtitleColor;
+  font-size: 13px;
+  cursor: pointer;
+  text-underline-offset:3px;
 }

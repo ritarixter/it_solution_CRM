@@ -45,9 +45,9 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
   useEffect(() => {
-    let arr = [...stocks];
+    let arr = stocks ? [...stocks] : [];
     setAllProducts(arr.map((item) => item.name));
-  }, [stocks]);
+  }, []);
 
   const dragStartHandler = (
     e: DragEvent<HTMLTableRowElement>,

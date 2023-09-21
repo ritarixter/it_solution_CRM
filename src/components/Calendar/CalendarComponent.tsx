@@ -30,13 +30,13 @@ export const CalendarComponent: FC<TCalendar> = () => {
       else element[0].style.opacity = "1";
     }
 
-    dispatch(getTaskByDate(value.toJSON())); // для получения данных по выбранному дню
+    dispatch(getTaskByDate(value.toJSON()));                          // для получения данных по выбранному дню
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
   };
 
   if (!clickedDay) {
-    dispatch(getTaskByDate(moment().format())); // по умолчанию выбран сег день
-    setClickedDay(moment().format()); //
+    dispatch(getTaskByDate(moment().format("yyyy-MM-DD")));           // по умолчанию выбран сег день
+    setClickedDay(moment().format());                                 // ЧТОБЫ ПРОПУСТИТЬ ЭТО УСЛОВИЕ
   }
 
   useEffect(() => {
@@ -44,48 +44,43 @@ export const CalendarComponent: FC<TCalendar> = () => {
     checkEvents();
   }, [tasks]);
 
-  const checkEvents = () => {
-    // проверка задач по дням
+  const checkEvents = () => {                                         // проверка задач по дням
     const element = document.getElementsByClassName(
       "react-calendar__tile"
     ) as HTMLCollectionOf<HTMLElement>;
-    if (element.length !== 0 && task.length != 0) {
-      // element это все кнопки (дни месяца и тп)
-      for (let i = 0; i < element.length; i++) {
-        // ПРОБЕЖКА ПО КАЖДОМУ ЭЛЕМЕНТУ
+    if (element.length !== 0 && task.length != 0) {                   // element это все кнопки (дни месяца и тп)
+      for (let i = 0; i < element.length; i++) {                      // ПРОБЕЖКА ПО КАЖДОМУ ЭЛЕМЕНТУ
         let day = element[i].children[0].ariaLabel?.split(" ")[0];
         day = day?.length !== 1 ? day : "0" + day;
         const month = parseMonth(
           element[i].children[0].ariaLabel?.split(" ")[1]
         );
         const year = element[i].children[0].ariaLabel?.split(" ")[2];
-        const thisDate = year + "-" + month + "-" + day; // из каждого эл-та получаю дату чтобы переформировать в таком формате yy-mm-dd
-        for (let j = 0; j < task.length; j++) {
-          // ПРОБЕЖКА ПО КАЖДОМУ ТАСКУ ДЛЯ СВЕРКИ ДАТЫ
+        const thisDate = year + "-" + month + "-" + day;              // из каждого эл-та получаю дату чтобы переформировать в таком формате yy-mm-dd
+        for (let j = 0; j < task.length; j++) {                       // ПРОБЕЖКА ПО КАЖДОМУ ТАСКУ ДЛЯ СВЕРКИ ДАТЫ
           // let taskOnCalendar = document.getElementsByClassName('taskOnCalendar')
           let taskOnCalendar = document.createElement("div");
           taskOnCalendar.id = "taskOnCalendar";
           taskOnCalendar.className = "taskOnCalendar";
           if (
             thisDate == formateDate(task[j].endDate).split(",")[0] &&
-            !task[j].done
-          ) {
-            setTimeout(() => {
-              element[i].prepend(taskOnCalendar); // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
+            !task[j].done                 
+          ) {                                                         // ЕСЛИ ЕСТЬ ЗАДАЧА
+            setTimeout(() => {                                        // АСИНХ ЧТОБЫ ОБОЙТИ УДАЛЕНИЕ
+              element[i].prepend(taskOnCalendar);                     // ДЛЯ ПОКАЗА СОЗДАННОЙ ЗАДАЧИ
             }, 0);
           }
           else {
-            document.getElementById('taskOnCalendar')?.remove();
+            document.getElementById('taskOnCalendar')?.remove();      // ЕСЛИ ЗАДАЧА БЫЛА УДАЛЕНА
           }
         }
       }
     }
-    else document.getElementById('taskOnCalendar')?.remove();
+    else document.getElementById('taskOnCalendar')?.remove();         // ЕСЛИ ЗАДАЧ ВООБЩЕ НЕТ
     return <></>;
   };
 
-  const parseMonth = (month: string | undefined) => {
-    // текста перевожу в текстовый формат месяца
+  const parseMonth = (month: string | undefined) => {                 // текста перевожу в текстовый формат месяца
     switch (month) {
       case "января":
         return "01";
@@ -116,10 +111,8 @@ export const CalendarComponent: FC<TCalendar> = () => {
     }
   };
 
-  const elementClick = (e: any) => {
-    // для случай перехода к след или пред месяц или год (можно было использовать useLayoutEffect)
-    setTimeout(() => {
-      // чтобы сделать асинхронным (можно было использовать промисы)
+  const elementClick = (e: any) => {      // для случай перехода к след или пред месяц или год (можно было использовать useLayoutEffect)
+    setTimeout(() => {                    // чтобы сделать асинхронным (можно было использовать промисы)
       checkEvents();
     }, 0);
   };

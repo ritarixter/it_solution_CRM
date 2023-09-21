@@ -205,6 +205,7 @@ export const ApplicationsLawyer: FC = () => {
               <BlockButton
                 text={"Сохранить"}
                 onClick={() => setShowDeadline(true)}
+                disabled={deadline === deadline}
               />
             </div>
               ) : (

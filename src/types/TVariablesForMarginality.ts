@@ -15,4 +15,5 @@ export type TVariablesForMarginality = {
     summaRecast: number;        // Сумма пеработки
     recycling: number;          // Количество переработанных часов
     unforeseen:number;          // Затраты непредвиденные
+    marginality: number;
 }

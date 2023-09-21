@@ -63,7 +63,6 @@ export const ApplicationsLawyer: FC = () => {
     setOpenCalendar(false);
     // для получения данных по выбранному дню
     // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
-    console.log(new Date(value).getDay());
   };
 
   return (
@@ -119,7 +118,7 @@ export const ApplicationsLawyer: FC = () => {
               <BlockButton
                 text={"Сохранить"}
                 onClick={() => setShowDeadline(true)}
-                disabled={deadline === deadline}
+                disabled={deadline === "Выберите дату"}
               />
             </div>
           ) : (

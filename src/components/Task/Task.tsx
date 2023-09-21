@@ -60,7 +60,7 @@ export const Task: FC<ITask> = ({ tasksByDay }) => {
   ) => {
     let date = new Date(selectedDay);       // ДАТА ДЛЯ ЗАДАЧИ
     const times = time?.split(":");
-    date?.setHours(Number(times![0]) + 3, Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item
+    date?.setUTCHours(Number(times![0]), Number(times![1]), 0, 0); //КОСТЫЛЬ КАК В Item // УЖЕ НЕ КОСТЫЛЬ
     dispatch(addTask(false, status, date, name, description));
     setPopupOpen(false);
  

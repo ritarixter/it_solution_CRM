@@ -94,18 +94,6 @@ export const deleteTask: AppThunk = (id: number, date: Date) => (dispatch: AppDi
     .then((res) => {
       dispatch(getTask());
       dispatch(getTaskByDate(date));
-      
-      // getTaskByDateApi(date)              // НА ЭТАПЕ ТЕСТИРОВАНИЯ
-      //   .then((res) => {
-      //     dispatch(setTask(res));         // НА ЭТАПЕ ТЕСТИРОВАНИЯ
-      //   })
-      //   .catch((err) => {
-      //     dispatch(setError(true));
-      //     console.log(err);
-      //   })
-      //   .finally(() => {
-      //     dispatch(setLoading(false));
-      //   });
     })
     .catch((err) => {
       dispatch(setError(true));

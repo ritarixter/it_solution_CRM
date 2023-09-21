@@ -54,7 +54,6 @@ export const PopupAddTask: FC<TPopupAddTask> = ({
       setDescription(task.description || "");
 
       setStatus(task.status);
-      console.log(task.status);
       setTime(formateDateOnlyTime(task.endDate));
 
       setNameDefault(task.title);

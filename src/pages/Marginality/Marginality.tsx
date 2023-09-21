@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../components/BlockMarginality/BlockMarginality";
 import moment from "moment";
 import "moment-weekday-calc";
+import { TCommercialProposalWithVariables } from "../../types/TCommercialProposal";
 moment.locale();
 
 declare module "moment" {
@@ -32,7 +33,7 @@ declare module "moment" {
 }
 
 export const Marginality: FC = () => {
-  const [CP, setCP] = useState<TCommercialProposal>({
+  const [CP, setCP] = useState<TCommercialProposalWithVariables>({
     id: 0,
     name: " ",
     createdAt: new Date(),
@@ -41,6 +42,25 @@ export const Marginality: FC = () => {
     summaSale: "",
     summaBuy: "",
     marginality: "",
+    variablesForMarginality: {
+      materialPurchase: 0, //Сумма закупки материала
+      dateStart: new Date(), // Дата начала работ
+      dateEnd: new Date(), // Фактический срок окончания стройки
+      bribe: 0, // Взятка
+      ticketHead: 0, // Билеты руководители
+      ticketFitter: 0, // Билеты монтажники
+      transport: 0, // Доставка транспортной
+      workingDay: 0, // Количество дней стройки
+      constructionDays: 0, // Количество рабочих дней стройки
+      fitter: 0, // Количество монтажников
+      summaFinalWork: 0, // Сумма работ наша окончательная
+      travelExpenses: 0, // Затраты на командировочные в день
+      housing: 0, // Затраты на жилье
+      summaRecast: 0, // Сумма пеработки
+      recycling: 0, // Количество переработанных часов
+      unforeseen: 0, // Затраты непредвиденные
+      marginality: 0,
+    },
   });
   const navigate = useNavigate();
   const location = useLocation();
@@ -106,7 +126,7 @@ export const Marginality: FC = () => {
           [1, 2, 3, 4, 5],
           getExclusionsDates()
         )
-      ); // расчет календарных дней
+      ); // расчет рабочих дней
       setAllWorkDay(
         // расчет всех дней
         moment().isoWeekdayCalc(startWork, endWork, [1, 2, 3, 4, 5, 6, 7])
@@ -187,37 +207,79 @@ export const Marginality: FC = () => {
   ]);
 
   useEffect(() => {
-    getListByIdApi(id_list).then((res) => {
-      setCP(res.commercialProposal);
-      setStartWork(res.commercialProposal.variablesForMarginality.dateStart);
-      setEndWork(res.commercialProposal.variablesForMarginality.dateEnd);
-      setBribe(res.commercialProposal.variablesForMarginality.bribe);
-      setTicketHead(res.commercialProposal.variablesForMarginality.ticketHead);
-      setTicketFitter(
-        res.commercialProposal.variablesForMarginality.ticketFitter
-      );
-      setTransport(res.commercialProposal.variablesForMarginality.transport);
-      setWorkingDay(res.commercialProposal.variablesForMarginality.workingDay);
-      setAllWorkDay(
-        res.commercialProposal.variablesForMarginality.constructionDays
-      );
-      setFitter(res.commercialProposal.variablesForMarginality.fitter);
-      setSummaFinalWork(
-        res.commercialProposal.variablesForMarginality.summaFinalWork
-      );
-      setTravelExpenses(
-        res.commercialProposal.variablesForMarginality.travelExpenses
-      );
-      setHousing(res.commercialProposal.variablesForMarginality.housing);
-      setSummaRecycling(
-        res.commercialProposal.variablesForMarginality.summaRecast
-      );
-      setRecycling(res.commercialProposal.variablesForMarginality.recycling);
-      setUnforeseen(res.commercialProposal.variablesForMarginality.unforeseen);
-      setMarginality(
-        res.commercialProposal.variablesForMarginality.marginality
-      );
-    });
+    getListByIdApi(id_list).then(
+      (res: { commercialProposal: TCommercialProposalWithVariables }) => {
+        setCP(res.commercialProposal);
+        setStartWork(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.dateStart
+            ? res.commercialProposal.variablesForMarginality.dateStart
+            : new Date()
+        );
+        setEndWork(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.dateEnd
+            ? res.commercialProposal.variablesForMarginality.dateEnd
+            : new Date()
+        );
+        setBribe(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.bribe
+        );
+        setTicketHead(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.ticketHead
+        );
+        setTicketFitter(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.ticketFitter
+        );
+        setTransport(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.transport
+        );
+        setWorkingDay(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.workingDay
+        );
+        setAllWorkDay(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.constructionDays
+        );
+        setFitter(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.fitter
+        );
+        setSummaFinalWork(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.summaFinalWork
+        );
+        setTravelExpenses(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.travelExpenses
+        );
+        setHousing(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.housing
+        );
+        setSummaRecycling(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.summaRecast
+        );
+        setRecycling(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.recycling
+        );
+        setUnforeseen(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.unforeseen
+        );
+        setMarginality(
+          res.commercialProposal.variablesForMarginality &&
+            res.commercialProposal.variablesForMarginality.marginality
+        );
+      }
+    );
   }, []);
 
   return (
@@ -246,7 +308,7 @@ export const Marginality: FC = () => {
             <div className={styles.blockSumm__one}>
               <p className={styles.blockSumm__one_title}>Налог 6%</p>
               <p className={styles.blockSumm__one_text}>{tax}</p>{" "}
-              {/*Сделать формулу рассчета налога от суммы */}
+              {/*Сделать формулу расчета налога от суммы */}
             </div>
           </div>
           <div className={styles.blockTable}>
@@ -423,7 +485,8 @@ export const Marginality: FC = () => {
                   },
                 };
                 updateCommercialProposalApi(newCommercialProposal).then(
-                  (res) => { });
+                  (res) => {}
+                );
                 navigate(`/applications/${id_list}`);
               }}
               style={true}

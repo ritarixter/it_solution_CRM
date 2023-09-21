@@ -2,14 +2,10 @@ import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss";
 import { useLocation, useNavigate } from "react-router";
-import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
-import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { IProducts, TCommercialProposal, TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { FileIcon } from "../../../components/File/FileIcon";
-import { NOT_ASSIGNED_DEAD, notFound } from "../../../utils/constants";
 import { downloadExcel } from "react-export-table-to-excel";
 import { ExcelButton } from "../../../components/ExcelButton/ExcelButton";
 import {
@@ -21,13 +17,15 @@ import { titles } from "../../CommercialProposal/constants";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
+import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 
 export const ApplicationsBuyer: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
-  const [header, setHeader] = useState<"КП" | "Файлы" | "Комментарии">("КП");
+  const headerData = ["КП", "Файлы", "Комментарии"];
+  const [header, setHeader] = useState<string>("КП");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
 
   const [CP, setCP] = useState<TCommercialProposal>({
@@ -92,228 +90,136 @@ export const ApplicationsBuyer: FC = () => {
   };
 
   return (
-    <Wrapper>
-      <HeaderTop />
-      <div className={styles.popup}>
-        <div className={styles.infomation}>
-          <div className={styles.infomation__container}>
-            <div>
-              <h2 className={styles.conteiner_titleTree}>Текущая информация</h2>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Название компании</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.company.nameCompany}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Кодовое имя</p>
-                <p className={styles.blockText_text}>{currentList?.name}</p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Телефон</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.company.numberPhone}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Почта</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.company.email
-                    ? currentList.company.email
-                    : notFound.NOT_SPECIFIED}
-                </p>
-              </div>
-              <div className={styles.blockText}>
-                <p className={styles.blockText_title}>Адрес</p>
-                <p className={styles.blockText_text}>
-                  {currentList?.address
-                    ? currentList.address
-                    : NOT_ASSIGNED_DEAD}
-                </p>
-              </div>
-
-              <div className={styles.blockInf}>
-                <span>Статус: </span>
-                <StatusBlock
-                  type={currentList?.status ? currentList.status : null}
-                />
-              </div>
-              <div className={styles.blockInf}>
-                <span>Важность: </span>
-                <ImpotanceBlock
-                  type={currentList?.importance ? currentList.importance : null}
-                />
-              </div>
-              {/* <div className={styles.filesContainer}>
-              {currentList?.files
-                ? currentList.files.map((file) => (
-                    <FileIcon name={file.name} url={file.url} />
-                  ))
-                : null}
-            </div> */}
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.tree}>
-          <div className={styles.tree__header}>
-            <button
-              type="button"
-              onClick={() => setHeader("КП")}
-              className={`${styles.button__nav} ${
-                header === "КП" && styles.active
-              }`}
-            >
-              КП
-            </button>
-            <button
-              type="button"
-              onClick={() => setHeader("Файлы")}
-              className={`${styles.button__nav} ${
-                header === "Файлы" && styles.active
-              }`}
-            >
-              Файлы
-            </button>
-            <button
-              type="button"
-              onClick={() => setHeader("Комментарии")}
-              className={`${styles.button__nav} ${
-                header === "Комментарии" && styles.active
-              }`}
-            >
-              Комментарии
-            </button>
-          </div>
-          {header === "КП" && (
-            <div className={styles.infomation__container}>
-              {CP && CP.id != 0 ? (
-                <>
-                  <div>
-                    <div className={stylesCP.header}>
-                      <h2
-                        className={`${styles.conteiner_titleTree} ${styles.conteiner_titleTree_mt0}`}
-                      >
-                        КП "{CP?.name}"
-                      </h2>
-                      <div className={styles.excelButtons}>
-                        <ExcelButton
-                          onClick={() => {
-                            navigate(`/commercial-proposal/import/${id_list}`);
-                          }}
-                          text={"Загрузить КП"}
-                        />
-                        <ExcelButton
-                          onClick={handleDownloadExcel}
-                          text={"Выгрузить КП"}
-                        />
-                      </div>
-                    </div>
-                    <p className={stylesCP.subtitle}>
-                      {" "}
-                      <span className={stylesCP.subtitle__bold}>
-                        №{id_list}
-                      </span>{" "}
-                      ОТ{" "}
-                      <span className={stylesCP.subtitle__bold}>
-                        {CP?.createdAt && formateDateShort(CP.createdAt)}
-                      </span>{" "}
-                      (ОБНОВЛЕНО{" "}
-                      <span className={stylesCP.subtitle__bold}>
-                        {CP?.updatedAt && formateDateShort(CP.updatedAt)}
-                      </span>{" "}
-                      В{" "}
-                      <span className={stylesCP.subtitle__bold}>
-                        {CP?.updatedAt && formateDateOnlyTime(CP.updatedAt)}
-                      </span>
-                      )
-                    </p>
-
-                    <table className={stylesCP.table}>
-                      <thead className={stylesCP.table__head}>
-                        <tr className={stylesCP.row}>
-                          {titles.map((title) => (
-                            <th key={uuidv4()}>{title}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody className={stylesCP.table__container}>
-                        {CP?.products.map((item: IProducts) => (
-                          <tr
-                            className={`${stylesCP.row} ${stylesCP.row__watch}`}
-                          >
-                            <td className={stylesCP.row__item}>{item.name}</td>
-                            <td className={stylesCP.row__item}>{item.count}</td>
-                            <td className={stylesCP.row__item}>{item.units}</td>
-                            <td className={stylesCP.row__item}>{item.price}</td>
-                            <td className={stylesCP.row__item}>
-                              {item.actualPrice}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.date ? item.date : "Не указана"}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.totalPrice}
-                            </td>
-                            <td className={stylesCP.row__item}>
-                              {item.marginalityPrice}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className={stylesCP.buttons}>
-                    <div className={styles.bigWidthButton}>
-                      <BlockButton
-                        bigWidth={true}
-                        text={"Отправить главному инженеру"}
-                        onClick={() => {
-                          currentList?.step &&
-                            updateStepApi(currentList?.step.id, 4);
-                          navigate("/applications");
-                        }}
-                      />
-                    </div>
-                    <BlockButton
-                      text={"Составить сметы"}
+    <ApplicationsLayout
+      currentList={currentList}
+      header={header}
+      setHeader={setHeader}
+      headerData={headerData}
+    >
+      {header === "КП" && (
+        <div className={styles.infomation__container}>
+          {CP && CP.id != 0 ? (
+            <>
+              <div>
+                <div className={stylesCP.header}>
+                  <h2
+                    className={`${styles.conteiner_titleTree} ${styles.conteiner_titleTree_mt0}`}
+                  >
+                    КП "{CP?.name}"
+                  </h2>
+                  <div className={styles.excelButtons}>
+                    <ExcelButton
                       onClick={() => {
-                        navigate(`/commercial-proposal/estimate/${id_list}`);
+                        navigate(`/commercial-proposal/import/${id_list}`);
                       }}
+                      text={"Загрузить КП"}
                     />
-                    <p
-                      className={stylesCP.cancel}
-                      onClick={() => {
-                        navigate(`/commercial-proposal/edit/${id_list}`);
-                      }}
-                    >
-                      Изменить
-                    </p>
+                    <ExcelButton
+                      onClick={handleDownloadExcel}
+                      text={"Выгрузить КП"}
+                    />
                   </div>
-                </>
-              ) : (
-                <p>КП еще не создано</p>
-              )}
-            </div>
+                </div>
+                <p className={stylesCP.subtitle}>
+                  {" "}
+                  <span className={stylesCP.subtitle__bold}>
+                    №{id_list}
+                  </span> ОТ{" "}
+                  <span className={stylesCP.subtitle__bold}>
+                    {CP?.createdAt && formateDateShort(CP.createdAt)}
+                  </span>{" "}
+                  (ОБНОВЛЕНО{" "}
+                  <span className={stylesCP.subtitle__bold}>
+                    {CP?.updatedAt && formateDateShort(CP.updatedAt)}
+                  </span>{" "}
+                  В{" "}
+                  <span className={stylesCP.subtitle__bold}>
+                    {CP?.updatedAt && formateDateOnlyTime(CP.updatedAt)}
+                  </span>
+                  )
+                </p>
+
+                <table className={stylesCP.table}>
+                  <thead className={stylesCP.table__head}>
+                    <tr className={stylesCP.row}>
+                      {titles.map((title) => (
+                        <th key={uuidv4()}>{title}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className={stylesCP.table__container}>
+                    {CP?.products.map((item: IProducts) => (
+                      <tr className={`${stylesCP.row} ${stylesCP.row__watch}`}>
+                        <td className={stylesCP.row__item}>{item.name}</td>
+                        <td className={stylesCP.row__item}>{item.count}</td>
+                        <td className={stylesCP.row__item}>{item.units}</td>
+                        <td className={stylesCP.row__item}>{item.price}</td>
+                        <td className={stylesCP.row__item}>
+                          {item.actualPrice}
+                        </td>
+                        <td className={stylesCP.row__item}>
+                          {item.date ? item.date : "Не указана"}
+                        </td>
+                        <td className={stylesCP.row__item}>
+                          {item.totalPrice}
+                        </td>
+                        <td className={stylesCP.row__item}>
+                          {item.marginalityPrice}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={stylesCP.buttons}>
+                <div className={styles.bigWidthButton}>
+                  <BlockButton
+                    bigWidth={true}
+                    text={"Отправить главному инженеру"}
+                    onClick={() => {
+                      currentList?.step &&
+                        updateStepApi(currentList?.step.id, 4);
+                      navigate("/applications");
+                    }}
+                  />
+                </div>
+                <BlockButton
+                  text={"Составить сметы"}
+                  onClick={() => {
+                    navigate(`/commercial-proposal/estimate/${id_list}`);
+                  }}
+                />
+                <p
+                  className={stylesCP.cancel}
+                  onClick={() => {
+                    navigate(`/commercial-proposal/edit/${id_list}`);
+                  }}
+                >
+                  Изменить
+                </p>
+              </div>
+            </>
+          ) : (
+            <p>КП еще не создано</p>
           )}
-          {header === "Файлы" && (
-            <div className={styles.infomation__container}>
-              <FilesBlock
-                fileData={currentList?.files ? currentList?.files : []}
-                addFile={true}
-                setFiles={setFiles}
-                files={files}
-              />
-              <BlockButton
-                text={"Сохранить"}
-                disabled={files === undefined}
-                onClick={handleUploadFiles}
-              />
-            </div>
-          )}{" "}
-          {header === "Комментарии" && <CommentsBlock />}
         </div>
-      </div>
-    </Wrapper>
+      )}
+      {header === "Файлы" && (
+        <div className={styles.infomation__container}>
+          <FilesBlock
+            fileData={currentList?.files ? currentList?.files : []}
+            addFile={true}
+            setFiles={setFiles}
+            files={files}
+          />
+          <BlockButton
+            text={"Сохранить"}
+            disabled={files === undefined}
+            onClick={handleUploadFiles}
+          />
+        </div>
+      )}{" "}
+      {header === "Комментарии" && <CommentsBlock />}
+    </ApplicationsLayout>
   );
 };

@@ -1,3 +1,5 @@
+import { TComment } from "./TComment";
+
 export type TUser = {
   id: number;
   createdAt: string;
@@ -8,4 +10,5 @@ export type TUser = {
   access: string;
   username: string;
   password?: string;
+  comments?: TComment[]
 };

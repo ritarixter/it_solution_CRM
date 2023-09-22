@@ -8,6 +8,7 @@ import { getListByIdApi, updateCommercialProposalApi, updateStepApi } from "../.
 import { TCommercialProposal } from "../../../types";
 import { NOT_COUNTED } from "../../../utils/constants";
 import { formateDateShort } from "../../../utils/utils-date";
+import { TCommercialProposalWithVariables } from "../../../types/TCommercialProposal";
 
 export const ApplicationsVicePrezidentItem: FC = () => {
   const [CP, setCP] = useState<TCommercialProposal>({
@@ -150,6 +151,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
         <div className={styles.buttonsAksynia}>
           <BlockButton
             text={"Принять"}
+
             onClick={() => {
               updateStepApi(currentList[0].step.id, 6);
               alert('Принято и отправлено главному инженеру!')
@@ -158,7 +160,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
 
           <BlockButton
             text={"Изменить"}
-            // disabled={}
+       disabled={CP?.variablesForMarginality === undefined}
             onClick={() => {
               navigate(`/marginality/${id_list}`);
             }}

@@ -77,7 +77,7 @@ export const Marginality: FC = () => {
   const [bribe, setBribe] = useState(0); // Взятка
   const [recycling, setRecycling] = useState(0); // Количество переработанных часов
   const [summaRecycling, setSummaRecycling] = useState(0); // Сумма пеработки
-  const [fitter, setFitter] = useState(2); // Количество монтажников
+  const [fitter, setFitter] = useState(0); // Количество монтажников
   const [travelExpenses, setTravelExpenses] = useState(0); // Затраты на командировочные в день
   const [fot, setFot] = useState(0); // ФОТ монтажников (Оклад монтажников в целом в день)
   const [ticketHead, setTicketHead] = useState(0); // Билеты руководители (кол)
@@ -93,12 +93,11 @@ export const Marginality: FC = () => {
 
   useEffect(() => {
     setTax(Number(CP?.summaSale) * 0.06);
-  }, [CP?.summaSale]);
+  }, [CP]);
 
   useEffect(() => {
     setSummaFinalWork(Number(CP?.summaSale) - tax);
-  }, [CP?.summaSale]);
-
+  }, [CP, tax]);
   const holidays = [
     "1 Jan ",
     "2 Jan ",
@@ -170,8 +169,10 @@ export const Marginality: FC = () => {
     return holidays.map((item) => item + year); // каждому празднику добавляет год
   };
 
+  console.log(summaRecycling);
+
   useEffect(() => {
-    setSummaRecycling(+(installerSalaryPH * recycling * 1.5).toFixed(2)); // расчет переработанных часов
+    setSummaRecycling(Number((installerSalaryPH * recycling * 1.5).toFixed(2))); // расчет переработанных часов
   }, [recycling, installerSalaryPH]);
 
   useEffect(() => {
@@ -417,39 +418,38 @@ export const Marginality: FC = () => {
                   />
                 </td>
               </tr>
-            </table>
-            <table className={styles.tableTwo}>
+
               <tr className={styles.tableTwo_row}>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   Количество рабочих дней стройки
                   <p className={styles.tableTwo_celling_text}>{allWorkDay}</p>
                 </td>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   ФОТ монтажников
                   <p className={styles.tableTwo_celling_text}>{fot}</p>
                 </td>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   Количество дней стройки
                   <p className={styles.tableTwo_celling_text}>{workingDay}</p>
                 </td>
               </tr>
               <tr className={styles.tableTwo_row}>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   Сумма работ наша окончательная
                   <p className={styles.tableTwo_celling_text}>
                     {summaFinalWork}
                   </p>
                 </td>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   Затраты на командировочные в день
                   <p className={styles.tableTwo_celling_text}>
                     {travelExpenses}
                   </p>
                 </td>
-                <td className={styles.tableTwo_celling}>
+                <td className={styles.table_cell}>
                   Сумма пеработки
                   <p className={styles.tableTwo_celling_text}>
-                    {summaRecycling}
+                    {summaRecycling ? summaRecycling : "0"}
                   </p>
                 </td>
               </tr>

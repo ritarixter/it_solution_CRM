@@ -66,6 +66,7 @@ export const BlockComments: FC<TBlockComments> = ({
       <textarea
         className={styles.comment_text}
         value={value}
+        maxLength={500}
         onChange={(e) => {
           setValue(e.target.value);
         }}
@@ -78,6 +79,7 @@ export const BlockComments: FC<TBlockComments> = ({
           id="input__file"
           multiple
           onChange={handleFileChange}
+         
         />
         {currentfiles && currentfiles.length === 5 ? (
           currentfiles.map((i, index) => (

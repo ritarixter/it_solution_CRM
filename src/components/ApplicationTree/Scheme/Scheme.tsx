@@ -4,7 +4,11 @@ import { UserBlock } from "../../UserBlock/UserBlock";
 import { AvatarDefault } from "../../AvatarDefault/AvatarDefault";
 import styles from "./Scheme.module.scss";
 import { TList, TUser } from "../../../types";
-import { NOT_ASSIGNED_DEAD, NOT_ASSIGNED_DEAD_W, access } from "../../../utils/constants";
+import {
+  NOT_ASSIGNED_DEAD,
+  NOT_ASSIGNED_DEAD_W,
+  access,
+} from "../../../utils/constants";
 import { useLocation } from "react-router";
 import { TStep } from "../../../types/TStep";
 export type TScheme = {
@@ -28,6 +32,8 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
               <li
                 className={`${styles.mainEng} ${
                   steps?.createList_step1 && styles.active
+                } ${
+                  steps?.closeList_step10 && styles.finished
                 }`}
               >
                 <a href="#" className={styles.eng}>
@@ -39,16 +45,28 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                   <li
                     className={`${styles.purchasing}  ${
                       steps?.createCP_step3 && styles.active
-                    }`}
+                    } ${steps?.agreementСonclusion_step8 && styles.finished}
+                    ${
+                      steps?.closeList_step10 && styles.finished
+                    }
+                    `}
                   >
                     <a href="#">Отдел закупок</a>
                   </li>
-                  <li className={`${styles.project}  ${steps?.chooseEngineer_step2 && styles.active}`}>
+                  <li
+                    className={`${styles.project}  ${
+                      steps?.chooseEngineer_step2 && styles.active
+                    } ${steps?.agreementСonclusion_step8 && styles.finished} ${
+                      steps?.closeList_step10 && styles.finished
+                    }`}
+                  >
                     <a href="#">Проектный отдел</a>
                   </li>
                   <li
                     className={`${styles.lawyer} ${
                       steps?.calcMarginality_step6 && styles.active
+                    } ${
+                      steps?.closeList_step10 && styles.finished
                     }`}
                   >
                     <a href="#">Юридический отдел</a>
@@ -56,7 +74,9 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                   <li
                     className={`${styles.deputyEng}
                      ${steps?.chooseEngineer_step2 && styles.active}
-                      `}
+                     ${
+                      steps?.closeList_step10 && styles.finished
+                    }`} 
                   >
                     <a className={styles.title} href="#">
                       Инженер
@@ -74,6 +94,8 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
                       <li
                         className={`${styles.firstEng} ${
                           steps?.ChooseFitter_step3_1 && styles.active
+                        } ${
+                          steps?.closeList_step10 && styles.finished
                         }`}
                       >
                         <a href="#">Бригада монтажников</a>
@@ -99,6 +121,8 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
       <div
         className={`${styles.acsynya} ${
           steps?.checkCPbySuperEngineer_step5 && styles.active
+        } ${
+          steps?.closeList_step10 && styles.finished
         }`}
       >
         <a href="#">Аксинья</a>

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styles from "./Input.module.scss";
+import { formateDateShort } from "../../utils/utils-date";
 
 type TInput = {
   setValue: (value: any) => void;
@@ -21,21 +22,22 @@ export const Input: FC<TInput> = ({
   setValue,
 }) => {
   return (
+
     <div className={styles.block}>
       {text && <p className={styles.caption}>{text}</p>}
       <input
         type={type}
         onChange={(e) => {
-          if (e.target.value === "0.") return setValue(e.target.value); // ЕСЛИ ДРОБЬ
-          if (                                                          // ЕСЛИ ПОСЛЕ НУЛЯ ЦИФРА УДАЛЯЕТ ПЕРЕДНИЙ НУЛИК 01=>1
-            String(value) &&
-            e.target.value[0] === "0" &&
-            e.target.value[1] &&
-            e.target.value[1] !== "." &&
-            e.target.value[3] !== "."
-          )
-            return setValue(e.target.value.substring(1));
-          if (e.target.value === "00") return setValue(0);              // ЕСЛИ ДВА НУЛЯ
+          // if (e.target.value === "0.") return setValue(e.target.value); // ЕСЛИ ДРОБЬ
+          // if (                                                          // ЕСЛИ ПОСЛЕ НУЛЯ ЦИФРА УДАЛЯЕТ ПЕРЕДНИЙ НУЛИК 01=>1
+          //   String(value) &&
+          //   e.target.value[0] === "0" &&
+          //   e.target.value[1] &&
+          //   e.target.value[1] !== "." &&
+          //   e.target.value[3] !== "."
+          // )
+          //   return setValue(e.target.value.substring(1));
+          // if (e.target.value === "00") return setValue(0);              // ЕСЛИ ДВА НУЛЯ
           setValue(e.target.value);
         }}
         min={0}

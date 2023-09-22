@@ -18,7 +18,7 @@ export const CommercialProposalCreate: FC = () => {
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
-  const id_list = Number(location.pathname.slice(28));
+  const id_list = Number(location.pathname.slice(28));  
   const [items, setItems] = useState<Array<IProducts>>([
     {
       id: 0,

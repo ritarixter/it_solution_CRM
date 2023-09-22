@@ -49,10 +49,19 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
   &_cell {
-    padding-right: 20px;
-    padding-bottom: 34px;
+    width: 200px;
+  }
+
+
+
+  &_row {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
   }
 }
 
@@ -62,9 +71,18 @@
   font-weight: 700;
   line-height: normal;
 
+  &_row {
+    display: flex;
+    gap: 100px;
+    align-items: flex-start;
+    & > .table_cell {
+      width: 300px;
+     }
+  }
   &_celling {
-    padding-bottom: 31px;
-    padding-right: 100px;
+    // padding-bottom: 31px;
+    // padding-right: 100px;
+
     &_text {
       margin: 0;
       padding: 0;
@@ -78,5 +96,5 @@
 }
 
 .marginality {
-  margin-bottom: 34px;
+  margin: 34px 0;
 }

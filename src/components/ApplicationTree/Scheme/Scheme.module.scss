@@ -304,6 +304,11 @@
       background-color: $statusDoColor;
       color: $progressBar;
     }
+
+    &.finished a {
+      background-color: $mainColor;
+      color: $thirdColor;
+    }
   }
   .manager {
     background-color: $mainColor;
@@ -315,12 +320,22 @@
       background-color: $statusDoColor;
       color: $progressBar;
     }
+
+    &.finished .title {
+      background-color: $mainColor;
+      color: $thirdColor;
+    }
   }
 
   .mainEng {
     &.active .eng {
       background-color: $statusDoColor;
       color: $progressBar;
+    }
+
+    &.finished .eng {
+      background-color: $mainColor;
+      color: $thirdColor;
     }
   }
 }
@@ -341,4 +356,9 @@
 .acsynya.active a {
   background-color: $statusDoColor;
   color: $progressBar;
+}
+
+.acsynya.finished a {
+  background-color: $mainColor;
+  color: $thirdColor;
 }

@@ -3,7 +3,7 @@ import styles from "../Applications.module.scss";
 import { Input } from "../../../components/Input";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { TCompany, TFile, TUpdateCompany } from "../../../types";
 import { ButtonCircle } from "../../../components/ButtonCircle/ButtonCircle";
 import { Wrapper } from "../../../components";
@@ -47,6 +47,7 @@ type TCurrentList = {
 export const ApplicationsItem: FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   const { companies, isError } = useAppSelector((state) => state.company);
   const { list } = useAppSelector((state) => state.list);
   const [codeValue, setCodeValue] = useState("");
@@ -233,7 +234,7 @@ console.log(currentList.files)
         addCommentApi(currentList.id, user.id, textareaValue);
         setTextareaValue("");
       }
-
+navigate(-1)
     }
   };
 

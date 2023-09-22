@@ -15,3 +15,8 @@ export const formateDateShort = (date: Date) => {
 export const formateDateOnlyTime = (date: Date) => {
   return date.toLocaleString().slice(11, 16);
 };
+
+export const toDate = (dateStr:string) => {
+  const [day, month, year] = dateStr.split("-")
+  return new Date(Number(year), Number(month) - 1, Number(day))
+}

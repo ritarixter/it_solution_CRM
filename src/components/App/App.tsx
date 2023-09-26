@@ -34,6 +34,7 @@ import { getStock } from "../../services/slices/stock";
 import { ApplicationsBuyer, ApplicationsLawyer, ApplicationsPlanner } from "../../pages/Applications";
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
+import { Administrator } from "../../pages/Administrator/Administrator";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -76,6 +77,15 @@ export const App: FC = () => {
             element={
               <ProtectedRoute>
                 <Applications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            index
+            element={
+              <ProtectedRoute>
+                <Administrator />
               </ProtectedRoute>
             }
           />

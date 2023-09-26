@@ -5,7 +5,7 @@ import { formateDateShort } from "../../utils/utils-date";
 type TInput = {
   setValue: (value: any) => void;
   value: any;
-  type: "text" | "date" | "email" | "number";
+  type: "text" | "date" | "email" | "number" | "password";
   name: string;
   text?: string;
   error?: boolean;

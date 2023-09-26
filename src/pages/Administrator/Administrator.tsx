@@ -11,9 +11,10 @@ import { TUser } from "../../types";
 import { titles } from "./constants";
 import { addUser } from "../../services/slices/user";
 import { uploadFiles } from "../../utils/api";
+import { Preloader } from "../../components/Preloader/Preloader";
 
 export const Administrator: FC = () => {
-  const { users } = useAppSelector((state) => state.user);
+  const { users, isLoadingUser } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -129,40 +130,46 @@ export const Administrator: FC = () => {
           </div>
         </div>
         <div className={styles.users}>
-          <div className={styles.users_block}>
-            <h2 className={styles.users_title}>Сотрудники</h2>
-            <table className={styles.table}>
-              <thead key={uuidv4()}>
-                <tr className={styles.table_title}>
-                  {titles.map((title) => (
-                    <th className={styles.table_column}>{title}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody key={uuidv4()}>
-                {currentData.map((item) => (
-                  <tr className={styles.table_content} onClick={() => {}}>
-                    <td className={styles.table_row}>
-                      <UserBlock name={""} avatar={item.avatar} />
-                    </td>
-                    <td className={styles.table_row}>{item.name}</td>
-                    <td className={styles.table_row}>{item.access}</td>
-                    <td className={styles.table_row}>{item.username}</td>
-                    <td className={styles.table_row}>{item.phone}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className={styles.pagination}>
-            <Pagination
-              pageSize={pageSize}
-              totalCount={users.length}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              style={"blue"}
-            />
-          </div>
+          {isLoadingUser ? (
+            <Preloader />
+          ) : (
+            <>
+              <div className={styles.users_block}>
+                <h2 className={styles.users_title}>Сотрудники</h2>
+                <table className={styles.table}>
+                  <thead key={uuidv4()}>
+                    <tr className={styles.table_title}>
+                      {titles.map((title) => (
+                        <th className={styles.table_column}>{title}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody key={uuidv4()}>
+                    {currentData.map((item) => (
+                      <tr className={styles.table_content} onClick={() => {}}>
+                        <td className={styles.table_rowName}>
+                          <UserBlock name={""} avatar={item.avatar} />
+                          {item.name}
+                        </td>
+                        <td className={styles.table_row}>{item.access}</td>
+                        <td className={styles.table_row}>{item.username}</td>
+                        <td className={styles.table_row}>{item.phone}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={styles.pagination}>
+                <Pagination
+                  pageSize={pageSize}
+                  totalCount={users.length}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  style={"blue"}
+                />
+              </div>
+            </>
+          )}
         </div>
       </section>
     </Wrapper>

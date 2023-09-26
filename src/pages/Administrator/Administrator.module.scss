@@ -71,14 +71,14 @@
 .table {
     &_title{
     display: grid;
-    grid-template-columns: 71px 228px 140px 138px auto;
+    grid-template-columns: 269px 132px 138px auto;
     text-align: left;    
     }
 
   &_content {
     list-style: none;
     display: grid;
-    grid-template-columns: 71px 228px 140px 138px auto;
+    grid-template-columns: 269px 132px 138px auto;
     padding: 0;
     margin-top: 25px;
     cursor: pointer;
@@ -97,6 +97,20 @@
     text-overflow: ellipsis;
     overflow: hidden;
     display: block;
+    vertical-align: middle;
+  }
+
+  &_rowName {
+    padding-right: 7px;
+    font-size: 16px;
+    color: $primaryColor;
+    min-height: 30px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

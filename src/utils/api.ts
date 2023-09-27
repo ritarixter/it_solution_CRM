@@ -483,6 +483,7 @@ export async function getStockApi() {
 //---------------------------------------------------------------STEP-------------------------------------------------------------------------------
 
 export function updateStepApi(id: number, idStep: number) {
+  
   return fetch(`${URL}/step/${id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),

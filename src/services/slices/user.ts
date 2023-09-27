@@ -167,7 +167,7 @@ export const addUser: AppThunk =
     dispatch(setLoading(true));
     addUserApi(name, username, password, access, phone, avatar)
       .then((res) => {
-        dispatch(getUser());
+        dispatch(getUsers());
       })
       .catch((err) => {
         dispatch(setError(true));

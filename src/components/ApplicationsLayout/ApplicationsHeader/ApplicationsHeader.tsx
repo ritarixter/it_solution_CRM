@@ -1,10 +1,11 @@
 import { FC } from "react";
 import styles from "./ApplicationsHeader.module.scss";
 import { BlockButton } from "../../BlockButton/BlockButton";
-import { useAppSelector } from "../../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { access } from "../../../utils/constants";
 import { useLocation, useNavigate } from "react-router";
 import { updateStepApi } from "../../../utils/api";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 type TApplicationsHeader = {
   header: string;
@@ -20,6 +21,7 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
   const { user } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   return (
@@ -43,6 +45,8 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
               let arr = [...list];
               const currentList = arr.filter((item) => item.id === id_list);
               updateStepApi(currentList[0].step.id, 10);
+              dispatch(setCountStep());
+              dispatch(getStep());
               navigate(-1);
             }}
           />

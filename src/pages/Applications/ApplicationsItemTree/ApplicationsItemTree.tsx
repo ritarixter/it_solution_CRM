@@ -36,6 +36,7 @@ import { DropdownListWithID } from "../../../components/DropdownList/DropdownLis
 import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -140,6 +141,11 @@ export const ApplicationsItemTree: FC = () => {
           };
           dispatch(updateList(listNew));
           setFiles(undefined);
+          if (currentList?.step)
+          if (engineer != engineerDefault) {
+            updateStepApi(currentList?.step.id, 2);
+            dispatch(setCountStep());
+          }
         });
       } else {
         const listNew = {
@@ -152,9 +158,11 @@ export const ApplicationsItemTree: FC = () => {
           users: engineer != engineerDefault ? [engineer.id] : undefined,
         };
         dispatch(updateList(listNew));
-        currentList?.step &&
-          engineer != engineerDefault &&
-          updateStepApi(currentList?.step.id, 2);
+        if (currentList?.step)
+          if (engineer != engineerDefault) {
+            updateStepApi(currentList?.step.id, 2);
+            dispatch(setCountStep());
+          }
       }
       dispatch(getList());
       if (textareaValue != "") {

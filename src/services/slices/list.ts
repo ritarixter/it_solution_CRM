@@ -11,6 +11,7 @@ import {
   updateStepApi,
 } from "../../utils/api";
 import { TUpdateList } from "../../types/TList";
+import { getStep, setCountStep } from "./step";
 
 interface listState {
   list: Array<TList>;
@@ -77,6 +78,8 @@ export const addList: AppThunk =
           addCommentApi(res.id, userId, description);
         }
         updateStepApi(res.step.id, 1);
+        dispatch(setCountStep())
+        dispatch(getStep())
       })
       .catch((err) => {
         dispatch(setError(true));

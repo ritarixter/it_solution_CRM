@@ -48,7 +48,6 @@ export const Item: FC<IItem> = ({                         // КОМПОНЕНТ 
     dispatch(updateTask(taskNew));
     setPopupOpen(false);
   };
-  console.log(task?.endDate);
 
   return (
     <li

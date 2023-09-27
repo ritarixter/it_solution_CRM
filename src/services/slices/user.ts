@@ -80,8 +80,14 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, setAuth, setError, logout, setLoading, setUsers } =
-  userSlice.actions;
+export const {
+  setUser,
+  setAuth,
+  setError,
+  logout,
+  setLoading,
+  setUsers,
+} = userSlice.actions;
 
 export const registerUser: AppThunk =
   (username: string, password: string) => (dispatch: AppDispatch) => {

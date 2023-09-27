@@ -10,5 +10,5 @@ export type TUser = {
   access: string;
   username: string;
   password?: string;
-  comments?: TComment[]
+  comments?: TComment[];
 };

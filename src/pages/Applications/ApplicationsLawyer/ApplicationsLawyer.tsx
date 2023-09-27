@@ -13,6 +13,7 @@ import "../../../components/Calendar/Calendar.css";
 import calendar from "../../../images/icons/calendar_grey.svg";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 export const ApplicationsLawyer: FC = () => {
   const location = useLocation();
@@ -121,6 +122,8 @@ export const ApplicationsLawyer: FC = () => {
                   setShowDeadline(true);
                   if (currentList?.step.id)
                     updateStepApi(currentList?.step.id, 8);
+                  dispatch(setCountStep());
+                  dispatch(getStep());
                 }}
                 disabled={deadline === "Выберите дату"}
               />

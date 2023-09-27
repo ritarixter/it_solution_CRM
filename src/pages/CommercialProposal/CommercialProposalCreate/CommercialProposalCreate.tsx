@@ -12,12 +12,14 @@ import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
 import { addCommercialProposalApi, updateStepApi } from "../../../utils/api";
 import { Input } from "../../../components/Input";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch()
   const id_list = Number(location.pathname.slice(28));  
   const [items, setItems] = useState<Array<IProducts>>([
     {
@@ -58,6 +60,8 @@ export const CommercialProposalCreate: FC = () => {
   
       addCommercialProposalApi(name, id_list, items, String(summaBuy), String(summaSale)).then((res) => {
         updateStepApi(currentList[0].step.id, 3);
+        dispatch(setCountStep());
+        dispatch(getStep())
         navigate(-1);
       });
     }

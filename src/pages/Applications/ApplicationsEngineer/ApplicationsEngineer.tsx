@@ -19,6 +19,7 @@ import { Performers } from "../../../components/Performers/Performers";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
@@ -66,9 +67,13 @@ export const ApplicationsEngineer: FC = () => {
           users: fittersID.length != 0 ? fittersID : undefined,
         };
         dispatch(updateList(listNew));
-        currentList &&
-          fittersID.length != 0 &&
-          updateStepApi(currentList.step.id, 3.1);
+        if (currentList) {
+          if (fittersID.length != 0) {
+            updateStepApi(currentList.step.id, 3.1);
+            dispatch(setCountStep());
+            dispatch(getStep())
+          }
+        }
       });
     } else {
       const listNew = {
@@ -77,9 +82,13 @@ export const ApplicationsEngineer: FC = () => {
         users: fittersID.length != 0 ? fittersID : undefined,
       };
       dispatch(updateList(listNew));
-      currentList &&
-        fittersID.length != 0 &&
-        updateStepApi(currentList.step.id, 3.1);
+      if (currentList) {
+        if (fittersID.length != 0) {
+          updateStepApi(currentList.step.id, 3.1);
+          dispatch(setCountStep());
+          dispatch(getStep())
+        }
+      }
     }
 
     if (textareaValue != "") {

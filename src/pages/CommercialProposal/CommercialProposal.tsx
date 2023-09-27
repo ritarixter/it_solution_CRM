@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import styles from "./CommercialProposal.module.scss";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { Wrapper } from "../../components";
-import { useAppSelector } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { TCommercialProposal } from "../../types/TCommercialProposal";
@@ -15,6 +15,7 @@ import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { ExcelButton } from "../../components/ExcelButton/ExcelButton";
 import { downloadExcel } from "react-export-table-to-excel";
 import { access } from "../../utils/constants";
+import { getStep, setCountStep } from "../../services/slices/step";
 
 export const CommercialProposal: FC = () => {
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
@@ -22,6 +23,7 @@ export const CommercialProposal: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
+  const dispatch = useAppDispatch()
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
     name: "",
@@ -148,6 +150,8 @@ export const CommercialProposal: FC = () => {
                         (item) => item.id === id_list
                       );
                       updateStepApi(currentList[0].step.id, 5);
+                      dispatch(setCountStep());
+                      dispatch(getStep())
                       navigate(`/applications/${id_list}`);
                     }}
                   />
@@ -163,6 +167,8 @@ export const CommercialProposal: FC = () => {
                         (item) => item.id === id_list
                       );
                       updateStepApi(currentList[0].step.id, 5.1);
+                      dispatch(setCountStep());
+                      dispatch(getStep())
                       navigate(`/applications/${id_list}`);
                     }}
                   />

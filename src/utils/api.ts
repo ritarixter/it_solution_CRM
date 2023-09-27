@@ -492,6 +492,12 @@ export function updateStepApi(id: number, idStep: number) {
   }).then(responseCheck);
 }
 
+export function getStepApi() {
+  return fetch(`${URL}/step`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
 //---------------------------------------------------------------COMMENT-------------------------------------------------------------------------------
 export function getCommentsApi() {
   return fetch(`${URL}/comment`, {

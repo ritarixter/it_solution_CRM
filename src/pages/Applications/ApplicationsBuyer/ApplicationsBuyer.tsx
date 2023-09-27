@@ -18,6 +18,7 @@ import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep, setCountStep } from "../../../services/slices/step";
 
 export const ApplicationsBuyer: FC = () => {
   const location = useLocation();
@@ -177,8 +178,12 @@ export const ApplicationsBuyer: FC = () => {
                     bigWidth={true}
                     text={"Отправить главному инженеру"}
                     onClick={() => {
-                      currentList?.step &&
+                      if (currentList?.step) {
                         updateStepApi(currentList?.step.id, 4);
+                        dispatch(setCountStep());
+                        dispatch(getStep());
+                      }
+
                       navigate("/applications");
                     }}
                   />

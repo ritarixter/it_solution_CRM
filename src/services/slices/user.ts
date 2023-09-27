@@ -155,7 +155,7 @@ export const addUser: AppThunk =
     password: string,
     access: string,
     phone: string,
-    avatar?: string
+    avatar: string
   ) =>
   (dispatch: AppDispatch) => {
     dispatch(setLoading(true));

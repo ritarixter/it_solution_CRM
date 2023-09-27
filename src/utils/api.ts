@@ -105,7 +105,7 @@ export function addUserApi(
   password: string,
   access: string,
   phone: string,
-  avatar?: string
+  avatar: string
 ) {
   return fetch(`${URL}/user`, {
     method: "POST",

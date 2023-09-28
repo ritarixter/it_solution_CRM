@@ -36,7 +36,8 @@ import { DropdownListWithID } from "../../../components/DropdownList/DropdownLis
 import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
-import { getStep, setCountStep } from "../../../services/slices/step";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ export const ApplicationsItemTree: FC = () => {
   const dispatch = useAppDispatch();
   const [workNameValue, setWorkNameValue] = useState("");
   const [workNameValueError, setWorkNameValueError] = useState<boolean>(false);
+  
 
   //ИЗМЕНЕНИЕ ИНФОРМАЦИИ
   const [files, setFiles] = useState<FormData | undefined>(undefined);
@@ -144,7 +146,8 @@ export const ApplicationsItemTree: FC = () => {
           if (currentList?.step)
           if (engineer != engineerDefault) {
             updateStepApi(currentList?.step.id, 2);
-            dispatch(setCountStep());
+            dispatch(changeCountNotify(user.id, 1))
+            dispatch(getStep())
           }
         });
       } else {
@@ -161,7 +164,8 @@ export const ApplicationsItemTree: FC = () => {
         if (currentList?.step)
           if (engineer != engineerDefault) {
             updateStepApi(currentList?.step.id, 2);
-            dispatch(setCountStep());
+            dispatch(changeCountNotify(user.id, 1))
+            dispatch(getStep())
           }
       }
       dispatch(getList());

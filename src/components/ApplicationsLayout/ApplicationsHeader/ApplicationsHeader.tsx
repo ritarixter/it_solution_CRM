@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { access } from "../../../utils/constants";
 import { useLocation, useNavigate } from "react-router";
 import { updateStepApi } from "../../../utils/api";
-import { getStep, setCountStep } from "../../../services/slices/step";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 type TApplicationsHeader = {
   header: string;
@@ -45,7 +46,7 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
               let arr = [...list];
               const currentList = arr.filter((item) => item.id === id_list);
               updateStepApi(currentList[0].step.id, 10);
-              dispatch(setCountStep());
+              dispatch(changeCountNotify(user.id, 1))
               dispatch(getStep());
               navigate(-1);
             }}

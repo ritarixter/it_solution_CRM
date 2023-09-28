@@ -15,7 +15,6 @@ type TNotificationsPopup = {
 };
 
 const message = (step: TStep) => {
-
   let message = "...";
   const list_id = step.list?.id;
   if (step.createList_step1) {
@@ -71,15 +70,15 @@ export const NotificationsPopup: FC<TNotificationsPopup> = ({
   open,
   setOpen,
 }) => {
-  const { step, count } = useAppSelector((state) => state.step);
+  const { step} = useAppSelector((state) => state.step);
   const { list } = useAppSelector((state) => state.list);
   const [notify, setNotify] = useState<TStep[]>([]);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    dispatch(getStep())
-  },[])
+  useEffect(() => {
+    dispatch(getStep());
+  }, []);
 
   useEffect(() => {
     const arr = [...step];
@@ -93,20 +92,26 @@ export const NotificationsPopup: FC<TNotificationsPopup> = ({
       }`}
       onClick={() => setOpen(false)}
     >
-      {notify.map((item) => (
-        <div
-          key={item.id}
-          className={styles.truncate}
-          onClick={() => {
-            navigate(`/applications/${item.list?.id}`);
-          }}
-        >
-          {message(item)}
-          <div className={styles.dateFromNow}>
-            {moment(item.updatedAt, "YYYYMMDDhhmmss").fromNow()}
-          </div>
-        </div>
-      ))}
+      {notify.map((item) => {
+        if (item.list) {
+          return (
+            <div
+              key={item.id}
+              className={styles.truncate}
+              onClick={() => {
+                navigate(`/applications/${item.list?.id}`);
+              }}
+            >
+              {message(item)}
+              <div className={styles.dateFromNow}>
+                {moment(item.updatedAt, "YYYYMMDDhhmmss").fromNow()}
+              </div>
+            </div>
+          );
+        } else {
+          return;
+        }
+      })}
       <div className={styles.buttons}>
         <button className={styles.btnShow}>Показать всё</button>
       </div>

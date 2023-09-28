@@ -15,7 +15,8 @@ import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { ExcelButton } from "../../components/ExcelButton/ExcelButton";
 import { downloadExcel } from "react-export-table-to-excel";
 import { access } from "../../utils/constants";
-import { getStep, setCountStep } from "../../services/slices/step";
+import { getStep } from "../../services/slices/step";
+import { changeCountNotify } from "../../services/slices/user";
 
 export const CommercialProposal: FC = () => {
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
@@ -150,7 +151,7 @@ export const CommercialProposal: FC = () => {
                         (item) => item.id === id_list
                       );
                       updateStepApi(currentList[0].step.id, 5);
-                      dispatch(setCountStep());
+                      dispatch(changeCountNotify(user.id, 1))
                       dispatch(getStep())
                       navigate(`/applications/${id_list}`);
                     }}
@@ -167,7 +168,7 @@ export const CommercialProposal: FC = () => {
                         (item) => item.id === id_list
                       );
                       updateStepApi(currentList[0].step.id, 5.1);
-                      dispatch(setCountStep());
+                      dispatch(changeCountNotify(user.id, 1))
                       dispatch(getStep())
                       navigate(`/applications/${id_list}`);
                     }}

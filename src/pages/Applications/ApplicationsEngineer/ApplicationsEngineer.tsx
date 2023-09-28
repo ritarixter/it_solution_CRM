@@ -19,7 +19,8 @@ import { Performers } from "../../../components/Performers/Performers";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
-import { getStep, setCountStep } from "../../../services/slices/step";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const ApplicationsEngineer: FC = () => {
   const location = useLocation();
@@ -70,7 +71,7 @@ export const ApplicationsEngineer: FC = () => {
         if (currentList) {
           if (fittersID.length != 0) {
             updateStepApi(currentList.step.id, 3.1);
-            dispatch(setCountStep());
+            dispatch(changeCountNotify(user.id, 1))
             dispatch(getStep())
           }
         }
@@ -85,7 +86,7 @@ export const ApplicationsEngineer: FC = () => {
       if (currentList) {
         if (fittersID.length != 0) {
           updateStepApi(currentList.step.id, 3.1);
-          dispatch(setCountStep());
+          dispatch(changeCountNotify(user.id, 1))
           dispatch(getStep())
         }
       }

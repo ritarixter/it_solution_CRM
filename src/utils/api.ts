@@ -75,6 +75,17 @@ export function getUsersApi() {
   }).then(responseCheck);
 } */
 
+//
+export function changeCountNotifyApi(idUser:number,count: number) {
+  return fetch(`${URL}/user/${idUser}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      count,
+    }),
+  }).then(responseCheck);
+}
+
 //Внести изменения о пользователе
 export function editUsers(
   username?: string,
@@ -84,7 +95,7 @@ export function editUsers(
   name?: string,
   access?: string
 ) {
-  return fetch(`${URL}/users`, {
+  return fetch(`${URL}/user/{id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
@@ -483,7 +494,6 @@ export async function getStockApi() {
 //---------------------------------------------------------------STEP-------------------------------------------------------------------------------
 
 export function updateStepApi(id: number, idStep: number) {
-  
   return fetch(`${URL}/step/${id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
@@ -495,6 +505,13 @@ export function updateStepApi(id: number, idStep: number) {
 
 export function getStepApi() {
   return fetch(`${URL}/step`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteStepApi(id: number) {
+  return fetch(`${URL}/step/${id}`, {
+    method: "DELETE",
     headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
 }

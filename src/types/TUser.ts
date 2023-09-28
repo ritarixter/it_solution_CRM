@@ -11,4 +11,5 @@ export type TUser = {
   username: string;
   password?: string;
   comments?: TComment[];
+  count: number;
 };

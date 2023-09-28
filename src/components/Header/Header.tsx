@@ -17,7 +17,7 @@ export const Header: FC = () => {
       : user.access === access.SUPERUSER
       ? routes.slice(0, 2)
       : routes;
-  console.log(links);
+ 
   return (
     <header
       className={`${styles.header} ${pathname === "/login" && styles.dn}`}

@@ -97,7 +97,7 @@ export const ApplicationsItem: FC = () => {
     INN: "",
     email: "",
   });
-console.log(currentList.files)
+
   //Выпадающий список
   useEffect(() => {
     if (right) {
@@ -157,7 +157,6 @@ console.log(currentList.files)
   useEffect(() => {
     getListByIdApi(Number(location.pathname.slice(14))).then((res) => {
       setCurrentList(res);
-      console.log('ты5к')
       setCurrentCompany(res.company);
       setNameCompanyValue(res.company.nameCompany);
     });
@@ -403,7 +402,7 @@ navigate(-1)
             <Link
               className={styles.delete}
               to={"/applications"}
-              onClick={() => dispatch(deleteList(currentList.id))}
+              onClick={() => dispatch(deleteList(currentList))}
             >
               Удалить
             </Link>

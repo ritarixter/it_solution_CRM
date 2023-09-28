@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 
 import {
   addUserApi,
+  changeCountNotifyApi,
   getDataUser,
   getUsersApi,
   signIn,
@@ -32,6 +33,7 @@ const initialStateLogout: userState = {
     access: "",
     username: "",
     password: "",
+    count: 0,
   },
   isAuth: false,
   isError: false,
@@ -50,6 +52,7 @@ const initialState: userState = {
     access: "",
     username: "",
     password: "",
+    count: 0,
   },
   isAuth: !!Cookies.get("accessToken"),
   isError: false,
@@ -70,6 +73,11 @@ export const userSlice = createSlice({
     setAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
     },
+
+    setCountStep(state, action: PayloadAction<number>) {
+      state.user.count = action.payload;
+    },
+
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
     },
@@ -87,6 +95,7 @@ export const {
   logout,
   setLoading,
   setUsers,
+  setCountStep,
 } = userSlice.actions;
 
 export const registerUser: AppThunk =
@@ -168,6 +177,23 @@ export const addUser: AppThunk =
     addUserApi(name, username, password, access, phone, avatar)
       .then((res) => {
         dispatch(getUsers());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+export const changeCountNotify: AppThunk =
+  (idUser: number, count: number) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    changeCountNotifyApi(idUser, count)
+      .then((res) => {
+        dispatch(setCountStep(res.count));
+        dispatch(getUsers());
+        dispatch(getUser());
       })
       .catch((err) => {
         dispatch(setError(true));

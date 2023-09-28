@@ -128,7 +128,7 @@ export const Applications: FC = () => {
         uploadFiles(files).then((res) => {
           dispatch(
             addList(
-              user.id,
+              user,
               String(workNameValue),
               String(customer),
               currentCompany?.INN,
@@ -140,7 +140,7 @@ export const Applications: FC = () => {
       } else {
         dispatch(
           addList(
-            user.id,
+            user,
             String(workNameValue),
             String(customer),
             currentCompany?.INN,

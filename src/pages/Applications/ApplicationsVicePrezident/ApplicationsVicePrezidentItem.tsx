@@ -1,19 +1,17 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../../components/BlockMarginality/BlockMarginality";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import {
   getListByIdApi,
-  updateCommercialProposalApi,
   updateStepApi,
 } from "../../../utils/api";
 import { TCommercialProposal } from "../../../types";
-import { NOT_COUNTED } from "../../../utils/constants";
 import { formateDateShort } from "../../../utils/utils-date";
-import { TCommercialProposalWithVariables } from "../../../types/TCommercialProposal";
-import { getStep, setCountStep } from "../../../services/slices/step";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const ApplicationsVicePrezidentItem: FC = () => {
   const [CP, setCP] = useState<TCommercialProposal>({
@@ -50,6 +48,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
   const navigate = useNavigate();
   const { list } = useAppSelector((state) => state.list);
   let arr = [...list];
+  const { user } = useAppSelector((state) => state.user);
   const currentList = arr.filter((item) => item.id === id_list);
   const [tax, setTax] = useState(Number(CP?.summaSale) * 0.06); // налог
   const dispatch = useAppDispatch();
@@ -221,7 +220,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
             text={"Принять"}
             onClick={() => {
               updateStepApi(currentList[0].step.id, 6);
-              dispatch(setCountStep());
+              dispatch(changeCountNotify(user.id, 1))
               dispatch(getStep())
               alert("Принято и отправлено главному инженеру!");
             }}
@@ -240,7 +239,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
               text={"Отправить на доработку"}
               onClick={() => {
                 updateStepApi(currentList[0].step.id, 7);
-                dispatch(setCountStep());
+                dispatch(changeCountNotify(user.id, 1))
                 dispatch(getStep())
                 alert("Отправлено на доработку главному инженеру!");
               }}

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getStepApi } from "../../utils/api";
+import { deleteStepApi, getStepApi } from "../../utils/api";
 import { AppDispatch, AppThunk } from "../store";
 import { TStep } from "../../types/TStep";
 
@@ -7,14 +7,12 @@ interface stepState {
   step: Array<TStep>;
   isError: boolean;
   isLoading: boolean;
-  count: number;
 }
 
 const initialState: stepState = {
   step: [],
   isError: false,
   isLoading: false,
-  count: 0,
 };
 
 export const stepSlice = createSlice({
@@ -29,21 +27,13 @@ export const stepSlice = createSlice({
       state.isError = action.payload;
     },
 
-    setCountStep(state) {
-      state.count = state.count + 1;
-    },
-
-    setNullCountStep(state) {
-      state.count = 0;
-    },
-
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setStep, setError, setLoading, setCountStep, setNullCountStep } =
+export const { setStep, setError, setLoading } =
   stepSlice.actions;
 
 export const getStep: AppThunk = () => (dispatch: AppDispatch) => {
@@ -60,3 +50,19 @@ export const getStep: AppThunk = () => (dispatch: AppDispatch) => {
       setLoading(false);
     });
 };
+
+export const deleteStep: AppThunk = (id: number) => (dispatch: AppDispatch) => {
+  setLoading(true);
+  deleteStepApi(id)
+    .then((res) => {
+      dispatch(getStep());
+      setError(false);
+    })
+    .catch((err) => {
+      setError(true);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
+

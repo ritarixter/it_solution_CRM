@@ -7,7 +7,7 @@ import arrow from "../../images/icons/arrow.svg";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 import { NotificationsPopup } from "../NotificationsPopup/NotificationsPopup";
-import { changeCountNotify, setCountStep } from "../../services/slices/user";
+import { changeCountNotify } from "../../services/slices/user";
 
 export const HeaderTop: FC = () => {
   const { user, users } = useAppSelector((state) => state.user);
@@ -39,7 +39,7 @@ export const HeaderTop: FC = () => {
             }}
           >
             <img src={bell} alt="Уведомление" className={styles.bell} />
-            {user.count > 0 && <div className={styles.notice}>{user.count}</div>}
+           <div className={styles.notice}>5</div>
             <NotificationsPopup
               open={openNotification}
               setOpen={setIsOpenNotification}

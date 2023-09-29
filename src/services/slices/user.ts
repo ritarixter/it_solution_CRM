@@ -33,7 +33,7 @@ const initialStateLogout: userState = {
     access: "",
     username: "",
     password: "",
-    count: 0,
+    notifications: []
   },
   isAuth: false,
   isError: false,
@@ -52,7 +52,7 @@ const initialState: userState = {
     access: "",
     username: "",
     password: "",
-    count: 0,
+    notifications: []
   },
   isAuth: !!Cookies.get("accessToken"),
   isError: false,
@@ -74,9 +74,9 @@ export const userSlice = createSlice({
       state.isAuth = action.payload;
     },
 
-    setCountStep(state, action: PayloadAction<number>) {
-      state.user.count = action.payload;
-    },
+    // setCountStep(state, action: PayloadAction<number>) {
+    //   state.user.count = action.payload;
+    // },
 
     setError(state, action: PayloadAction<boolean>) {
       state.isError = action.payload;
@@ -95,7 +95,7 @@ export const {
   logout,
   setLoading,
   setUsers,
-  setCountStep,
+ // setCountStep,
 } = userSlice.actions;
 
 export const registerUser: AppThunk =
@@ -191,7 +191,7 @@ export const changeCountNotify: AppThunk =
     dispatch(setLoading(true));
     changeCountNotifyApi(idUser, count)
       .then((res) => {
-        dispatch(setCountStep(res.count));
+      
         dispatch(getUsers());
         dispatch(getUser());
       })

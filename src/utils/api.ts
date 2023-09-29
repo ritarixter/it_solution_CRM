@@ -6,10 +6,10 @@ import {
   TUpdateList,
   TUpdateTask,
 } from "../types";
-//import { getCookie, setCookie } from "./cookies";
 import Cookies from "js-cookie";
-import { URL } from "./constants";
-import { formateDateOnlyTime } from "./utils-date";
+import { URL_BACKEND } from "./constants";
+
+const URL = URL_BACKEND;
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn = () => ({
@@ -554,6 +554,21 @@ export function updateCommentApi(
       listId: listId,
       userId: userId,
       comment: comment,
+    }),
+  }).then(responseCheck);
+}
+
+
+//---------------------------------------------------------------NOTIFY-------------------------------------------------------------------------------
+
+export function addNotifyApi(listId: number, usersId: number[], message: string) {
+  return fetch(`${URL}/notify`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      usersId: usersId,
+      message: message,
     }),
   }).then(responseCheck);
 }

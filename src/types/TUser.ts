@@ -1,4 +1,5 @@
 import { TComment } from "./TComment";
+import { TNotify } from "./TNotify";
 
 export type TUser = {
   id: number;
@@ -11,5 +12,5 @@ export type TUser = {
   username: string;
   password?: string;
   comments?: TComment[];
-  count: number;
+  notifications: TNotify[];
 };

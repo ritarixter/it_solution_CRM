@@ -11,6 +11,8 @@ import { BlockButton } from "../BlockButton/BlockButton";
 import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getList } from "../../services/slices/list";
+import { WebSocketService } from "../../utils/ws/websocket.service";
+
 
 type TApplicationsLayout = {
   children: any;
@@ -30,8 +32,11 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
 
   const { user } = useAppSelector((state) => state.user);
+
+
   return (
     <Wrapper>
       <HeaderTop />

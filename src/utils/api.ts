@@ -6,10 +6,10 @@ import {
   TUpdateList,
   TUpdateTask,
 } from "../types";
-//import { getCookie, setCookie } from "./cookies";
 import Cookies from "js-cookie";
-import { URL } from "./constants";
-import { formateDateOnlyTime } from "./utils-date";
+import { URL_BACKEND } from "./constants";
+
+const URL = URL_BACKEND;
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn = () => ({
@@ -75,6 +75,17 @@ export function getUsersApi() {
   }).then(responseCheck);
 } */
 
+//
+export function changeCountNotifyApi(idUser:number,count: number) {
+  return fetch(`${URL}/user/${idUser}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      count,
+    }),
+  }).then(responseCheck);
+}
+
 //Внести изменения о пользователе
 export function editUsers(
   username?: string,
@@ -84,7 +95,7 @@ export function editUsers(
   name?: string,
   access?: string
 ) {
-  return fetch(`${URL}/users`, {
+  return fetch(`${URL}/user/{id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
@@ -105,7 +116,7 @@ export function addUserApi(
   password: string,
   access: string,
   phone: string,
-  avatar?: string
+  avatar: string
 ) {
   return fetch(`${URL}/user`, {
     method: "POST",
@@ -492,6 +503,19 @@ export function updateStepApi(id: number, idStep: number) {
   }).then(responseCheck);
 }
 
+export function getStepApi() {
+  return fetch(`${URL}/step`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
+export function deleteStepApi(id: number) {
+  return fetch(`${URL}/step/${id}`, {
+    method: "DELETE",
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
 //---------------------------------------------------------------COMMENT-------------------------------------------------------------------------------
 export function getCommentsApi() {
   return fetch(`${URL}/comment`, {
@@ -530,6 +554,21 @@ export function updateCommentApi(
       listId: listId,
       userId: userId,
       comment: comment,
+    }),
+  }).then(responseCheck);
+}
+
+
+//---------------------------------------------------------------NOTIFY-------------------------------------------------------------------------------
+
+export function addNotifyApi(listId: number, usersId: number[], message: string) {
+  return fetch(`${URL}/notify`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      usersId: usersId,
+      message: message,
     }),
   }).then(responseCheck);
 }

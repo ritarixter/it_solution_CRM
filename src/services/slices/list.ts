@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, AppThunk } from "../store";
-import { TFile, TList } from "../../types";
+import { TFile, TList, TUser } from "../../types";
 import {
   addCommentApi,
   addListApi,
+  deleteCommentApi,
   deleteListApi,
   getListApi,
   updateListApi,
   updateStepApi,
 } from "../../utils/api";
 import { TUpdateList } from "../../types/TList";
+import { deleteStep, getStep } from "./step";
+import { changeCountNotify } from "./user";
 
 interface listState {
   list: Array<TList>;
@@ -61,7 +64,7 @@ export const getList: AppThunk = () => (dispatch: AppDispatch) => {
 
 export const addList: AppThunk =
   (
-    userId: number,
+    user: TUser,
     address: string,
     customer: string,
     INNCompany: string,
@@ -74,9 +77,11 @@ export const addList: AppThunk =
       .then((res) => {
         dispatch(getList());
         if (description) {
-          addCommentApi(res.id, userId, description);
+          addCommentApi(res.id, user.id, description);
         }
         updateStepApi(res.step.id, 1);
+        dispatch(changeCountNotify(user.id, 1))
+        dispatch(getStep());
       })
       .catch((err) => {
         dispatch(setError(true));
@@ -102,17 +107,25 @@ export const updateList: AppThunk =
       });
   };
 
-export const deleteList: AppThunk = (id: number) => (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
-  deleteListApi(id)
-    .then((res) => {
-      dispatch(setError(false));
-      dispatch(getList());
-    })
-    .catch((err) => {
-      dispatch(setError(true));
-    })
-    .finally(() => {
-      dispatch(setLoading(false));
-    });
-};
+export const deleteList: AppThunk =
+  (list: TList) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    if (list.comments) {
+      list.comments.forEach((comment) => {
+        deleteCommentApi(comment.id);
+      });
+    }
+    deleteListApi(list.id)
+      .then((res) => {
+        dispatch(deleteStep(list.step.id))
+        dispatch(setError(false));
+        
+        dispatch(getList());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };

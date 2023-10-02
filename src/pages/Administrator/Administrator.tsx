@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Pagination, UserBlock, Wrapper } from "../../components";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
@@ -11,20 +11,23 @@ import { TUser } from "../../types";
 import { titles } from "./constants";
 import { addUser } from "../../services/slices/user";
 import { uploadFiles } from "../../utils/api";
-
+import { Preloader } from "../../components/Preloader/Preloader";
+import close from "../../images/icons/close.svg";
+import { translitRuEn } from "../../utils/utils";
 export const Administrator: FC = () => {
-  const { users } = useAppSelector((state) => state.user);
+  const { users, isLoadingUser } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [access, setAccess] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState<any>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TUser>>([]);
   const dispatch = useAppDispatch();
-  const pageSize = 9;
+  const [currentfiles, setCurrentFiles] = useState<File[]>([]);
+  const [avatar, setAvatar]= useState<FormData>()
+  const pageSize = 6;
 
   useEffect(() => {
     if (users.length != 0) {
@@ -35,11 +38,35 @@ export const Administrator: FC = () => {
     }
   }, [currentPage, users]);
 
+  useEffect(() => {
+    let data = new FormData();
+    if (currentfiles.length != 0) {
+      for (let i = 0; i < currentfiles.length; i++) {
+        data.append(
+          "media",
+          currentfiles[i],
+          translitRuEn(currentfiles[i].name)
+        );
+      }
+      setAvatar(data);
+    } else {
+      setAvatar(undefined);
+    }
+  }, [currentfiles]);
+
   const handleAddUser = () => {
     uploadFiles(avatar).then((res) => {
-      dispatch(addUser(name, userName, password, access, phone, res));
+      dispatch(addUser(name, userName, password, access, phone, res[0].url));
       deleteInput();
     });
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    setCurrentFiles([...e.target.files]);
   };
 
   const deleteInput = () => {
@@ -48,7 +75,7 @@ export const Administrator: FC = () => {
     setAccess("");
     setPhone("");
     setPassword("");
-    setAvatar("");
+    setCurrentFiles([]);
   };
 
   return (
@@ -94,13 +121,38 @@ export const Administrator: FC = () => {
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
               />
-              <Input
-                setValue={setAvatar}
-                value={avatar}
-                type={"text"}
-                name={"Добавьте аватар"}
-                text={"Аватар"}
-              />
+              <div className={styles.files}>
+                <label className={styles.input_file}>
+                  <input
+                    accept="image/png, image/jpeg, image/jpg"
+                    type="file"
+                    id="input__file"
+                    className={styles.input}
+                    onChange={handleFileChange}
+                  />
+                  <span className={styles.input_file_btn}>Выберите аватар</span>
+                </label>
+                {currentfiles && currentfiles.length > 0 ? (
+                  <div className={styles.files__container}>
+                    <span className={styles.files__name}>
+                      {currentfiles[0].name}
+                    </span>
+
+                    <img
+                      src={close}
+                      className={styles.img}
+                      alt={"Закрыть"}
+                      onClick={() => {
+                        setCurrentFiles([]);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <span className={styles.input_file_text}>
+                  Допустимые расширения .png .jpg
+                </span>
+                )}
+              </div>
             </div>
           </div>
           <div className={styles.admin__buttons}>
@@ -110,12 +162,12 @@ export const Administrator: FC = () => {
                 handleAddUser();
               }}
               disabled={
-                name === " " &&
-                userName === " " &&
-                password === " " &&
-                access === " " &&
-                phone === " " &&
-                avatar === " "
+                name === "" ||
+                userName === "" ||
+                password === "" ||
+                access === "" ||
+                phone === "" ||
+                (currentfiles && currentfiles.length === 0)
               }
             />
             <button
@@ -129,40 +181,46 @@ export const Administrator: FC = () => {
           </div>
         </div>
         <div className={styles.users}>
-          <div className={styles.users_block}>
-            <h2 className={styles.users_title}>Сотрудники</h2>
-            <table className={styles.table}>
-              <thead key={uuidv4()}>
-                <tr className={styles.table_title}>
-                  {titles.map((title) => (
-                    <th className={styles.table_column}>{title}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody key={uuidv4()}>
-                {currentData.map((item) => (
-                  <tr className={styles.table_content} onClick={() => {}}>
-                    <td className={styles.table_row}>
-                      <UserBlock name={""} avatar={item.avatar} />
-                    </td>
-                    <td className={styles.table_row}>{item.name}</td>
-                    <td className={styles.table_row}>{item.access}</td>
-                    <td className={styles.table_row}>{item.username}</td>
-                    <td className={styles.table_row}>{item.phone}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className={styles.pagination}>
-            <Pagination
-              pageSize={pageSize}
-              totalCount={users.length}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              style={"blue"}
-            />
-          </div>
+          {isLoadingUser ? (
+            <Preloader />
+          ) : (
+            <>
+              <div className={styles.users_block}>
+                <h2 className={styles.users_title}>Сотрудники</h2>
+                <table className={styles.table}>
+                  <thead key={uuidv4()}>
+                    <tr className={styles.table_title}>
+                      {titles.map((title) => (
+                        <th className={styles.table_column}>{title}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody key={uuidv4()}>
+                    {currentData.map((item) => (
+                      <tr className={styles.table_content} onClick={() => {}}>
+                        <td className={styles.table_rowName}>
+                          <UserBlock name={""} avatar={item.avatar} />
+                          <span className={styles.name}>{item.name}</span>
+                        </td>
+                        <td className={styles.table_row}>{item.access}</td>
+                        <td className={styles.table_row}>{item.username}</td>
+                        <td className={styles.table_row}>{item.phone}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={styles.pagination}>
+                <Pagination
+                  pageSize={pageSize}
+                  totalCount={users.length}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  style={"blue"}
+                />
+              </div>
+            </>
+          )}
         </div>
       </section>
     </Wrapper>

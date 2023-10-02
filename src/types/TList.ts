@@ -2,6 +2,7 @@ import { TComment } from "./TComment";
 import { TCommercialProposal } from "./TCommercialProposal";
 import { TCompany } from "./TCompany";
 import { TFile } from "./TFile";
+import { TNotify } from "./TNotify";
 import { TStep } from "./TStep";
 import { TUser } from "./TUser";
 import { TWork } from "./TWork";
@@ -23,6 +24,7 @@ export type TList = {
   files: TFile[];
   step: TStep;
   comments?: TComment[]
+  notifications: TNotify[];
 };
 
 export type TUpdateList = {

@@ -34,7 +34,15 @@
 .notice {
   position: absolute;
   top: 9px;
-  right: -8px;
+  right: -7px;
+  width: 17px;
+  height: 17px;
+  background-color:$notifyColor;
+  border-radius: 50%;
+  color: $thirdColor;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
 }
 
 .users {

@@ -1,13 +1,14 @@
 @import "../../styles/variables.scss";
 
 .box {
-  width: 288px;
+  width: 550px;
   min-height: 48px;
   background-color: $notifyColor;
   border-radius: 10px;
+  border-radius: 10px;
   padding-top: 14px;
   padding-left: 23px;
-  margin-left: 20px;
+  position: relative;
 
   &_text {
     font-size: 14px;
@@ -16,4 +17,29 @@
     color: $thirdColor;
     margin: 0;
   }
+
+  &_open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 13px;
+  right: 21px;
+  margin-left: 4px;
+  width: 9px;
+  height: 24px;
+
+  transition: all 0.2s ease;
+  &.open {
+    transform: rotateX(180deg);
+  }
+}
+
+.popup {
+  position: absolute;
+  top: 43px;
+  right: 648px;
 }

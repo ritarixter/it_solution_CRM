@@ -12,13 +12,17 @@ import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
 import { addCommercialProposalApi, updateStepApi } from "../../../utils/api";
 import { Input } from "../../../components/Input";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch()
   const id_list = Number(location.pathname.slice(28));  
+  const { user } = useAppSelector((state) => state.user);
   const [items, setItems] = useState<Array<IProducts>>([
     {
       id: 0,
@@ -58,6 +62,8 @@ export const CommercialProposalCreate: FC = () => {
   
       addCommercialProposalApi(name, id_list, items, String(summaBuy), String(summaSale)).then((res) => {
         updateStepApi(currentList[0].step.id, 3);
+        dispatch(changeCountNotify(user.id, 1))
+        dispatch(getStep())
         navigate(-1);
       });
     }

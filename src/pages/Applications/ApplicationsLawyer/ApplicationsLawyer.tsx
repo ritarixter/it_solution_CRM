@@ -13,12 +13,15 @@ import "../../../components/Calendar/Calendar.css";
 import calendar from "../../../images/icons/calendar_grey.svg";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const ApplicationsLawyer: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
+  const { user } = useAppSelector((state) => state.user);
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
   const [files, setFiles] = useState<FormData | undefined>(undefined);
@@ -121,6 +124,8 @@ export const ApplicationsLawyer: FC = () => {
                   setShowDeadline(true);
                   if (currentList?.step.id)
                     updateStepApi(currentList?.step.id, 8);
+                    dispatch(changeCountNotify(user.id, 1))
+                  dispatch(getStep());
                 }}
                 disabled={deadline === "Выберите дату"}
               />

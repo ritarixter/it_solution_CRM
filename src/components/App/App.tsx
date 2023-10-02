@@ -35,11 +35,15 @@ import { ApplicationsBuyer, ApplicationsLawyer, ApplicationsPlanner } from "../.
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
 import { Administrator } from "../../pages/Administrator/Administrator";
+import { getStep } from "../../services/slices/step";
+import { io } from "socket.io-client";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isAuth, user } = useAppSelector((state) => state.user);
+
+ 
 
   useEffect(() => {
     if (isAuth) {
@@ -51,6 +55,7 @@ export const App: FC = () => {
       dispatch(getSample());
       dispatch(getTask());
       dispatch(getCompanies());
+      dispatch(getStep());
     } else {
       navigate("/login");
     }

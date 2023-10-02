@@ -5,7 +5,7 @@ import { UserBlock } from "../UserBlock/UserBlock";
 import close from "../../images/icons/close.svg";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { deleteCommentApi, getListByIdApi } from "../../utils/api";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { getList } from "../../services/slices/list";
 import { access } from "../../utils/constants";
 import { formateDateShort } from "../../utils/utils-date";
@@ -17,7 +17,17 @@ export const CommentsBlock: FC = () => {
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   const [data, setData] = useState<TComment[]>([]);
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(getList());
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  
   useEffect(() => {
     getListByIdApi(id_list).then((res: TList) => {
       setData(res.comments ? res.comments : []);

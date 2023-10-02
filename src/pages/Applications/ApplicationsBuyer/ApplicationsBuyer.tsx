@@ -18,12 +18,15 @@ import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { getStep } from "../../../services/slices/step";
+import { changeCountNotify } from "../../../services/slices/user";
 
 export const ApplicationsBuyer: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.user);
   const headerData = ["КП", "Файлы", "Комментарии"];
   const [header, setHeader] = useState<string>("КП");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
@@ -177,8 +180,12 @@ export const ApplicationsBuyer: FC = () => {
                     bigWidth={true}
                     text={"Отправить главному инженеру"}
                     onClick={() => {
-                      currentList?.step &&
+                      if (currentList?.step) {
                         updateStepApi(currentList?.step.id, 4);
+                        dispatch(changeCountNotify(user.id, 1))
+                        dispatch(getStep());
+                      }
+
                       navigate("/applications");
                     }}
                   />

@@ -17,7 +17,6 @@
     padding-bottom: 50px;
     border-radius: 10px;
     border: 1px solid #f0f2f5;
-    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
     margin-right: 51px;
   }
 
@@ -55,7 +54,7 @@
   padding-bottom: 50px;
   border-radius: 10px;
   border: 1px solid #f0f2f5;
-  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+
 
   &_title {
     margin-top: 43px;
@@ -71,14 +70,14 @@
 .table {
   &_title {
     display: grid;
-    grid-template-columns: 269px 153px 138px 130px;
+    grid-template-columns: 269px 153px 160px 130px;
     text-align: left;
   }
 
   &_content {
     list-style: none;
     display: grid;
-    grid-template-columns: 269px 153px 138px 130px;
+    grid-template-columns: 269px 153px 160px 130px;
     padding: 0;
     margin-top: 25px;
     cursor: pointer;

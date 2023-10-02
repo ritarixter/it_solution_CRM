@@ -39,6 +39,7 @@ import {
 } from "../../pages/Applications";
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
+import { Administrator } from "../../pages/Administrator/Administrator";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -83,12 +84,20 @@ export const App: FC = () => {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/applications/history"
           element={
             <ProtectedRoute>
               <ApplicationsHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          index
+          element={
+            <ProtectedRoute>
+              <Administrator />
             </ProtectedRoute>
           }
         />

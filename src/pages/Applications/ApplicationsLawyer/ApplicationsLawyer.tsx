@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useLocation, useNavigate } from "react-router";
-import { getListByIdApi, uploadFiles } from "../../../utils/api";
+import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { Input } from "../../../components/Input";
@@ -117,7 +117,11 @@ export const ApplicationsLawyer: FC = () => {
               </div>
               <BlockButton
                 text={"Сохранить"}
-                onClick={() => setShowDeadline(true)}
+                onClick={() => {
+                  setShowDeadline(true);
+                  if (currentList?.step.id)
+                    updateStepApi(currentList?.step.id, 8);
+                }}
                 disabled={deadline === "Выберите дату"}
               />
             </div>

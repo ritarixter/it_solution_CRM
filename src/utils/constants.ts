@@ -1,4 +1,4 @@
-// export const URL = "http://backend.corp.itsl.tel";
+//export const URL = "http://backend.corp.itsl.tel";
 export const URL = "http://localhost:8000";
 
 export const access: TAccess = {
@@ -23,7 +23,7 @@ export type TAccess = {
   PLANNER:string
 };
 
-// export const URL_BACKEND = "http://backend.corp.itsl.tel";
+//export const URL_BACKEND = "http://backend.corp.itsl.tel";
 export const URL_BACKEND = "http://localhost:8000";
 
 export const NOT_ASSIGNED = "Не назначено";

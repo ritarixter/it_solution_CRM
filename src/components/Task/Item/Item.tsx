@@ -32,12 +32,12 @@ export const Item: FC<IItem> = ({                         // КОМПОНЕНТ 
     id?: number
   ) => {
     let resultDate = undefined;
-    if (time !== formateDateOnlyTime(task.endDate)) {   // сверка новой времени и старой
+    if (time !== formateDateOnlyTime(task?.endDate)) {   // сверка новой времени и старой
       resultDate = new Date(task?.endDate);             // на этапе тестирования (МОЖНО ИСПОЛЬЗОВАТЬ)
       const times = time?.split(":");                   // ДАТА ДЛЯ ИЗМЕНЯЕМОЙ ЗАДАЧИ
-      resultDate.setUTCHours(Number(times![0]), Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа?? УЖЕ НЕ КОСТЫЛЬ
+      resultDate.setHours(Number(times![0]), Number(times![1]), 0, 0); //КОСТЫЛЬ Number(times![0])+3 , ПОЧЕМУ убавляется 3 часа?? УЖЕ НЕ КОСТЫЛЬ
     }
-    const taskNew: TUpdateTask = {                        // измененная задача
+    const taskNew: TUpdateTask = {                      // измененная задача
       id: id,
       title: name ? name : undefined,
       done: undefined,
@@ -48,6 +48,7 @@ export const Item: FC<IItem> = ({                         // КОМПОНЕНТ 
     dispatch(updateTask(taskNew));
     setPopupOpen(false);
   };
+  console.log(task?.endDate);
 
   return (
     <li
@@ -113,7 +114,7 @@ export const Item: FC<IItem> = ({                         // КОМПОНЕНТ 
         <p className={styles.description}>{task.description}</p>
       )}
       <time className={styles.task__time} dateTime={formateDate(task.endDate)}>
-        {formateDate(task.endDate)}
+        {formateDate(new Date(new Date(task.endDate)?.setUTCHours(new Date(task.endDate)?.getHours())).toJSON())}
       </time>
       <PopupAddTask
         title={task.title}

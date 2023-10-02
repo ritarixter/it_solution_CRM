@@ -9,6 +9,7 @@ import {
 //import { getCookie, setCookie } from "./cookies";
 import Cookies from "js-cookie";
 import { URL } from "./constants";
+import { formateDateOnlyTime } from "./utils-date";
 
 const headersWithContentType = { "Content-Type": "application/json" };
 const headersWithAuthorizeFn = () => ({
@@ -97,6 +98,29 @@ export function editUsers(
   }).then(responseCheck);
 }
 
+//Добавление пользователя
+export function addUserApi(
+  name: string,
+  username: string,
+  password: string,
+  access: string,
+  phone: string,
+  avatar?: string
+) {
+  return fetch(`${URL}/user`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      name: name,
+      username: username,
+      password: password,
+      access: access,
+      phone: phone,
+      avatar: avatar,
+    }),
+  }).then(responseCheck);
+}
+
 //Удаление пользователя
 export function deleteUsers(usernameId: any) {
   return fetch(`${URL}/users/${usernameId}`, {
@@ -138,12 +162,15 @@ export function addTaskUserApi(
   done: boolean,
   description?: string
 ) {
+  // const times = formateDateOnlyTime(endDate).split(":")
+  console.log(endDate.toLocaleString);
   return fetch(`${URL}/tasks`, {
     method: "POST",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify({
       done: done,
       status: status,
+      // endDate: new Date(endDate.setUTCHours(Number(times[0]), Number(times[1]))),
       endDate: endDate,
       title: title,
       description: description,

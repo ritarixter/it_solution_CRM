@@ -19,10 +19,7 @@ export const DropdownList: FC<TDropdownList> = ({
   setState,
   name,
   error,
-<<<<<<< HEAD
-=======
   size
->>>>>>> e363aef33db4dba27d02f968c084c9f0d50727f7
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 

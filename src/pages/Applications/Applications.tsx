@@ -9,11 +9,11 @@ import { BlockComments } from "../../components/BlockComments/BlockComments";
 import { Popup } from "../../components/Popup";
 import { Input } from "../../components/Input";
 import { addCompany, getCompanies } from "../../services/slices/company";
-import { TCompany } from "../../types";
+import { TCompany, TList } from "../../types";
 import { addList, getList } from "../../services/slices/list";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { uploadFiles } from "../../utils/api";
-import { access } from "../../utils/constants";
+import { access, statusConst } from "../../utils/constants";
 import { validateEmail } from "../../utils/utils-validate";
 import { getUser, getUsers } from "../../services/slices/user";
 import { Navigate, useLocation } from "react-router";
@@ -41,14 +41,19 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
+  const [activeList, setActiveList] = useState<TList[]>([])
   let location = useLocation();
 
   useEffect(() => {
     dispatch(getList());
     dispatch(getUsers());
     dispatch(getCompanies());
+    const arr = list.filter((item) => item.status != statusConst.FINISHED);
+    setActiveList(arr)
     const interval = setInterval(() => {
       dispatch(getList());
+      const arr = list.filter((item) => item.status != statusConst.FINISHED);
+      setActiveList(arr)
     }, 5000);
 
     return () => {
@@ -172,14 +177,14 @@ export const Applications: FC = () => {
               user.access === access.LAWYER || user.access === access.PLANNER) && (
               <TableTask
                 mini={false}
-                list={list}
+                list={activeList}
                 currentAccess={access.SUPERUSER}
               />
             )}
             {user.access === access.ENGINEER && (
               <TableTask
                 mini={false}
-                list={list}
+                list={activeList}
                 currentAccess={access.ENGINEER}
               />
             )}
@@ -288,7 +293,7 @@ export const Applications: FC = () => {
                   </div>
                   <TableTask
                     mini={true}
-                    list={list}
+                    list={activeList}
                     currentAccess={access.MANAGER}
                   />
                 </section>

@@ -14,6 +14,7 @@ import {
   updateCommercialProposalApi,
 } from "../../../utils/api";
 import { IProducts } from "../../../types";
+import { formateDateShort } from "../../../utils/utils-date";
 
 export const CommercialProposalImport: FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,10 @@ export const CommercialProposalImport: FC = () => {
     if (newCP.length > 0) {
       const items: IProducts[] = [];
       newCP.forEach((item1, index) => {
+       
         item1.forEach((item2, index1) => {
+          console.log(item2[5])
+          console.log(String(item2[5]))
           items.push({
             id: items.length,
             order: 0,
@@ -43,7 +47,7 @@ export const CommercialProposalImport: FC = () => {
             units: String(item2[2]),
             price: Number(item2[3]),
             actualPrice: Number(item2[4]),
-            date: String(item2[5]),
+            date: formateDateShort(new Date(item2[5])),
             totalPrice: Number(item2[4]) * Number(item2[1]),
             marginalityPrice:
               Number(item2[3]) * Number(item2[1]) -
@@ -58,7 +62,7 @@ export const CommercialProposalImport: FC = () => {
       };
 
       updateCommercialProposalApi(newCommercialProposal).then((res) => {
-        console.log(res);
+
         navigate(`/applications/${id_list}`);
       });
     }

@@ -1,5 +1,6 @@
 import bar_chart from "../../images/icons/bar_chart.svg";
 import sample from "../../images/icons/sample.svg";
+import users from '../../images/icons/users.svg'
 import clipboard from "../../images/icons/clipboard.svg";
 import application from "../../images/icons/applications.svg";
 
@@ -14,12 +15,17 @@ export const routes = [
     name: "Заявки",
     path: "/applications",
   },
-/*   {
-    icon: sample,
-    name: "Шаблоны",
-    path: "/sample",
-  },
   {
+    icon: users,
+    name: "Сотрудники",
+    path: "/admin",
+  },
+   {
+    icon: sample,
+    name: "История заявок",
+    path: "/applications/history",
+  },
+  /*{
     icon: clipboard,
     name: "Отчёты",
     path: "/reports",

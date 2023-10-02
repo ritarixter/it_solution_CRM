@@ -108,19 +108,9 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
                     : "Заявки"
                   : "История заявок"}
               </h2>
-              <div className={styles.title__block}>
-                {(user.access === access.SUPERUSER ||
-                  user.access === access.VICEPREZIDENT) &&
-                  location.pathname != "/applications/history" && (
-                    <Link
-                      to={"/applications/history"}
-                      className={styles.historyButton}
-                    >
-                      История заявок
-                    </Link>
-                  )}
+      
                 <ExcelButton onClick={handleDownloadExcel} />
-              </div>
+              
             </div>
             <table className={`${styles.table} ${mini && styles.table_mini}`}>
               <thead key={uuidv4()}>
@@ -177,7 +167,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
               styles.pagination_without
             }`}
           >
-            {mini && currentAccess === access.SUPERUSER && (
+            {mini && currentAccess === access.SUPERUSER && location.pathname != "/applications/history" && (
               <Link className={styles.linkAll} to="/applications">
                 Смотреть все
               </Link>

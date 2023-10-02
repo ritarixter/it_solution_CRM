@@ -1,11 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
-import { ImpotanceBlock, StatusBlock, Wrapper } from "../../../components";
 import { TList, TUser } from "../../../types";
-import { NOT_ASSIGNED_DEAD, notFound } from "../../../utils/constants";
-import { FileIcon } from "../../../components/File/FileIcon";
 import { getListByIdApi, uploadFiles } from "../../../utils/api";
 import { useLocation, useNavigate } from "react-router";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";

@@ -29,7 +29,7 @@ export const CommercialProposal: FC = () => {
     updatedAt: new Date(),
     products: [],
     summaSale: "",
-    summaBuy:"",
+    summaBuy: "",
     marginality: "",
   });
 
@@ -148,6 +148,21 @@ export const CommercialProposal: FC = () => {
                         (item) => item.id === id_list
                       );
                       updateStepApi(currentList[0].step.id, 5);
+                      navigate(`/applications/${id_list}`);
+                    }}
+                  />
+                </div>
+                <div className={styles.buttonAksynia}>
+                  <BlockButton
+                    bigWidth={true}
+                    text={"Отправить на доработку закупщику"}
+                    style={true}
+                    onClick={() => {
+                      let arr = [...list];
+                      const currentList = arr.filter(
+                        (item) => item.id === id_list
+                      );
+                      updateStepApi(currentList[0].step.id, 5.1);
                       navigate(`/applications/${id_list}`);
                     }}
                   />

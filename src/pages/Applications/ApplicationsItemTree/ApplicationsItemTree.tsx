@@ -38,6 +38,7 @@ import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { getStep } from "../../../services/slices/step";
 import { changeCountNotify } from "../../../services/slices/user";
+import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export const ApplicationsItemTree: FC = () => {
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const headerData = [
     "Изменить информацию",
+    "Обследование",
     "Дерево",
     "Исполнители",
     "Файлы",
@@ -57,7 +59,7 @@ export const ApplicationsItemTree: FC = () => {
   const dispatch = useAppDispatch();
   const [workNameValue, setWorkNameValue] = useState("");
   const [workNameValueError, setWorkNameValueError] = useState<boolean>(false);
-  
+  const [openDeadline, setOpenDeadline] = useState(false);
 
   //ИЗМЕНЕНИЕ ИНФОРМАЦИИ
   const [files, setFiles] = useState<FormData | undefined>(undefined);
@@ -144,11 +146,11 @@ export const ApplicationsItemTree: FC = () => {
           dispatch(updateList(listNew));
           setFiles(undefined);
           if (currentList?.step)
-          if (engineer != engineerDefault) {
-            updateStepApi(currentList?.step.id, 2);
-            dispatch(changeCountNotify(user.id, 1))
-            dispatch(getStep())
-          }
+            if (engineer != engineerDefault) {
+              updateStepApi(currentList?.step.id, 2);
+              dispatch(changeCountNotify(user.id, 1));
+              dispatch(getStep());
+            }
         });
       } else {
         const listNew = {
@@ -164,8 +166,8 @@ export const ApplicationsItemTree: FC = () => {
         if (currentList?.step)
           if (engineer != engineerDefault) {
             updateStepApi(currentList?.step.id, 2);
-            dispatch(changeCountNotify(user.id, 1))
-            dispatch(getStep())
+            dispatch(changeCountNotify(user.id, 1));
+            dispatch(getStep());
           }
       }
       dispatch(getList());
@@ -249,6 +251,27 @@ export const ApplicationsItemTree: FC = () => {
               onClick={() => handleChangeList()}
             />
           </div>
+        </div>
+      )}
+      {header === "Обследование" && (
+        <div className={styles.survey}>
+          <div className={styles.survey_container}>
+            {currentList?.files.map((file) => (
+              <p className={styles.survey_item}>
+                <FileIcon name={file.name} url={file.url} fullName={true} />
+              </p>
+            ))}
+          </div>
+          <div className={styles.survey_btn}>
+            <BlockButton
+              text={"Завершить обследование"}
+              onClick={() => {
+                setOpenDeadline(true);
+              }}
+              bigWidth={true}
+            />
+          </div>
+          <PopupDeadline setOpen={setOpenDeadline} open={openDeadline} />
         </div>
       )}
       {header === "Исполнители" && (

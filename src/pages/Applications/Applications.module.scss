@@ -460,3 +460,117 @@
     margin-bottom: 36px;
   }
 }
+
+//СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ ИНЖЕНЕРА---------------------------------------------------------------------------------------------------------------------------
+
+.input_file {
+  position: relative;
+
+}
+
+.input_file_blk {
+  display: flex;
+  align-items: center;
+  gap: 30px
+}
+
+.input_file_btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 16px;
+  width: 250px;
+
+  color: rgb(255 255 255);
+  font-family: "Montserrat", Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: $notifyColor;
+  height: 40px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: opacity 0.2s;
+}
+.input_file_text {
+  //padding: 0 10px;
+  font-size: 14px;
+  color: $inputCaption;
+
+  display: inline-block;
+}
+.input_file input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Hover/active */
+.input_file:hover .input_file_btn {
+  opacity: 0.75;
+}
+.input_file:active .input_file_btn {
+  background-color: $notifyColor;
+}
+
+/* Disabled */
+.input_file input[type="file"]:disabled + .input_file_btn {
+  background-color: #eee;
+}
+
+.files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+
+  &__name {
+    margin-right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 300px;
+    display: block;
+
+  }
+
+  &__row {
+    display: flex;
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.img {
+  width: 12px;
+}
+
+.survey {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  &_btn {
+    width: 250px;
+  }
+
+  &_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &_item {
+    width: 300px;
+  }
+}

@@ -1,0 +1,37 @@
+@import "../../styles/variables.scss";
+
+.deadline {
+  transition: all 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 3;
+  position: absolute;
+  width: 350px;
+  font-size: 12px;
+  background: $thirdColor;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  height: auto;
+
+  &_opened {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &_header {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.input {
+    margin-bottom: 50px;
+}
+
+.conteiner {
+    margin: 30px auto 30px;
+}

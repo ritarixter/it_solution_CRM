@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getList } from "../../services/slices/list";
 import { WebSocketService } from "../../utils/ws/websocket.service";
+import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
 
 
 type TApplicationsLayout = {
@@ -89,6 +90,10 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
                 <ImpotanceBlock
                   type={currentList?.importance ? currentList.importance : null}
                 />
+              </div>
+              <div className={styles.blockInf}>
+                <span>Дедлайн: </span>
+                <DeadlineBlock/>
               </div>
             </div>
           </div>

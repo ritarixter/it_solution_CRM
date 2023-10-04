@@ -8,13 +8,13 @@ import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
 import { FilesBlock } from "../../../components/FilesBlock";
 import { updateList } from "../../../services/slices/list";
 import { Input } from "../../../components/Input";
-import ReactCalendar from "react-calendar";
-import "../../../components/Calendar/Calendar.css";
-import calendar from "../../../images/icons/calendar_grey.svg";
+
+
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { getStep } from "../../../services/slices/step";
 import { changeCountNotify } from "../../../services/slices/user";
+import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
 
 export const ApplicationsLawyer: FC = () => {
   const location = useLocation();
@@ -50,24 +50,6 @@ export const ApplicationsLawyer: FC = () => {
     });
   };
 
-  const onClickDay = (value: any, event: any) => {
-    setClickedDay(value);
-    value.setUTCHours(24);
-    const element = document.getElementsByClassName(
-      "react-calendar__tile--now"
-    ) as HTMLCollectionOf<HTMLElement>;
-    if (element.length !== 0) {
-      if (element[0] !== document.activeElement)
-        element[0].style.opacity = "0.6";
-      else element[0].style.opacity = "1";
-    }
-    setDeadline(new Date(value).toLocaleDateString("en-US"));
-
-    setOpenCalendar(false);
-    // для получения данных по выбранному дню
-    // console.log(new Date('2023-07-10T17:38:00.000Z') > new Date(value) ? "После" : "До");
-  };
-
   return (
     <ApplicationsLayout
       currentList={currentList}
@@ -91,61 +73,7 @@ export const ApplicationsLawyer: FC = () => {
         </div>
       )}
       {header === "Дедлайн" && (
-        <>
-          {!showDeadline ? (
-            <div className={styles.calendar}>
-              <div>
-                <div className={styles.calendar_block}>
-                  <Input
-                    type={"text"}
-                    name={"Выберите дату"}
-                    text={"Установите дедлайн по договору"}
-                    value={deadline}
-                    setValue={setDeadline}
-                  />
-                  <img
-                    src={calendar}
-                    className={styles.calendar_icon}
-                    alt="иконка календаря"
-                    onClick={() => setOpenCalendar(true)}
-                  />
-                </div>
-                {openCalendar && (
-                  <div className={styles.calendar_style}>
-                    <ReactCalendar
-                      onClickDay={(value, event) => onClickDay(value, event)}
-                    />
-                  </div>
-                )}
-              </div>
-              <BlockButton
-                text={"Сохранить"}
-                onClick={() => {
-                  setShowDeadline(true);
-                  if (currentList?.step.id)
-                    updateStepApi(currentList?.step.id, 8);
-                    dispatch(changeCountNotify(user.id, 1))
-                  dispatch(getStep());
-                }}
-                disabled={deadline === "Выберите дату"}
-              />
-            </div>
-          ) : (
-            <div className={styles.deadline}>
-              <p className={styles.deadline__week}>
-                {new Date(deadline).toLocaleString("ru", { weekday: "long" })}
-              </p>
-              <p className={styles.deadline__day}>
-                Вы установили дедлайн на {deadline}
-              </p>
-              <BlockButton
-                text={"Изменить дедлайн"}
-                onClick={() => setShowDeadline(false)}
-                bigWidth={true}
-              />
-            </div>
-          )}
-        </>
+        <DeadlineSetting text={"Установите дедлайн по договору"} onClick={() => {}}/>
       )}{" "}
       {header === "Комментарии" && <CommentsBlock />}
     </ApplicationsLayout>

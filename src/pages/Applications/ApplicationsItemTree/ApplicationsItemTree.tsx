@@ -39,6 +39,7 @@ import { ApplicationsLayout } from "../../../components/ApplicationsLayout/Appli
 import { getStep } from "../../../services/slices/step";
 import { changeCountNotify } from "../../../services/slices/user";
 import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
+import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -254,25 +255,26 @@ export const ApplicationsItemTree: FC = () => {
         </div>
       )}
       {header === "Обследование" && (
-        <div className={styles.survey}>
-          <div className={styles.survey_container}>
-            {currentList?.files.map((file) => (
-              <p className={styles.survey_item}>
-                <FileIcon name={file.name} url={file.url} fullName={true} />
-              </p>
-            ))}
-          </div>
-          <div className={styles.survey_btn}>
-            <BlockButton
-              text={"Завершить обследование"}
-              onClick={() => {
-                setOpenDeadline(true);
-              }}
-              bigWidth={true}
-            />
-          </div>
-          <PopupDeadline setOpen={setOpenDeadline} open={openDeadline} />
-        </div>
+        <DeadlineSetting text={"Установите дедлайн по договору"} onClick={() => {}}/>
+        // <div className={styles.survey}>
+        //   <div className={styles.survey_container}>
+        //     {currentList?.files.map((file) => (
+        //       <p className={styles.survey_item}>
+        //         <FileIcon name={file.name} url={file.url} fullName={true} />
+        //       </p>
+        //     ))}
+        //   </div>
+        //   <div className={styles.survey_btn}>
+        //     <BlockButton
+        //       text={"Завершить обследование"}
+        //       onClick={() => {
+        //         setOpenDeadline(true);
+        //       }}
+        //       bigWidth={true}
+        //     />
+        //   </div>
+        //   <PopupDeadline setOpen={setOpenDeadline} open={openDeadline} />
+        // </div>
       )}
       {header === "Исполнители" && (
         <Performers users={currentList?.users ? currentList?.users : []} />

@@ -1,0 +1,51 @@
+@import "../../styles/variables.scss";
+
+.calendar {
+    max-width: 383px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    &_block {
+      position: relative;
+    }
+  
+    &_icon {
+      right: 21px;
+      top: 32px;
+      position: absolute;
+      cursor: pointer;
+    }
+  
+    &_style {
+      border: 1px solid #c8c6c6;
+      border-radius: 10px;
+    }
+  }
+  
+  .deadline {
+    max-width: 271px;
+    width: 100%;
+    background-color: $statusDoneColor;
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 25px 34px 26px 23px;
+  
+    &__week {
+      font-size: 24px;
+      font-weight: 800;
+      color: $primaryColor;
+      margin: 0;
+      margin-bottom: 26px;
+    }
+  
+    &__day {
+      font-size: 15px;
+      font-weight: 400;
+      color: $mainColor;
+      margin-bottom: 36px;
+    }
+  }

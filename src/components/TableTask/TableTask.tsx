@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./TableTask.module.scss";
 import excel from "../../images/icons/excel_icon.svg";
-import { titles, titlesManager, titlesMini } from "./constants";
+import { titles, titlesHistory, titlesManager, titlesMini } from "./constants";
 import { Pagination } from "../Pagination";
 import { v4 as uuidv4 } from "uuid";
 import { TableTaskItem } from "./TableTaskItem/TableTaskItem";
 import { TList } from "../../types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { downloadExcel } from "react-export-table-to-excel";
 import { formateDate } from "../../utils/utils-date";
 import { useAppSelector } from "../../services/hooks";
@@ -26,9 +26,11 @@ function addSevenDay(date = new Date()) {
 }
 export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
   const { isLoadingList } = useAppSelector((state) => state.list);
+  const { user } = useAppSelector((state) => state.user);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<Array<TList>>([]);
   const [error, setError] = useState<boolean>(false);
+  const location = useLocation();
   const pageSize = currentAccess === access.SUPERUSER ? (mini ? 3 : 7) : 7;
 
   function handleDownloadExcel() {
@@ -100,9 +102,15 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
           <div>
             <div className={styles.header}>
               <h2 className={styles.title}>
-                {mini ? "Заявки за последние 7 дней" : "Заявки"}
+                {location.pathname != "/applications/history"
+                  ? mini
+                    ? "Заявки за последние 7 дней"
+                    : "Заявки"
+                  : "История заявок"}
               </h2>
-              <ExcelButton onClick={handleDownloadExcel} />
+      
+                <ExcelButton onClick={handleDownloadExcel} />
+              
             </div>
             <table className={`${styles.table} ${mini && styles.table_mini}`}>
               <thead key={uuidv4()}>
@@ -113,17 +121,26 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
                 >
                   {mini &&
                     currentAccess === access.SUPERUSER &&
+                    location.pathname != "/applications/history" &&
                     titlesMini.map((title, index) => (
                       <th key={index}>{title}</th>
                     ))}
                   {!mini &&
                     currentAccess === access.SUPERUSER &&
+                    location.pathname != "/applications/history" &&
                     titles.map((title, index) => <th key={index}>{title}</th>)}
+                  {mini &&
+                    location.pathname === "/applications/history" &&
+                    titlesHistory.map((title, index) => (
+                      <th key={index}>{title}</th>
+                    ))}
                   {!mini &&
                     currentAccess === access.ENGINEER &&
+                    location.pathname != "/applications/history" &&
                     titles.map((title, index) => <th key={index}>{title}</th>)}
                   {mini &&
                     currentAccess === access.MANAGER &&
+                    location.pathname != "/applications/history" &&
                     titlesManager.map((title, index) => (
                       <th key={index}>{title}</th>
                     ))}
@@ -150,7 +167,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
               styles.pagination_without
             }`}
           >
-            {mini && currentAccess === access.SUPERUSER && (
+            {mini && currentAccess === access.SUPERUSER && location.pathname != "/applications/history" && (
               <Link className={styles.linkAll} to="/applications">
                 Смотреть все
               </Link>

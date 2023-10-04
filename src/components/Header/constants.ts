@@ -20,12 +20,12 @@ export const routes = [
     name: "Сотрудники",
     path: "/admin",
   },
-/*   {
+   {
     icon: sample,
-    name: "Шаблоны",
-    path: "/sample",
+    name: "История заявок",
+    path: "/applications/history",
   },
-  {
+  /*{
     icon: clipboard,
     name: "Отчёты",
     path: "/reports",

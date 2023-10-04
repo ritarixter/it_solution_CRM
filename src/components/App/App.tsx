@@ -31,7 +31,12 @@ import {
 } from "../../pages/CommercialProposal";
 import { ApplicationsEngineer } from "../../pages/Applications/ApplicationsEngineer/ApplicationsEngineer";
 import { getStock } from "../../services/slices/stock";
-import { ApplicationsBuyer, ApplicationsLawyer, ApplicationsPlanner } from "../../pages/Applications";
+import {
+  ApplicationsBuyer,
+  ApplicationsLawyer,
+  ApplicationsPlanner,
+  ApplicationsHistory,
+} from "../../pages/Applications";
 import { ApplicationsVicePrezident } from "../../pages/Applications/ApplicationsVicePrezident/ApplicationsVicePrezident";
 import { Marginality } from "../../pages/Marginality/Marginality";
 import { Administrator } from "../../pages/Administrator/Administrator";
@@ -59,113 +64,121 @@ export const App: FC = () => {
     } else {
       navigate("/login");
     }
-  
   }, []);
 
   return (
     <div className={styles.app}>
       <Header />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/analytics"
-            element={
-              <ProtectedRoute>
-                {" "}
-                <Analytics />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/applications"
-            index
-            element={
-              <ProtectedRoute>
-                <Applications />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            index
-            element={
-              <ProtectedRoute>
-                <Administrator />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/commercial-proposal/create/:id"
-            element={
-              <ProtectedRoute>
-                <DndProvider backend={HTML5Backend}>
-                  <CommercialProposalCreate />
-                </DndProvider>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/commercial-proposal/edit/:id"
-            element={
-              <ProtectedRoute>
-                <DndProvider backend={HTML5Backend}>
-                  <CommercialProposalEdit />
-                </DndProvider>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/commercial-proposal/:id"
-            element={
-              <ProtectedRoute>
-                <CommercialProposal />
-              </ProtectedRoute>
-            }
-          />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications"
+          index
+          element={
+            <ProtectedRoute>
+              <Applications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications/history"
+          element={
+            <ProtectedRoute>
+              <ApplicationsHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          index
+          element={
+            <ProtectedRoute>
+              <Administrator />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/commercial-proposal/create/:id"
+          element={
+            <ProtectedRoute>
+              <DndProvider backend={HTML5Backend}>
+                <CommercialProposalCreate />
+              </DndProvider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/commercial-proposal/edit/:id"
+          element={
+            <ProtectedRoute>
+              <DndProvider backend={HTML5Backend}>
+                <CommercialProposalEdit />
+              </DndProvider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/commercial-proposal/:id"
+          element={
+            <ProtectedRoute>
+              <CommercialProposal />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/commercial-proposal/estimate/:id"
-            element={
-              <ProtectedRoute>
-                {user.access === access.BUYER && <CommercialProposalEstimate />}
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/commercial-proposal/estimate/:id"
+          element={
+            <ProtectedRoute>
+              {user.access === access.BUYER && <CommercialProposalEstimate />}
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/commercial-proposal/import/:id"
-            element={
-              <ProtectedRoute>
-                {user.access === access.BUYER && <CommercialProposalImport />}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/applications/:id"
-            element={
-              <ProtectedRoute>
-                {" "}
-                {user.access === access.LAWYER && <ApplicationsLawyer />}
-                {user.access === access.MANAGER && <ApplicationsItem />}
-                {user.access === access.SUPERUSER && <ApplicationsItemTree />}
-                {user.access === access.ENGINEER && <ApplicationsEngineer />}
-                {user.access === access.PLANNER && <ApplicationsPlanner />}
-                {user.access === access.BUYER && <ApplicationsBuyer />}
-                {user.access === access.VICEPREZIDENT && (
-                  <ApplicationsVicePrezident />
-                )}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/marginality/:id"
-            element={
-              <ProtectedRoute>
-                {(user.access === access.VICEPREZIDENT || user.access === access.SUPERUSER )&& <Marginality />}
-              </ProtectedRoute>
-            }
-          />
-          {/*         <Route
+        <Route
+          path="/commercial-proposal/import/:id"
+          element={
+            <ProtectedRoute>
+              {user.access === access.BUYER && <CommercialProposalImport />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications/:id"
+          element={
+            <ProtectedRoute>
+              {" "}
+              {user.access === access.LAWYER && <ApplicationsLawyer />}
+              {user.access === access.MANAGER && <ApplicationsItem />}
+              {user.access === access.SUPERUSER && <ApplicationsItemTree />}
+              {user.access === access.ENGINEER && <ApplicationsEngineer />}
+              {user.access === access.PLANNER && <ApplicationsPlanner />}
+              {user.access === access.BUYER && <ApplicationsBuyer />}
+              {user.access === access.VICEPREZIDENT && (
+                <ApplicationsVicePrezident />
+              )}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marginality/:id"
+          element={
+            <ProtectedRoute>
+              {(user.access === access.VICEPREZIDENT ||
+                user.access === access.SUPERUSER) && <Marginality />}
+            </ProtectedRoute>
+          }
+        />
+        {/*         <Route
           path="/sample"
           element={
             <ProtectedRoute>
@@ -183,25 +196,24 @@ export const App: FC = () => {
             </ProtectedRoute>
           }
         /> */}
-          <Route
-            path="/reports"
-            element={
-              <ProtectedRoute>
-                {" "}
-                <Reports />{" "}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute>
-                <NotFound />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Reports />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <NotFound />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </div>
   );
 };

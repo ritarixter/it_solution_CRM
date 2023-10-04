@@ -122,7 +122,7 @@ export const ApplicationsItem: FC = () => {
     if (nameCompanyValue === "") {
       setError({ ...error, nameCompany: true });
     }
-    if (INNValue.length != 10) {
+    if (INNValue.length < 10 || INNValue.length > 12) {
       setError({ ...error, INN: true });
     }
     if (nameValue.length < 2) {
@@ -137,7 +137,7 @@ export const ApplicationsItem: FC = () => {
 
     if (
       nameCompanyValue != "" &&
-      INNValue.length === 10 &&
+      !(INNValue.length < 10 || INNValue.length > 12) &&
       nameValue.length > 1 &&
       phoneValue != ""
     ) {
@@ -443,12 +443,12 @@ navigate(-1)
           />
           <Input
             type={"text"}
-            name={"Введите ИНН (10 символов)"}
+            name={"Введите ИНН (10 или 12 символов)"}
             text={"ИНН"}
             value={INNValue}
             setValue={setINNValue}
             error={error.INN}
-            errorText={"Длина должна быть 10"}
+            errorText={"Длина должна быть 10 или 12"}
           />
           <Input
             type={"text"}

@@ -41,19 +41,26 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
-  const [activeList, setActiveList] = useState<TList[]>([])
+  //const [activeList, setActiveList] = useState<TList[]>([]);
   let location = useLocation();
 
   useEffect(() => {
     dispatch(getList());
     dispatch(getUsers());
     dispatch(getCompanies());
-    const arr = list.filter((item) => item.status != statusConst.FINISHED);
-    setActiveList(arr)
+
+   // let arr = [...list];
+
+  
+    //setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
+    //console.log('filter', activeList)
     const interval = setInterval(() => {
       dispatch(getList());
-      const arr = list.filter((item) => item.status != statusConst.FINISHED);
-      setActiveList(arr)
+      // let arr = [...list];
+
+  
+      // setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
+      // console.log('filter', activeList)
     }, 5000);
 
     return () => {
@@ -174,17 +181,18 @@ export const Applications: FC = () => {
             {(user.access === access.SUPERUSER ||
               user.access === access.BUYER ||
               user.access === access.VICEPREZIDENT ||
-              user.access === access.LAWYER || user.access === access.PLANNER) && (
+              user.access === access.LAWYER ||
+              user.access === access.PLANNER) && (
               <TableTask
                 mini={false}
-                list={activeList}
+                list={list}
                 currentAccess={access.SUPERUSER}
               />
             )}
             {user.access === access.ENGINEER && (
               <TableTask
                 mini={false}
-                list={activeList}
+                list={list}
                 currentAccess={access.ENGINEER}
               />
             )}
@@ -293,7 +301,7 @@ export const Applications: FC = () => {
                   </div>
                   <TableTask
                     mini={true}
-                    list={activeList}
+                    list={list}
                     currentAccess={access.MANAGER}
                   />
                 </section>
@@ -305,7 +313,8 @@ export const Applications: FC = () => {
                   textTitle={"Создание компании"}
                   disabledButton={
                     nameCompanyValue === "" ||
-                    INNValue.length > 12 || INNValue.length < 10 ||
+                    INNValue.length > 12 ||
+                    INNValue.length < 10 ||
                     nameValue.length < 2 ||
                     phoneValue === ""
                   }

@@ -73,6 +73,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
   }
 
   useEffect(() => {
+
     if (list.length != 0) {
       let arr = [...list];
       const date = addSevenDay();
@@ -89,6 +90,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
 
       setError(false);
     } else {
+
       setError(true);
     }
   }, [currentPage, list]);
@@ -103,7 +105,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
             <div className={styles.header}>
               <h2 className={styles.title}>
                 {location.pathname != "/applications/history"
-                  ? mini
+                  ? (mini && user.access !=access.MANAGER)
                     ? "Заявки за последние 7 дней"
                     : "Заявки"
                   : "История заявок"}

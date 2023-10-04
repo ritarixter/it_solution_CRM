@@ -192,6 +192,8 @@
 
 .fileList {
   display: flex;
+  flex-wrap: wrap;
+  width: 217px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -251,6 +253,8 @@
     line-height: auto;
     color: $primaryColor;
   }
+
+
 }
 
 .blockInf {

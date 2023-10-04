@@ -1,20 +1,24 @@
 @import "../../styles/variables.scss";
 
+.container {
+  position: relative;
+}
+
 .box {
   width: 550px;
   min-height: 48px;
-  background-color: $notifyColor;
+  background-color: $thirdColor;
+  border: 1px solid $notifyColor;
   border-radius: 10px;
   border-radius: 10px;
   padding-top: 14px;
-  padding-left: 23px;
-  position: relative;
+  padding-left: 17px;
 
   &_text {
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    color: $thirdColor;
+    color: $notifyColor;
     margin: 0;
   }
 
@@ -29,8 +33,6 @@
   top: 13px;
   right: 21px;
   margin-left: 4px;
-  width: 9px;
-  height: 24px;
 
   transition: all 0.2s ease;
   &.open {

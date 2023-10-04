@@ -6,7 +6,7 @@ export type TNotify = {
     createdAt: Date;
     updatedAt: Date;
     users: TUser[];
-    lists: TList[];
+    list: TList;
     message:string;
     isWatched:boolean
 }

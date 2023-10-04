@@ -281,7 +281,7 @@ navigate(-1)
               <p className={styles.blockText_text}>{currentList.customer}</p>
             </div>
 
-            <div className={styles.blockText}>
+            <div className={`${styles.blockText} ${styles.blockText_files}`}>
               <p className={styles.blockText_title}>Файлы</p>
               <ul className={styles.fileList}>
                 {currentList.files ? (

@@ -5,6 +5,7 @@ import { TFile, TList, TUser } from "../../types";
 import {
   addCommentApi,
   addListApi,
+  addNotifyApi,
   deleteCommentApi,
   deleteListApi,
   getListApi,
@@ -13,7 +14,7 @@ import {
 } from "../../utils/api";
 import { TUpdateList } from "../../types/TList";
 import { deleteStep, getStep } from "./step";
-import { changeCountNotify } from "./user";
+import { message } from "../../utils/constants";
 
 interface listState {
   list: Array<TList>;
@@ -75,13 +76,14 @@ export const addList: AppThunk =
     dispatch(setLoading(true));
     addListApi(address, customer, INNCompany, files)
       .then((res) => {
-        dispatch(getList());
         if (description) {
           addCommentApi(res.id, user.id, description);
         }
         updateStepApi(res.step.id, 1);
-        dispatch(changeCountNotify(user.id, 1))
+        console.log(res)
+        addNotifyApi(res.id, [res.users[0].id], message[1]);
         dispatch(getStep());
+        dispatch(getList());
       })
       .catch((err) => {
         dispatch(setError(true));
@@ -117,9 +119,9 @@ export const deleteList: AppThunk =
     }
     deleteListApi(list.id)
       .then((res) => {
-        dispatch(deleteStep(list.step.id))
+        dispatch(deleteStep(list.step.id));
         dispatch(setError(false));
-        
+
         dispatch(getList());
       })
       .catch((err) => {

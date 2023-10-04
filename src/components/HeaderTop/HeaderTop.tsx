@@ -7,7 +7,7 @@ import arrow from "../../images/icons/arrow.svg";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 import { NotificationsPopup } from "../NotificationsPopup/NotificationsPopup";
-import { changeCountNotify } from "../../services/slices/user";
+//import { changeCountNotify } from "../../services/slices/user";
 import { NotificationsBlock } from "../NotificationsBlock/NotificationsBlock";
 
 export const HeaderTop: FC = () => {

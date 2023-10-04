@@ -568,7 +568,17 @@ export function addNotifyApi(listId: number, usersId: number[], message: string)
     body: JSON.stringify({
       listId: listId,
       usersId: usersId,
-      message: message,
+      message: `№${listId} ${message}`,
+    }),
+  }).then(responseCheck);
+}
+
+export function updateNotifyApi(id: number, isWatched: boolean) {
+  return fetch(`${URL}/notify/${id}`, {
+    method: "PATCH",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      isWatched
     }),
   }).then(responseCheck);
 }

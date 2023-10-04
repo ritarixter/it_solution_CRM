@@ -10,7 +10,9 @@ import {
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import {
   addCommentApi,
+  addNotifyApi,
   getListByIdApi,
+  updateNotifyApi,
   updateStepApi,
   uploadFiles,
 } from "../../../utils/api";
@@ -24,12 +26,9 @@ import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "./constants";
 import {
-  NOT_ASSIGNED,
-  NOT_ASSIGNED_DEAD,
   access,
-  notFound,
+  message,
 } from "../../../utils/constants";
-import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 import { Performers } from "../../../components/Performers/Performers";
 import { Input } from "../../../components/Input";
 import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
@@ -37,7 +36,7 @@ import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { getStep } from "../../../services/slices/step";
-import { changeCountNotify } from "../../../services/slices/user";
+import { changeCountNotify, getUser } from "../../../services/slices/user";
 import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
 
 export const ApplicationsItemTree: FC = () => {
@@ -77,6 +76,10 @@ export const ApplicationsItemTree: FC = () => {
   const [engineerError, setEngineerError] = useState<boolean>(false);
   const [dataEngineer, setDataEngineer] = useState<Array<TWorkAbdExecuter>>([]);
   //Получение информации о текущей заявке\
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
   useEffect(() => {
     getListByIdApi(id_list).then((res: TList) => {
       setCurrentList(res);
@@ -112,6 +115,19 @@ export const ApplicationsItemTree: FC = () => {
     let arr = [...users];
     arr = arr.filter((item) => item.access === access.ENGINEER);
     setDataEngineer(arr.map((item) => ({ name: item.name, id: item.id })));
+
+    const manager = users.filter((user) => user.access === access.MANAGER);
+    const notify = user.notifications
+      .filter((notify) => notify.message.includes(message[1]))
+      .filter((item) => item.list.id === id_list)[0];
+    console.log(notify);
+    if (!notify.isWatched) {
+      if (manager.length != 0) {
+        updateNotifyApi(notify.id, true);
+        addNotifyApi(id_list, [manager[0].id], message[2]);
+        dispatch(getUser());
+      }
+    }
   }, [users]);
 
   useEffect(() => {

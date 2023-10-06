@@ -28,14 +28,27 @@
   }
 }
 
+.close {
+  z-index: 5;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  top: -20px;
+  right: -20px;
+  transition: opacity .15s linear;
+  &:hover {
+    opacity: .7;
+  }
+}
+
 .input {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .conteiner {
   flex-direction: column;
-  z-index: 5;
-  position: absolute;
+  position: relative;
   width: 350px;
   padding: 25px;
   font-size: 12px;

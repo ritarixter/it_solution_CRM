@@ -3,6 +3,7 @@ import styles from "../Applications.module.scss";
 import { useLocation, useNavigate } from "react-router";
 import {
   addCommentApi,
+  addNotifyApi,
   getListByIdApi,
   updateStepApi,
   uploadFiles,
@@ -13,7 +14,7 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { updateList } from "../../../services/slices/list";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { importanceData, statusData } from "../ApplicationsItemTree/constants";
-import { access } from "../../../utils/constants";
+import { access, message } from "../../../utils/constants";
 import { DropdownListForUsers } from "../../../components/DropdownList/DropdownListForUsers";
 import { Performers } from "../../../components/Performers/Performers";
 import { FilesBlock } from "../../../components/FilesBlock";
@@ -32,6 +33,7 @@ export const ApplicationsEngineer: FC = () => {
   const headerData = [
     "Обследование",
     "Назначить бригаду",
+    "Монтаж",
     "Исполнители",
     "Файлы",
     "Комментарии",
@@ -46,8 +48,11 @@ export const ApplicationsEngineer: FC = () => {
   const [fitters, setFitters] = useState<Array<TWorkAbdExecuter>>([]);
   const [dataFitters, setDataFitters] = useState<Array<TWorkAbdExecuter>>([]);
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
+  const [currentfilesFitter, setCurrentFilesFitter] = useState<File[]>([]);
   const [photoOfObject, setPhotoOfObject] = useState<FormData>();
-
+  const [photoOfFitter, setPhotoOfFitter] = useState<FormData>();
+  const superuser = users.filter((user) => user.access === access.SUPERUSER)[0];
+  
   //Получение информации о текущей заявке
   useEffect(() => {
     getListByIdApi(id_list).then((res) => {
@@ -75,7 +80,6 @@ export const ApplicationsEngineer: FC = () => {
         if (currentList) {
           if (fittersID.length != 0) {
             updateStepApi(currentList.step.id, 3.1);
-            dispatch(changeCountNotify(user.id, 1));
             dispatch(getStep());
           }
         }
@@ -90,7 +94,6 @@ export const ApplicationsEngineer: FC = () => {
       if (currentList) {
         if (fittersID.length != 0) {
           updateStepApi(currentList.step.id, 3.1);
-          dispatch(changeCountNotify(user.id, 1));
           dispatch(getStep());
         }
       }
@@ -104,21 +107,50 @@ export const ApplicationsEngineer: FC = () => {
     setFiles(undefined);
   };
 
-  // useEffect(() => {
-  //   let data = new FormData();
-  //   if (currentfiles.length != 0) {
-  //     for (let i = 0; i < currentfiles.length; i++) {
-  //       data.append(
-  //         "photo",
-  //         currentfiles[i],
-  //         translitRuEn(currentfiles[i].name)
-  //       );
-  //     }
-  //     setPhotoOfObject(data);
-  //   } else {
-  //     setPhotoOfObject(undefined);
-  //   }
-  // }, [currentfiles]);
+  useEffect(() => {
+    let data = new FormData();
+    if (currentfiles.length != 0) {
+      for (let i = 0; i < currentfiles.length; i++) {
+        data.append(
+          "media",
+          currentfiles[i],
+          translitRuEn(currentfiles[i].name)
+        );
+      }
+      setPhotoOfObject(data);
+    } else {
+      setPhotoOfObject(undefined);
+    }
+  }, [currentfiles]);
+
+  useEffect(() => {
+    let data = new FormData();
+    if (currentfilesFitter.length != 0) {
+      for (let i = 0; i < currentfilesFitter.length; i++) {
+        data.append(
+          "media",
+          currentfilesFitter[i],
+          translitRuEn(currentfilesFitter[i].name)
+        );
+      }
+      setPhotoOfFitter(data);
+    } else {
+      setPhotoOfFitter(undefined);
+    }
+  }, [currentfilesFitter]);
+
+  const handleFileChangeFitter = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    if (e.target.files.length > 12) {
+      alert("Максимальное количество файлов - 12");
+      return;
+    }
+
+    setCurrentFilesFitter([...e.target.files]);
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -144,13 +176,28 @@ export const ApplicationsEngineer: FC = () => {
   };
 
   const handleUploadFiles = () => {
-    uploadFiles(photoOfObject).then((res) => {
+    uploadFiles(photoOfObject, "inspection").then((res) => {
       const listNew = {
         id: id_list,
         files: res,
       };
       dispatch(updateList(listNew));
-      setFiles(undefined);
+      addNotifyApi(id_list, [superuser.id], message[5]);
+      setPhotoOfObject(undefined);
+      setCurrentFiles([])
+    });
+  };
+
+  const handleUploadFilesFitter = () => {
+    uploadFiles(photoOfFitter, "fitter").then((res) => {
+      const listNew = {
+        id: id_list,
+        files: res,
+      };
+      dispatch(updateList(listNew));
+      addNotifyApi(id_list, [superuser.id], message[21]);
+      setPhotoOfFitter(undefined);
+      setCurrentFilesFitter([])
     });
   };
 
@@ -174,29 +221,37 @@ export const ApplicationsEngineer: FC = () => {
                   multiple
                   onChange={handleFileChange}
                 />
-                <span className={styles.input_file_btn}>Прикрепить обследование</span>
+                <span className={styles.input_file_btn}>
+                  Прикрепить обследование
+                </span>
                 <span className={styles.input_file_text}>
                   Допустимые расширения .png .jpg .jpeg
                 </span>
               </div>
-              {currentfiles && (
-                <ul className={styles.files}>
-                  {currentfiles.map((i, index) => (
-                    <li className={styles.files__row}>
-                      <span className={styles.files__name}>{i.name}</span>
-                      <img
-                        src={close}
-                        alt={"Закрыть"}
-                        onClick={() => deleteFile(index)}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
             </label>
+            {currentfiles && (
+              <ul className={styles.files}>
+                {currentfiles.map((i, index) => (
+                  <li className={styles.files__row}>
+                    <span className={styles.files__name}>{i.name}</span>
+                    <img
+                      src={close}
+                      alt={"Закрыть"}
+                      onClick={() => deleteFile(index)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div>
-          <BlockButton text={"Сохранить"} onClick={() => {handleUploadFiles()}} />
+            <BlockButton
+              disabled={currentfiles.length === 0}
+              text={"Сохранить"}
+              onClick={() => {
+                handleUploadFiles();
+              }}
+            />
           </div>
         </div>
       )}
@@ -225,6 +280,53 @@ export const ApplicationsEngineer: FC = () => {
                 dataFitters.length === 0 && !!!files && textareaValue === ""
               }
               onClick={() => handleChangeList()}
+            />
+          </div>
+        </div>
+      )}
+      {header === "Монтаж" && (
+        <div className={styles.survey}>
+          <div>
+            <label className={styles.input_file}>
+              <div className={styles.input_file_blk}>
+                <input
+                  accept="image/png, image/jpeg, image/jpg"
+                  type="file"
+                  id="input__file"
+                  className={styles.input}
+                  multiple
+                  onChange={handleFileChangeFitter}
+                />
+                <span className={styles.input_file_btn}>
+                  Прикрепить монтажные работы
+                </span>
+                <span className={styles.input_file_text}>
+                  Допустимые расширения .png .jpg .jpeg
+                </span>
+              </div>
+            </label>
+            {currentfilesFitter && (
+              <ul className={styles.files}>
+                {currentfilesFitter.map((i, index) => (
+                  <li className={styles.files__row}>
+                    <span className={styles.files__name}>{i.name}</span>
+                    <img
+                      src={close}
+                      alt={"Закрыть"}
+                      onClick={() => deleteFile(index)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div>
+            <BlockButton
+              disabled={currentfilesFitter.length === 0}
+              text={"Сохранить"}
+              onClick={() => {
+                handleUploadFilesFitter();
+              }}
             />
           </div>
         </div>

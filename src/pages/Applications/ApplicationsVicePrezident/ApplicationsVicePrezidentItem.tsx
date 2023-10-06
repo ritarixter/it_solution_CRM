@@ -5,13 +5,16 @@ import { useLocation, useNavigate } from "react-router";
 import { BlockMarginality } from "../../../components/BlockMarginality/BlockMarginality";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import {
+  addNotifyApi,
+  addNotifyApiWithComment,
   getListByIdApi,
   updateStepApi,
 } from "../../../utils/api";
 import { TCommercialProposal } from "../../../types";
 import { formateDateShort } from "../../../utils/utils-date";
 import { getStep } from "../../../services/slices/step";
-import { changeCountNotify } from "../../../services/slices/user";
+import { PopupComment } from "../../../components/PopupComment/PopupComment";
+import { access, message } from "../../../utils/constants";
 
 export const ApplicationsVicePrezidentItem: FC = () => {
   const [CP, setCP] = useState<TCommercialProposal>({
@@ -47,11 +50,30 @@ export const ApplicationsVicePrezidentItem: FC = () => {
   const id_list = Number(location.pathname.slice(14));
   const navigate = useNavigate();
   const { list } = useAppSelector((state) => state.list);
-  let arr = [...list];
-  const { user } = useAppSelector((state) => state.user);
-  const currentList = arr.filter((item) => item.id === id_list);
+  const { users } = useAppSelector((state) => state.user);
+  const currentList = list.filter((item) => item.id === id_list);
   const [tax, setTax] = useState(Number(CP?.summaSale) * 0.06); // налог
   const dispatch = useAppDispatch();
+  const [commentInvite, setCommentInvite] = useState<string>("");
+  const [commentReturn, setCommentReturn] = useState<string>("");
+  const [openPopupInvite, setOpenPopupInvite] = useState<boolean>(false);
+  const [openPopupReturn, setOpenPopupReturn] = useState<boolean>(false);
+  const superuser = users.filter((user) => user.access === access.SUPERUSER)[0];
+
+  const inviteMarg = () => {
+    updateStepApi(currentList[0].step.id, 6);
+    addNotifyApiWithComment(id_list, [superuser.id], message[11],commentInvite.toLowerCase());
+    dispatch(getStep());
+    setOpenPopupInvite(false)
+  };
+
+  const returnMarg = () => {
+    updateStepApi(currentList[0].step.id, 7);
+    addNotifyApiWithComment(id_list, [superuser.id], message[12],commentReturn.toLowerCase());
+    dispatch(getStep());
+    setOpenPopupReturn(false)
+  };
+
   useEffect(() => {
     setTax(Number(CP?.summaSale) * 0.06);
   }, [CP?.summaSale]);
@@ -218,12 +240,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
         <div className={styles.buttonsAksynia}>
           <BlockButton
             text={"Принять"}
-            onClick={() => {
-              updateStepApi(currentList[0].step.id, 6);
-              dispatch(changeCountNotify(user.id, 1))
-              dispatch(getStep())
-              alert("Принято и отправлено главному инженеру!");
-            }}
+            onClick={() => setOpenPopupInvite(true)}
           />
 
           <BlockButton
@@ -237,12 +254,7 @@ export const ApplicationsVicePrezidentItem: FC = () => {
           <div className={styles.buttonAksynia}>
             <BlockButton
               text={"Отправить на доработку"}
-              onClick={() => {
-                updateStepApi(currentList[0].step.id, 7);
-                dispatch(changeCountNotify(user.id, 1))
-                dispatch(getStep())
-                alert("Отправлено на доработку главному инженеру!");
-              }}
+              onClick={() => setOpenPopupReturn(true)}
               style={true}
               bigWidth={true}
             />
@@ -255,6 +267,22 @@ export const ApplicationsVicePrezidentItem: FC = () => {
             ? CP?.variablesForMarginality?.marginality
             : 0
         }
+      />
+      <PopupComment
+        setComment={setCommentInvite}
+        comment={commentInvite}
+        title={"Принять"}
+        open={openPopupInvite}
+        setOpen={setOpenPopupInvite}
+        onClick={inviteMarg}
+      />
+      <PopupComment
+        setComment={setCommentReturn}
+        comment={commentReturn}
+        title={"Отправить на доработку"}
+        open={openPopupReturn}
+        setOpen={setOpenPopupReturn}
+        onClick={returnMarg}
       />
     </div>
   );

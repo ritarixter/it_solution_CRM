@@ -2,7 +2,12 @@ import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import stylesCP from "../../CommercialProposal/CommercialProposal.module.scss";
 import { useLocation, useNavigate } from "react-router";
-import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
+import {
+  addNotifyApi,
+  getListByIdApi,
+  updateStepApi,
+  uploadFiles,
+} from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { IProducts, TCommercialProposal, TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -19,14 +24,14 @@ import { updateList } from "../../../services/slices/list";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { getStep } from "../../../services/slices/step";
-import { changeCountNotify } from "../../../services/slices/user";
+import { access, message } from "../../../utils/constants";
 
 export const ApplicationsBuyer: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.user);
+  const { users } = useAppSelector((state) => state.user);
   const headerData = ["КП", "Файлы", "Комментарии"];
   const [header, setHeader] = useState<string>("КП");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
@@ -48,9 +53,9 @@ export const ApplicationsBuyer: FC = () => {
       count: item.count,
       price: item.price,
       actualPrice: item.actualPrice,
-      date: item.date ? item.date : "Не указана",
+      dateWarehouse: item.dateWarehouse ? item.dateWarehouse : "Не указана",
+      dateObject: item.dateObject ? item.dateObject : "Не указана",
       totalPrice: item.totalPrice,
-      marginalityPrice: item.marginalityPrice,
     }));
     downloadExcel({
       fileName: `commercial_proposal_${CP.id}`,
@@ -62,8 +67,8 @@ export const ApplicationsBuyer: FC = () => {
           "Цена продажи, руб",
           "Закупочная цена, руб*",
           "Дата приезда на склад",
+          "Дата приезда на объект",
           "Сумма, руб",
-          "Маржинальность, руб",
         ],
         body: exportArr,
       },
@@ -161,13 +166,15 @@ export const ApplicationsBuyer: FC = () => {
                           {item.actualPrice}
                         </td>
                         <td className={stylesCP.row__item}>
-                          {item.date ? item.date : "Не указана"}
+                          {item.dateWarehouse
+                            ? item.dateWarehouse
+                            : "Не указана"}
+                        </td>
+                        <td className={stylesCP.row__item}>
+                          {item.dateObject ? item.dateObject : "Не указана"}
                         </td>
                         <td className={stylesCP.row__item}>
                           {item.totalPrice}
-                        </td>
-                        <td className={stylesCP.row__item}>
-                          {item.marginalityPrice}
                         </td>
                       </tr>
                     ))}
@@ -180,13 +187,19 @@ export const ApplicationsBuyer: FC = () => {
                     bigWidth={true}
                     text={"Отправить главному инженеру"}
                     onClick={() => {
-                      if (currentList?.step) {
+                      const superuser = users.filter(
+                        (user) => user.access === access.SUPERUSER
+                      )[0];
+                      if(currentList?.step && currentList?.step.agreementСonclusion_step8) {
+                        addNotifyApi(id_list, [superuser.id], message[18]);
+                      }
+                      else if (currentList?.step && !currentList?.step.agreementСonclusion_step8) {
                         updateStepApi(currentList?.step.id, 4);
-                        dispatch(changeCountNotify(user.id, 1))
+                        addNotifyApi(id_list, [superuser.id], message[8]);
                         dispatch(getStep());
                       }
 
-                      navigate("/applications");
+                  alert('Отправлено главному инженеру')
                     }}
                   />
                 </div>

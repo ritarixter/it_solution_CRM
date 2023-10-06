@@ -14,7 +14,6 @@ import { getList } from "../../services/slices/list";
 import { WebSocketService } from "../../utils/ws/websocket.service";
 import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
 
-
 type TApplicationsLayout = {
   children: any;
   currentList: TList | null;
@@ -33,10 +32,9 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const { user } = useAppSelector((state) => state.user);
-
 
   return (
     <Wrapper>
@@ -85,16 +83,64 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
                   type={currentList?.status ? currentList.status : null}
                 />
               </div>
-              <div className={styles.blockInf}>
-                <span>Важность: </span>
-                <ImpotanceBlock
-                  type={currentList?.importance ? currentList.importance : null}
-                />
-              </div>
-              <div className={styles.blockInf}>
-                <span>Дедлайн: </span>
-                <DeadlineBlock/>
-              </div>
+              {(user.access === access.SUPERUSER ||
+                user.access === access.VICEPREZIDENT ||
+                user.access === access.LAWYER) && (
+                <div className={styles.blockInf}>
+                  <span>Дедлайн: </span>
+                  <DeadlineBlock
+                    date={
+                      currentList?.endDate
+                        ? currentList?.endDate
+                        : NOT_ASSIGNED_DEAD
+                    }
+                  />
+                </div>
+              )}
+              {(user.access === access.SUPERUSER ||
+                user.access === access.VICEPREZIDENT ||
+                user.access === access.ENGINEER ||
+                user.access === access.PLANNER) && (
+                <div className={styles.blockInf}>
+                  <span>Дедлайн обследования:</span>
+                  <DeadlineBlock
+                    date={
+                      currentList?.endDateForInspection
+                        ? currentList?.endDateForInspection
+                        : NOT_ASSIGNED_DEAD
+                    }
+                  />
+                </div>
+              )}
+              {(user.access === access.SUPERUSER ||
+                user.access === access.VICEPREZIDENT ||
+                user.access === access.ENGINEER ||
+                user.access === access.BUYER) && (
+                <div className={styles.blockInf}>
+                  <span>Дедлайн создание КП: </span>
+                  <DeadlineBlock
+                    date={
+                      currentList?.endDateForCP
+                        ? currentList?.endDateForCP
+                        : NOT_ASSIGNED_DEAD
+                    }
+                  />
+                </div>
+              )}
+              {(user.access === access.SUPERUSER ||
+                user.access === access.VICEPREZIDENT ||
+                user.access === access.ENGINEER) && (
+                <div className={styles.blockInf}>
+                  <span>Дедлайн монтажа: </span>
+                  <DeadlineBlock
+                    date={
+                      currentList?.endDateForFitters
+                        ? currentList?.endDateForFitters
+                        : NOT_ASSIGNED_DEAD
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
           {user.access === access.ENGINEER && (
@@ -117,7 +163,8 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
             </div>
           )}
           {(user.access === access.SUPERUSER ||
-            user.access === access.LAWYER || user.access === access.VICEPREZIDENT) && (
+            user.access === access.LAWYER ||
+            user.access === access.VICEPREZIDENT) && (
             <div className={styles.buttonCreate}>
               {currentList?.commercialProposal ? (
                 <BlockButton

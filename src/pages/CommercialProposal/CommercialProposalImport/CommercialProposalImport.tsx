@@ -14,7 +14,7 @@ import {
   updateCommercialProposalApi,
 } from "../../../utils/api";
 import { IProducts } from "../../../types";
-import { formateDateShort } from "../../../utils/utils-date";
+import { formateDateShort, formateDateToBackend } from "../../../utils/utils-date";
 
 export const CommercialProposalImport: FC = () => {
   const dispatch = useAppDispatch();
@@ -35,10 +35,8 @@ export const CommercialProposalImport: FC = () => {
     if (newCP.length > 0) {
       const items: IProducts[] = [];
       newCP.forEach((item1, index) => {
-       
+       console.log(item1)
         item1.forEach((item2, index1) => {
-          console.log(item2[5])
-          console.log(String(item2[5]))
           items.push({
             id: items.length,
             order: 0,
@@ -47,7 +45,8 @@ export const CommercialProposalImport: FC = () => {
             units: String(item2[2]),
             price: Number(item2[3]),
             actualPrice: Number(item2[4]),
-            date: formateDateShort(new Date(item2[5])),
+            dateWarehouse: String(item2[5]) != 'undefined' ? formateDateToBackend(new Date(item2[5])) : 'Не указана',
+            dateObject:'Не указана',
             totalPrice: Number(item2[4]) * Number(item2[1]),
             marginalityPrice:
               Number(item2[3]) * Number(item2[1]) -
@@ -155,7 +154,7 @@ export const CommercialProposalImport: FC = () => {
           <div>
             <label className={styles.input_file}>
               <input
-                accept="application/vnd.ms-excel"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 type="file"
                 id="input__file"
                 className={styles.input}
@@ -164,7 +163,7 @@ export const CommercialProposalImport: FC = () => {
               />
               <span className={styles.input_file_btn}>Выберите файл</span>
               <span className={styles.input_file_text}>
-                Допустимые расширения .xls .xlsx
+                Допустимые расширения .xls .xlsx .csv
               </span>
             </label>
 

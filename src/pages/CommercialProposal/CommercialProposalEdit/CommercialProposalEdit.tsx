@@ -37,7 +37,8 @@ export const CommercialProposalEdit: FC = () => {
       count: 0,
       price: 0,
       actualPrice: 0,
-      date: "",
+      dateWarehouse:"",
+      dateObject: "",
       totalPrice: 0,
       marginalityPrice: 0,
     },
@@ -200,9 +201,9 @@ export const CommercialProposalEdit: FC = () => {
                     count: 0,
                     price: 0,
                     actualPrice: 0,
-                    date: "",
-                    totalPrice: 0,
-                    marginalityPrice: 0,
+                    dateWarehouse:"",
+                    dateObject: "",
+                    totalPrice: 0, 
                   })
                 );
               }}

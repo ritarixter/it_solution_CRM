@@ -7,7 +7,7 @@ export const formateDate = (date: Date | string) => {
   );
 };
 
-//Преобразовывает дату в формат: YYYY-MM-D
+//Преобразовывает дату в формат: DD.MM.YYYY
 export const formateDateShort = (date: Date | string) => {
   return date.toLocaleString().slice(0, 10);
 };
@@ -16,7 +16,13 @@ export const formateDateOnlyTime = (date: Date | string) => {
   return date.toLocaleString().slice(11, 16);
 };
 
-export const toDate = (dateStr:string) => {
-  const [day, month, year] = dateStr.split("-")
-  return new Date(Number(year), Number(month) - 1, Number(day))
-}
+export const toDate = (dateStr: string) => {
+  const [day, month, year] = dateStr.split("-");
+  return new Date(Number(year), Number(month) - 1, Number(day));
+};
+
+export const formateDateToBackend = (date: Date) => {
+  const offset = date.getTimezoneOffset();
+  date = new Date(date.getTime() - offset * 60 * 1000);
+  return date.toISOString().split("T")[0];
+};

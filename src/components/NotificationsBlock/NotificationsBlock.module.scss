@@ -20,6 +20,10 @@
     font-weight: 500;
     color: $notifyColor;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 480px;
   }
 
   &_open {

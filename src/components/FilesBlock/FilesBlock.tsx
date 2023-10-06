@@ -140,7 +140,7 @@ export const FilesBlock: FC<TFilesBlock> = ({
                   {file.access === access.PLANNER && access.PLANNER}
                 </p>
               </div>
-
+{user.access === file.access &&
                 <img
                   src={close}
                   alt="Закрыть"
@@ -167,7 +167,7 @@ export const FilesBlock: FC<TFilesBlock> = ({
                       });
                   }}
                 />
-           
+              }
             </li>
           ))}
         </ul>

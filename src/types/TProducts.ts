@@ -7,9 +7,10 @@ export interface IProducts {
   units: string; //Ед.изм
   price: number;
   actualPrice: number;
-  date: string;
+  dateWarehouse: string; //Дата доставки на склад
+  dateObject: string; //Дата доставки на объект
   totalPrice: number;
-  marginalityPrice: number;
+  marginalityPrice?: number;
   checked?: boolean;
   isAddInSmeta?:boolean;
 }

@@ -475,7 +475,7 @@
 .input_file_blk {
   display: flex;
   align-items: center;
-  gap: 30px
+  gap: 15px
 }
 
 .input_file_btn {
@@ -485,7 +485,7 @@
   outline: none;
   text-decoration: none;
   font-size: 16px;
-  width: 250px;
+  width: 290px;
 
   color: rgb(255 255 255);
   font-family: "Montserrat", Helvetica, sans-serif;
@@ -558,11 +558,56 @@
   width: 12px;
 }
 
+.inspection {
+  display: flex;
+  gap: 70px;
+  height: 100%;
+
+}
+
+.deadlines {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.deadline {
+  max-width: 271px;
+  max-height: 234px;
+  width: 100%;
+  background-color: $statusDoneColor;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 25px 34px 26px 23px;
+
+  &__week {
+    font-size: 24px;
+    font-weight: 800;
+    color: $primaryColor;
+    margin: 0;
+    margin-bottom: 26px;
+  }
+
+  &__day {
+    font-size: 15px;
+    font-weight: 400;
+    color: $mainColor;
+    margin-bottom: 36px;
+  }
+}
+
 .survey {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+
+  &_photo {
+    color: $inputCaption;
+    font-size: 14px;
+    margin-bottom: 4px;
+
+  }
 
   &_btn {
     width: 250px;
@@ -570,11 +615,19 @@
 
   &_container {
     display: flex;
+
     flex-direction: column;
-    gap: 10px;
+
   }
 
   &_item {
-    width: 300px;
+    
+    margin-bottom: 10px;
+    &:last-child{margin-bottom: 0;}
   }
+}
+
+.p_notFound {
+  font-size: 14px;
+  margin-top: 10px;
 }

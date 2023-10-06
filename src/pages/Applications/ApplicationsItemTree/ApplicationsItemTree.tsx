@@ -17,7 +17,7 @@ import {
   uploadFiles,
 } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import { TList, TWorkAbdExecuter } from "../../../types";
+import { TFile, TList, TUser, TWorkAbdExecuter } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
 import { getList, updateList } from "../../../services/slices/list";
@@ -25,10 +25,7 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "./constants";
-import {
-  access,
-  message,
-} from "../../../utils/constants";
+import { URL_BACKEND, access, message } from "../../../utils/constants";
 import { Performers } from "../../../components/Performers/Performers";
 import { Input } from "../../../components/Input";
 import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
@@ -36,7 +33,7 @@ import { FilesBlock } from "../../../components/FilesBlock";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { getStep } from "../../../services/slices/step";
-import { changeCountNotify, getUser } from "../../../services/slices/user";
+import { getUser } from "../../../services/slices/user";
 import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
 import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
 
@@ -48,9 +45,10 @@ export const ApplicationsItemTree: FC = () => {
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const headerData = [
     "Изменить информацию",
-    "Обследование",
     "Дерево",
     "Исполнители",
+    "Обследование",
+    "Монтаж",
     "Файлы",
     "Комментарии",
   ];
@@ -60,9 +58,19 @@ export const ApplicationsItemTree: FC = () => {
   const [workNameValue, setWorkNameValue] = useState("");
   const [workNameValueError, setWorkNameValueError] = useState<boolean>(false);
   const [openDeadline, setOpenDeadline] = useState(false);
-
+  const [deadlineForInspection, setDeadlineForInspection] =
+    useState("Выберите дату");
+  const [deadlineForFitter, setDeadlineForFitter] = useState("Выберите дату");
+  const [deadlineForCP, setDeadlineForCP] = useState("Выберите дату");
+  const [showDeadlineEdit, setShowDeadlineEdit] = useState<boolean>(false);
+  const [showDeadlineFitterEdit, setShowDeadlineFitterEdit] =
+    useState<boolean>(false);
   //ИЗМЕНЕНИЕ ИНФОРМАЦИИ
   const [files, setFiles] = useState<FormData | undefined>(undefined);
+  const [filesFromInspection, setFilesFromInspection] = useState<Array<TFile>>(
+    []
+  );
+  const [filesFromFitter, setFilesFromFitter] = useState<Array<TFile>>([]);
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [importance, setImportance] = useState<string>(importanceData[0]);
   const [status, setStatus] = useState<string>(statusData[0]);
@@ -76,11 +84,12 @@ export const ApplicationsItemTree: FC = () => {
   });
   const [engineerError, setEngineerError] = useState<boolean>(false);
   const [dataEngineer, setDataEngineer] = useState<Array<TWorkAbdExecuter>>([]);
+  const [planner, setPlanner] = useState<TUser>();
   //Получение информации о текущей заявке\
-
   useEffect(() => {
     dispatch(getUser());
   }, []);
+
   useEffect(() => {
     getListByIdApi(id_list).then((res: TList) => {
       setCurrentList(res);
@@ -106,6 +115,27 @@ export const ApplicationsItemTree: FC = () => {
       if (res.status) {
         setStatus(res.status);
       }
+
+      if (res.endDateForInspection) {
+        setDeadlineForInspection(res.endDateForInspection);
+      }
+
+      if (res.endDateForFitters) {
+        setDeadlineForFitter(res.endDateForFitters);
+      }
+
+      if (res.endDateForCP) {
+        setDeadlineForCP(res.endDateForCP);
+      }
+
+      if (res.files) {
+        setFilesFromInspection(
+          res.files.filter((file) => file.url.includes("inspection"))
+        );
+        setFilesFromFitter(
+          res.files.filter((file) => file.url.includes("fitter"))
+        );
+      }
       // if (res.description) {
       //   setTextareaValue(res.description);
       // }
@@ -113,22 +143,14 @@ export const ApplicationsItemTree: FC = () => {
   }, [list]);
 
   useEffect(() => {
-    let arr = [...users];
-    arr = arr.filter((item) => item.access === access.ENGINEER);
-    setDataEngineer(arr.map((item) => ({ name: item.name, id: item.id })));
-
-    const manager = users.filter((user) => user.access === access.MANAGER);
-    const notify = user.notifications
-      .filter((notify) => notify.message.includes(message[1]))
-      .filter((item) => item.list.id === id_list)[0];
-    console.log(notify);
-    if (!notify.isWatched) {
-      if (manager.length != 0) {
-        updateNotifyApi(notify.id, true);
-        addNotifyApi(id_list, [manager[0].id], message[2]);
-        dispatch(getUser());
-      }
-    }
+    const arr = [...users];
+    let engineersCurrent = arr.filter(
+      (item) => item.access === access.ENGINEER
+    );
+    setDataEngineer(
+      engineersCurrent.map((item) => ({ name: item.name, id: item.id }))
+    );
+    setPlanner(arr.filter((item) => item.access === access.PLANNER)[0]);
   }, [users]);
 
   useEffect(() => {
@@ -165,7 +187,24 @@ export const ApplicationsItemTree: FC = () => {
           if (currentList?.step)
             if (engineer != engineerDefault) {
               updateStepApi(currentList?.step.id, 2);
-              dispatch(changeCountNotify(user.id, 1));
+              addNotifyApi(id_list, [engineer.id], message[3]);
+              const manager = users.filter(
+                (user) => user.access === access.MANAGER
+              );
+              const notify = user.notifications
+                .filter((notify) => notify.message.includes(message[1]))
+                .filter((item) => item.list.id === id_list)[0];
+
+              if (!notify.isWatched) {
+                if (manager.length != 0) {
+                  updateNotifyApi(notify.id, true)
+                    .then((res) => {
+                      addNotifyApi(id_list, [manager[0].id], message[2]);
+                      dispatch(getUser());
+                    })
+                    .catch((err) => console.log(err));
+                }
+              }
               dispatch(getStep());
             }
         });
@@ -183,8 +222,26 @@ export const ApplicationsItemTree: FC = () => {
         if (currentList?.step)
           if (engineer != engineerDefault) {
             updateStepApi(currentList?.step.id, 2);
-            dispatch(changeCountNotify(user.id, 1));
+            addNotifyApi(id_list, [engineer.id], message[3]);
             dispatch(getStep());
+
+            const manager = users.filter(
+              (user) => user.access === access.MANAGER
+            );
+            const notify = user.notifications
+              .filter((notify) => notify.message.includes(message[1]))
+              .filter((item) => item.list.id === id_list)[0];
+
+            if (!notify.isWatched) {
+              if (manager.length != 0) {
+                updateNotifyApi(notify.id, true)
+                  .then((res) => {
+                    addNotifyApi(id_list, [manager[0].id], message[2]);
+                    dispatch(getUser());
+                  })
+                  .catch((err) => console.log(err));
+              }
+            }
           }
       }
       dispatch(getList());
@@ -271,26 +328,184 @@ export const ApplicationsItemTree: FC = () => {
         </div>
       )}
       {header === "Обследование" && (
-        <DeadlineSetting text={"Установите дедлайн по договору"} onClick={() => {}}/>
-        // <div className={styles.survey}>
-        //   <div className={styles.survey_container}>
-        //     {currentList?.files.map((file) => (
-        //       <p className={styles.survey_item}>
-        //         <FileIcon name={file.name} url={file.url} fullName={true} />
-        //       </p>
-        //     ))}
-        //   </div>
-        //   <div className={styles.survey_btn}>
-        //     <BlockButton
-        //       text={"Завершить обследование"}
-        //       onClick={() => {
-        //         setOpenDeadline(true);
-        //       }}
-        //       bigWidth={true}
-        //     />
-        //   </div>
-        //   <PopupDeadline setOpen={setOpenDeadline} open={openDeadline} />
-        // </div>
+        <div className={styles.inspection}>
+          {!currentList?.endDateForInspection || showDeadlineEdit ? (
+            <DeadlineSetting
+              deadline={deadlineForInspection}
+              setDeadline={setDeadlineForInspection}
+              text={"Установите дедлайн на обследование"}
+              onClick={() => {
+                const listNew = {
+                  id: id_list,
+                  endDateForInspection: deadlineForInspection,
+                };
+                dispatch(updateList(listNew));
+                addNotifyApi(
+                  id_list,
+                  [engineerDefault.id, planner!.id],
+                  message[4]
+                );
+                setShowDeadlineEdit(false);
+              }}
+            />
+          ) : (
+            <div className={styles.deadlines}>
+              <div className={styles.deadline}>
+                <p className={styles.deadline__week}>
+                  {new Date(deadlineForInspection).toLocaleString("ru", {
+                    weekday: "long",
+                  })}
+                </p>
+                <p className={styles.deadline__day}>
+                  Вы установили дедлайн на обследование: {deadlineForInspection}
+                </p>
+                <BlockButton
+                  text={"Изменить дедлайн"}
+                  onClick={() => {
+                    setShowDeadlineEdit(true);
+                  }}
+                  bigWidth={true}
+                />
+              </div>
+
+              {currentList?.endDateForCP && (
+                <div className={styles.deadline}>
+                  <p className={styles.deadline__week}>
+                    {new Date(currentList?.endDateForCP).toLocaleString("ru", {
+                      weekday: "long",
+                    })}
+                  </p>
+                  <p className={styles.deadline__day}>
+                    Вы установили дедлайн на создание КП:{" "}
+                    {currentList?.endDateForCP}
+                  </p>
+                  <BlockButton
+                    text={"Изменить дедлайн"}
+                    onClick={() => {
+                      setOpenDeadline(true);
+                    }}
+                    bigWidth={true}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+          <div className={styles.survey}>
+            <div className={styles.survey_container}>
+              <p className={styles.survey_photo}>Фото с обследования</p>
+              {filesFromInspection.length != 0 ? (
+                filesFromInspection.map((file) => (
+                  <div className={styles.survey_item}>
+                    {" "}
+                    <FileIcon name={file.name} url={file.url} fullName={true} />
+                  </div>
+                ))
+              ) : (
+                <p className={styles.p_notFound}>Фото не добавлены</p>
+              )}
+            </div>
+            <div className={styles.survey_btn}>
+              <BlockButton
+                text={"Завершить обследование"}
+                onClick={() => {
+                  setOpenDeadline(true);
+                }}
+                disabled={
+                  filesFromInspection.length === 0 ||
+                  currentList?.endDateForCP != undefined
+                }
+                bigWidth={true}
+              />
+            </div>
+            <PopupDeadline
+              open={openDeadline}
+              setDeadline={setDeadlineForCP}
+              deadline={deadlineForCP}
+              onClick={() => {
+                const listNew = {
+                  id: id_list,
+                  endDateForCP: deadlineForCP,
+                };
+                dispatch(updateList(listNew));
+                addNotifyApi(id_list, [engineerDefault.id], message[6]);
+                setOpenDeadline(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {header === "Монтаж" && (
+        <div className={styles.inspection}>
+          {!currentList?.endDateForFitters || showDeadlineFitterEdit ? (
+            <DeadlineSetting
+              deadline={deadlineForFitter}
+              setDeadline={setDeadlineForFitter}
+              text={"Установите дедлайн на монтаж"}
+              onClick={() => {
+                const listNew = {
+                  id: id_list,
+                  endDateForFitters: deadlineForFitter,
+                };
+                dispatch(updateList(listNew));
+                addNotifyApi(
+                  id_list,
+                  [engineerDefault.id],
+                  message[19]
+                );
+                setShowDeadlineFitterEdit(false);
+              }}
+            />
+          ) : (
+            <div className={styles.deadlines}>
+              <div className={styles.deadline}>
+                <p className={styles.deadline__week}>
+                  {new Date(deadlineForFitter).toLocaleString("ru", {
+                    weekday: "long",
+                  })}
+                </p>
+                <p className={styles.deadline__day}>
+                  Вы установили дедлайн на монтаж: {deadlineForFitter}
+                </p>
+                <BlockButton
+                  text={"Изменить дедлайн"}
+                  onClick={() => {
+                    setShowDeadlineFitterEdit(true);
+                  }}
+                  bigWidth={true}
+                />
+              </div>
+            </div>
+          )}
+          <div className={styles.survey}>
+            <div className={styles.survey_container}>
+              <p className={styles.survey_photo}>Файлы с монтажа</p>
+              {filesFromFitter.length != 0 ? (
+                filesFromFitter.map((file) => (
+                  <div className={styles.survey_item}>
+                    {" "}
+                    <FileIcon name={file.name} url={file.url} fullName={true} />
+                  </div>
+                ))
+              ) : (
+                <p className={styles.p_notFound}>Файлы не добавлены</p>
+              )}
+            </div>
+            <div className={styles.survey_btn}>
+              <BlockButton
+                text={"Завершить монтаж"}
+                onClick={() => {
+                  const usersCurrent = users.filter((user)=>user.access===access.LAWYER || user.access===access.VICEPREZIDENT).map(item=>item.id)
+                  addNotifyApi(id_list, usersCurrent, message[21]);
+                  alert('Уведомление отправлено юристам и заместителю директора')
+                }}
+                disabled={
+                  filesFromFitter.length === 0 
+                }
+                bigWidth={true}
+              />
+            </div>
+          </div>
+        </div>
       )}
       {header === "Исполнители" && (
         <Performers users={currentList?.users ? currentList?.users : []} />

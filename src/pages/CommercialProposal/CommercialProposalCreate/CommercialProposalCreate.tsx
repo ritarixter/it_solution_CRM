@@ -10,19 +10,23 @@ import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { IProducts } from "../../../types/TProducts";
-import { addCommercialProposalApi, updateStepApi } from "../../../utils/api";
+import {
+  addCommercialProposalApi,
+  addNotifyApi,
+  updateStepApi,
+} from "../../../utils/api";
 import { Input } from "../../../components/Input";
 import { getStep } from "../../../services/slices/step";
-import { changeCountNotify } from "../../../services/slices/user";
+import { access, message } from "../../../utils/constants";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useAppDispatch()
-  const id_list = Number(location.pathname.slice(28));  
-  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const id_list = Number(location.pathname.slice(28));
+  const { users } = useAppSelector((state) => state.user);
   const [items, setItems] = useState<Array<IProducts>>([
     {
       id: 0,
@@ -32,9 +36,10 @@ export const CommercialProposalCreate: FC = () => {
       count: 0,
       price: 0,
       actualPrice: 0,
-      date: "",
+      dateObject: "",
+      dateWarehouse: "",
       totalPrice: 0,
-      marginalityPrice: 0,
+      //marginalityPrice: 0,
     },
   ]);
   const [currentItem, setCurrentItem] = useState<IProducts>(items[0]);
@@ -54,16 +59,23 @@ export const CommercialProposalCreate: FC = () => {
         (total, item) => (total = total + item.totalPrice),
         0
       );
- 
+
       const summaSale = items.reduce(
-        (total, item) => (total = total + item.price*item.count),
+        (total, item) => (total = total + item.price * item.count),
         0
       );
-  
-      addCommercialProposalApi(name, id_list, items, String(summaBuy), String(summaSale)).then((res) => {
+
+      addCommercialProposalApi(
+        name,
+        id_list,
+        items,
+        String(summaBuy),
+        String(summaSale)
+      ).then((res) => {
         updateStepApi(currentList[0].step.id, 3);
-        dispatch(changeCountNotify(user.id, 1))
-        dispatch(getStep())
+        const buyer = users.filter((user) => user.access === access.BUYER)[0];
+        addNotifyApi(id_list, [buyer.id], message[7]);
+        dispatch(getStep());
         navigate(-1);
       });
     }
@@ -165,9 +177,10 @@ export const CommercialProposalCreate: FC = () => {
                     units: "",
                     price: 0,
                     actualPrice: 0,
-                    date: "",
+                    dateObject: "",
+                    dateWarehouse: "",
                     totalPrice: 0,
-                    marginalityPrice: 0,
+                    //marginalityPrice: 0,
                   })
                 );
               }}
@@ -193,9 +206,10 @@ export const CommercialProposalCreate: FC = () => {
                       count: 0,
                       price: 0,
                       actualPrice: 0,
-                      date: "",
+                      dateObject: "",
+                      dateWarehouse: "",
                       totalPrice: 0,
-                      marginalityPrice: 0,
+                      //marginalityPrice: 0,
                     },
                   ]);
                 }}

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { TCommercialProposal } from "../../types/TCommercialProposal";
-import { getByIdCommercialProposalApi, updateStepApi } from "../../utils/api";
+import { addNotifyApi, getByIdCommercialProposalApi, updateStepApi } from "../../utils/api";
 import { titles } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { IProducts } from "../../types/TProducts";
@@ -14,17 +14,17 @@ import { formateDateOnlyTime, formateDateShort } from "../../utils/utils-date";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { ExcelButton } from "../../components/ExcelButton/ExcelButton";
 import { downloadExcel } from "react-export-table-to-excel";
-import { access } from "../../utils/constants";
+import { access, message } from "../../utils/constants";
 import { getStep } from "../../services/slices/step";
 import { changeCountNotify } from "../../services/slices/user";
 
 export const CommercialProposal: FC = () => {
-  const { user, isLoadingUser } = useAppSelector((state) => state.user);
+  const { user, users, isLoadingUser } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
     name: "",
@@ -40,12 +40,11 @@ export const CommercialProposal: FC = () => {
     const exportArr = CP.products.map((item) => ({
       name: item.name,
       count: item.count,
-      units: item.units,
       price: item.price,
       actualPrice: item.actualPrice,
-      date: item.date ? item.date : "Не указана",
+      dateWarehouse: item.dateWarehouse ? item.dateWarehouse : "Не указана",
+      dateObject: item.dateObject ? item.dateObject : "Не указана",
       totalPrice: item.totalPrice,
-      marginalityPrice: item.marginalityPrice,
     }));
     downloadExcel({
       fileName: `commercial_proposal_${CP.id}`,
@@ -53,13 +52,12 @@ export const CommercialProposal: FC = () => {
       tablePayload: {
         header: [
           "Наименование*",
-          "Количество*",
-          "Ед.изм.*",
+          "Количество, шт*",
           "Цена продажи, руб",
-          "Закупочная цена, руб",
+          "Закупочная цена, руб*",
           "Дата приезда на склад",
+          "Дата приезда на объект",
           "Сумма, руб",
-          "Маржинальность, руб",
         ],
         body: exportArr,
       },
@@ -117,12 +115,12 @@ export const CommercialProposal: FC = () => {
                     <td className={styles.row__item}>{item.price}</td>
                     <td className={styles.row__item}>{item.actualPrice}</td>
                     <td className={styles.row__item}>
-                      {item.date ? item.date : "Не указана"}
+                      {item.dateWarehouse ? item.dateWarehouse : "Не указана"}
+                    </td>
+                    <td className={styles.row__item}>
+                      {item.dateObject ? item.dateObject : "Не указана"}
                     </td>
                     <td className={styles.row__item}>{item.totalPrice}</td>
-                    <td className={styles.row__item}>
-                      {item.marginalityPrice}
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -146,13 +144,37 @@ export const CommercialProposal: FC = () => {
                     bigWidth={true}
                     text={"Отправить заместителю директора"}
                     onClick={() => {
+                      const currentList = list.filter(
+                        (item) => item.id === id_list
+                      );
+                      const viceprezident = users.filter(user=>user.access===access.VICEPREZIDENT)[0]
+                      updateStepApi(currentList[0].step.id, 5);
+                      addNotifyApi(
+                        id_list,
+                        [viceprezident.id],
+                        message[9]
+                      );
+                      dispatch(getStep());
+                      navigate(`/applications/${id_list}`);
+                    }}
+                  />
+                </div>
+                <div className={styles.buttonAksynia}>
+                  <BlockButton
+                    bigWidth={true}
+                    text={"Отправить юристам"}
+                    onClick={() => {
                       let arr = [...list];
                       const currentList = arr.filter(
                         (item) => item.id === id_list
                       );
-                      updateStepApi(currentList[0].step.id, 5);
-                      dispatch(changeCountNotify(user.id, 1))
-                      dispatch(getStep())
+                      const lawyers = users.filter(user=>user.access===access.LAWYER).map((item)=>item.id)
+                      addNotifyApi(
+                        id_list,
+                        lawyers,
+                        message[13]
+                      );
+                      dispatch(getStep());
                       navigate(`/applications/${id_list}`);
                     }}
                   />
@@ -167,13 +189,19 @@ export const CommercialProposal: FC = () => {
                       const currentList = arr.filter(
                         (item) => item.id === id_list
                       );
+                      const buyer = users.filter(user=>user.access===access.BUYER)[0]
                       updateStepApi(currentList[0].step.id, 5.1);
-                      dispatch(changeCountNotify(user.id, 1))
-                      dispatch(getStep())
+                      addNotifyApi(
+                        id_list,
+                        [buyer.id],
+                        message[10]
+                      );
+                      dispatch(getStep());
                       navigate(`/applications/${id_list}`);
                     }}
                   />
                 </div>
+
                 <p
                   className={styles.cancel}
                   onClick={() => {

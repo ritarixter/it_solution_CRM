@@ -27,9 +27,10 @@ type TEstimate = {
 type TExportArr = {
   name: string;
   count: number;
+  units:string;
   price: number;
   actualPrice: number;
-  date: string;
+  dateWarehouse:string;
 };
 
 export const CommercialProposalEstimate: FC = () => {
@@ -185,7 +186,7 @@ export const CommercialProposalEstimate: FC = () => {
                             units: item.units,
                             price: item.price,
                             actualPrice: item.actualPrice,
-                            date: item.date ? item.date : "Не указана",
+                            dateWarehouse: item.dateWarehouse ? item.dateWarehouse : "",
                           })),
                       },
                     ]);

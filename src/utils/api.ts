@@ -462,8 +462,8 @@ export function updateCommercialProposalApi(
 //---------------------------------------------------------------FILES-------------------------------------------------------------------------------
 
 // Получение всех работ
-export function uploadFiles(files: any) {
-  return fetch(`${URL}/upload`, {
+export function uploadFiles(files: any, query?:string) {
+  return fetch(`${URL}/upload?${query && `folder=${query}`}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -561,7 +561,7 @@ export function updateCommentApi(
 
 //---------------------------------------------------------------NOTIFY-------------------------------------------------------------------------------
 
-export function addNotifyApi(listId: number, usersId: number[], message: string) {
+export function addNotifyApi(listId: number, usersId: number[], message: string,) {
   return fetch(`${URL}/notify`, {
     method: "POST",
     headers: headersWithAuthorizeFn(),
@@ -569,6 +569,18 @@ export function addNotifyApi(listId: number, usersId: number[], message: string)
       listId: listId,
       usersId: usersId,
       message: `№${listId} ${message}`,
+    }),
+  }).then(responseCheck);
+}
+
+export function addNotifyApiWithComment(listId: number, usersId: number[], message: string, dop_message?:string) {
+  return fetch(`${URL}/notify`, {
+    method: "POST",
+    headers: headersWithAuthorizeFn(),
+    body: JSON.stringify({
+      listId: listId,
+      usersId: usersId,
+      message: `№${listId} ${message} ${dop_message}`,
     }),
   }).then(responseCheck);
 }

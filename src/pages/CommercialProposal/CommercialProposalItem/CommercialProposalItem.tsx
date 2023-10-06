@@ -31,8 +31,8 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [actualPrice, setActualPrice] = useState<number>(0);
-  const [date, setDate] = useState<string>("");
-
+  const [dateWarehouse, setDateWarehouse] = useState<string>("");
+  const [dateObject, setDateObject] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
   const [unitsError, setUnitsError] = useState<boolean>(false);
   const [countError, setCountError] = useState<boolean>(false);
@@ -101,19 +101,21 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     setCount(item.count);
     setPrice(item.price);
     setActualPrice(item.actualPrice);
-    setDate(item.date);
+    setDateObject(item.dateObject);
+    setDateWarehouse(item.dateWarehouse);
   }, [item]);
 
   useEffect(() => {
     item.name = name;
     item.count = count;
-    item.date = date;
+    item.dateWarehouse = dateWarehouse;
+    item.dateObject = dateObject;
     item.units = units;
     item.price = price;
     item.actualPrice = actualPrice;
     item.totalPrice = totalPrice;
     item.marginalityPrice = marginalityPrice;
-  }, [name, count, date, price, actualPrice, totalPrice, units]);
+  }, [name, count, dateWarehouse,dateObject, price, actualPrice, totalPrice, units]);
 
   const dragLeaveHandler = (e: DragEvent<HTMLTableRowElement>) => {
     setOnDragClass(false);
@@ -198,15 +200,23 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
       <td>
         {" "}
         <Input
-          value={date}
-          setValue={setDate}
-          type={"text"}
-          name={"01.01.2024"}
+          value={dateWarehouse}
+          setValue={setDateWarehouse}
+          type={"date"}
+          name={"2023-12-27"}
+        />
+      </td>
+      <td>
+        {" "}
+        <Input
+          value={dateObject}
+          setValue={setDateObject}
+          type={"date"}
+          name={"2023-12-27"}
         />
       </td>
       <td className={styles.price}>{totalPrice} руб</td>
 
-      <td className={styles.price}>{marginalityPrice} руб</td>
       <td className={styles.icon__delete} onClick={onDelete}>
         <img src={deleteIcon} alt="Удаление" />
       </td>

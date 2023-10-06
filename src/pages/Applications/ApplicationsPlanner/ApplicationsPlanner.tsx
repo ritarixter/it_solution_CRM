@@ -1,7 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../Applications.module.scss";
 import { useLocation } from "react-router";
-import { getListByIdApi, updateStepApi, uploadFiles } from "../../../utils/api";
+import {
+  addNotifyApi,
+  getListByIdApi,
+  updateStepApi,
+  uploadFiles,
+} from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { IProducts, TCommercialProposal, TList } from "../../../types";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
@@ -15,12 +20,14 @@ import {
 import { titlesPlanner } from "../../CommercialProposal/constants";
 import { v4 as uuidv4 } from "uuid";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { access, message } from "../../../utils/constants";
 export const ApplicationsPlanner: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
+  const { users } = useAppSelector((state) => state.user);
   const [currentList, setCurrentList] = useState<TList | null>(null);
   const headerData = ["Файлы", "КП"];
-  const [header, setHeader] = useState<string>("КП");
+  const [header, setHeader] = useState<string>("Файлы");
   const [files, setFiles] = useState<FormData | undefined>(undefined);
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
@@ -32,33 +39,6 @@ export const ApplicationsPlanner: FC = () => {
     summaBuy: "",
     marginality: "",
   });
-  // function handleDownloadExcel() {
-  //   const exportArr = CP.products.map((item) => ({
-  //     name: item.name,
-  //     count: item.count,
-  //     price: item.price,
-  //     actualPrice: item.actualPrice,
-  //     date: item.date ? item.date : "Не указана",
-  //     totalPrice: item.totalPrice,
-  //     marginalityPrice: item.marginalityPrice,
-  //   }));
-  //   downloadExcel({
-  //     fileName: `commercial_proposal_${CP.id}`,
-  //     sheet: "Заявки",
-  //     tablePayload: {
-  //       header: [
-  //         "Наименование*",
-  //         "Количество, шт*",
-  //         "Цена продажи, руб",
-  //         "Закупочная цена, руб*",
-  //         "Дата приезда на склад",
-  //         "Сумма, руб",
-  //         "Маржинальность, руб",
-  //       ],
-  //       body: exportArr,
-  //     },
-  //   });
-  // }
 
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
@@ -78,6 +58,10 @@ export const ApplicationsPlanner: FC = () => {
         files: res,
       };
       dispatch(updateList(listNew));
+      const superuser = users.filter(
+        (user) => user.access === access.SUPERUSER
+      )[0];
+      addNotifyApi(id_list, [superuser.id], message[20]);
       setFiles(undefined);
     });
   };
@@ -151,33 +135,6 @@ export const ApplicationsPlanner: FC = () => {
                   </tbody>
                 </table>
               </div>
-              {/* <div className={stylesCP.buttons}>
-                    <div className={styles.bigWidthButton}>
-                      <BlockButton
-                        bigWidth={true}
-                        text={"Отправить главному инженеру"}
-                        onClick={() => {
-                          currentList?.step &&
-                            updateStepApi(currentList?.step.id, 4);
-                          navigate("/applications");
-                        }}
-                      />
-                    </div>
-                    <BlockButton
-                      text={"Составить сметы"}
-                      onClick={() => {
-                        navigate(`/commercial-proposal/estimate/${id_list}`);
-                      }}
-                    />
-                    <p
-                      className={stylesCP.cancel}
-                      onClick={() => {
-                        navigate(`/commercial-proposal/edit/${id_list}`);
-                      }}
-                    >
-                      Изменить
-                    </p>
-                  </div> */}
             </>
           ) : (
             <p>КП еще не создано</p>

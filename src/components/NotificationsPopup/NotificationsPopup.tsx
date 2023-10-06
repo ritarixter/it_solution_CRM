@@ -1,14 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC} from "react";
 import styles from "./NotificationsPopup.module.scss";
 import moment from "moment";
 import "moment/locale/ru";
-import { events } from "./constants";
-import { useDispatch } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getStep } from "../../services/slices/step";
-import { TStep } from "../../types/TStep";
 import { useNavigate } from "react-router";
 import { TNotify } from "../../types/TNotify";
+
 
 type TNotificationsPopup = {
   open: boolean;
@@ -40,6 +36,7 @@ export const NotificationsPopup: FC<TNotificationsPopup> = ({
             <span className={styles.new}>Новое</span>
             {item.message}
             <div className={styles.dateFromNow}>
+  
               {moment(item.updatedAt, "YYYYMMDDhhmmss").fromNow()}
             </div>
           </div>

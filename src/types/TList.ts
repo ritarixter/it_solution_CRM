@@ -14,7 +14,10 @@ export type TList = {
   name: string;
   customer: string;
   address: string;
-  endDate: Date;
+  endDate?: string;
+  endDateForCP?: string;
+  endDateForInspection?: string;
+  endDateForFitters?: string;
   status: string | null;
   importance: string | null;
   company: TCompany;
@@ -32,6 +35,10 @@ export type TUpdateList = {
   idCompany?: number;
   name?: string;
   address?: string;
+  endDateForCP?: string;
+  endDate?: string;
+  endDateForInspection?: string;
+  endDateForFitters?: string;
   customer?: string;
   files?: TFile[];
   status?: string;

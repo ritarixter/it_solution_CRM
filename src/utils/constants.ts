@@ -1,5 +1,5 @@
-//export const URL_BACKEND = "http://backend.corp.itsl.tel";
-export const URL_BACKEND = "http://localhost:8000";
+export const URL_BACKEND = "http://backend.corp.itsl.tel";
+//export const URL_BACKEND = "http://localhost:8000";
 
 export const access: TAccess = {
   SUPERUSER: "Главный инженер",

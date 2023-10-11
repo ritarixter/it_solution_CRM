@@ -47,7 +47,7 @@ type TCurrentList = {
 export const ApplicationsItem: FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { companies, isError } = useAppSelector((state) => state.company);
   const { list } = useAppSelector((state) => state.list);
   const [codeValue, setCodeValue] = useState("");
@@ -224,16 +224,16 @@ export const ApplicationsItem: FC = () => {
           idCompany: currentCompany.id != 0 ? currentCompany.id : undefined,
           files: undefined,
         };
-        dispatch(updateList(listNew));      
+        dispatch(updateList(listNew));
       }
 
-      setCustomer("")
-      setCodeValue("")
+      setCustomer("");
+      setCodeValue("");
       if (textareaValue != "") {
         addCommentApi(currentList.id, user.id, textareaValue);
         setTextareaValue("");
       }
-navigate(-1)
+      navigate(-1);
     }
   };
 
@@ -402,16 +402,23 @@ navigate(-1)
             <Link
               className={styles.delete}
               to={"/applications"}
-              onClick={() => dispatch(deleteList(currentList))}
+              onClick={() => {
+                //dispatch(deleteList(currentList))
+                const list = {
+                  id:currentList.id,
+                  status: "Закончено",
+                };
+                dispatch(updateList(list));
+              }}
             >
-              Удалить
+              Закрыть заявку
             </Link>
           </div>
         </div>
         <div className={styles.commentsManager}>
           {" "}
           <h2 className={styles.conteiner_title}>Комментарии</h2>
-          <CommentsBlock/>
+          <CommentsBlock />
         </div>
       </div>
 

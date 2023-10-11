@@ -43,5 +43,5 @@ export type TUpdateList = {
   files?: TFile[];
   status?: string;
   importance?: string;
-  users: number[];
+  users?: number[];
 };

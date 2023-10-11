@@ -6,23 +6,21 @@ import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { Preloader } from "../../../components/Preloader/Preloader";
 import { access, statusConst } from "../../../utils/constants";
 import { TList } from "../../../types";
+import { getListHistoryApi } from "../../../utils/api";
 
 export const ApplicationsHistory: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
   const { user, isLoadingUser } = useAppSelector((state) => state.user);
-  const { companies, isLoadingCompany } = useAppSelector(
-    (state) => state.company
-  );
-  const dispatch = useAppDispatch();
   const [completedList, setCompletedList] = useState<TList[]>([]);
   useEffect(() => {
-    const arr = list.filter((item) => item.status === statusConst.FINISHED);
-    setCompletedList(arr);
+    getListHistoryApi().then((res)=>{
+      setCompletedList(res)
+    })
   }, [list]);
 
   return (
     <Wrapper>
-      {isLoadingUser || isLoadingList || isLoadingCompany ? (
+      {isLoadingUser || isLoadingList  ? (
         <Preloader />
       ) : (
         <>

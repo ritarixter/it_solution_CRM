@@ -252,7 +252,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             } ${styles.link}`}
             onClick={() => navigate(`/applications/${item.id}`)}
           >
-            <td key={uuidv4()}>{`Заявка №${item.id}`}</td>
+            <td key={uuidv4()} className={styles.listId}>{item.id}</td>
+            <td key={uuidv4()}>{item.name}</td>
             <td key={uuidv4()}>{item.company.nameCompany}</td>
             <td key={uuidv4()}>30000</td>
             <td key={uuidv4()}>50000</td>

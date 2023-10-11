@@ -206,6 +206,12 @@ export function getListApi() {
   }).then(responseCheck);
 }
 
+export function getListHistoryApi() {
+  return fetch(`${URL}/list/history`, {
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
 export function addListApi(
   address: string,
   customer: string,

@@ -47,6 +47,7 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
             text={"Закрыть заявку"}
             onClick={() => {
               const listNew = {
+                id:currentList.id,
                 status: "Закончено",
               };
               dispatch(updateList(listNew));

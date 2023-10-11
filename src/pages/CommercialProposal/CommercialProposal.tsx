@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { TCommercialProposal } from "../../types/TCommercialProposal";
-import { addNotifyApi, getByIdCommercialProposalApi, updateStepApi } from "../../utils/api";
+import {
+  addNotifyApi,
+  getByIdCommercialProposalApi,
+  updateStepApi,
+} from "../../utils/api";
 import { titles } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { IProducts } from "../../types/TProducts";
@@ -16,7 +20,7 @@ import { ExcelButton } from "../../components/ExcelButton/ExcelButton";
 import { downloadExcel } from "react-export-table-to-excel";
 import { access, message } from "../../utils/constants";
 import { getStep } from "../../services/slices/step";
-import { changeCountNotify } from "../../services/slices/user";
+import { TList } from "../../types";
 
 export const CommercialProposal: FC = () => {
   const { user, users, isLoadingUser } = useAppSelector((state) => state.user);
@@ -25,6 +29,7 @@ export const CommercialProposal: FC = () => {
   const location = useLocation();
   const id_list = Number(location.pathname.slice(21));
   const dispatch = useAppDispatch();
+  const [currentList, setCurrentList] = useState<TList | null>(null);
   const [CP, setCP] = useState<TCommercialProposal>({
     id: 0,
     name: "",
@@ -147,38 +152,38 @@ export const CommercialProposal: FC = () => {
                       const currentList = list.filter(
                         (item) => item.id === id_list
                       );
-                      const viceprezident = users.filter(user=>user.access===access.VICEPREZIDENT)[0]
-                      updateStepApi(currentList[0].step.id, 5);
-                      addNotifyApi(
-                        id_list,
-                        [viceprezident.id],
-                        message[9]
-                      );
+                      const viceprezident = users.filter(
+                        (user) => user.access === access.VICEPREZIDENT
+                      )[0];
+                      updateStepApi(currentList[0].step.id, 7);
+                      addNotifyApi(id_list, [viceprezident.id], message[9]);
                       dispatch(getStep());
                       navigate(`/applications/${id_list}`);
                     }}
                   />
                 </div>
-                <div className={styles.buttonAksynia}>
-                  <BlockButton
-                    bigWidth={true}
-                    text={"Отправить юристам"}
-                    onClick={() => {
-                      let arr = [...list];
-                      const currentList = arr.filter(
-                        (item) => item.id === id_list
-                      );
-                      const lawyers = users.filter(user=>user.access===access.LAWYER).map((item)=>item.id)
-                      addNotifyApi(
-                        id_list,
-                        lawyers,
-                        message[13]
-                      );
-                      dispatch(getStep());
-                      navigate(`/applications/${id_list}`);
-                    }}
-                  />
-                </div>
+                {currentList?.step &&
+                  currentList?.step.calcMarginality_step8 && (
+                    <div className={styles.buttonAksynia}>
+                      <BlockButton
+                        bigWidth={true}
+                        text={"Отправить юристам"}
+                        onClick={() => {
+                          let arr = [...list];
+                          const currentList = arr.filter(
+                            (item) => item.id === id_list
+                          );
+                          const lawyers = users
+                            .filter((user) => user.access === access.LAWYER)
+                            .map((item) => item.id);
+                          updateStepApi(currentList[0].step.id, 9);
+                          addNotifyApi(id_list, lawyers, message[13]);
+                          dispatch(getStep());
+                          navigate(`/applications/${id_list}`);
+                        }}
+                      />
+                    </div>
+                  )}
                 <div className={styles.buttonAksynia}>
                   <BlockButton
                     bigWidth={true}
@@ -189,13 +194,11 @@ export const CommercialProposal: FC = () => {
                       const currentList = arr.filter(
                         (item) => item.id === id_list
                       );
-                      const buyer = users.filter(user=>user.access===access.BUYER)[0]
-                      updateStepApi(currentList[0].step.id, 5.1);
-                      addNotifyApi(
-                        id_list,
-                        [buyer.id],
-                        message[10]
-                      );
+                      const buyer = users.filter(
+                        (user) => user.access === access.BUYER
+                      )[0];
+                      updateStepApi(currentList[0].step.id, 7.1);
+                      addNotifyApi(id_list, [buyer.id], message[10]);
                       dispatch(getStep());
                       navigate(`/applications/${id_list}`);
                     }}

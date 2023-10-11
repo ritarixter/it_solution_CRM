@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getList } from "../../services/slices/list";
 import { WebSocketService } from "../../utils/ws/websocket.service";
 import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
+import { updateStepApi } from "../../utils/api";
 
 type TApplicationsLayout = {
   children: any;

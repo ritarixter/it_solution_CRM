@@ -8,5 +8,5 @@ export type TNotify = {
     users: TUser[];
     list: TList;
     message:string;
-    isWatched:boolean
+    isWatched?:boolean
 }

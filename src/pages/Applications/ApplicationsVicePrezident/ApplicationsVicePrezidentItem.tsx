@@ -61,14 +61,14 @@ export const ApplicationsVicePrezidentItem: FC = () => {
   const superuser = users.filter((user) => user.access === access.SUPERUSER)[0];
 
   const inviteMarg = () => {
-    updateStepApi(currentList[0].step.id, 6);
+    updateStepApi(currentList[0].step.id, 8);
     addNotifyApiWithComment(id_list, [superuser.id], message[11],commentInvite.toLowerCase());
     dispatch(getStep());
     setOpenPopupInvite(false)
   };
 
   const returnMarg = () => {
-    updateStepApi(currentList[0].step.id, 7);
+    updateStepApi(currentList[0].step.id, 8.1);
     addNotifyApiWithComment(id_list, [superuser.id], message[12],commentReturn.toLowerCase());
     dispatch(getStep());
     setOpenPopupReturn(false)

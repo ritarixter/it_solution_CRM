@@ -585,7 +585,7 @@ export function addNotifyApiWithComment(listId: number, usersId: number[], messa
   }).then(responseCheck);
 }
 
-export function updateNotifyApi(id: number, isWatched: boolean) {
+export function updateNotifyApi(id: number, isWatched?: boolean) {
   return fetch(`${URL}/notify/${id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),

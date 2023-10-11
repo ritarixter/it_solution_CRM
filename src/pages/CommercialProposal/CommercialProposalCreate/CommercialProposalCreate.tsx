@@ -72,7 +72,7 @@ export const CommercialProposalCreate: FC = () => {
         String(summaBuy),
         String(summaSale)
       ).then((res) => {
-        updateStepApi(currentList[0].step.id, 3);
+        updateStepApi(currentList[0].step.id, 5);
         const buyer = users.filter((user) => user.access === access.BUYER)[0];
         addNotifyApi(id_list, [buyer.id], message[7]);
         dispatch(getStep());

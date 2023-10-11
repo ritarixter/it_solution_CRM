@@ -190,11 +190,12 @@ export const ApplicationsBuyer: FC = () => {
                       const superuser = users.filter(
                         (user) => user.access === access.SUPERUSER
                       )[0];
-                      if(currentList?.step && currentList?.step.agreementСonclusion_step8) {
+                      if(currentList?.step && currentList?.step.agreementСonclusion_step10) {
+                        updateStepApi(currentList?.step.id, 11);
                         addNotifyApi(id_list, [superuser.id], message[18]);
                       }
-                      else if (currentList?.step && !currentList?.step.agreementСonclusion_step8) {
-                        updateStepApi(currentList?.step.id, 4);
+                      else if (currentList?.step && !currentList?.step.agreementСonclusion_step10) {
+                        updateStepApi(currentList?.step.id, 6);
                         addNotifyApi(id_list, [superuser.id], message[8]);
                         dispatch(getStep());
                       }

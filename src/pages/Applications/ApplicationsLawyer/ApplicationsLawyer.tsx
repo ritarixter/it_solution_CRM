@@ -87,7 +87,7 @@ export const ApplicationsLawyer: FC = () => {
             <DeadlineSetting
               deadline={deadline}
               setDeadline={setDeadline}
-              text={"Установите дедлайн на обследование"}
+              text={"Установите дедлайн по договору"}
               onClick={() => {
                 const listNew = {
                   id: id_list,
@@ -104,7 +104,7 @@ export const ApplicationsLawyer: FC = () => {
                   )
                   .map((item) => item.id);
                 addNotifyApi(id_list, usersCurrent, message[15]);
-                updateStepApi(currentList!.step.id, 8);
+                updateStepApi(currentList!.step.id, 10);
                 setShowDeadlineEdit(false);
               }}
             />

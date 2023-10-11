@@ -409,6 +409,9 @@ export const ApplicationsItemTree: FC = () => {
                 text={"Завершить обследование"}
                 onClick={() => {
                   setOpenDeadline(true);
+                  if (currentList?.step) {
+                    updateStepApi(currentList?.step.id, 4)
+                  }
                 }}
                 disabled={
                   filesFromInspection.length === 0 ||
@@ -447,6 +450,9 @@ export const ApplicationsItemTree: FC = () => {
                   endDateForFitters: deadlineForFitter,
                 };
                 dispatch(updateList(listNew));
+                if(currentList?.step) {
+                  updateStepApi(currentList?.step.id, 12)
+                }
                 addNotifyApi(
                   id_list,
                   [engineerDefault.id],
@@ -495,6 +501,9 @@ export const ApplicationsItemTree: FC = () => {
                 text={"Завершить монтаж"}
                 onClick={() => {
                   const usersCurrent = users.filter((user)=>user.access===access.LAWYER || user.access===access.VICEPREZIDENT).map(item=>item.id)
+                  if(currentList?.step) {
+                    updateStepApi(currentList?.step.id, 15)
+                  }
                   addNotifyApi(id_list, usersCurrent, message[21]);
                   alert('Уведомление отправлено юристам и заместителю директора')
                 }}

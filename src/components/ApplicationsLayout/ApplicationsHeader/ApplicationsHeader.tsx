@@ -1,12 +1,13 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./ApplicationsHeader.module.scss";
 import { BlockButton } from "../../BlockButton/BlockButton";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import { access } from "../../../utils/constants";
+import { access, message } from "../../../utils/constants";
 import { useLocation, useNavigate } from "react-router";
-import { updateStepApi } from "../../../utils/api";
+import { addNotifyApi, updateStepApi } from "../../../utils/api";
 import { getStep } from "../../../services/slices/step";
 import { changeCountNotify } from "../../../services/slices/user";
+import { TList } from "../../../types";
 
 type TApplicationsHeader = {
   header: string;
@@ -19,12 +20,13 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
   header,
   headerData,
 }) => {
-  const { user } = useAppSelector((state) => state.user);
+  const { user, users } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
+  const [currentList, setCurrentList] = useState<TList | null>(null);
   return (
     <div className={styles.tree__header}>
       {headerData.map((headerItem) => (
@@ -38,21 +40,28 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
           {headerItem}
         </button>
       ))}
-      {user.access === access.VICEPREZIDENT && (
+      {(user.access === access.VICEPREZIDENT && currentList?.step && currentList?.step.LawyerBill_step18) ? (
         <div className={styles.buttonClose}>
           <BlockButton
             text={"Закрыть заявку"}
             onClick={() => {
               let arr = [...list];
               const currentList = arr.filter((item) => item.id === id_list);
-              updateStepApi(currentList[0].step.id, 10);
-              dispatch(changeCountNotify(user.id, 1))
+              updateStepApi(currentList[0].step.id, 19);
+              const currentUsers = users.map((item) => {
+                return item.id;
+              });
+              addNotifyApi(
+                id_list,
+                currentUsers,
+                message[27]
+              );
               dispatch(getStep());
               navigate(-1);
             }}
           />
         </div>
-      )}
+      ) : <div></div>}
     </div>
   );
 };

@@ -21,6 +21,7 @@ import { titlesPlanner } from "../../CommercialProposal/constants";
 import { v4 as uuidv4 } from "uuid";
 import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
 import { access, message } from "../../../utils/constants";
+import { getStep } from "../../../services/slices/step";
 export const ApplicationsPlanner: FC = () => {
   const location = useLocation();
   const { list } = useAppSelector((state) => state.list);
@@ -61,6 +62,9 @@ export const ApplicationsPlanner: FC = () => {
       const superuser = users.filter(
         (user) => user.access === access.SUPERUSER
       )[0];
+      if(currentList?.step) {
+        updateStepApi(currentList?.step.id, 13)
+      }
       addNotifyApi(id_list, [superuser.id], message[20]);
       setFiles(undefined);
     });

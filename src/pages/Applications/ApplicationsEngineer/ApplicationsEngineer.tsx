@@ -79,7 +79,7 @@ export const ApplicationsEngineer: FC = () => {
         dispatch(updateList(listNew));
         if (currentList) {
           if (fittersID.length != 0) {
-            updateStepApi(currentList.step.id, 3.1);
+            updateStepApi(currentList.step.id, 3);
             dispatch(getStep());
           }
         }
@@ -93,7 +93,7 @@ export const ApplicationsEngineer: FC = () => {
       dispatch(updateList(listNew));
       if (currentList) {
         if (fittersID.length != 0) {
-          updateStepApi(currentList.step.id, 3.1);
+          updateStepApi(currentList.step.id, 3);
           dispatch(getStep());
         }
       }
@@ -182,6 +182,9 @@ export const ApplicationsEngineer: FC = () => {
         files: res,
       };
       dispatch(updateList(listNew));
+      if(currentList?.step) {
+        updateStepApi(currentList?.step.id, 3)
+      }
       addNotifyApi(id_list, [superuser.id], message[5]);
       setPhotoOfObject(undefined);
       setCurrentFiles([])
@@ -195,6 +198,9 @@ export const ApplicationsEngineer: FC = () => {
         files: res,
       };
       dispatch(updateList(listNew));
+      if(currentList?.step) {
+        updateStepApi(currentList?.step.id, 14)
+      }
       addNotifyApi(id_list, [superuser.id], message[21]);
       setPhotoOfFitter(undefined);
       setCurrentFilesFitter([])

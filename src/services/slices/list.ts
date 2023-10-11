@@ -80,7 +80,6 @@ export const addList: AppThunk =
           addCommentApi(res.id, user.id, description);
         }
         updateStepApi(res.step.id, 1);
-        console.log(res)
         addNotifyApi(res.id, [res.users[0].id], message[1]);
         dispatch(getStep());
         dispatch(getList());

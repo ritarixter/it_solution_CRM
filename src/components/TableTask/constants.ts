@@ -1,4 +1,5 @@
 export const titlesMini = [
+  "№",
   "Кодовое имя",
   "Важность",
   " Прогресс",
@@ -7,6 +8,7 @@ export const titlesMini = [
   "Дедлайн",
 ];
 export const titles = [
+  "№",
   "Организация",
   "Кодовое имя",
   " Дата создания",
@@ -20,6 +22,7 @@ export const titles = [
   "Файлы",
 ];
 export const titlesManager = [
+  "№",
   "Организация",
   "Кодовое имя",
   "Почта",
@@ -29,6 +32,7 @@ export const titlesManager = [
 ];
 
 export const titlesHistory = [
+  "№",
   "Название",
   "Организация",
   "Маржинальность",

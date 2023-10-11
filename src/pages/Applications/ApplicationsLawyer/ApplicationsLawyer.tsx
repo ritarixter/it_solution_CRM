@@ -49,6 +49,22 @@ export const ApplicationsLawyer: FC = () => {
   }, [list]);
 
   const handleUploadFiles = () => {
+    const superuser = users.filter(
+      (user) => user.access === access.SUPERUSER
+    )[0];
+    const viceprezident = users.filter(
+      (user) => user.access === access.VICEPREZIDENT
+    )[0];
+    if (currentList!.step.checkWorkFitter_step15 && !currentList!.step.checkWorkFitter_step15) {
+      addNotifyApi(id_list, [superuser.id], message[24]);
+      updateStepApi(currentList!.step.id, 16);
+    }
+
+    if(currentList!.step.SignTheAct_step17) {
+      addNotifyApi(id_list, [viceprezident.id], message[26]);
+      updateStepApi(currentList!.step.id, 18);
+    }
+
     uploadFiles(files).then((res) => {
       const listNew = {
         id: id_list,
@@ -94,7 +110,7 @@ export const ApplicationsLawyer: FC = () => {
                   endDate: deadline,
                 };
                 dispatch(updateList(listNew));
-               
+
                 const usersCurrent = users
                   .filter(
                     (user) =>

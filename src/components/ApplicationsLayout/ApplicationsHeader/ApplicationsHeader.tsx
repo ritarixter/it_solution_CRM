@@ -8,25 +8,24 @@ import { addNotifyApi, updateStepApi } from "../../../utils/api";
 import { getStep } from "../../../services/slices/step";
 import { changeCountNotify } from "../../../services/slices/user";
 import { TList } from "../../../types";
+import { updateList } from "../../../services/slices/list";
 
 type TApplicationsHeader = {
   header: string;
   setHeader: (value: string) => void;
   headerData: Array<string>;
+  currentList: TList | null;
 };
 
 export const ApplicationsHeader: FC<TApplicationsHeader> = ({
   setHeader,
   header,
   headerData,
+  currentList,
 }) => {
   const { user, users } = useAppSelector((state) => state.user);
-  const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
-  const location = useLocation();
-  const id_list = Number(location.pathname.slice(14));
-  const [currentList, setCurrentList] = useState<TList | null>(null);
+  const dispatch = useAppDispatch();
   return (
     <div className={styles.tree__header}>
       {headerData.map((headerItem) => (
@@ -40,28 +39,30 @@ export const ApplicationsHeader: FC<TApplicationsHeader> = ({
           {headerItem}
         </button>
       ))}
-      {(user.access === access.VICEPREZIDENT && currentList?.step && currentList?.step.LawyerBill_step18) ? (
+      {user.access === access.VICEPREZIDENT &&
+      currentList?.step &&
+      currentList?.step.LawyerBill_step18 ? (
         <div className={styles.buttonClose}>
           <BlockButton
             text={"Закрыть заявку"}
             onClick={() => {
-              let arr = [...list];
-              const currentList = arr.filter((item) => item.id === id_list);
-              updateStepApi(currentList[0].step.id, 19);
+              const listNew = {
+                status: "Закончено",
+              };
+              dispatch(updateList(listNew));
+              updateStepApi(currentList.step.id, 19);
               const currentUsers = users.map((item) => {
                 return item.id;
               });
-              addNotifyApi(
-                id_list,
-                currentUsers,
-                message[27]
-              );
+              addNotifyApi(currentList.id, currentUsers, message[27]);
               dispatch(getStep());
               navigate(-1);
             }}
           />
         </div>
-      ) : <div></div>}
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

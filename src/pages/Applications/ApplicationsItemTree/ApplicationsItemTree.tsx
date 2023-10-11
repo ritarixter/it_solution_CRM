@@ -184,6 +184,13 @@ export const ApplicationsItemTree: FC = () => {
           };
           dispatch(updateList(listNew));
           setFiles(undefined);
+          if(currentList?.step.WorkCertificate_step16 && !currentList.step.SignTheAct_step17) {
+            const lawyer = users.filter(
+              (user) => user.access === access.LAWYER
+            )[0];
+            updateStepApi(currentList?.step.id, 17);
+            addNotifyApi(id_list, [lawyer.id], message[25]);
+          }
           if (currentList?.step)
             if (engineer != engineerDefault) {
               updateStepApi(currentList?.step.id, 2);

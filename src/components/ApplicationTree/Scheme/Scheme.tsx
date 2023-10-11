@@ -110,7 +110,7 @@ export const Scheme: FC<TScheme> = ({ users, list }) => {
       </div>
       <div
         className={`${styles.acsynya} ${
-          steps?.createList_step1 && styles.active
+          steps?.checkingCP_step7 && styles.active
         } ${steps?.closeList_step19 && styles.finished}`}
       >
         <a href="#">Аксинья</a>

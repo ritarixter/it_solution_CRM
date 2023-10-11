@@ -1,22 +1,29 @@
 import styles from "./WorkProgressBar.module.scss";
 import { res } from "./constants";
 import { TStages } from "./TStages";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useEffect } from "react";
+import { TStep } from "../../types/TStep";
+import React from "react";
 
-export const WorkProgressBar = () => {
-  const [work, setWork] = useState<Array<TStages>>([]);
-  const maxWorkCount = work.length;
-  let finishedWorkCount = 0;
-  for (let i = 0; i < work.length; i++) {
-    if (work[i].isFinish) ++finishedWorkCount;
-  }
+ const WorkProgressBar: FC<TStep> = React.memo((steps) => {
+  const [width, setWidth]=useState('')
+  const maxWorkCount = 19;
+
 
   useEffect(() => {
-    setWork(res);
-  }, res);
+    let finishedWorkCount = 0;
+    for (const [key, value] of Object.entries(steps)) {
+      if (typeof value === "boolean") {
+        if (value) {
+          finishedWorkCount++;
+        }
+      }
+    }
+    setWidth(`${Math.round((100 * finishedWorkCount) / maxWorkCount)}%`)
+  }, [steps]);
 
-  const width = `${Math.round((100 * finishedWorkCount) / maxWorkCount)}%`;
+
 
   return (
     <div className={styles.main}>
@@ -31,4 +38,5 @@ export const WorkProgressBar = () => {
       <div className={styles.title}>{width}</div>
     </div>
   );
-};
+});
+ export default WorkProgressBar

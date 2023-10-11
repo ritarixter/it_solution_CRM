@@ -6,7 +6,7 @@ import { TList } from "../../../types";
 import { StatusBlock } from "../../StatusBlock/StatusBlock";
 import { v4 as uuidv4 } from "uuid";
 import { formateDateShort } from "../../../utils/utils-date";
-import { WorkProgressBar } from "../../WorkProgressBar/WorkProgressBar";
+import WorkProgressBar from "../../WorkProgressBar/WorkProgressBar";
 import { useLocation, useNavigate } from "react-router";
 import { FileIcon } from "../../File/FileIcon";
 import {
@@ -39,15 +39,16 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
           <tr
             onClick={() => navigate(`/applications/${item.id}`)}
             className={`${styles.row} ${
-              mini ? styles.row_mini : styles.row_maxi
+              mini && styles.row_mini
             } ${styles.link}`}
           >
+            <td className={styles.listId} key={uuidv4()}>{item.id}</td>
             <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
             <td key={uuidv4()}>
               <ImpotanceBlock type={item.importance} />
             </td>
             <td key={uuidv4()}>
-              <WorkProgressBar />
+              <WorkProgressBar {...item.step}/>
             </td>
 
             {item.users.length != 0 ? (
@@ -85,6 +86,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               mini ? styles.row_mini : styles.row_maxi
             } ${styles.link}`}
           >
+            <td className={styles.listId} key={uuidv4()}>{item.id}</td>
             <td key={uuidv4()}>{item.company.nameCompany}</td>
             <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
             <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
@@ -123,7 +125,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               <ImpotanceBlock type={item.importance} />
             </td>
             <td key={uuidv4()}>
-              <WorkProgressBar />
+              <WorkProgressBar {...item.step} />
             </td>
             <td key={uuidv4()}>
               <div className={styles.implements__file}>
@@ -153,6 +155,8 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               mini ? styles.row_mini : styles.row_maxi
             } ${styles.link}`}
           >
+
+                 <td className={styles.listId} key={uuidv4()}>{item.id}</td>
             <td key={uuidv4()}>{item.company.nameCompany}</td>
             <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
             <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
@@ -191,7 +195,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               <ImpotanceBlock type={item.importance} />
             </td>
             <td key={uuidv4()}>
-              <WorkProgressBar />
+              <WorkProgressBar {...item.step}/>
             </td>
             <td key={uuidv4()}>
               <div className={styles.implements__file}>
@@ -221,6 +225,7 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             } ${styles.link}`}
             onClick={() => navigate(`${item.id}`)}
           >
+            <td className={styles.listId} key={uuidv4()}>{item.id}</td>
             <td key={uuidv4()}>{item.company.nameCompany}</td>
             <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
             <td key={uuidv4()}>

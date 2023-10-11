@@ -2,9 +2,9 @@ import { TList } from "./TList";
 
 export type TStep = {
   id: number;
-  list?: TList;
-  createdAt?: Date;
-  updatedAt?: Date;
+  list: TList;
+  createdAt: Date;
+  updatedAt: Date;
   createList_step1: boolean; //1.	Создание заявки
   chooseEngineer_step2: boolean; //2. Выбор инженера и дедлайна на обследование c проектировщиком
   photoSurvey_step3: boolean; //3.	Инженер после обследования прикрепляет фото

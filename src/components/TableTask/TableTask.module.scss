@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+.listId {
+  font-weight: 500;
+}
+
 .table {
   list-style: none;
   padding: 0;
@@ -68,7 +72,7 @@
   }
   &_mini {
     column-gap: 8px;
-    grid-template-columns: minmax(120px, 1fr) minmax(123px, 1fr) 140px minmax(
+    grid-template-columns: 20px minmax(120px, 1fr) minmax(123px, 1fr) 120px minmax(
         110px,
         1fr
       ) minmax(132px, 1fr) minmax(85px, 1fr);
@@ -83,7 +87,7 @@
   }
 
   &_maxi {
-    grid-template-columns: repeat(11, 1fr);
+    grid-template-columns: 25px repeat(11, 1fr);
     gap: 7px;
   }
   &.header {

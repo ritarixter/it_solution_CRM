@@ -186,6 +186,7 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
             header={header}
             setHeader={setHeader}
             headerData={headerData}
+            currentList={currentList}
           />
           {children}
         </div>

@@ -5,7 +5,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.29",
@@ -46,11 +45,12 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "SET NODE_ENV=development & react-scripts start",
+    "build": "SET NODE_ENV=production & react-scripts build",
+    "test": "jest",
     "eject": "react-scripts eject",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "cypress:open": "node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -71,10 +71,17 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^14.0.0",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.194",
     "@types/react-datepicker": "^4.11.2",
+    "@types/react-test-renderer": "^18.0.3",
     "@types/uuid": "^9.0.2",
-    "eslint": "^8.0.1"
+    "cypress": "^13.3.0",
+    "eslint": "^8.0.1",
+    "eslint-plugin-cypress": "^2.15.1",
+    "fetch-mock": "^9.11.0",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

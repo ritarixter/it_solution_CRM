@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExcelButton рендерится без ошибок 1`] = `
+<p
+  className="excel"
+  onClick={[Function]}
+>
+  <img
+    alt="Иконка excel"
+    className="excel__icon"
+    src="excel_icon.svg"
+  />
+  Импорт
+</p>
+`;

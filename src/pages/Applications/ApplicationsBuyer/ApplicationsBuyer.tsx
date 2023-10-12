@@ -240,7 +240,7 @@ export const ApplicationsBuyer: FC = () => {
           />
         </div>
       )}{" "}
-      {header === "Комментарии" && <CommentsBlock />}
+      {header === "Комментарии" && <CommentsBlock isAddComment={true}/>}
     </ApplicationsLayout>
   );
 };

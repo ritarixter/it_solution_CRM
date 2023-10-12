@@ -1,17 +1,26 @@
 @import "../../styles/variables.scss";
 
+.container {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
 .comments {
   list-style: none;
   margin: 0;
   padding: 0;
+  padding-right: 15px;
+  width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  height: 65vh;
-  padding-right: 15px;
-  width: 100%;
-max-width: 1000px;
+  height: 63vh;
 
+  &_mini {
+    height: 44vh;
+  }
   &::-webkit-scrollbar-thumb {
     background: $inputColor;
     border-radius: 10px;
@@ -60,7 +69,28 @@ max-width: 1000px;
     font-size: 12px;
     margin-left: 8px;
     margin-top: 2.5px;
-    color:$secondaryColor;
+    color: $secondaryColor;
   }
+}
 
+.textarea {
+  resize: none;
+  display: block;
+  outline: none;
+  border-radius: 6px;
+  padding: 12px 16px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  border: 1px solid #c8c6c6;
+  font-size: 14px;
+  color: #353535;
+  margin-bottom: 20px;
+
+}
+
+.caption {
+  color: #5c5d5e;
+    font-size: 14px;
+    margin-bottom: 4px;
+    margin-top: 0;
 }

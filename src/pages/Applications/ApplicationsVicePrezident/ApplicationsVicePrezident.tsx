@@ -77,7 +77,7 @@ export const ApplicationsVicePrezident: FC = () => {
           />
         </div>
       )}
-      {header === "Комментарии" && <CommentsBlock />}
+      {header === "Комментарии" && <CommentsBlock isAddComment={true}/>}
     </ApplicationsLayout>
   );
 };

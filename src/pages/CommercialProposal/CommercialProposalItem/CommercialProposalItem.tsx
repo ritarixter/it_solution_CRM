@@ -6,6 +6,7 @@ import { DropdownList } from "../../../components/DropdownList";
 import deleteIcon from "../../../images/icons/delete_black.svg";
 import dragIcon from "../../../images/icons/draganddrop.svg";
 import styles from "../CommercialProposal.module.scss";
+import { access } from "../../../utils/constants";
 
 type TCommercialProposalItem = {
   onDelete: () => void;
@@ -13,6 +14,7 @@ type TCommercialProposalItem = {
   setCurrentItem: (item: IProducts) => void;
   dropHandler: (e: DragEvent<HTMLTableRowElement>, item: IProducts) => void;
   setError: (error: boolean) => void;
+  agreementСonclusion_step10?: boolean;
 };
 
 export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
@@ -21,10 +23,11 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   setCurrentItem,
   dropHandler,
   setError,
+  agreementСonclusion_step10=false,
 }) => {
   const { stocks } = useAppSelector((state) => state.stock);
+  const { user } = useAppSelector((state) => state.user);
   const [allProducts, setAllProducts] = useState<Array<string>>([]);
-  const [products, setProducts] = useState<string>("");
 
   const [name, setName] = useState<string>("Выберите");
   const [units, setUnits] = useState<string>("");
@@ -33,14 +36,15 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   const [actualPrice, setActualPrice] = useState<number>(0);
   const [dateWarehouse, setDateWarehouse] = useState<string>("");
   const [dateObject, setDateObject] = useState<string>("");
+
+  //ОШИБКИ
   const [nameError, setNameError] = useState<boolean>(false);
   const [unitsError, setUnitsError] = useState<boolean>(false);
   const [countError, setCountError] = useState<boolean>(false);
-  const [actualPriceError, setActualPriceError] = useState<boolean>(false);
-
-  //ДАТА И ЦЕНА ЗАКУПКИ ВЫСТАВЛЯЕТСЯ ПОЗЖЕ НЕ ПРИ СОЗДАНИИ
-  const [dateError, setDateError] = useState<boolean>(false);
   const [priceError, setPriceError] = useState<boolean>(false);
+  const [actualPriceError, setActualPriceError] = useState<boolean>(false);
+  const [dateWarehouseError, setDateWarehouseError] = useState<boolean>(false);
+  const [dateObjectError, setDateObjectError] = useState<boolean>(false);
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
@@ -63,23 +67,44 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     count == 0 || !count ? setCountError(true) : setCountError(false);
   }, [name, count, units]);
 
+  useEffect(() => {
+    if (user.access === access.BUYER) {
+      //ЦЕНЫ
+      actualPrice === 0
+        ? setActualPriceError(true)
+        : setActualPriceError(false);
+      price === 0 ? setPriceError(true) : setPriceError(false);
+
+      //ДАТЫ
+      if (agreementСonclusion_step10) {
+        dateWarehouse === ""
+          ? setDateWarehouseError(true)
+          : setDateWarehouseError(false);
+        dateObject === ""
+          ? setDateObjectError(true)
+          : setDateObjectError(false);
+      }
+    }
+  }, [actualPrice, price, dateWarehouse, dateObject]);
+
   //ОБЩАЯ ВАЛИДАЦИЯ КП
 
   useEffect(() => {
     if (
-      dateError ||
+      dateWarehouseError ||
       priceError ||
       nameError ||
       countError ||
       actualPriceError ||
-      unitsError
+      unitsError ||
+      dateObjectError
     ) {
       setError(true);
     } else {
       setError(false);
     }
   }, [
-    dateError,
+    dateWarehouseError,
     priceError,
     nameError,
     countError,
@@ -115,7 +140,16 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     item.actualPrice = actualPrice;
     item.totalPrice = totalPrice;
     item.marginalityPrice = marginalityPrice;
-  }, [name, count, dateWarehouse,dateObject, price, actualPrice, totalPrice, units]);
+  }, [
+    name,
+    count,
+    dateWarehouse,
+    dateObject,
+    price,
+    actualPrice,
+    totalPrice,
+    units,
+  ]);
 
   const dragLeaveHandler = (e: DragEvent<HTMLTableRowElement>) => {
     setOnDragClass(false);
@@ -185,6 +219,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           setValue={setPrice}
           type={"number"}
           name={"1200"}
+          error={priceError}
         />
       </td>
       <td>
@@ -204,6 +239,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           setValue={setDateWarehouse}
           type={"date"}
           name={"2023-12-27"}
+          error={dateWarehouseError}
         />
       </td>
       <td>
@@ -213,6 +249,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           setValue={setDateObject}
           type={"date"}
           name={"2023-12-27"}
+          error={dateObjectError}
         />
       </td>
       <td className={styles.price}>{totalPrice} руб</td>

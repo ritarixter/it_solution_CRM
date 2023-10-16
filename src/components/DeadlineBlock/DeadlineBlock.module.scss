@@ -19,3 +19,8 @@
         color:  $nullColor;
     }
 }
+
+.deadline {
+    background-color: $statusToDoColor;
+    color: $statusHard;
+}

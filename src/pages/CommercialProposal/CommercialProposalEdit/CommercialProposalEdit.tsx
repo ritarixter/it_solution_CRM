@@ -15,9 +15,7 @@ import {
   updateCommercialProposalApi,
 } from "../../../utils/api";
 import { Input } from "../../../components/Input";
-import {
-  TCommercialProposal,
-} from "../../../types/TCommercialProposal";
+import { TCommercialProposal } from "../../../types/TCommercialProposal";
 import {
   formateDateOnlyTime,
   formateDateShort,
@@ -37,7 +35,7 @@ export const CommercialProposalEdit: FC = () => {
       count: 0,
       price: 0,
       actualPrice: 0,
-      dateWarehouse:"",
+      dateWarehouse: "",
       dateObject: "",
       totalPrice: 0,
       marginalityPrice: 0,
@@ -49,6 +47,8 @@ export const CommercialProposalEdit: FC = () => {
   const [nameError, setNameError] = useState<boolean>(false);
   const [errorItem, setErrorItem] = useState<boolean>(false);
   const [CP, setCP] = useState<TCommercialProposal>();
+  const [agreementСonclusion_step10, setAgreementСonclusion_step10] =
+    useState<boolean>(false);
 
   useEffect(() => {
     getByIdCommercialProposalApi(id_list).then((res) => {
@@ -56,6 +56,7 @@ export const CommercialProposalEdit: FC = () => {
       setItems(res.commercialProposal.products);
       setName(res.commercialProposal.name);
       setCount(res.commercialProposal.products.length);
+      setAgreementСonclusion_step10(res.step.agreementСonclusion_step10);
     });
   }, []);
 
@@ -68,20 +69,19 @@ export const CommercialProposalEdit: FC = () => {
         (total, item) => (total = total + item.totalPrice),
         0
       );
- 
+
       const summaSale = items.reduce(
-        (total, item) => (total = total + item.price*item.count),
+        (total, item) => (total = total + item.price * item.count),
         0
       );
-      console.log(summaSale)
-  
+      console.log(summaSale);
+
       const newCommercialProposal = {
         id: CP?.id ? CP.id : -1,
         name: name === "" || name == CP?.name ? undefined : name,
         products: items,
         summaBuy: String(summaBuy),
-        summaSale: String(summaSale)
-        
+        summaSale: String(summaSale),
       };
       updateCommercialProposalApi(newCommercialProposal).then((res) => {
         navigate(-1);
@@ -170,6 +170,7 @@ export const CommercialProposalEdit: FC = () => {
                 {items ? (
                   items.map((item) => (
                     <CommercialProposalItem
+                      agreementСonclusion_step10={agreementСonclusion_step10}
                       setError={setErrorItem}
                       item={item}
                       setCurrentItem={setCurrentItem}
@@ -201,9 +202,9 @@ export const CommercialProposalEdit: FC = () => {
                     count: 0,
                     price: 0,
                     actualPrice: 0,
-                    dateWarehouse:"",
+                    dateWarehouse: "",
                     dateObject: "",
-                    totalPrice: 0, 
+                    totalPrice: 0,
                   })
                 );
               }}

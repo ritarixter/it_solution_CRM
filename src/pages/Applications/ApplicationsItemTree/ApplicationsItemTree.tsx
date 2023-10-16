@@ -191,8 +191,8 @@ export const ApplicationsItemTree: FC = () => {
             updateStepApi(currentList?.step.id, 17);
             addNotifyApi(id_list, [lawyer.id], message[25]);
           }
-          if (currentList?.step)
-            if (engineer != engineerDefault) {
+          if (currentList?.step) {
+            if (engineer.id != engineerDefault.id) {
               updateStepApi(currentList?.step.id, 2);
               addNotifyApi(id_list, [engineer.id], message[3]);
               const manager = users.filter(
@@ -213,7 +213,7 @@ export const ApplicationsItemTree: FC = () => {
                 }
               }
               dispatch(getStep());
-            }
+            }}
         });
       } else {
         const listNew = {
@@ -226,8 +226,8 @@ export const ApplicationsItemTree: FC = () => {
           users: engineer != engineerDefault ? [engineer.id] : undefined,
         };
         dispatch(updateList(listNew));
-        if (currentList?.step)
-          if (engineer != engineerDefault) {
+        if (currentList?.step) {
+          if (engineer.id != engineerDefault.id) {
             updateStepApi(currentList?.step.id, 2);
             addNotifyApi(id_list, [engineer.id], message[3]);
             dispatch(getStep());
@@ -249,7 +249,7 @@ export const ApplicationsItemTree: FC = () => {
                   .catch((err) => console.log(err));
               }
             }
-          }
+          }}
       }
       dispatch(getList());
       if (textareaValue != "") {

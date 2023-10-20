@@ -179,7 +179,7 @@ export const ApplicationsItem: FC = () => {
         nameCompany:
           nameCompanyValue === currentCompany.nameCompany
             ? undefined
-            : nameCompanyValue,
+            : nameCompanyValue.replace(/"/g, "'"),
         name: nameValue === currentCompany.name ? undefined : nameValue,
         numberPhone:
           phoneValue === currentCompany.numberPhone ? undefined : phoneValue,

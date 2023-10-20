@@ -14,12 +14,16 @@ import { uploadFiles } from "../../utils/api";
 import { Preloader } from "../../components/Preloader/Preloader";
 import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
+import { DropdownList } from "../../components/DropdownList";
+import { accessData } from "../../utils/constants";
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
+ // const accessData:string[] = [access.ENGINEER, access.FITTER]
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
-  const [access, setAccess] = useState("");
+ // const [accessData, setAccessData]=useState<string[]>([access.ENGINEER, access.FITTER])
+  const [role, setRole] = useState(accessData[0]);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -27,6 +31,7 @@ export const Administrator: FC = () => {
   const dispatch = useAppDispatch();
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
   const [avatar, setAvatar]= useState<FormData>()
+
   const pageSize = 6;
 
   useEffect(() => {
@@ -37,6 +42,17 @@ export const Administrator: FC = () => {
       );
     }
   }, [currentPage, users]);
+
+
+  // useEffect(()=>{
+  //   (!users.some((user)=>user.access===access.SUPERUSER)&& !accessData.some((item)=>item === access.SUPERUSER)) && setAccessData([...accessData, access.SUPERUSER]);
+  //   (!users.some((user)=>user.access===access.BUYER)&& !accessData.some((item)=>item === access.BUYER)) && setAccessData([...accessData, access.BUYER]);
+  //   (!users.some((user)=>user.access===access.LAWYER) && !accessData.some((item)=>item === access.LAWYER)) && setAccessData([...accessData, access.LAWYER]);
+  //   (!users.some((user)=>user.access===access.PLANNER)  && !accessData.some((item)=>item === access.PLANNER)) && setAccessData([...accessData, access.PLANNER]);
+  //   (!users.some((user)=>user.access===access.MANAGER) && !accessData.some((item)=>item === access.MANAGER)) && setAccessData([...accessData, access.MANAGER]);
+
+  //   setRole(accessData[0])
+  // },[users])
 
   useEffect(() => {
     let data = new FormData();
@@ -56,8 +72,10 @@ export const Administrator: FC = () => {
 
   const handleAddUser = () => {
     uploadFiles(avatar).then((res) => {
-      dispatch(addUser(name, userName, password, access, phone, res[0].url));
+      dispatch(addUser(name, userName, password, role, phone, res[0].url));
       deleteInput();
+      setRole(accessData[0])
+      //setAccessData([access.ENGINEER, access.FITTER])
     });
   };
 
@@ -72,7 +90,7 @@ export const Administrator: FC = () => {
   const deleteInput = () => {
     setName("");
     setUserName("");
-    setAccess("");
+    setRole("");
     setPhone("");
     setPassword("");
     setCurrentFiles([]);
@@ -107,13 +125,16 @@ export const Administrator: FC = () => {
                 name={"Введите пароль"}
                 text={"Пароль"}
               />
-              <Input
+              <div className={styles.admin__dropdown}>
+              <DropdownList state={role} setState={setRole} data={accessData} name="Доступ пользователя"/>
+              {/* <Input
+
                 setValue={setAccess}
                 value={access}
                 type={"text"}
                 name={"Введите доступ"}
                 text={"Доступ пользователя"}
-              />
+              /> */}</div>
               <Input
                 setValue={setPhone}
                 value={phone}
@@ -165,7 +186,7 @@ export const Administrator: FC = () => {
                 name === "" ||
                 userName === "" ||
                 password === "" ||
-                access === "" ||
+                role === "" ||
                 phone === "" ||
                 (currentfiles && currentfiles.length === 0)
               }
@@ -196,7 +217,7 @@ export const Administrator: FC = () => {
                     </tr>
                   </thead>
                   <tbody key={uuidv4()}>
-                    {currentData.map((item) => (
+                    {currentData ? currentData.map((item) => (
                       <tr className={styles.table_content} onClick={() => {}}>
                         <td className={styles.table_rowName}>
                           <UserBlock name={""} avatar={item.avatar} />
@@ -206,7 +227,8 @@ export const Administrator: FC = () => {
                         <td className={styles.table_row}>{item.username}</td>
                         <td className={styles.table_row}>{item.phone}</td>
                       </tr>
-                    ))}
+                    )): <tr className={styles.table_content} onClick={() => {}}>
+                    <td className={styles.table_rowName}>Пользователей нет </td></tr>}
                   </tbody>
                 </table>
               </div>

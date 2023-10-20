@@ -4,6 +4,10 @@
   margin-top: 40px;
   display: flex;
 
+  &__dropdown {
+    margin-bottom: 8px;
+  }
+
   &__container {
     display: flex;
     justify-content: space-between;
@@ -58,7 +62,7 @@
 
   &_title {
     margin-top: 43px;
-    margin-bottom: 51px;
+    margin-bottom: 14px;
   }
 
   &_block {
@@ -72,6 +76,10 @@
     display: grid;
     grid-template-columns: 269px 153px 160px 130px;
     text-align: left;
+    & > th {
+      font-weight: 400;
+      color: $subtitleColor;
+    } 
   }
 
   &_content {

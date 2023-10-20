@@ -106,7 +106,7 @@ export const Applications: FC = () => {
       if (validateEmail(emailValue)) {
         dispatch(
           addCompany(
-            nameCompanyValue,
+            nameCompanyValue.replace(/"/g, "'"),
             nameValue,
             phoneValue,
             INNValue,
@@ -120,7 +120,7 @@ export const Applications: FC = () => {
     } else {
       dispatch(
         addCompany(
-          nameCompanyValue,
+          nameCompanyValue.replace(/"/g, "'"),
           nameValue,
           phoneValue,
           INNValue,

@@ -101,9 +101,7 @@ export const App: FC = () => {
           path="/admin"
           index
           element={
-            <ProtectedRoute>
               <Administrator />
-            </ProtectedRoute>
           }
         />
         <Route

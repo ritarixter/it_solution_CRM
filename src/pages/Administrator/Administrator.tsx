@@ -202,7 +202,7 @@ export const Administrator: FC = () => {
                 password === "" ||
                 role === "" ||
                 phone === "" ||
-                (pathname != '/admin_panel' && currentfiles.length != 0)
+                (pathname != '/admin_panel' && currentfiles.length === 0)
               }
             />
             <button

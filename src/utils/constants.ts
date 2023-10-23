@@ -15,7 +15,7 @@ export const access: TAccess = {
   PLANNER: "Проектировщик",
 };
 
-//export const accessData = [access.SUPERUSER, access.MANAGER, access.FITTER, access.ENGINEER, access.BUYER, access.VICEPREZIDENT, access.LAWYER, access.PLANNER] //для создания пользователей аксиьни
+export const accessDataMaxi = [access.SUPERUSER, access.MANAGER, access.FITTER, access.ENGINEER, access.BUYER, access.VICEPREZIDENT, access.LAWYER, access.PLANNER] //для создания пользователей аксиьни
 export const accessData = [access.FITTER, access.ENGINEER] //для создания пользователей аксиьни
 
 export type TAccess = {

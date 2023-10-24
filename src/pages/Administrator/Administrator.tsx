@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Pagination, UserBlock, Wrapper } from "../../components";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import styles from "./Administrator.module.scss";
@@ -15,15 +15,20 @@ import { Preloader } from "../../components/Preloader/Preloader";
 import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
 import { DropdownList } from "../../components/DropdownList";
+<<<<<<< HEAD
 import { accessData } from "../../utils/constants";
 
+=======
+import { accessData, accessDataMaxi } from "../../utils/constants";
+>>>>>>> b044bdeb71707cf222f21c23ccfa21e8374ae8a4
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
+  const {pathname}=useLocation()
  // const accessData:string[] = [access.ENGINEER, access.FITTER]
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
- // const [accessData, setAccessData]=useState<string[]>([access.ENGINEER, access.FITTER])
+  const [currAccessData, setCurrAccessData]=useState<string[]>([])
   const [role, setRole] = useState(accessData[0]);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +39,12 @@ export const Administrator: FC = () => {
   const [avatar, setAvatar]= useState<FormData>()
 
   const pageSize = 6;
+
+  useEffect(()=>{
+    pathname === '/admin_panel' ?setCurrAccessData(accessDataMaxi) : setCurrAccessData(accessData) 
+  },[
+
+  ])
 
   useEffect(() => {
     if (users.length != 0) {
@@ -72,12 +83,19 @@ export const Administrator: FC = () => {
   }, [currentfiles]);
 
   const handleAddUser = () => {
-    uploadFiles(avatar).then((res) => {
-      dispatch(addUser(name, userName, password, role, phone, res[0].url));
+    if(pathname === '/admin_panel') {
+      dispatch(addUser(name, userName, password, role, phone, '/uploads/files/ava3.png'));
       deleteInput();
       setRole(accessData[0])
-      //setAccessData([access.ENGINEER, access.FITTER])
-    });
+    } else {
+      uploadFiles(avatar).then((res) => {
+        dispatch(addUser(name, userName, password, role, phone, res[0].url));
+        deleteInput();
+        setRole(accessData[0])
+        //setAccessData([access.ENGINEER, access.FITTER])
+      });
+    }
+
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +145,7 @@ export const Administrator: FC = () => {
                 text={"Пароль"}
               />
               <div className={styles.admin__dropdown}>
-              <DropdownList state={role} setState={setRole} data={accessData} name="Доступ пользователя"/>
+              <DropdownList state={role} setState={setRole} data={currAccessData} name="Доступ пользователя"/>
               {/* <Input
 
                 setValue={setAccess}
@@ -189,7 +207,7 @@ export const Administrator: FC = () => {
                 password === "" ||
                 role === "" ||
                 phone === "" ||
-                (currentfiles && currentfiles.length === 0)
+                (pathname != '/admin_panel' && currentfiles.length === 0)
               }
             />
             <button

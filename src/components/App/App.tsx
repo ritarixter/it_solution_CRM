@@ -72,6 +72,7 @@ export const App: FC = () => {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/admin_panel" element={<Administrator />} />
         <Route
           path="/analytics"
           element={

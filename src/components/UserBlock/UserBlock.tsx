@@ -2,6 +2,7 @@ import { FC } from "react";
 import styles from "./UserBlock.module.scss";
 import { AvatarDefault } from "../AvatarDefault/AvatarDefault";
 import { URL_BACKEND } from "../../utils/constants";
+import { TFile } from "../../types";
 
 type TUserBlock = {
   avatar?: string;

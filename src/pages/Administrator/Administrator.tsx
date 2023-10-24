@@ -16,6 +16,7 @@ import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
 import { DropdownList } from "../../components/DropdownList";
 import { accessData } from "../../utils/constants";
+
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
  // const accessData:string[] = [access.ENGINEER, access.FITTER]
@@ -218,7 +219,7 @@ export const Administrator: FC = () => {
                   </thead>
                   <tbody key={uuidv4()}>
                     {currentData ? currentData.map((item) => (
-                      <tr className={styles.table_content} onClick={() => {}}>
+                      <tr className={styles.table_content} onClick={() => navigate(`${item.id}`)}>
                         <td className={styles.table_rowName}>
                           <UserBlock name={""} avatar={item.avatar} />
                           <span className={styles.name}>{item.name}</span>
@@ -227,7 +228,7 @@ export const Administrator: FC = () => {
                         <td className={styles.table_row}>{item.username}</td>
                         <td className={styles.table_row}>{item.phone}</td>
                       </tr>
-                    )): <tr className={styles.table_content} onClick={() => {}}>
+                    )): <tr className={styles.table_content}>
                     <td className={styles.table_rowName}>Пользователей нет </td></tr>}
                   </tbody>
                 </table>

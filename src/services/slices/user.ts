@@ -7,11 +7,13 @@ import Cookies from "js-cookie";
 import {
   addUserApi,
   changeCountNotifyApi,
+  editUserApi,
   getDataUser,
   getUsersApi,
   signIn,
   signUp,
 } from "../../utils/api";
+import { TUserUpdate } from "../../types/TUser";
 
 interface userState {
   user: TUser;
@@ -202,3 +204,35 @@ export const changeCountNotify: AppThunk =
         dispatch(setLoading(false));
       });
   };
+
+  export const updateUser: AppThunk =
+  (user: TUserUpdate) => (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    editUserApi(user)
+      .then((res) => {
+        dispatch(setError(false));
+        dispatch(getUser());
+      })
+      .catch((err) => {
+        dispatch(setError(true));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
+
+// export const deleteUser: AppThunk =
+//   (id: number) => (dispatch: AppDispatch) => {
+//     dispatch(setLoading(true));
+//     deleteUsers(id)
+//       .then((res) => {
+//         dispatch(setError(false));
+//         dispatch(getUser());
+//       })
+//       .catch((err) => {
+//         dispatch(setError(true));
+//       })
+//       .finally(() => {
+//         dispatch(setLoading(false));
+//       });
+//   };

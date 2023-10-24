@@ -49,3 +49,9 @@
   top: 43px;
   right: 648px;
 }
+
+@media screen and (max-width: 722px) {
+  .box {
+    width: 400px;
+  }
+}

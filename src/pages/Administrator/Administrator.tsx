@@ -79,7 +79,7 @@ export const Administrator: FC = () => {
 
   const handleAddUser = () => {
     if(pathname === '/admin_panel') {
-      dispatch(addUser(name, userName, password, role, phone, undefined));
+      dispatch(addUser(name, userName, password, role, phone, '/uploads/files/ava1.png'));
       deleteInput();
       setRole(accessData[0])
     } else {
@@ -202,7 +202,7 @@ export const Administrator: FC = () => {
                 password === "" ||
                 role === "" ||
                 phone === "" ||
-                (pathname != '/admin_panel' && currentfiles.length != 0)
+                (pathname != '/admin_panel' && currentfiles.length === 0)
               }
             />
             <button

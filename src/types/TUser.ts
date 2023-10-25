@@ -16,7 +16,7 @@ export type TUser = {
 };
 
 export type TUserUpdate = {
-  id?: number;
+  id: number;
   name?: string;
   avatar?: string;
   phone?: string;

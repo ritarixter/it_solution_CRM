@@ -18,8 +18,7 @@ import { DropdownList } from "../../components/DropdownList";
 import { accessData, accessDataMaxi } from "../../utils/constants";
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
-  const { pathname } = useLocation();
-  // const accessData:string[] = [access.ENGINEER, access.FITTER]
+  const {pathname}=useLocation()
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -77,17 +76,8 @@ export const Administrator: FC = () => {
   }, [currentfiles]);
 
   const handleAddUser = () => {
-    if (pathname === "/admin_panel") {
-      dispatch(
-        addUser(
-          name,
-          userName,
-          password,
-          role,
-          phone,
-          "/uploads/files/ava3.png"
-        )
-      );
+    if(pathname === '/admin_panel') {
+      dispatch(addUser(name, userName, password, role, phone, ''));
       deleteInput();
       setRole(accessData[0]);
     } else {
@@ -169,7 +159,7 @@ export const Administrator: FC = () => {
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
               />
-              <div className={styles.files}>
+             {pathname != '/admin_panel' && <div className={styles.files}>
                 <label className={styles.input_file}>
                   <input
                     accept="image/png, image/jpeg, image/jpg"
@@ -200,7 +190,7 @@ export const Administrator: FC = () => {
                     Допустимые расширения .png .jpg
                   </span>
                 )}
-              </div>
+              </div>}
             </div>
           </div>
           <div className={styles.admin__buttons}>

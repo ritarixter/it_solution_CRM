@@ -12,7 +12,7 @@ import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { accessData } from "../../../utils/constants";
 import { translitRuEn } from "../../../utils/utils";
 import { TUserUpdate } from "../../../types/TUser";
-
+import { updateUser } from "../../../services/slices/user";
 
 export const AdministratorItem: FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -21,10 +21,10 @@ export const AdministratorItem: FC = () => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   // const [accessData, setAccessData]=useState<string[]>([access.ENGINEER, access.FITTER])
-  const [role, setRole] = useState(accessData[0]);
+  //const [role, setRole] = useState(accessData[0]);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [currentData, setCurrentData] =  useState<TUserUpdate>({
+  const [currentData, setCurrentData] = useState<TUserUpdate>({
     id: 0,
     name: "",
     avatar: "",
@@ -39,7 +39,6 @@ export const AdministratorItem: FC = () => {
   useEffect(() => {
     getUserById(Number(location.pathname.slice(7))).then((res) => {
       setCurrentData(res);
-      console.log(setCurrentData(res));
     });
   }, [user]);
 
@@ -60,33 +59,35 @@ export const AdministratorItem: FC = () => {
   }, [currentfiles]);
 
   const handleEditUser = () => {
-    if (avatar){
-    uploadFiles(avatar).then((res) => {
+    if (avatar) {
+      uploadFiles(avatar, 'avatars').then((res) => {
+console.log(res)
         const userNew = {
-            id: currentData.id,
-            name: name === "" ? undefined : name,
-            username: userName === "" ? undefined : userName,
-            password: password === "" ? undefined : password,
-            access: role === "" ? undefined : role,
-            phone: phone === "" ? undefined : phone,
-            avatar: res,
-          };
-      dispatch(editUserApi(userNew));
+          id: currentData.id,
+          name: name === "" ? undefined : name,
+          username: userName === "" ? undefined : userName,
+          password: password === "" ? undefined : password,
+          // access: role === "" ? undefined : role,
+          phone: phone === "" ? undefined : phone,
+          avatar: res[0].url,
+        };
+        dispatch(updateUser(userNew));
+        deleteInput();
+        //setRole(accessData[0]);
+      });
+    } else {
+      const userNew = {
+        id: currentData.id,
+        name: name === "" ? undefined : name,
+        username: userName === "" ? undefined : userName,
+        password: password === "" ? undefined : password,
+        //access: role === "" ? undefined : role,
+        phone: phone === "" ? undefined : phone,
+        avatar: undefined,
+      };
+      dispatch(updateUser(userNew));
       deleteInput();
-      setRole(accessData[0]);
-    })} else{
-        const userNew = {
-            id: currentData.id,
-            name: name === "" ? undefined : name,
-            username: userName === "" ? undefined : userName,
-            password: password === "" ? undefined : password,
-            access: role === "" ? undefined : role,
-            phone: phone === "" ? undefined : phone,
-            avatar: undefined,
-          };
-      dispatch(editUserApi(userNew));
-      deleteInput();
-      setRole(accessData[0]);
+      //setRole(accessData[0]);
     }
   };
 
@@ -101,7 +102,7 @@ export const AdministratorItem: FC = () => {
   const deleteInput = () => {
     setName("");
     setUserName("");
-    setRole("");
+    //setRole("");
     setPhone("");
     setPassword("");
     setCurrentFiles([]);
@@ -116,24 +117,35 @@ export const AdministratorItem: FC = () => {
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Аватар</p>
             <p className={styles.blockText_text}>
-              <UserBlock name={currentData.name ? currentData.name : ""} avatar={currentData.avatar} />
+              <UserBlock
+                name={currentData.name ? currentData.name : ""}
+                avatar={currentData.avatar}
+              />
             </p>
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>ФИО сотрудника</p>
-            <p className={styles.blockText_text}>{currentData.name ? currentData.name : ""}</p>
+            <p className={styles.blockText_text}>
+              {currentData.name ? currentData.name : ""}
+            </p>
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Имя пользователя</p>
-            <p className={styles.blockText_text}>{currentData.username ? currentData.username : ""}</p>
+            <p className={styles.blockText_text}>
+              {currentData.username ? currentData.username : ""}
+            </p>
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Доступ пользователя</p>
-            <p className={styles.blockText_text}>{currentData.access ? currentData.access : ""}</p>
+            <p className={styles.blockText_text}>
+              {currentData.access ? currentData.access : ""}
+            </p>
           </div>
           <div className={styles.blockText}>
             <p className={styles.blockText_title}>Номер телефона</p>
-            <p className={styles.blockText_text}>{currentData.phone ? currentData.phone : ""}</p>
+            <p className={styles.blockText_text}>
+              {currentData.phone ? currentData.phone : ""}
+            </p>
           </div>
         </div>
         <div className={styles.conteiner}>
@@ -162,14 +174,14 @@ export const AdministratorItem: FC = () => {
                 name={"Введите пароль"}
                 text={"Пароль"}
               />
-              <div className={styles.admin__dropdown}>
+              {/* <div className={styles.admin__dropdown}>
                 <DropdownList
                   state={role}
                   setState={setRole}
                   data={accessData}
                   name="Доступ пользователя"
                 />
-              </div>
+              </div> */}
               <Input
                 setValue={setPhone}
                 value={phone}
@@ -218,11 +230,12 @@ export const AdministratorItem: FC = () => {
                 handleEditUser();
               }}
               disabled={
-                name === "" ||
-                userName === "" ||
-                password === "" ||
-                role === "" ||
-                phone === ""
+                name === "" &&
+                userName === "" &&
+                password === "" &&
+                //role === "" &&
+                phone === "" &&
+                currentfiles.length === 0
               }
             />
             <button

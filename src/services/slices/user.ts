@@ -212,6 +212,7 @@ export const changeCountNotify: AppThunk =
       .then((res) => {
         dispatch(setError(false));
         dispatch(getUser());
+        dispatch(getUsers());
       })
       .catch((err) => {
         dispatch(setError(true));

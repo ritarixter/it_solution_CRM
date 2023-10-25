@@ -98,7 +98,7 @@ export function changeCountNotifyApi(idUser:number,count: number) {
 export function editUserApi(
   user: TUserUpdate
 ) {
-  return fetch(`${URL}/user/{id}`, {
+  return fetch(`${URL}/user/${user.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
     body: JSON.stringify(user),
@@ -130,7 +130,7 @@ export function addUserApi(
 
 //Удаление пользователя
 export function deleteUsers(id: number) {
-  return fetch(`${URL}/users//current/${id}`, {
+  return fetch(`${URL}/user/current/${id}`, {
     method: "DELETE",
     headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
@@ -170,7 +170,7 @@ export function addTaskUserApi(
   description?: string
 ) {
   // const times = formateDateOnlyTime(endDate).split(":")
-  console.log(endDate.toLocaleString);
+  //console.log(endDate.toLocaleString);
   return fetch(`${URL}/tasks`, {
     method: "POST",
     headers: headersWithAuthorizeFn(),

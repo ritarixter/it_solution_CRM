@@ -8,6 +8,7 @@ import {
 } from "../types";
 import Cookies from "js-cookie";
 import { URL_BACKEND } from "./constants";
+import { TUserUpdate } from "../types/TUser";
 
 const URL = URL_BACKEND;
 
@@ -63,6 +64,13 @@ export function getUsersApi() {
   }).then(responseCheck);
 }
 
+export function getUserById(id: number) {
+  return fetch(`${URL}/user/current/${id}`, {
+    method: "GET",
+    headers: headersWithAuthorizeFn(),
+  }).then(responseCheck);
+}
+
 /* export async function logoutUser() {
   return fetch(`${URL}/logout`, {
     method: "POST",
@@ -87,25 +95,13 @@ export function changeCountNotifyApi(idUser:number,count: number) {
 }
 
 //Внести изменения о пользователе
-export function editUsers(
-  username?: string,
-  password?: string,
-  avatar?: string,
-  phone?: string,
-  name?: string,
-  access?: string
+export function editUserApi(
+  user: TUserUpdate
 ) {
-  return fetch(`${URL}/user/{id}`, {
+  return fetch(`${URL}/user/${user.id}`, {
     method: "PATCH",
     headers: headersWithAuthorizeFn(),
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      avatar: avatar,
-      phone: phone,
-      name: name,
-      access: access,
-    }),
+    body: JSON.stringify(user),
   }).then(responseCheck);
 }
 
@@ -133,8 +129,8 @@ export function addUserApi(
 }
 
 //Удаление пользователя
-export function deleteUsers(usernameId: any) {
-  return fetch(`${URL}/users/${usernameId}`, {
+export function deleteUsers(id: number) {
+  return fetch(`${URL}/user/current/${id}`, {
     method: "DELETE",
     headers: headersWithAuthorizeFn(),
   }).then(responseCheck);
@@ -174,7 +170,7 @@ export function addTaskUserApi(
   description?: string
 ) {
   // const times = formateDateOnlyTime(endDate).split(":")
-  console.log(endDate.toLocaleString);
+  //console.log(endDate.toLocaleString);
   return fetch(`${URL}/tasks`, {
     method: "POST",
     headers: headersWithAuthorizeFn(),

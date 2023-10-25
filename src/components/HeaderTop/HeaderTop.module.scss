@@ -37,7 +37,7 @@
   right: -7px;
   width: 17px;
   height: 17px;
-  background-color:$notifyColor;
+  background-color: $notifyColor;
   border-radius: 50%;
   color: $thirdColor;
   display: flex;
@@ -57,9 +57,57 @@
   margin-left: 4px;
   width: 9px;
   height: 24px;
-  
-  transition: all .2s ease;
+
+  transition: all 0.2s ease;
   &.open {
     transform: rotateX(180deg);
   }
+}
+
+.gamburger {
+
+  display: flex;
+	justify-content: flex-end;
+  &_btn {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index:2;
+    overflow: hidden;
+  }
+  &.menu span {
+    width: 30px;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222222;
+    transition: all 0.5s;
+  }
+  &.btn span:nth-of-type(2) {
+    top: calc(50% - 5px);
+  }
+  &.btn span:nth-of-type(3) {
+    top: calc(50% + 5px);
+  }
+  display: none;
+}
+
+
+
+@media screen and (max-width: 995px) {
+  .block {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 25px;
+  }
+  .block_users {
+    display: flex;
+    justify-content: flex-end
+  }
+}
+
+@media screen and (max-width: 722px) {
 }

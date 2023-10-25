@@ -13,6 +13,7 @@ import { useAppSelector } from "../../services/hooks";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 import { NOT_ASSIGNED, access } from "../../utils/constants";
 import { ExcelButton } from "../ExcelButton/ExcelButton";
+import useResize from "../../hooks/useResize";
 
 type TTableTask = {
   mini: boolean;
@@ -32,6 +33,7 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
   const [error, setError] = useState<boolean>(false);
   const location = useLocation();
   const pageSize = currentAccess === access.SUPERUSER ? (mini ? 3 : 7) : 7;
+  const size = useResize();
 
   function handleDownloadExcel() {
     let arr = [...list];
@@ -73,7 +75,6 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
   }
 
   useEffect(() => {
-
     if (list.length != 0) {
       let arr = [...list];
       const date = addSevenDay();
@@ -90,14 +91,15 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
 
       setError(false);
     } else {
-
       setError(true);
     }
   }, [currentPage, list]);
 
+  const titleCrop = size.width <= 995 && titlesManager.slice(1,2)
+
   return (
     <section className={`${styles.container} ${mini && styles.mini}`}>
-      { isLoadingList ? (
+      {isLoadingList ? (
         <PreloaderBlock />
       ) : (
         <>
@@ -105,14 +107,13 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
             <div className={styles.header}>
               <h2 className={styles.title}>
                 {location.pathname != "/applications/history"
-                  ? (mini && user.access !=access.MANAGER)
+                  ? mini && user.access != access.MANAGER
                     ? "Заявки за последние 7 дней"
                     : "Заявки"
                   : "История заявок"}
               </h2>
-      
-                <ExcelButton onClick={handleDownloadExcel} />
-              
+
+              <ExcelButton onClick={handleDownloadExcel} />
             </div>
             <table className={`${styles.table} ${mini && styles.table_mini}`}>
               <thead key={uuidv4()}>
@@ -169,11 +170,13 @@ export const TableTask: FC<TTableTask> = ({ mini, list, currentAccess }) => {
               styles.pagination_without
             }`}
           >
-            {mini && currentAccess === access.SUPERUSER && location.pathname != "/applications/history" && (
-              <Link className={styles.linkAll} to="/applications">
-                Смотреть все
-              </Link>
-            )}
+            {mini &&
+              currentAccess === access.SUPERUSER &&
+              location.pathname != "/applications/history" && (
+                <Link className={styles.linkAll} to="/applications">
+                  Смотреть все
+                </Link>
+              )}
 
             <Pagination
               pageSize={pageSize}

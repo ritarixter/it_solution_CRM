@@ -42,3 +42,28 @@
 .dn {
   display: none;
 }
+
+
+@media screen and (max-width: 1420px) {
+  .nav {
+    padding: 0;
+  }
+
+  .icon {
+    padding: 20px 33px 0;
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1345px) {
+.header {
+  height: auto;
+  padding-top: 105px;
+}
+}
+
+@media screen and (max-width: 682px) {
+  .header {
+    display: none;
+  }
+}

@@ -42,6 +42,7 @@ import { Marginality } from "../../pages/Marginality/Marginality";
 import { Administrator } from "../../pages/Administrator/Administrator";
 import { getStep } from "../../services/slices/step";
 import moment from 'moment-timezone';
+import { AdministratorItem } from "../../pages/Administrator/AdministratorItem/AdministratorItem";
 
 export const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -104,6 +105,15 @@ export const App: FC = () => {
           element={
             <ProtectedRoute>
               <Administrator />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/:id"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <AdministratorItem />{" "}
             </ProtectedRoute>
           }
         />

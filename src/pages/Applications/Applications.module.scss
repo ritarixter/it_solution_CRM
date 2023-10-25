@@ -10,8 +10,10 @@
 
   &__container {
     background-color: $thirdColor;
-    min-width: 462px;
-    padding: 30px 20px;
+    max-width: 528px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 40px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -159,6 +161,72 @@
       opacity: 0.7;
     }
   }
+}
+
+@media screen and (max-width: 1345px) {
+  // .manager {
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 30px;
+  //   padding-bottom: 40px;
+  // }
+  
+}
+
+@media screen and (max-width: 995px) {
+
+}
+
+@media screen and (max-width: 815px) {
+
+}
+
+@media screen and (max-width: 682px) {
+  .search {
+    position: relative;
+    max-width: 282px;
+  }
+  .manager {
+  
+    &__container {
+      background-color: $thirdColor;
+      max-width: 428px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 30px 40px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 80vh;
+    }
+  
+    &__title {
+      font-size: 20px;
+      padding-bottom: 15px;
+      margin: 0;
+    }
+  
+    &__buttons {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+    }
+  
+    &__textarea {
+      max-width: 422px;
+    }
+  
+    &__input {
+      width: 100%;
+      max-width: 422px;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 682px) {
+  
 }
 
 //СТИЛИ ДЛА ОТДЕЛЬНОЙ СТРАНИЦЫ МЕНЕДЖЕРА---------------------------------------------------------------------------------------------------------------------------

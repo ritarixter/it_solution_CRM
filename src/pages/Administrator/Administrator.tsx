@@ -19,7 +19,6 @@ import { accessData, accessDataMaxi } from "../../utils/constants";
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
   const {pathname}=useLocation()
- // const accessData:string[] = [access.ENGINEER, access.FITTER]
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -79,7 +78,7 @@ export const Administrator: FC = () => {
 
   const handleAddUser = () => {
     if(pathname === '/admin_panel') {
-      dispatch(addUser(name, userName, password, role, phone, '/uploads/files/ava1.png'));
+      dispatch(addUser(name, userName, password, role, phone, ''));
       deleteInput();
       setRole(accessData[0])
     } else {
@@ -156,7 +155,7 @@ export const Administrator: FC = () => {
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
               />
-              <div className={styles.files}>
+             {pathname != '/admin_panel' && <div className={styles.files}>
                 <label className={styles.input_file}>
                   <input
                     accept="image/png, image/jpeg, image/jpg"
@@ -187,7 +186,7 @@ export const Administrator: FC = () => {
                   Допустимые расширения .png .jpg
                 </span>
                 )}
-              </div>
+              </div>}
             </div>
           </div>
           <div className={styles.admin__buttons}>
@@ -232,16 +231,16 @@ export const Administrator: FC = () => {
                   </thead>
                   <tbody key={uuidv4()}>
                     {currentData ? currentData.map((item) => (
-                      <tr className={styles.table_content} onClick={() => {}}>
+                      <tr className={styles.table_content} onClick={() => navigate(`${item.id}`)}>
                         <td className={styles.table_rowName}>
-                          <UserBlock name={""} avatar={item.avatar} />
-                          <span className={styles.name}>{item.name}</span>
+                          <UserBlock name={item.name} avatar={item.avatar} fullName={true}/>
+        
                         </td>
                         <td className={styles.table_row}>{item.access}</td>
                         <td className={styles.table_row}>{item.username}</td>
                         <td className={styles.table_row}>{item.phone}</td>
                       </tr>
-                    )): <tr className={styles.table_content} onClick={() => {}}>
+                    )): <tr className={styles.table_content}>
                     <td className={styles.table_rowName}>Пользователей нет </td></tr>}
                   </tbody>
                 </table>

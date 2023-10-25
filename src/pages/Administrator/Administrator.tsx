@@ -15,20 +15,15 @@ import { Preloader } from "../../components/Preloader/Preloader";
 import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
 import { DropdownList } from "../../components/DropdownList";
-<<<<<<< HEAD
-import { accessData } from "../../utils/constants";
-
-=======
 import { accessData, accessDataMaxi } from "../../utils/constants";
->>>>>>> b044bdeb71707cf222f21c23ccfa21e8374ae8a4
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
-  const {pathname}=useLocation()
- // const accessData:string[] = [access.ENGINEER, access.FITTER]
+  const { pathname } = useLocation();
+  // const accessData:string[] = [access.ENGINEER, access.FITTER]
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
-  const [currAccessData, setCurrAccessData]=useState<string[]>([])
+  const [currAccessData, setCurrAccessData] = useState<string[]>([]);
   const [role, setRole] = useState(accessData[0]);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -36,15 +31,15 @@ export const Administrator: FC = () => {
   const [currentData, setCurrentData] = useState<Array<TUser>>([]);
   const dispatch = useAppDispatch();
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
-  const [avatar, setAvatar]= useState<FormData>()
+  const [avatar, setAvatar] = useState<FormData>();
 
   const pageSize = 6;
 
-  useEffect(()=>{
-    pathname === '/admin_panel' ?setCurrAccessData(accessDataMaxi) : setCurrAccessData(accessData) 
-  },[
-
-  ])
+  useEffect(() => {
+    pathname === "/admin_panel"
+      ? setCurrAccessData(accessDataMaxi)
+      : setCurrAccessData(accessData);
+  }, []);
 
   useEffect(() => {
     if (users.length != 0) {
@@ -54,7 +49,6 @@ export const Administrator: FC = () => {
       );
     }
   }, [currentPage, users]);
-
 
   // useEffect(()=>{
   //   (!users.some((user)=>user.access===access.SUPERUSER)&& !accessData.some((item)=>item === access.SUPERUSER)) && setAccessData([...accessData, access.SUPERUSER]);
@@ -83,19 +77,27 @@ export const Administrator: FC = () => {
   }, [currentfiles]);
 
   const handleAddUser = () => {
-    if(pathname === '/admin_panel') {
-      dispatch(addUser(name, userName, password, role, phone, '/uploads/files/ava3.png'));
+    if (pathname === "/admin_panel") {
+      dispatch(
+        addUser(
+          name,
+          userName,
+          password,
+          role,
+          phone,
+          "/uploads/files/ava3.png"
+        )
+      );
       deleteInput();
-      setRole(accessData[0])
+      setRole(accessData[0]);
     } else {
       uploadFiles(avatar).then((res) => {
         dispatch(addUser(name, userName, password, role, phone, res[0].url));
         deleteInput();
-        setRole(accessData[0])
+        setRole(accessData[0]);
         //setAccessData([access.ENGINEER, access.FITTER])
       });
     }
-
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -145,15 +147,21 @@ export const Administrator: FC = () => {
                 text={"Пароль"}
               />
               <div className={styles.admin__dropdown}>
-              <DropdownList state={role} setState={setRole} data={currAccessData} name="Доступ пользователя"/>
-              {/* <Input
+                <DropdownList
+                  state={role}
+                  setState={setRole}
+                  data={currAccessData}
+                  name="Доступ пользователя"
+                />
+                {/* <Input
 
                 setValue={setAccess}
                 value={access}
                 type={"text"}
                 name={"Введите доступ"}
                 text={"Доступ пользователя"}
-              /> */}</div>
+              /> */}
+              </div>
               <Input
                 setValue={setPhone}
                 value={phone}
@@ -189,8 +197,8 @@ export const Administrator: FC = () => {
                   </div>
                 ) : (
                   <span className={styles.input_file_text}>
-                  Допустимые расширения .png .jpg
-                </span>
+                    Допустимые расширения .png .jpg
+                  </span>
                 )}
               </div>
             </div>
@@ -207,7 +215,7 @@ export const Administrator: FC = () => {
                 password === "" ||
                 role === "" ||
                 phone === "" ||
-                (pathname != '/admin_panel' && currentfiles.length === 0)
+                (pathname != "/admin_panel" && currentfiles.length === 0)
               }
             />
             <button
@@ -236,18 +244,28 @@ export const Administrator: FC = () => {
                     </tr>
                   </thead>
                   <tbody key={uuidv4()}>
-                    {currentData ? currentData.map((item) => (
-                      <tr className={styles.table_content} onClick={() => navigate(`${item.id}`)}>
+                    {currentData ? (
+                      currentData.map((item) => (
+                        <tr
+                          className={styles.table_content}
+                          onClick={() => navigate(`${item.id}`)}
+                        >
+                          <td className={styles.table_rowName}>
+                            <UserBlock name={""} avatar={item.avatar} />
+                            <span className={styles.name}>{item.name}</span>
+                          </td>
+                          <td className={styles.table_row}>{item.access}</td>
+                          <td className={styles.table_row}>{item.username}</td>
+                          <td className={styles.table_row}>{item.phone}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr className={styles.table_content}>
                         <td className={styles.table_rowName}>
-                          <UserBlock name={""} avatar={item.avatar} />
-                          <span className={styles.name}>{item.name}</span>
+                          Пользователей нет{" "}
                         </td>
-                        <td className={styles.table_row}>{item.access}</td>
-                        <td className={styles.table_row}>{item.username}</td>
-                        <td className={styles.table_row}>{item.phone}</td>
                       </tr>
-                    )): <tr className={styles.table_content}>
-                    <td className={styles.table_rowName}>Пользователей нет </td></tr>}
+                    )}
                   </tbody>
                 </table>
               </div>

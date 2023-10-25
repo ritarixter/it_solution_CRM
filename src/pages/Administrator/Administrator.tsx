@@ -241,8 +241,7 @@ export const Administrator: FC = () => {
                           onClick={() => navigate(`${item.id}`)}
                         >
                           <td className={styles.table_rowName}>
-                            <UserBlock name={""} avatar={item.avatar} />
-                            <span className={styles.name}>{item.name}</span>
+                            <UserBlock name={item.name} avatar={item.avatar} fullName={true}/>
                           </td>
                           <td className={styles.table_row}>{item.access}</td>
                           <td className={styles.table_row}>{item.username}</td>

@@ -164,7 +164,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     e.preventDefault();
     setOnDragClass(true);
   };
-
+  
   return (
     <tr
       className={`${styles.row} ${onDragClass && styles.row_drag}`}
@@ -185,20 +185,20 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
         alt="Иконка перетаскивания"
       />
       <td className={styles.table__list}>
-        {/* <DropdownList
+        <DropdownList
           state={name}
           size={"small"}
           setState={setName}
           data={allProducts}
           error={nameError}
-        /> */}
-        <Input
+        />
+        {/* <Input
           value={name}
           setValue={setName}
           type={"text"}
           name={"Товар"}
           error={nameError}
-        />
+        /> */}
       </td>
       <td>
         {" "}

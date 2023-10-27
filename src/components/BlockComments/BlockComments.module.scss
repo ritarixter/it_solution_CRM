@@ -116,3 +116,23 @@
     align-items: center;
   }
 }
+
+
+@media screen and (max-width: 592px) {
+  .comment {
+  
+    &_text {
+      background-color: $bgInputMobil;
+      border: none;
+    }
+  }
+
+  .caption {
+    color: $dashboardTitleColor;
+  }
+
+  .input__file_button {
+    background-color: $bgInputMobil;
+
+  }
+}

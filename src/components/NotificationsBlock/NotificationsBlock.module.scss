@@ -53,5 +53,17 @@
 @media screen and (max-width: 722px) {
   .box {
     width: 400px;
+    &_text {
+      max-width: 330px;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .box {
+    width: 286px;
+    &_text {
+      max-width: 216px;
+    }
   }
 }

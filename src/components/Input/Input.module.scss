@@ -44,3 +44,14 @@
 .mb_8 {
   margin-bottom: 8px;
 }
+
+@media screen and (max-width: 592px) {
+  .input {
+    background-color: $bgInputMobil;
+    border: none;
+  }
+
+  .caption {
+    color: $dashboardTitleColor;
+  }
+}

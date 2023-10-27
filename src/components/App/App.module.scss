@@ -7,3 +7,9 @@
   font-family: "Poppins", sans-serif;
 
 }
+
+@media screen and (max-width: 592px) {
+.app {
+  background-color: $thirdColor;
+}
+}

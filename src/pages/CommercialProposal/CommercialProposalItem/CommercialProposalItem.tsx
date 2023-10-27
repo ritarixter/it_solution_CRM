@@ -110,6 +110,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     countError,
     actualPriceError,
     unitsError,
+    dateObjectError
   ]);
 
   const totalPrice = useMemo(() => {

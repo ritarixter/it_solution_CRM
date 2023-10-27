@@ -71,6 +71,7 @@ export const CommercialProposal: FC = () => {
   useEffect(() => {
     getByIdCommercialProposalApi(id_list).then((res) => {
       setCP(res.commercialProposal);
+      setCurrentList(res)
     });
   }, []);
 

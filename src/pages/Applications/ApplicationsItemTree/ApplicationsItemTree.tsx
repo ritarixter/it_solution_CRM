@@ -184,7 +184,10 @@ export const ApplicationsItemTree: FC = () => {
           };
           dispatch(updateList(listNew));
           setFiles(undefined);
-          if(currentList?.step.WorkCertificate_step16 && !currentList.step.SignTheAct_step17) {
+          if (
+            currentList?.step.WorkCertificate_step16 &&
+            !currentList.step.SignTheAct_step17
+          ) {
             const lawyer = users.filter(
               (user) => user.access === access.LAWYER
             )[0];
@@ -213,7 +216,8 @@ export const ApplicationsItemTree: FC = () => {
                 }
               }
               dispatch(getStep());
-            }}
+            }
+          }
         });
       } else {
         const listNew = {
@@ -249,7 +253,8 @@ export const ApplicationsItemTree: FC = () => {
                   .catch((err) => console.log(err));
               }
             }
-          }}
+          }
+        }
       }
       dispatch(getList());
       if (textareaValue != "") {
@@ -417,7 +422,7 @@ export const ApplicationsItemTree: FC = () => {
                 onClick={() => {
                   setOpenDeadline(true);
                   if (currentList?.step) {
-                    updateStepApi(currentList?.step.id, 4)
+                    updateStepApi(currentList?.step.id, 4);
                   }
                 }}
                 disabled={
@@ -457,14 +462,10 @@ export const ApplicationsItemTree: FC = () => {
                   endDateForFitters: deadlineForFitter,
                 };
                 dispatch(updateList(listNew));
-                if(currentList?.step) {
-                  updateStepApi(currentList?.step.id, 12)
+                if (currentList?.step) {
+                  updateStepApi(currentList?.step.id, 12);
                 }
-                addNotifyApi(
-                  id_list,
-                  [engineerDefault.id],
-                  message[19]
-                );
+                addNotifyApi(id_list, [engineerDefault.id], message[19]);
                 setShowDeadlineFitterEdit(false);
               }}
             />
@@ -504,21 +505,35 @@ export const ApplicationsItemTree: FC = () => {
               )}
             </div>
             <div className={styles.survey_btn}>
-              <BlockButton
-                text={"Завершить монтаж"}
-                onClick={() => {
-                  const usersCurrent = users.filter((user)=>user.access===access.LAWYER || user.access===access.VICEPREZIDENT).map(item=>item.id)
-                  if(currentList?.step) {
-                    updateStepApi(currentList?.step.id, 15)
-                  }
-                  addNotifyApi(id_list, usersCurrent, message[21]);
-                  alert('Уведомление отправлено юристам и заместителю директора')
-                }}
-                disabled={
-                  filesFromFitter.length === 0 
-                }
-                bigWidth={true}
-              />
+              {currentList?.step && currentList?.step.checkWorkFitter_step15 ? (
+                <BlockButton
+                  text={"Монтаж завершен"}
+                  onClick={() => {}}
+                  disabled={true}
+                />
+              ) : (
+                <BlockButton
+                  text={"Завершить монтаж"}
+                  onClick={() => {
+                    const usersCurrent = users
+                      .filter(
+                        (user) =>
+                          user.access === access.LAWYER ||
+                          user.access === access.VICEPREZIDENT
+                      )
+                      .map((item) => item.id);
+                    if (currentList?.step) {
+                      updateStepApi(currentList?.step.id, 15);
+                    }
+                    addNotifyApi(id_list, usersCurrent, message[21]);
+                    alert(
+                      "Уведомление отправлено юристам и заместителю директора"
+                    );
+                  }}
+                  disabled={filesFromFitter.length === 0}
+                  bigWidth={true}
+                />
+              )}
             </div>
           </div>
         </div>

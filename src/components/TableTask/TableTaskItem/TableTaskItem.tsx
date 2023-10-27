@@ -51,14 +51,14 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
               <WorkProgressBar {...item.step}/>
             </td>
 
-            {item.users.length != 0 ? (
+            {item.users && item.users.length != 0 ? (
               <td key={uuidv4()} className={styles.implements}>
                 {item.users.slice(0, 3).map((user) => (
                   <div className={styles.implements__item} key={user.id}>
                     <UserBlock avatar={user.avatar} name={user.name} />
                   </div>
                 ))}
-                {item.users.length > 3 && (
+                {item.users && item.users.length > 3 && (
                   <UserBlock name={`+${String(item.users.length - 3)}`} />
                 )}
               </td>
@@ -173,14 +173,14 @@ export const TableTaskItem: FC<TTableTaskItem> = ({
             </td>
             <td key={uuidv4()}>{item.company.numberPhone}</td>
 
-            {item.users.length != 0 ? (
+            {item.users && item.users.length != 0 ? (
               <td className={styles.implements}>
                 {item.users.slice(0, 3).map((user) => (
                   <div className={styles.implements__item} key={user.id}>
                     <UserBlock avatar={user.avatar} name={user.name} />
                   </div>
                 ))}
-                {item.users.length > 3 && (
+                {item.users && item.users.length > 3 && (
                   <UserBlock name={`+${String(item.users.length - 3)}`} />
                 )}
               </td>

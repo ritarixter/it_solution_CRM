@@ -55,7 +55,7 @@ export const ApplicationsLawyer: FC = () => {
     const viceprezident = users.filter(
       (user) => user.access === access.VICEPREZIDENT
     )[0];
-    if (currentList!.step.checkWorkFitter_step15 && !currentList!.step.checkWorkFitter_step15) {
+    if (currentList!.step.checkWorkFitter_step15 && !currentList!.step.WorkCertificate_step16) {
       addNotifyApi(id_list, [superuser.id], message[24]);
       updateStepApi(currentList!.step.id, 16);
     }

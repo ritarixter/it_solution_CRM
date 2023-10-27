@@ -23,7 +23,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   setCurrentItem,
   dropHandler,
   setError,
-  agreementСonclusion_step10=false,
+  agreementСonclusion_step10 = false,
 }) => {
   const { stocks } = useAppSelector((state) => state.stock);
   const { user } = useAppSelector((state) => state.user);
@@ -110,7 +110,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     countError,
     actualPriceError,
     unitsError,
-    dateObjectError
+    dateObjectError,
   ]);
 
   const totalPrice = useMemo(() => {
@@ -185,11 +185,18 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
         alt="Иконка перетаскивания"
       />
       <td className={styles.table__list}>
-        <DropdownList
+        {/* <DropdownList
           state={name}
           size={"small"}
           setState={setName}
           data={allProducts}
+          error={nameError}
+        /> */}
+        <Input
+          value={name}
+          setValue={setName}
+          type={"text"}
+          name={"Товар"}
           error={nameError}
         />
       </td>

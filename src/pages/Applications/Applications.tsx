@@ -17,6 +17,9 @@ import { access, statusConst } from "../../utils/constants";
 import { validateEmail } from "../../utils/utils-validate";
 import { getUser, getUsers } from "../../services/slices/user";
 import { Navigate, useLocation } from "react-router";
+import useWindowDimensions from "../../hooks/useResize.js";
+import { TableList } from "../../components/TableList/TableList";
+import { titles } from "../../components/TableTask/constants";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -41,6 +44,17 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
+  const [mini, setMini] = useState<boolean>(false);
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    console.log(width, mini);
+    if (width < 1590) {
+      setMini(true);
+    } else {
+      setMini(false);
+    }
+  }, [width]);
   //const [activeList, setActiveList] = useState<TList[]>([]);
   let location = useLocation();
 
@@ -49,16 +63,14 @@ export const Applications: FC = () => {
     dispatch(getUsers());
     dispatch(getCompanies());
 
-   // let arr = [...list];
+    // let arr = [...list];
 
-  
     //setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
     //console.log('filter', activeList)
     const interval = setInterval(() => {
       dispatch(getList());
       // let arr = [...list];
 
-  
       // setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
       // console.log('filter', activeList)
     }, 5000);
@@ -182,20 +194,11 @@ export const Applications: FC = () => {
               user.access === access.BUYER ||
               user.access === access.VICEPREZIDENT ||
               user.access === access.LAWYER ||
-              user.access === access.PLANNER) && (
-              <TableTask
-                mini={false}
-                list={list}
-                currentAccess={access.SUPERUSER}
-              />
+              user.access === access.PLANNER ||
+              user.access === access.ENGINEER) && (
+              <TableList list={list} titleTable={"Заявки"} />
             )}
-            {user.access === access.ENGINEER && (
-              <TableTask
-                mini={false}
-                list={list}
-                currentAccess={access.ENGINEER}
-              />
-            )}
+
             {user.access === access.MANAGER && (
               <>
                 <section className={styles.manager}>
@@ -299,11 +302,11 @@ export const Applications: FC = () => {
                       </p>
                     </div>
                   </div>
-                   {/* <TableTask
+                  <TableTask
                     mini={true}
                     list={list}
                     currentAccess={access.MANAGER}
-                  />  */}
+                  /> 
                 </section>
                 <Popup
                   onClickButton={handleAddCompany}

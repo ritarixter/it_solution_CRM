@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 //import { changeCountNotify } from "../../services/slices/user";
 import { NotificationsBlock } from "../NotificationsBlock/NotificationsBlock";
-import useResize from "../../hooks/useResize";
+import useResize from "../../hooks/useResize.js";
 import { MenuGamburger } from "../MenuGamburger/MenuGamburger";
 import { Gamburger } from "../MenuGamburger/Gamburger/Gamburger";
 

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { routes } from "./constants";
 import { useAppSelector } from "../../services/hooks";
 import { access } from "../../utils/constants";
-import useResize from "../../hooks/useResize";
+import useResize from "../../hooks/useResize.js";
 
 export const Header: FC = () => {
   const { pathname } = useLocation();

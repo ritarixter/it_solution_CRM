@@ -4,7 +4,7 @@ import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../../components";
 import { CommercialProposalItem } from "../CommercialProposalItem/CommercialProposalItem";
-import { titles } from "../constants";
+import { titles, titlesForEngineer } from "../constants";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
@@ -20,9 +20,10 @@ import {
   formateDateOnlyTime,
   formateDateShort,
 } from "../../../utils/utils-date";
+import { access } from "../../../utils/constants";
 
 export const CommercialProposalEdit: FC = () => {
-  const { isLoadingUser } = useAppSelector((state) => state.user);
+  const { isLoadingUser, user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
   const id_list = Number(location.pathname.slice(26));
@@ -160,10 +161,14 @@ export const CommercialProposalEdit: FC = () => {
             </div>
             <table className={styles.table}>
               <thead className={styles.table__head}>
-                <tr className={styles.row}>
-                  {titles.map((title) => (
-                    <th key={uuidv4()}>{title}</th>
-                  ))}
+              <tr className={styles.row}>
+                  {user.access === access.BUYER ||
+                  user.access === access.SUPERUSER ||
+                  user.access === access.VICEPREZIDENT
+                    ? titles.map((title) => <th key={uuidv4()}>{title}</th>)
+                    : titlesForEngineer.map((title) => (
+                        <th key={uuidv4()}>{title}</th>
+                      ))}
                 </tr>
               </thead>
               <tbody className={styles.table__container}>

@@ -23,11 +23,11 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   setCurrentItem,
   dropHandler,
   setError,
-  agreementСonclusion_step10=false,
+  agreementСonclusion_step10 = false,
 }) => {
-  const { stocks } = useAppSelector((state) => state.stock);
+  //const { stocks } = useAppSelector((state) => state.stock);
   const { user } = useAppSelector((state) => state.user);
-  const [allProducts, setAllProducts] = useState<Array<string>>([]);
+  // const [allProducts, setAllProducts] = useState<Array<string>>([]);
 
   const [name, setName] = useState<string>("Выберите");
   const [units, setUnits] = useState<string>("");
@@ -48,10 +48,10 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
 
   const [onDragClass, setOnDragClass] = useState<boolean>(false);
 
-  useEffect(() => {
-    let arr = stocks ? [...stocks] : [];
-    setAllProducts(arr.map((item) => item.name));
-  }, []);
+  // useEffect(() => {
+  //   let arr = stocks ? [...stocks] : [];
+  //   setAllProducts(arr.map((item) => item.name));
+  // }, []);
 
   const dragStartHandler = (
     e: DragEvent<HTMLTableRowElement>,
@@ -62,7 +62,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
 
   //ВАЛИДАЦИЯ КОНКРЕТНОГО ITEM
   useEffect(() => {
-    name === "Выберите" ? setNameError(true) : setNameError(false);
+    name === "" ? setNameError(true) : setNameError(false);
     units === "" ? setUnitsError(true) : setUnitsError(false);
     count == 0 || !count ? setCountError(true) : setCountError(false);
   }, [name, count, units]);
@@ -110,7 +110,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     countError,
     actualPriceError,
     unitsError,
-    dateObjectError
+    dateObjectError,
   ]);
 
   const totalPrice = useMemo(() => {
@@ -185,11 +185,18 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
         alt="Иконка перетаскивания"
       />
       <td className={styles.table__list}>
-        <DropdownList
+        {/* <DropdownList
           state={name}
           size={"small"}
           setState={setName}
           data={allProducts}
+          error={nameError}
+        /> */}
+        <Input
+          value={name}
+          setValue={setName}
+          type={"text"}
+          name={"Название товара"}
           error={nameError}
         />
       </td>
@@ -213,48 +220,53 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           error={unitsError}
         />
       </td>
-      <td>
-        {" "}
-        <Input
-          value={price}
-          setValue={setPrice}
-          type={"number"}
-          name={"1200"}
-          error={priceError}
-        />
-      </td>
-      <td>
-        {" "}
-        <Input
-          value={actualPrice}
-          setValue={setActualPrice}
-          type={"number"}
-          name={"1500"}
-          error={actualPriceError}
-        />
-      </td>
-      <td>
-        {" "}
-        <Input
-          value={dateWarehouse}
-          setValue={setDateWarehouse}
-          type={"date"}
-          name={"2023-12-27"}
-          error={dateWarehouseError}
-        />
-      </td>
-      <td>
-        {" "}
-        <Input
-          value={dateObject}
-          setValue={setDateObject}
-          type={"date"}
-          name={"2023-12-27"}
-          error={dateObjectError}
-        />
-      </td>
-      <td className={styles.price}>{totalPrice} руб</td>
-
+      {(user.access === access.BUYER ||
+        user.access === access.SUPERUSER ||
+        user.access === access.VICEPREZIDENT) && (
+        <>
+          <td>
+            {" "}
+            <Input
+              value={price}
+              setValue={setPrice}
+              type={"number"}
+              name={"1200"}
+              error={priceError}
+            />
+          </td>
+          <td>
+            {" "}
+            <Input
+              value={actualPrice}
+              setValue={setActualPrice}
+              type={"number"}
+              name={"1500"}
+              error={actualPriceError}
+            />
+          </td>
+          <td>
+            {" "}
+            <Input
+              value={dateWarehouse}
+              setValue={setDateWarehouse}
+              type={"date"}
+              name={"2023-12-27"}
+              error={dateWarehouseError}
+            />
+          </td>
+          <td>
+            {" "}
+            <Input
+              value={dateObject}
+              setValue={setDateObject}
+              type={"date"}
+              name={"2023-12-27"}
+              error={dateObjectError}
+            />
+          </td>
+          <td className={styles.price}>{totalPrice} руб</td>
+        </>
+      )}
       <td className={styles.icon__delete} onClick={onDelete}>
         <img src={deleteIcon} alt="Удаление" />
       </td>

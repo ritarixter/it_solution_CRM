@@ -11,7 +11,7 @@ import {
   getByIdCommercialProposalApi,
   updateStepApi,
 } from "../../utils/api";
-import { titles } from "./constants";
+import { titles, titlesForEngineer, titlesForLawyer } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { IProducts } from "../../types/TProducts";
 import { formateDateOnlyTime, formateDateShort } from "../../utils/utils-date";
@@ -71,7 +71,7 @@ export const CommercialProposal: FC = () => {
   useEffect(() => {
     getByIdCommercialProposalApi(id_list).then((res) => {
       setCP(res.commercialProposal);
-      setCurrentList(res)
+      setCurrentList(res);
     });
   }, []);
 
@@ -107,9 +107,18 @@ export const CommercialProposal: FC = () => {
             <table className={styles.table}>
               <thead className={styles.table__head}>
                 <tr className={styles.row}>
-                  {titles.map((title) => (
-                    <th key={uuidv4()}>{title}</th>
-                  ))}
+                  {user.access === access.BUYER ||
+                  user.access === access.SUPERUSER ||
+                  user.access === access.VICEPREZIDENT ||
+                  user.access === access.LAWYER
+                    ? user.access === access.LAWYER
+                      ? titlesForLawyer.map((title) => (
+                          <th key={uuidv4()}>{title}</th>
+                        ))
+                      : titles.map((title) => <th key={uuidv4()}>{title}</th>)
+                    : titlesForEngineer.map((title) => (
+                        <th key={uuidv4()}>{title}</th>
+                      ))}
                 </tr>
               </thead>
               <tbody className={styles.table__container}>
@@ -118,15 +127,32 @@ export const CommercialProposal: FC = () => {
                     <td className={styles.row__item}>{item.name}</td>
                     <td className={styles.row__item}>{item.count}</td>
                     <td className={styles.row__item}>{item.units}</td>
-                    <td className={styles.row__item}>{item.price}</td>
-                    <td className={styles.row__item}>{item.actualPrice}</td>
-                    <td className={styles.row__item}>
-                      {item.dateWarehouse ? item.dateWarehouse : "Не указана"}
-                    </td>
-                    <td className={styles.row__item}>
-                      {item.dateObject ? item.dateObject : "Не указана"}
-                    </td>
-                    <td className={styles.row__item}>{item.totalPrice}</td>
+                    {(user.access === access.BUYER ||
+                      user.access === access.SUPERUSER ||
+                      user.access === access.VICEPREZIDENT ||
+                      user.access === access.LAWYER) && (
+                      <>
+                        <td className={styles.row__item}>{item.price}</td>
+                        {user.access != access.LAWYER && (
+                          <>
+                            <td className={styles.row__item}>
+                              {item.actualPrice}
+                            </td>
+                            <td className={styles.row__item}>
+                              {item.dateWarehouse
+                                ? item.dateWarehouse
+                                : "Не указана"}
+                            </td>
+                            <td className={styles.row__item}>
+                              {item.dateObject ? item.dateObject : "Не указана"}
+                            </td>
+                            <td className={styles.row__item}>
+                              {item.totalPrice}
+                            </td>
+                          </>
+                        )}
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>

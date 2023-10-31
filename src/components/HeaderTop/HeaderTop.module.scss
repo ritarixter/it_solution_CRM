@@ -48,7 +48,6 @@
 .users {
   display: flex;
   align-items: center;
-  margin-left: 17px;
   position: relative;
   cursor: pointer;
 }
@@ -64,50 +63,45 @@
   }
 }
 
-.gamburger {
-
-  display: flex;
-	justify-content: flex-end;
-  &_btn {
-    width: 30px;
-    height: 30px;
-    position: relative;
-    z-index:2;
-    overflow: hidden;
-  }
-  &.menu span {
-    width: 30px;
-    height: 2px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #222222;
-    transition: all 0.5s;
-  }
-  &.btn span:nth-of-type(2) {
-    top: calc(50% - 5px);
-  }
-  &.btn span:nth-of-type(3) {
-    top: calc(50% + 5px);
-  }
-  display: none;
-}
-
-
-
 @media screen and (max-width: 995px) {
   .block {
     flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 25px;
     margin-top: 25px;
+    align-items: stretch
   }
+  
+}
+
+@media screen and (max-width: 682px) {
   .block_users {
     display: flex;
     justify-content: flex-end;
   }
 }
 
-@media screen and (max-width: 722px) {
+@media screen and (max-width: 600px) {
+  .users {
+    margin-left: 58px;
+  }
+}
+
+@media screen and (max-width: 556px) {
+ 
+}
+
+@media screen and (max-width: 592px) {
+  .block {
+    padding: 0 19px;
+    box-sizing: border-box;
+  }
+  
+}
+
+@media screen and (max-width: 450px) {
+  .block {
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+  
 }

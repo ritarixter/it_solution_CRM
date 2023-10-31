@@ -67,3 +67,16 @@
   padding: 0 5px;
   margin-right: 3px;
 }
+
+
+@media screen and (max-width: 722px) {
+  .popup__container {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .popup__container {
+    width: 286px;
+  }
+}

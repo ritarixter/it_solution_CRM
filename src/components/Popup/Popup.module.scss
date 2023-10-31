@@ -9,7 +9,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   left: 0;
-  z-index: 4;
+  z-index: 5;
   inset: 0;
   justify-content: center;
   align-items: center;
@@ -86,5 +86,47 @@
 
   &:hover {
     opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 612px) {
+  .popup {
+    &__container {
+      width: 439px;
+    }
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .popup {
+    &__container {
+      width: 300px;
+      padding: 20px;
+    }
+  }
+
+  .btnClose {
+    width: 20px;
+    height: 20px;
+    right: -20px;
+    top: -20px;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 19px;
+  }
+  
+}
+
+@media screen and (max-width: 400px) {
+  .popup {
+    &__container {
+      width: 265px;
+      padding: 15px;
+    }
+    .btnClose {
+      right: -13px;
+    }
   }
 }

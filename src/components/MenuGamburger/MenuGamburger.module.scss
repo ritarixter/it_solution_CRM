@@ -1,0 +1,143 @@
+@import "../../styles/variables.scss";
+
+.gamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: $mainColor;
+  height: 100vh;
+  text-align: left;
+  padding: 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.nav {
+  list-style-type: none;
+  padding-left: 17px;
+  margin: 0;
+  &__item {
+    margin-bottom: 16px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &.active {
+      border-right: 2px solid $thirdColor;
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: $thirdColor;
+  font-weight: 52px;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.menuClick {
+  position: absolute;
+  top: 25px;
+  left: 41px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.line1 {
+    width: 2rem;
+    height: 0.25rem;
+    background: $line;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+    &_active {
+        transform: rotate(45deg);
+    }
+
+    &_NoActive {
+        transform: rotate(0);
+    }
+}
+
+.line2 {
+    width: 2rem;
+    height: 0.25rem;
+    background: $line;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+
+    &_active {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+
+    &_NoActive {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.line3 {
+    width: 2rem;
+    height: 0.25rem;
+    background: $line;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+
+    &_active {
+        transform: rotate(-45deg);
+    }
+
+    &_NoActive {
+        transform: rotate(0);
+    }
+}
+
+@media screen and (max-width: 682px){
+  .menuClick {
+    left: 30px;
+  }
+}
+
+@media screen and (max-width: 594px){
+  .menuClick {
+    left: 10px;
+  }
+}
+
+@media screen and (max-width: 562px){
+  .menuClick {
+    left: 20px;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .menuClick {
+    left: 9px;
+  }
+}

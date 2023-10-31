@@ -43,21 +43,6 @@
   display: none;
 }
 
-.gamburger_btn {
-  margin-top: 25px;
-  padding: 0 33px 58px;
-}
-
-.menuIcon {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.85;
-  }
-}
-
-
 @media screen and (max-width: 1420px) {
   .nav {
     padding: 0;
@@ -65,10 +50,11 @@
 
   .header {
     height: auto;
+    padding-top: 105px;
   }
 
   .icon {
-    padding: 14px 33px 0;
+    padding: 20px 33px 0;
     margin-right: 0;
   }
 }

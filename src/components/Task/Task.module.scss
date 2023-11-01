@@ -14,6 +14,7 @@
   border-radius: 15px;
   background: $thirdColor;
   position: relative;
+  height: 480px;
 }
 
 .header {
@@ -49,4 +50,17 @@
   margin: 0;
 padding: 0 26px;
 font-size: 14px;
+}
+
+@media screen and (max-width: 592px) {
+  .container {
+    border: 1px solid #F0F2F5;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .container {
+    width: 288px;
+  }
 }

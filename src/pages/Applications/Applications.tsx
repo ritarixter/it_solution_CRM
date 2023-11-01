@@ -299,11 +299,11 @@ export const Applications: FC = () => {
                       </p>
                     </div>
                   </div>
-                   {/* <TableTask
+                   <TableTask
                     mini={true}
                     list={list}
                     currentAccess={access.MANAGER}
-                  />  */}
+                  /> 
                 </section>
                 <Popup
                   onClickButton={handleAddCompany}

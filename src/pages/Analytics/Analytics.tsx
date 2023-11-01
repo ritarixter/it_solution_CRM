@@ -14,6 +14,7 @@ import { TList } from "../../types";
 import { getList } from "../../services/slices/list";
 import { LineChart } from "../../components/LineChart/LineChart";
 import { Navigate, useLocation } from "react-router";
+import useResize from "../../hooks/useResize";
 
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
@@ -23,7 +24,8 @@ export const Analytics: FC = () => {
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
   const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
   const dispatch = useAppDispatch();
-  const location = useLocation()
+  const location = useLocation();
+  const size = useResize();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,37 +54,45 @@ export const Analytics: FC = () => {
     arr = arr.filter((item) => new Date(item.createdAt) > dateLast7days);
     setListLast7days(arr.reverse());
   }, [list]);
-  
+
   return (
     <Wrapper>
       <HeaderTop />
       {/* Отображение для главного инженера */}
       {user.access === access.SUPERUSER && (
-        <div className={styles.container}>
+        <div className={`${styles.container}`}>
           <div className={styles.container__header}>
-            <Diagram list={list} />
-            <BlockAnalics
-              name={"Задачи"}
-              count={tasks.length}
-              icon={editTasks}
-              title={"Завершенные задачи"}
-              countMade={countDoneTasks}
-            />
-            <BlockAnalics
-              name={"Заявки"}
-              count={list.length}
-              icon={editList}
-              title={"В работе"}
-              countMade={countAtWorkList}
-            />
-            <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
+            <div className={styles.container__header_dev}>
+              <Diagram list={list} />
+              <BlockAnalics
+                name={"Задачи"}
+                count={tasks.length}
+                icon={editTasks}
+                title={"Завершенные задачи"}
+                countMade={countDoneTasks}
+              />
+              <BlockAnalics
+                name={"Заявки"}
+                count={list.length}
+                icon={editList}
+                title={"В работе"}
+                countMade={countAtWorkList}
+              />
+            </div>
+            {size.width >= 970 && <BlockList />} {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
-            <TableTask
-            mini={true}
-            list={listLast7days}
-            currentAccess={access.SUPERUSER}
-          />
+            <div
+              className={`${styles.table} ${
+                size.width <= 1865 && styles.container_none
+              }`}
+            >
+              <TableTask
+                mini={true}
+                list={listLast7days}
+                currentAccess={access.SUPERUSER}
+              />
+            </div>
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
           </div>
@@ -92,6 +102,7 @@ export const Analytics: FC = () => {
       {user.access === access.VICEPREZIDENT && (
         <div className={styles.container}>
           <div className={styles.container__header}>
+            <div className={styles.container__header_dev}>
             <Diagram list={list} />
             <BlockAnalics
               name={"Задачи"}
@@ -107,10 +118,11 @@ export const Analytics: FC = () => {
               title={"В работе"}
               countMade={countAtWorkList}
             />
-            <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
+            </div>
+            {size.width >= 970 && <BlockList />} {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
-            <LineChart />
+            {size.width >= 1865 && <LineChart />}
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
           </div>

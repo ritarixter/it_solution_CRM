@@ -132,6 +132,8 @@ export const CommercialProposalCreate: FC = () => {
                 text="Название КП*"
                 error={nameError}
                 errorText={"Длина от 2 до 30 символов"}
+                minLength={2}
+                maxLength={30}
               />
             </div>
             <table className={styles.table}>

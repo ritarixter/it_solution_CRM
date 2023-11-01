@@ -16,5 +16,10 @@
     display: flex;
     gap: 24px;
     height: 480px;
+
+    &_list {
+      max-width: 800px;
+      height: 100%;
+    }
   }
 }

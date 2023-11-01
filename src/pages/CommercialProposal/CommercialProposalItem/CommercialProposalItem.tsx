@@ -29,7 +29,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
   const { user } = useAppSelector((state) => state.user);
   // const [allProducts, setAllProducts] = useState<Array<string>>([]);
 
-  const [name, setName] = useState<string>("Выберите");
+  const [name, setName] = useState<string>("");
   const [units, setUnits] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -198,6 +198,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
           type={"text"}
           name={"Название товара"}
           error={nameError}
+          maxLength={200}
         />
         {/* <Input
           value={name}

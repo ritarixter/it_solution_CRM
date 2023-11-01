@@ -41,7 +41,7 @@ import { ApplicationsVicePrezident } from "../../pages/Applications/Applications
 import { Marginality } from "../../pages/Marginality/Marginality";
 import { Administrator } from "../../pages/Administrator/Administrator";
 import { getStep } from "../../services/slices/step";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 import { AdministratorItem } from "../../pages/Administrator/AdministratorItem/AdministratorItem";
 
 export const App: FC = () => {
@@ -50,8 +50,7 @@ export const App: FC = () => {
   const { isAuth, user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    moment.tz.setDefault("Europe/Moscow")
-    //moment().tz("Europe/Moscow").format();
+    moment.tz.setDefault("Europe/Moscow");
     if (isAuth) {
       dispatch(getUser());
       dispatch(getList());

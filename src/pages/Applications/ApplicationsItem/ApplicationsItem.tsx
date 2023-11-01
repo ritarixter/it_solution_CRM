@@ -368,6 +368,8 @@ export const ApplicationsItem: FC = () => {
                 setValue={setCodeValue}
                 error={codeValueError}
                 errorText={"Длина от 2 до 120"}
+                maxLength={120}
+                minLength={2}
               />
             </div>
             <div className={styles.manager__input}>
@@ -377,6 +379,8 @@ export const ApplicationsItem: FC = () => {
                 text={"От кого заявка?"}
                 value={customer}
                 setValue={setCustomer}
+                maxLength={60}
+                minLength={2}
               />
             </div>
             <div className={styles.manager__textarea}>
@@ -405,7 +409,7 @@ export const ApplicationsItem: FC = () => {
               onClick={() => {
                 //dispatch(deleteList(currentList))
                 const list = {
-                  id:currentList.id,
+                  id: currentList.id,
                   status: "Закончено",
                 };
                 dispatch(updateList(list));
@@ -447,6 +451,8 @@ export const ApplicationsItem: FC = () => {
             setValue={setNameCompanyValue}
             error={error.nameCompany}
             errorText={"Обязательное поле"}
+            maxLength={50}
+            minLength={2}
           />
           <Input
             type={"text"}
@@ -456,6 +462,8 @@ export const ApplicationsItem: FC = () => {
             setValue={setINNValue}
             error={error.INN}
             errorText={"Длина должна быть 10 или 12"}
+            maxLength={12}
+            minLength={10}
           />
           <Input
             type={"text"}
@@ -465,6 +473,8 @@ export const ApplicationsItem: FC = () => {
             setValue={setNameValue}
             error={error.name}
             errorText={"Невалидное ФИО"}
+            maxLength={50}
+            minLength={2}
           />
           <Input
             type={"text"}
@@ -474,6 +484,8 @@ export const ApplicationsItem: FC = () => {
             setValue={setPhoneValue}
             error={error.phoneNumber}
             errorText={"Обязательное поле"}
+            maxLength={20}
+            minLength={3}
           />
           <Input
             type={"email"}

@@ -5,7 +5,7 @@ import editTasks from "../../images/icons/editTasks.svg";
 import editList from "../../images/icons/editList.svg";
 import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import { TableTask, Task, Wrapper } from "../../components";
+import {  Task, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
@@ -13,7 +13,8 @@ import { access, statusConst } from "../../utils/constants";
 import { TList } from "../../types";
 import { getList } from "../../services/slices/list";
 import { LineChart } from "../../components/LineChart/LineChart";
-import { Navigate, useLocation } from "react-router";
+import { titlesMini } from "../../components/TableList/contsants";
+import { TableList } from "../../components/TableList/TableList";
 
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
@@ -23,7 +24,6 @@ export const Analytics: FC = () => {
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
   const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
   const dispatch = useAppDispatch();
-  const location = useLocation()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,9 +50,9 @@ export const Analytics: FC = () => {
     let dateLast7days = new Date();
     dateLast7days.setDate(dateLast7days.getDate() - 7);
     arr = arr.filter((item) => new Date(item.createdAt) > dateLast7days);
-    setListLast7days(arr.reverse());
+    setListLast7days(arr);
   }, [list]);
-  
+
   return (
     <Wrapper>
       <HeaderTop />
@@ -78,11 +78,14 @@ export const Analytics: FC = () => {
             <BlockList /> {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
-            <TableTask
-            mini={true}
-            list={listLast7days}
-            currentAccess={access.SUPERUSER}
-          />
+            <div className={styles.container__bottom_list}>
+              <TableList
+                mini={true}
+                list={listLast7days}
+                titleTable={"Заявки за последние 7 дней"}
+                titlesInTable={titlesMini}
+              />
+            </div>
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
           </div>

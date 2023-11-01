@@ -7,6 +7,6 @@ export { ImpotanceBlock } from "./ImpotanceBlock/ImpotanceBlock";
 export { StatusBlock } from "./StatusBlock/StatusBlock";
 export { Search } from "./Search/Search";
 export { Header } from "./Header/Header";
-export { TableTask } from "./TableTask/TableTask";
+export { TableList } from "./TableList/TableList";
 export { Task } from "./Task/Task";
 

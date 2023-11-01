@@ -1,25 +1,25 @@
 import { FC, useEffect, useState } from "react";
-import { TableTask, Wrapper } from "../../components";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import styles from "./Applications.module.scss";
-import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import { ButtonCircle } from "../../components/ButtonCircle/ButtonCircle";
+import { useLocation } from "react-router";
+import { Wrapper } from "../../components";
 import { BlockButton } from "../../components/BlockButton/BlockButton";
 import { BlockComments } from "../../components/BlockComments/BlockComments";
-import { Popup } from "../../components/Popup";
+import { ButtonCircle } from "../../components/ButtonCircle/ButtonCircle";
+import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
 import { Input } from "../../components/Input";
-import { addCompany, getCompanies } from "../../services/slices/company";
-import { TCompany, TList } from "../../types";
-import { addList, getList } from "../../services/slices/list";
+import { Popup } from "../../components/Popup";
 import { Preloader } from "../../components/Preloader/Preloader";
-import { uploadFiles } from "../../utils/api";
-import { access, statusConst } from "../../utils/constants";
-import { validateEmail } from "../../utils/utils-validate";
-import { getUser, getUsers } from "../../services/slices/user";
-import { Navigate, useLocation } from "react-router";
-import useWindowDimensions from "../../hooks/useResize.js";
 import { TableList } from "../../components/TableList/TableList";
-import { titles } from "../../components/TableTask/constants";
+import useWindowDimensions from "../../hooks/useResize.js";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { addCompany, getCompanies } from "../../services/slices/company";
+import { addList, getList } from "../../services/slices/list";
+import { getUsers } from "../../services/slices/user";
+import { TCompany } from "../../types";
+import { uploadFiles } from "../../utils/api";
+import { access } from "../../utils/constants";
+import { validateEmail } from "../../utils/utils-validate";
+import styles from "./Applications.module.scss";
+import { titlesManager } from "../../components/TableList/contsants";
 
 export const Applications: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -44,35 +44,14 @@ export const Applications: FC = () => {
   const [currentCompanies, setCurrentCompanies] = useState<Array<TCompany>>();
   const [right, setRight] = useState<boolean>(false);
   const [files, setFiles] = useState<FormData>();
-  const [mini, setMini] = useState<boolean>(false);
-  const { width } = useWindowDimensions();
-
-  useEffect(() => {
-    console.log(width, mini);
-    if (width < 1590) {
-      setMini(true);
-    } else {
-      setMini(false);
-    }
-  }, [width]);
-  //const [activeList, setActiveList] = useState<TList[]>([]);
-  let location = useLocation();
 
   useEffect(() => {
     dispatch(getList());
     dispatch(getUsers());
     dispatch(getCompanies());
 
-    // let arr = [...list];
-
-    //setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
-    //console.log('filter', activeList)
     const interval = setInterval(() => {
       dispatch(getList());
-      // let arr = [...list];
-
-      // setActiveList(arr.filter((item) => item.status != statusConst.FINISHED));
-      // console.log('filter', activeList)
     }, 5000);
 
     return () => {
@@ -258,6 +237,8 @@ export const Applications: FC = () => {
                           setValue={setWorkNameValue}
                           error={workNameValueError}
                           errorText={"Длина от 2 до 120 символов"}
+                          maxLength={120}
+                          minLength={2}
                         />
                       </div>
                       <div className={styles.manager__input}>
@@ -267,6 +248,8 @@ export const Applications: FC = () => {
                           text={"От кого заявка?*"}
                           value={customer}
                           setValue={setCustomer}
+                          maxLength={60}
+                          minLength={2}
                         />
                       </div>
                       <div className={styles.manager__textarea}>
@@ -302,11 +285,13 @@ export const Applications: FC = () => {
                       </p>
                     </div>
                   </div>
-                  <TableTask
-                    mini={true}
-                    list={list}
-                    currentAccess={access.MANAGER}
-                  /> 
+                  <div className={styles.container__list_manager}>
+                    <TableList
+                      list={list}
+                      titleTable={"Заявки"}
+                      titlesInTable={titlesManager}
+                    />
+                  </div>
                 </section>
                 <Popup
                   onClickButton={handleAddCompany}
@@ -329,6 +314,8 @@ export const Applications: FC = () => {
                       text={"Название компании*"}
                       value={nameCompanyValue}
                       setValue={setNameCompanyValue}
+                      maxLength={50}
+                      minLength={2}
                     />
                     <Input
                       type={"text"}
@@ -336,6 +323,8 @@ export const Applications: FC = () => {
                       text={"ИНН*"}
                       value={INNValue}
                       setValue={setINNValue}
+                      maxLength={12}
+                      minLength={10}
                     />
                     <Input
                       type={"text"}
@@ -343,6 +332,8 @@ export const Applications: FC = () => {
                       text={"Контактное лицо компании*"}
                       value={nameValue}
                       setValue={setNameValue}
+                      maxLength={50}
+                      minLength={2}
                     />
                     <Input
                       type={"text"}
@@ -350,6 +341,8 @@ export const Applications: FC = () => {
                       text={"Телефон*"}
                       value={phoneValue}
                       setValue={setPhoneValue}
+                      maxLength={20}
+                      minLength={3}
                     />
                     <Input
                       type={"email"}

@@ -16,6 +16,7 @@ import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
 import { DropdownList } from "../../components/DropdownList";
 import { accessData, accessDataMaxi } from "../../utils/constants";
+
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
   const {pathname}=useLocation()
@@ -49,15 +50,6 @@ export const Administrator: FC = () => {
     }
   }, [currentPage, users]);
 
-  // useEffect(()=>{
-  //   (!users.some((user)=>user.access===access.SUPERUSER)&& !accessData.some((item)=>item === access.SUPERUSER)) && setAccessData([...accessData, access.SUPERUSER]);
-  //   (!users.some((user)=>user.access===access.BUYER)&& !accessData.some((item)=>item === access.BUYER)) && setAccessData([...accessData, access.BUYER]);
-  //   (!users.some((user)=>user.access===access.LAWYER) && !accessData.some((item)=>item === access.LAWYER)) && setAccessData([...accessData, access.LAWYER]);
-  //   (!users.some((user)=>user.access===access.PLANNER)  && !accessData.some((item)=>item === access.PLANNER)) && setAccessData([...accessData, access.PLANNER]);
-  //   (!users.some((user)=>user.access===access.MANAGER) && !accessData.some((item)=>item === access.MANAGER)) && setAccessData([...accessData, access.MANAGER]);
-
-  //   setRole(accessData[0])
-  // },[users])
 
   useEffect(() => {
     let data = new FormData();
@@ -121,6 +113,8 @@ export const Administrator: FC = () => {
                 type={"text"}
                 name={"Введите ФИО"}
                 text={"ФИО"}
+                minLength={2}
+                maxLength={60}
               />
               <Input
                 setValue={setUserName}
@@ -128,6 +122,8 @@ export const Administrator: FC = () => {
                 type={"text"}
                 name={"Введите пользователя"}
                 text={"Имя пользователя"}
+                minLength={2}
+                maxLength={30}
               />
               <Input
                 setValue={setPassword}
@@ -135,6 +131,8 @@ export const Administrator: FC = () => {
                 type={"password"}
                 name={"Введите пароль"}
                 text={"Пароль"}
+                minLength={2}
+                maxLength={30}
               />
               <div className={styles.admin__dropdown}>
                 <DropdownList
@@ -158,6 +156,8 @@ export const Administrator: FC = () => {
                 type={"text"}
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
+                minLength={3}
+                maxLength={20}
               />
              {pathname != '/admin_panel' && <div className={styles.files}>
                 <label className={styles.input_file}>
@@ -200,11 +200,11 @@ export const Administrator: FC = () => {
                 handleAddUser();
               }}
               disabled={
-                name === "" ||
-                userName === "" ||
-                password === "" ||
+                name.length < 2 ||
+                userName.length < 2 ||
+                password.length < 2 ||
                 role === "" ||
-                phone === "" ||
+                phone.length < 3 ||
                 (pathname != "/admin_panel" && currentfiles.length === 0)
               }
             />

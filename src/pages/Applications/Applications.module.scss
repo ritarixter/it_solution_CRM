@@ -2,6 +2,11 @@
 
 .container {
   margin-top: 40px;
+
+  &__list{
+    &_manager{
+      max-width: 800px;
+    }}
 }
 
 .manager {
@@ -163,11 +168,12 @@
   }
 }
 
+
 @media screen and (max-width: 1345px) {
   .manager {
     display: flex;
     flex-direction: column;
-    gap: 0;
+
     padding-bottom: 40px;
   }
 }

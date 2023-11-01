@@ -19,6 +19,7 @@ export const NotificationsPopup: FC<TNotificationsPopup> = ({
 }) => {
   const [notificationsData, setNotificationsData] = useState<TNotify[]>([]);
   const { user } = useAppSelector((state) => state.user);
+
   useEffect(() => {
     const arr = [...notifications];
     setNotificationsData(arr);
@@ -39,7 +40,9 @@ export const NotificationsPopup: FC<TNotificationsPopup> = ({
             navigate(`/applications/${item.list.id}`);
           }}
         >
-          <span className={styles.new}>Новое</span>
+          {moment(item.updatedAt) > moment().add(-1, "days") && (
+            <span className={styles.new}>Новое</span>
+          )}
           {item.message}
           <div className={styles.dateFromNow}>
             {moment(item.updatedAt, "YYYYMMDDhhmmss")

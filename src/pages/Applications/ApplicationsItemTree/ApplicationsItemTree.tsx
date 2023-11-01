@@ -1,13 +1,23 @@
 import { FC, useEffect, useState } from "react";
-import styles from "../Applications.module.scss";
-import { useLocation, useNavigate } from "react-router";
-import {
-  ImpotanceBlock,
-  StatusBlock,
-  UserBlock,
-  Wrapper,
-} from "../../../components";
-import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
+import { useLocation } from "react-router";
+import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
+import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
+import { BlockButton } from "../../../components/BlockButton/BlockButton";
+import { BlockComments } from "../../../components/BlockComments/BlockComments";
+import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
+import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
+import { DropdownList } from "../../../components/DropdownList";
+import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
+import { FileIcon } from "../../../components/File/FileIcon";
+import { FilesBlock } from "../../../components/FilesBlock";
+import { Input } from "../../../components/Input";
+import { Performers } from "../../../components/Performers/Performers";
+import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { getList, updateList } from "../../../services/slices/list";
+import { getStep } from "../../../services/slices/step";
+import { getUser } from "../../../services/slices/user";
+import { TFile, TList, TUser, TWorkAbdExecuter } from "../../../types";
 import {
   addCommentApi,
   addNotifyApi,
@@ -16,29 +26,11 @@ import {
   updateStepApi,
   uploadFiles,
 } from "../../../utils/api";
-import { useAppDispatch, useAppSelector } from "../../../services/hooks";
-import { TFile, TList, TUser, TWorkAbdExecuter } from "../../../types";
-import { BlockButton } from "../../../components/BlockButton/BlockButton";
-import { ApplicationTree } from "../../../components/ApplicationTree/ApplicationTree";
-import { getList, updateList } from "../../../services/slices/list";
-import { FileIcon } from "../../../components/File/FileIcon";
-import { BlockComments } from "../../../components/BlockComments/BlockComments";
-import { DropdownList } from "../../../components/DropdownList";
+import { access, message } from "../../../utils/constants";
+import styles from "../Applications.module.scss";
 import { importanceData, statusData } from "./constants";
-import { URL_BACKEND, access, message } from "../../../utils/constants";
-import { Performers } from "../../../components/Performers/Performers";
-import { Input } from "../../../components/Input";
-import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
-import { FilesBlock } from "../../../components/FilesBlock";
-import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
-import { ApplicationsLayout } from "../../../components/ApplicationsLayout/ApplicationsLayout";
-import { getStep } from "../../../services/slices/step";
-import { getUser } from "../../../services/slices/user";
-import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
-import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
 
 export const ApplicationsItemTree: FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const { users, user } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
@@ -208,7 +200,7 @@ export const ApplicationsItemTree: FC = () => {
               if (!notify.isWatched) {
                 if (manager.length != 0) {
                   updateNotifyApi(notify.id, true)
-                    .then((res) => {
+                    .then(() => {
                       addNotifyApi(id_list, [manager[0].id], message[2]);
                       dispatch(getUser());
                     })
@@ -246,7 +238,7 @@ export const ApplicationsItemTree: FC = () => {
             if (!notify.isWatched) {
               if (manager.length != 0) {
                 updateNotifyApi(notify.id, true)
-                  .then((res) => {
+                  .then(() => {
                     addNotifyApi(id_list, [manager[0].id], message[2]);
                     dispatch(getUser());
                   })
@@ -288,6 +280,8 @@ export const ApplicationsItemTree: FC = () => {
               setValue={setWorkNameValue}
               error={workNameValueError}
               errorText={"Длина от 2 до 30 символов"}
+              minLength={2}
+              maxLength={30}
             />
             <div className={styles.dropdownlist_padding}>
               <DropdownListWithID

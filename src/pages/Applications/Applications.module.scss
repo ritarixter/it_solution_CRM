@@ -2,6 +2,11 @@
 
 .container {
   margin-top: 40px;
+
+  &__list{
+    &_manager{
+      max-width: 800px;
+    }}
 }
 
 .manager {
@@ -163,6 +168,7 @@
   }
 }
 
+
 @media screen and (max-width: 1345px) {
   .manager {
     display: flex;
@@ -172,7 +178,11 @@
   }
 }
 
-@media screen and (max-width: 995px) {
+@media screen and (max-width: 982px) {
+  .container {
+    margin-top: 25px;
+  }
+
 }
 
 @media screen and (max-width: 740px) {
@@ -671,6 +681,7 @@
   display: flex;
   gap: 70px;
   height: 100%;
+
 }
 
 .deadlines {
@@ -704,6 +715,8 @@
   }
 }
 
+
+
 .survey {
   display: flex;
   flex-direction: column;
@@ -734,7 +747,41 @@
   }
 }
 
+
+
 .p_notFound {
   font-size: 14px;
   margin-top: 10px;
 }
+
+
+@media screen and (max-width: 1119px) {
+  .inspection {
+    gap: 30px;
+  }
+}
+
+
+@media screen and (max-width: 1076px) {
+  .inspection {
+    flex-direction: column;
+  }
+
+  .survey {
+    row-gap: 15px;
+  }
+
+  .deadline {
+    &__week {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    &__day {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+  }
+}
+
+

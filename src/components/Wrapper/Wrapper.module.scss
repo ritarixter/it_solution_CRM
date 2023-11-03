@@ -1,25 +1,16 @@
 .wrapper {
   box-sizing: border-box;
-  max-width: 1920px;
   width: 100%;
   padding: 0 40px;
-  margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 
-@media screen and (max-width: 742px) {
-  .wrapper {
-    padding: 0 30px;
-  }
-}
-
-@media screen and (max-width: 723px) {
+@media screen and (max-width: 767px) {
   .wrapper {
     padding: 0 20px;
   }
 }
-
 @media screen and (max-width: 592px) {
   .wrapper {
     padding: 0;

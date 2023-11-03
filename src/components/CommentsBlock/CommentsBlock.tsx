@@ -92,10 +92,11 @@ export const CommentsBlock: FC<TCommentsBlock> = ({isAddComment=false}) => {
         <p className={styles.caption}>Комментарий</p>
         <textarea
           className={styles.textarea}
-          placeholder={"Введите текст (до 200 символов)"}
+          placeholder={"Введите текст (до 500 символов)"}
           value={textarea}
           onChange={(e) => setTextarea(e.target.value)}
-          maxLength={200}
+          maxLength={500}
+          minLength={0}
         ></textarea>
         <BlockButton
           text={"Отправить"}

@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
-import { TableTask, Wrapper } from "../../../components";
-import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { TableList, Wrapper } from "../../../components";
+import {  useAppSelector } from "../../../services/hooks";
 import styles from "../Applications.module.scss";
 import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { Preloader } from "../../../components/Preloader/Preloader";
-import { access, statusConst } from "../../../utils/constants";
 import { TList } from "../../../types";
 import { getListHistoryApi } from "../../../utils/api";
+import { titlesHistory } from "../../../components/TableList/contsants";
 
 export const ApplicationsHistory: FC = () => {
   const { list, isLoadingList } = useAppSelector((state) => state.list);
@@ -26,10 +26,10 @@ export const ApplicationsHistory: FC = () => {
         <>
           <HeaderTop />
           <div className={styles.container}>
-            <TableTask
-              mini={true}
+            <TableList
+              titleTable={"История заявок"}
               list={completedList}
-              currentAccess={user.access}
+              titlesInTable={titlesHistory}
             />
           </div>
         </>

@@ -1,27 +1,32 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./TableList.module.scss";
-
 import { Pagination } from "../Pagination";
 import { v4 as uuidv4 } from "uuid";
-//import { TableListItem } from "./TableListItem/TableListItem";
 import { TList } from "../../types";
-import { useLocation } from "react-router-dom";
 import { downloadExcel } from "react-export-table-to-excel";
 import { formateDate } from "../../utils/utils-date";
 import { useAppSelector } from "../../services/hooks";
 import { PreloaderBlock } from "../PreloaderBlock/PreloaderBlock";
 import { NOT_ASSIGNED, access } from "../../utils/constants";
 import { ExcelButton } from "../ExcelButton/ExcelButton";
-import { titlesTest } from "../TableTask/constants";
 import { TableListItem } from "./TableListItem/TableListItem";
 import useResize from "../../hooks/useResize";
+import { titlesDefault } from "./contsants";
+import { Link } from "react-router-dom";
 
 type TTableList = {
   list: Array<TList>;
-  titleTable: "Заявки" | "История заявок";
+  titleTable: "Заявки" | "История заявок" | "Заявки за последние 7 дней";
+  titlesInTable?: string[];
+  mini?: boolean;
 };
 
-export const TableList: FC<TTableList> = ({ list, titleTable }) => {
+export const TableList: FC<TTableList> = ({
+  list,
+  titleTable,
+  titlesInTable = titlesDefault,
+  mini = false,
+}) => {
   const { isLoadingList } = useAppSelector((state) => state.list);
   const { user } = useAppSelector((state) => state.user);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -29,56 +34,59 @@ export const TableList: FC<TTableList> = ({ list, titleTable }) => {
   const [error, setError] = useState<boolean>(false);
   const [titles, setTitles] = useState<string[]>([]);
   const { width } = useResize();
-  const pageSize = 7;
+  const pageSize = mini ? 3 : 7;
 
   useEffect(() => {
-    setTitles(titlesTest);
+    setTitles(titlesInTable);
   }, []);
 
   const sliceTitles = (end: number) => {
-    setTitles(titlesTest.slice(0, end));
+    setTitles(titlesInTable.slice(0, end));
   };
 
-  console.log(width);
   useEffect(() => {
     //АДАПТИВ
-    if (width > 1790) {
-      setTitles(titlesTest);
-    }
-    if (width <= 1790 && width > 1500) {
-      sliceTitles(titlesTest.length - 1);
-    }
+    if (!mini && user.access != access.MANAGER) {
+      if (width > 1790) {
+        setTitles(titlesInTable);
+      }
+      if (width <= 1790 && width > 1500) {
+        sliceTitles(titlesInTable.length - 1);
+      }
 
-    if (width <= 1500 && width > 1312) {
-      sliceTitles(titlesTest.length - 2);
-    }
+      if (width <= 1500 && width > 1312) {
+        sliceTitles(titlesInTable.length - 2);
+      }
 
-    if (width <= 1312 && width > 1192) {
-      sliceTitles(titlesTest.length - 3);
-    }
+      if (width <= 1312 && width > 1192) {
+        sliceTitles(titlesInTable.length - 3);
+      }
 
-    if (width <= 1192 && width > 1072) {
-      sliceTitles(titlesTest.length - 4);
-    }
+      if (width <= 1192 && width > 1072) {
+        sliceTitles(titlesInTable.length - 4);
+      }
 
-    if (width <= 1072 && width > 921) {
-      sliceTitles(titlesTest.length - 5);
-    }
+      if (width <= 1072 && width > 921) {
+        sliceTitles(titlesInTable.length - 5);
+      }
 
-    if (width <= 921 && width > 781) {
-      sliceTitles(titlesTest.length - 6);
-    }
+      if (width <= 921 && width > 781) {
+        sliceTitles(titlesInTable.length - 6);
+      }
 
-    if (width <= 781 && width > 484) {
-      sliceTitles(titlesTest.length - 7);
-    }
+      if (width <= 781 && width > 484) {
+        sliceTitles(titlesInTable.length - 7);
+      }
 
-    if (width <= 484 && width > 373) {
-      sliceTitles(titlesTest.length - 8);
-    }
+      if (width <= 484 && width > 373) {
+        sliceTitles(titlesInTable.length - 8);
+      }
 
-    if (width <= 373) {
-      setTitles([titlesTest[0], titlesTest[2], titlesTest[3]]);
+      if (width <= 373) {
+        setTitles([titlesInTable[0], titlesInTable[2], titlesInTable[3]]);
+      }
+    } else {
+
     }
   }, [width]);
 
@@ -184,23 +192,22 @@ export const TableList: FC<TTableList> = ({ list, titleTable }) => {
             </table>
           </div>
           <div
-            className={styles.pagination}
-            //   (!mini || currentAccess === access.MANAGER) &&
-            //   styles.pagination_without
+            className={`${styles.pagination} ${
+              !mini && styles.pagination_without
+            }`}
           >
-            {/* {mini &&
-              currentAccess === access.SUPERUSER &&
-              location.pathname != "/applications/history" && (
-                <Link className={styles.linkAll} to="/applications">
-                  Смотреть все
-                </Link>
-              )} */}
+            {mini && (
+              <Link className={styles.link} to="/applications">
+                Смотреть все
+              </Link>
+            )}
 
             <Pagination
               pageSize={pageSize}
               totalCount={list.length}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              style={mini ? "blue" : undefined}
             />
           </div>
         </>

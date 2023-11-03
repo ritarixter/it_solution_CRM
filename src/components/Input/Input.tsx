@@ -1,6 +1,5 @@
 import { FC } from "react";
 import styles from "./Input.module.scss";
-import { formateDateShort } from "../../utils/utils-date";
 
 type TInput = {
   setValue: (value: any) => void;
@@ -10,6 +9,9 @@ type TInput = {
   text?: string;
   error?: boolean;
   errorText?: string;
+  minLength?:number;
+  maxLength?:number;
+  min?:number;
 };
 
 export const Input: FC<TInput> = ({
@@ -20,6 +22,9 @@ export const Input: FC<TInput> = ({
   text,
   errorText,
   setValue,
+  minLength=0,
+  maxLength=60,
+  min=0
 }) => {
   return (
 
@@ -40,8 +45,9 @@ export const Input: FC<TInput> = ({
           // if (e.target.value === "00") return setValue(0);              // ЕСЛИ ДВА НУЛЯ
           setValue(e.target.value);
         }}
-        min={0}
-        maxLength={60}
+        min={min}
+        maxLength={maxLength}
+        minLength={minLength}
         value={value}
         className={`${styles.input} ${error && styles.error} ${
           text && styles.mb_8

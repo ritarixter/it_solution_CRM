@@ -34,37 +34,33 @@ export const TableListItem: FC<TTableListItem> = ({
 
   return (
     <>
-      {user.access != access.MANAGER &&
-        location.pathname != "/applications/history" && (
-          <tr
-            onClick={() => navigate(`/applications/${item.id}`)}
-            className={`${styles.row} ${styles.link}`}
-            style={style}
-          >
-            {columnCount > 0 && (
-              <td className={styles.listId} key={uuidv4()}>
-                {item.id}
-              </td>
-            )}
-            {columnCount > 3 && (
-              <td key={uuidv4()}>{item.company.nameCompany}</td>
-            )}
-            {columnCount > 1 && (
-              <td key={uuidv4()}>
-                {item.name != "" ? item.name : NOT_ASSIGNED}
-              </td>
-            )}
-            {columnCount > 2 && (
-              <td key={uuidv4()}>
-                {item.endDate != null
-                  ? formateDateShort(item.endDate)
-                  : NOT_ASSIGNED_DEAD}
-              </td>
-            )}
-            {columnCount > 4 && (
-              <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
-            )}
-            {columnCount > 5 && (
+      {user.access != access.MANAGER && (
+        <tr
+          onClick={() => navigate(`/applications/${item.id}`)}
+          className={`${styles.row} ${styles.link}`}
+          style={style}
+        >
+          {columnCount > 0 && (
+            <td className={styles.listId} key={uuidv4()}>
+              {item.id}
+            </td>
+          )}
+          {columnCount > 3 && (
+            <td key={uuidv4()}>{item.company.nameCompany}</td>
+          )}
+          {columnCount > 1 && (
+            <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
+          )}
+          {columnCount > 2 && (
+            <td key={uuidv4()}>
+              {item.endDate != null
+                ? formateDateShort(item.endDate)
+                : NOT_ASSIGNED_DEAD}
+            </td>
+          )}
+
+          {columnCount > 4 ? (
+            location.pathname != "/applications/history" ? (
               <div>
                 {item.users && item.users.length != 0 ? (
                   <td className={styles.implements}>
@@ -83,59 +79,69 @@ export const TableListItem: FC<TTableListItem> = ({
                   </td>
                 )}
               </div>
-            )}
-            {columnCount > 6 && (
-              <td key={uuidv4()}>
+            ) : (
+              <td key={uuidv4()}>30000</td>
+            )
+          ) : null}
+          {columnCount > 5 && (
+            <td key={uuidv4()}>
+              {location.pathname != "/applications/history" ? (
                 <WorkProgressBar {...item.step} />
-              </td>
-            )}
-            {columnCount > 7 && (
-              <td key={uuidv4()}>
-                <StatusBlock type={item.status} />
-              </td>
-            )}
-            {columnCount > 8 && (
-              <td key={uuidv4()}>
-                <ImpotanceBlock type={item.importance} />
-              </td>
-            )}
+              ) : (
+                "50000"
+              )}
+            </td>
+          )}
+          {columnCount > 6 && (
+            <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
+          )}
+          {columnCount > 7 && (
+            <td key={uuidv4()}>
+              <StatusBlock type={item.status} />
+            </td>
+          )}
+          {columnCount > 8 && (
+            <td key={uuidv4()}>
+              <ImpotanceBlock type={item.importance} />
+            </td>
+          )}
 
-            {columnCount > 9 && (
-              <td key={uuidv4()}>{item.company.numberPhone}</td>
-            )}
-            {columnCount > 10 && (
-              <td key={uuidv4()}>
-                {item.company.name.split(" ")[0] +
-                  " " +
-                  item.company.name.split(" ")[1][0] +
-                  "."}
-              </td>
-            )}
-            {columnCount > 11 && (
-              <td key={uuidv4()} className={styles.file}>
-                {item.files && item.files.length > 0 ? (
-                  <div className={styles.files}>
-                    {item.files.slice(0, 2).map((file) => (
-                      <FileIcon name={file.name} url={file.url} />
-                    ))}
-                    {item.files.length > 2 && (
-                      <div className={styles.fileText}>
-                        и еще {item.files.length - 2}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  "Файлов нет"
-                )}
-              </td>
-            )}
-          </tr>
-        )}
+          {columnCount > 9 && (
+            <td key={uuidv4()}>{item.company.numberPhone}</td>
+          )}
+          {columnCount > 10 && (
+            <td key={uuidv4()}>
+              {item.company.name.split(" ")[0] +
+                " " +
+                item.company.name.split(" ")[1][0] +
+                "."}
+            </td>
+          )}
+          {columnCount > 11 && (
+            <td key={uuidv4()} className={styles.file}>
+              {item.files && item.files.length > 0 ? (
+                <div className={styles.files}>
+                  {item.files.slice(0, 2).map((file) => (
+                    <FileIcon name={file.name} url={file.url} />
+                  ))}
+                  {item.files.length > 2 && (
+                    <div className={styles.fileText}>
+                      и еще {item.files.length - 2}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                "Файлов нет"
+              )}
+            </td>
+          )}
+        </tr>
+      )}
       {/* ОТОБРАЖЕНИЕ ДЛЯ МЕНЕДЖЕРА */}
       {user.access === access.MANAGER &&
         location.pathname != "/applications/history" && (
           <tr
-            className={`${styles.row} ${styles.link}`}
+          className={`${styles.row} ${styles.link} ${styles.row__manager}`}
             onClick={() => navigate(`${item.id}`)}
           >
             <td className={styles.listId} key={uuidv4()}>
@@ -157,7 +163,7 @@ export const TableListItem: FC<TTableListItem> = ({
           </tr>
         )}
       {/* ОТОБРАЖЕНИЕ ИСТОРИИ ЗАЯВОК */}
-      {(user.access === access.SUPERUSER ||
+      {/* {(user.access === access.SUPERUSER ||
         user.access === access.VICEPREZIDENT) &&
         location.pathname === "/applications/history" && (
           <tr
@@ -176,7 +182,7 @@ export const TableListItem: FC<TTableListItem> = ({
             </td>
             <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
           </tr>
-        )}
+        )} */}
     </>
   );
 };

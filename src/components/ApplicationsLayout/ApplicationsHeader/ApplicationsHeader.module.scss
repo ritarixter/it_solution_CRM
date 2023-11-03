@@ -1,6 +1,5 @@
 @import "../../../styles/variables.scss";
 
-
 .button__nav {
   border: none;
   outline: none;
@@ -30,6 +29,8 @@
   &__header {
     display: flex;
     margin-bottom: 35px;
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
 }
 
@@ -37,3 +38,17 @@
   position: absolute;
   right: 33px;
 }
+
+@media screen and (max-width: 1076px) {
+  .tree {
+    &__header {
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+  }
+  .button__nav {
+    font-size: 14px;
+  }
+}
+
+

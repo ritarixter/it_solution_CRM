@@ -6,7 +6,7 @@ export const NotFound: FC = () => {
   const navigate = useNavigate();
   return (
     <div className={styles.conteiner}>
-      <h1>404 Error Page</h1>
+      <h1 className={styles.title}>404 Error Page</h1>
       <section className={styles.error_container}>
         <span className={styles.four}>
           <span className={styles.screen_reader_text}>4</span>

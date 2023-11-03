@@ -33,6 +33,7 @@ export const PopupComment: FC<TPopupComment> = ({
             type={"text"}
             name={"Напишите комментарий главному инженеру (необязательно)"}
             text={"Комментарий"}
+            maxLength={30}
           />
         </div>
         <BlockButton text={"Отправить"} onClick={onClick} bigWidth={true} />

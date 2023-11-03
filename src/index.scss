@@ -3,6 +3,11 @@ body {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+ background-color: #f8f8f8;
+
 }
 
 code {
@@ -14,9 +19,7 @@ code {
   font-family: "Poppins", sans-serif;
 }
 
-html {
-  height: 100vh;
-}
+
 
 // * {
 //   outline: 1px solid lightblue;

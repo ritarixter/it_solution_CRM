@@ -59,9 +59,9 @@ export const AdministratorItem: FC = () => {
   }, [currentfiles]);
 
   const handleEditUser = () => {
+
     if (avatar) {
       uploadFiles(avatar, 'avatars').then((res) => {
-console.log(res)
         const userNew = {
           id: currentData.id,
           name: name === "" ? undefined : name,
@@ -159,6 +159,8 @@ console.log(res)
                 type={"text"}
                 name={"Введите ФИО"}
                 text={"ФИО"}
+                minLength={2}
+                maxLength={60}
               />
               <Input
                 setValue={setUserName}
@@ -166,6 +168,8 @@ console.log(res)
                 type={"text"}
                 name={"Введите пользователя"}
                 text={"Имя пользователя"}
+                minLength={2}
+                maxLength={30}
               />
               <Input
                 setValue={setPassword}
@@ -173,6 +177,8 @@ console.log(res)
                 type={"password"}
                 name={"Введите пароль"}
                 text={"Пароль"}
+                minLength={2}
+                maxLength={30}
               />
               {/* <div className={styles.admin__dropdown}>
                 <DropdownList
@@ -188,6 +194,8 @@ console.log(res)
                 type={"text"}
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
+                minLength={3}
+                maxLength={20}
               />
               <div className={styles.files}>
                 <label className={styles.input_file}>
@@ -230,11 +238,11 @@ console.log(res)
                 handleEditUser();
               }}
               disabled={
-                name === "" &&
-                userName === "" &&
-                password === "" &&
+                name.length < 2 &&
+                userName.length < 2  &&
+                password.length < 2 &&
                 //role === "" &&
-                phone === "" &&
+                phone.length < 3 &&
                 currentfiles.length === 0
               }
             />

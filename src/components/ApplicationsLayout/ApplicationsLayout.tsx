@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styles from "./ApplicationsLayout.module.scss";
 
-import { ImpotanceBlock, StatusBlock, Wrapper } from "..";
+import { StatusBlock, Wrapper } from "..";
 import { HeaderTop } from "../HeaderTop/HeaderTop";
 
 import { NOT_ASSIGNED_DEAD, access, notFound } from "../../utils/constants";
@@ -10,11 +10,7 @@ import { ApplicationsHeader } from "./ApplicationsHeader/ApplicationsHeader";
 import { BlockButton } from "../BlockButton/BlockButton";
 import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { getList } from "../../services/slices/list";
-import { WebSocketService } from "../../utils/ws/websocket.service";
 import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
-import { updateStepApi } from "../../utils/api";
-import useResize from "../../hooks/useResize";
 
 type TApplicationsLayout = {
   children: any;
@@ -34,8 +30,6 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
   const location = useLocation();
   const id_list = Number(location.pathname.slice(14));
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const size = useResize();
 
   const { user } = useAppSelector((state) => state.user);
 

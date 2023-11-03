@@ -66,11 +66,18 @@
 @media screen and (max-width: 995px) {
   .block {
     flex-direction: column-reverse;
-    gap: 25px;
+    gap: 20px;
     margin-top: 25px;
-    align-items: stretch
+    align-items: stretch;
   }
-  
+}
+
+@media screen and (max-width: 767px) {
+  .block {
+    &_help {
+     // align-self: center;
+    }
+  }
 }
 
 @media screen and (max-width: 682px) {
@@ -87,7 +94,6 @@
 }
 
 @media screen and (max-width: 556px) {
- 
 }
 
 @media screen and (max-width: 592px) {
@@ -95,7 +101,6 @@
     padding: 0 19px;
     box-sizing: border-box;
   }
-  
 }
 
 @media screen and (max-width: 450px) {
@@ -103,5 +108,4 @@
     padding: 0 6px;
     box-sizing: border-box;
   }
-  
 }

@@ -68,6 +68,7 @@ export const App: FC = () => {
 
   return (
     <div className={styles.app}>
+      <div className={styles.container}>
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -224,6 +225,7 @@ export const App: FC = () => {
           }
         />
       </Routes>
-    </div>
+    
+      </div></div>
   );
 };

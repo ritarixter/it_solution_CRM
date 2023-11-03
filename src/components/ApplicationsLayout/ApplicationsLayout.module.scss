@@ -3,13 +3,14 @@
 .popup {
   display: flex;
   flex-direction: row;
-  height: 80vh;
+  //height: 80vh;
   margin-top: 50px;
   background-color: $thirdColor;
   border-radius: 10px;
   width: 100%;
+ margin-bottom: 50px;
+ max-width: 1360px;
 }
-
 
 .conteiner {
   display: flex;
@@ -24,7 +25,7 @@
     margin-bottom: 14px;
   }
   &_titleTree {
-    margin-top: 35px;
+ 
     margin-bottom: 14px;
     &_mt0 {
       margin-top: 0;
@@ -42,10 +43,11 @@
   }
   display: flex;
   flex-direction: column;
-  height: 100%;
+ min-height: 100%;
   justify-content: space-between;
-  padding: 0 40px;
+  padding-left: 40px;
   padding-right: 26px;
+  padding-top: 35px;
   border-right: 1px solid $line;
   padding-bottom: 50px;
 }
@@ -66,7 +68,6 @@
     line-height: auto;
     color: $primaryColor;
   }
-  
 }
 
 .blockInf {
@@ -86,9 +87,11 @@
   position: relative;
   padding: 50px 20px;
   padding-left: 26px;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1024px;
 
   &__header {
     display: flex;
@@ -96,8 +99,59 @@
   }
 }
 
-
 .buttonCreate {
   justify-content: flex-end;
   margin-top: 20px;
+}
+
+@media screen and (max-width: 1076px) {
+  .popup {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  .conteiner {
+    &_titleTree {
+      font-size: 20px;
+    }
+  }
+
+  .tree {
+    padding: 40px 20px;
+
+  }
+
+  .infomation {
+    padding: 40px 20px;
+
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .popup {
+   flex-direction: column-reverse;
+  }
+
+  .infomation {
+    padding: 40px 20px;
+    border-right: none;
+    border-top: 1px solid #bdbdbd;
+  }
+
+  .tree {
+    height: 100vh;
+
+  }
+}
+
+@media screen and (max-width: 592px) {
+  .infomation {
+    padding: 20px;
+  }
+
+  .tree {
+    padding:20px;
+    padding-top: 0;
+  }
 }

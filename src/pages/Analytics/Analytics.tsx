@@ -13,13 +13,13 @@ import { access, statusConst } from "../../utils/constants";
 import { TList } from "../../types";
 import { getList } from "../../services/slices/list";
 import { LineChart } from "../../components/LineChart/LineChart";
-<<<<<<< HEAD
+
 import { Navigate, useLocation } from "react-router";
 import useResize from "../../hooks/useResize";
-=======
+
 import { titlesMini } from "../../components/TableList/contsants";
 import { TableList } from "../../components/TableList/TableList";
->>>>>>> 39148bde8b808e091670fd27c9db1c901975dacb
+
 
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
@@ -29,11 +29,10 @@ export const Analytics: FC = () => {
   const [countAtWorkList, setCountAtWorkList] = useState<number>(0);
   const [listLast7days, setListLast7days] = useState<Array<TList>>([]);
   const dispatch = useAppDispatch();
-<<<<<<< HEAD
+
   const location = useLocation();
   const size = useResize();
-=======
->>>>>>> 39148bde8b808e091670fd27c9db1c901975dacb
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,24 +89,12 @@ export const Analytics: FC = () => {
             {size.width >= 970 && <BlockList />} {/* БЛОК ДЛЯ Эффективности */}
           </div>
           <div className={styles.container__bottom}>
-<<<<<<< HEAD
-            <div
-              className={`${styles.table} ${
-                size.width <= 1865 && styles.container_none
-              }`}
-            >
-              <TableTask
-                mini={true}
-                list={listLast7days}
-                currentAccess={access.SUPERUSER}
-=======
             <div className={styles.container__bottom_list}>
               <TableList
                 mini={true}
                 list={listLast7days}
                 titleTable={"Заявки за последние 7 дней"}
                 titlesInTable={titlesMini}
->>>>>>> 39148bde8b808e091670fd27c9db1c901975dacb
               />
             </div>
             <Task tasksByDay={tasksByDay} />

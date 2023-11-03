@@ -4,7 +4,7 @@ import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../../components";
 import { CommercialProposalItem } from "../CommercialProposalItem/CommercialProposalItem";
-import { titles } from "../constants";
+import { titles, titlesForEngineer } from "../constants";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
@@ -20,7 +20,7 @@ import { getStep } from "../../../services/slices/step";
 import { access, message } from "../../../utils/constants";
 
 export const CommercialProposalCreate: FC = () => {
-  const { isLoadingUser } = useAppSelector((state) => state.user);
+  const { isLoadingUser, user } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const navigate = useNavigate();
   const location = useLocation();
@@ -137,9 +137,13 @@ export const CommercialProposalCreate: FC = () => {
             <table className={styles.table}>
               <thead className={styles.table__head}>
                 <tr className={styles.row}>
-                  {titles.map((title) => (
-                    <th key={uuidv4()}>{title}</th>
-                  ))}
+                  {user.access === access.BUYER ||
+                  user.access === access.SUPERUSER ||
+                  user.access === access.VICEPREZIDENT
+                    ? titles.map((title) => <th key={uuidv4()}>{title}</th>)
+                    : titlesForEngineer.map((title) => (
+                        <th key={uuidv4()}>{title}</th>
+                      ))}
                 </tr>
               </thead>
               <tbody className={styles.table__container}>

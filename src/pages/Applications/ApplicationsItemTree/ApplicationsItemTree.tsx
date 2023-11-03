@@ -25,7 +25,7 @@ import { FileIcon } from "../../../components/File/FileIcon";
 import { BlockComments } from "../../../components/BlockComments/BlockComments";
 import { DropdownList } from "../../../components/DropdownList";
 import { importanceData, statusData } from "./constants";
-import { URL_BACKEND, access, message } from "../../../utils/constants";
+import { access, message } from "../../../utils/constants";
 import { Performers } from "../../../components/Performers/Performers";
 import { Input } from "../../../components/Input";
 import { DropdownListWithID } from "../../../components/DropdownList/DropdownListWithID/DropdownListWithID";
@@ -36,6 +36,8 @@ import { getStep } from "../../../services/slices/step";
 import { getUser } from "../../../services/slices/user";
 import { PopupDeadline } from "../../../components/PopupDeadline/PopupDeadline";
 import { DeadlineSetting } from "../../../components/DeadlineSetting/DeadlineSetting";
+import useResize from "../../../hooks/useResize";
+import bell from "../../../images/icons/bell.svg";
 
 export const ApplicationsItemTree: FC = () => {
   const navigate = useNavigate();
@@ -53,6 +55,8 @@ export const ApplicationsItemTree: FC = () => {
     "Комментарии",
   ];
   const [header, setHeader] = useState<string>("Изменить информацию");
+  // const headerDataIcon = [];
+  // const [icon, setIcon] = useState<string>("");
   const id_list = Number(location.pathname.slice(14));
   const dispatch = useAppDispatch();
   const [workNameValue, setWorkNameValue] = useState("");

@@ -3,7 +3,6 @@
 .gamburger {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background: $mainColor;
   height: 100vh;
   text-align: left;
@@ -13,20 +12,31 @@
   left: 0;
   transition: transform 0.3s ease-in-out;
   z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+
+  &_active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.logo {
+  margin-top: 55px;
+  margin-bottom: 80px;
 }
 
 .nav {
   list-style-type: none;
-  padding-left: 17px;
   margin: 0;
   &__item {
     margin-bottom: 16px;
     &:last-child {
       margin-bottom: 0;
     }
-    &.active {
-      border-right: 2px solid $thirdColor;
-    }
+    // &.active {
+    //   border-right: 2px solid $thirdColor;
+    // }
   }
 }
 

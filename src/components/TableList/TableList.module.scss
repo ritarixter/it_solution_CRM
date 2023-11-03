@@ -1,0 +1,121 @@
+@import "../../styles/variables";
+
+.container {
+  background-color: $thirdColor;
+  box-sizing: border-box;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 30px 15px;
+  box-sizing: border-box;
+}
+
+.table {
+  width: 100%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  color: $dashboardTitleColor;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row {
+  align-items: center;
+  display: grid;
+  list-style: none;
+  margin: 0;
+  font-size: 14px;
+  color: $dashboardTitleColor;
+  padding: 20px 0;
+  column-gap: 10px;
+  width: 100%;
+  & > th {
+    font-weight: 400;
+    color: $subtitleColor;
+  }
+  & > td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  text-align-last: left;
+}
+
+// СТИЛИ ДЛЯ TableListItem
+
+.listId {
+  font-weight: 500;
+}
+
+.link {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.implements {
+  width: 100px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+
+  &__item {
+    margin-right: -7px;
+  }
+
+  &__notfound {
+    margin: 0;
+  }
+}
+
+.file {
+  color: $nullColor;
+}
+.files {
+  display: flex;
+  align-items: center;
+}
+
+.fileText {
+  min-width: 70px;
+}
+
+@media screen and (max-width: 921px) {
+  .row {
+    column-gap: 5px;
+  }
+}
+
+@media screen and (max-width: 781px) {
+  .row {
+    & > td:last-child,
+    th:last-child {
+      text-align-last: right;
+    }
+    & > td,
+    th {
+      text-align-last: left;
+    }
+  }
+}
+
+@media screen and (max-width: 484px) {
+  .row {
+    column-gap: 0;
+  }
+}

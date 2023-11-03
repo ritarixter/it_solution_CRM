@@ -16,9 +16,10 @@ import close from "../../images/icons/close.svg";
 import { translitRuEn } from "../../utils/utils";
 import { DropdownList } from "../../components/DropdownList";
 import { accessData, accessDataMaxi } from "../../utils/constants";
+import useResize from "../../hooks/useResize";
 export const Administrator: FC = () => {
   const { users, isLoadingUser } = useAppSelector((state) => state.user);
-  const {pathname}=useLocation()
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -31,8 +32,36 @@ export const Administrator: FC = () => {
   const dispatch = useAppDispatch();
   const [currentfiles, setCurrentFiles] = useState<File[]>([]);
   const [avatar, setAvatar] = useState<FormData>();
-
   const pageSize = 6;
+  const { width } = useResize();
+  const [title, setTitle] = useState<string[]>([]);
+  const columnCount = title.length;
+
+  useEffect(() => {
+    setTitle(titles);
+  }, []);
+
+  const sliceTitles = (end: number) => {
+    setTitle(titles.slice(0, end));
+  };
+
+  useEffect(() => {
+    if (width > 1450) {
+      setTitle(titles);
+    }
+    if (width <= 1450) {
+      sliceTitles(titles.length - 1);
+    }
+    if (width <= 834) {
+      sliceTitles(titles.length - 2);
+    }
+    if (width <= 490) {
+      sliceTitles(titles.length - 3);
+    }
+  }, [width]);
+  console.log(title)
+  console.log(columnCount)
+
 
   useEffect(() => {
     pathname === "/admin_panel"
@@ -76,8 +105,8 @@ export const Administrator: FC = () => {
   }, [currentfiles]);
 
   const handleAddUser = () => {
-    if(pathname === '/admin_panel') {
-      dispatch(addUser(name, userName, password, role, phone, ''));
+    if (pathname === "/admin_panel") {
+      dispatch(addUser(name, userName, password, role, phone, ""));
       deleteInput();
       setRole(accessData[0]);
     } else {
@@ -159,38 +188,42 @@ export const Administrator: FC = () => {
                 name={"Введите номер телефона"}
                 text={"Номер телефона"}
               />
-             {pathname != '/admin_panel' && <div className={styles.files}>
-                <label className={styles.input_file}>
-                  <input
-                    accept="image/png, image/jpeg, image/jpg"
-                    type="file"
-                    id="input__file"
-                    className={styles.input}
-                    onChange={handleFileChange}
-                  />
-                  <span className={styles.input_file_btn}>Выберите аватар</span>
-                </label>
-                {currentfiles && currentfiles.length > 0 ? (
-                  <div className={styles.files__container}>
-                    <span className={styles.files__name}>
-                      {currentfiles[0].name}
-                    </span>
-
-                    <img
-                      src={close}
-                      className={styles.img}
-                      alt={"Закрыть"}
-                      onClick={() => {
-                        setCurrentFiles([]);
-                      }}
+              {pathname != "/admin_panel" && (
+                <div className={styles.files}>
+                  <label className={styles.input_file}>
+                    <input
+                      accept="image/png, image/jpeg, image/jpg"
+                      type="file"
+                      id="input__file"
+                      className={styles.input}
+                      onChange={handleFileChange}
                     />
-                  </div>
-                ) : (
-                  <span className={styles.input_file_text}>
-                    Допустимые расширения .png .jpg
-                  </span>
-                )}
-              </div>}
+                    <span className={styles.input_file_btn}>
+                      Выберите аватар
+                    </span>
+                  </label>
+                  {currentfiles && currentfiles.length > 0 ? (
+                    <div className={styles.files__container}>
+                      <span className={styles.files__name}>
+                        {currentfiles[0].name}
+                      </span>
+
+                      <img
+                        src={close}
+                        className={styles.img}
+                        alt={"Закрыть"}
+                        onClick={() => {
+                          setCurrentFiles([]);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <span className={styles.input_file_text}>
+                      Допустимые расширения .png .jpg
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.admin__buttons}>
@@ -228,7 +261,7 @@ export const Administrator: FC = () => {
                 <table className={styles.table}>
                   <thead key={uuidv4()}>
                     <tr className={styles.table_title}>
-                      {titles.map((title) => (
+                      {title.map((title) => (
                         <th className={styles.table_column}>{title}</th>
                       ))}
                     </tr>
@@ -240,12 +273,16 @@ export const Administrator: FC = () => {
                           className={styles.table_content}
                           onClick={() => navigate(`${item.id}`)}
                         >
-                          <td className={styles.table_rowName}>
-                            <UserBlock name={item.name} avatar={item.avatar} fullName={true}/>
-                          </td>
-                          <td className={styles.table_row}>{item.access}</td>
-                          <td className={styles.table_row}>{item.username}</td>
-                          <td className={styles.table_row}>{item.phone}</td>
+                          {columnCount > 0 && <td className={styles.table_rowName}>
+                            <UserBlock
+                              name={item.name}
+                              avatar={item.avatar}
+                              fullName={true}
+                            />
+                          </td>}
+                          {columnCount > 1 && <td className={styles.table_row}>{item.access}</td>}
+                          {columnCount > 2 && <td className={styles.table_row}>{item.username}</td>}
+                          {columnCount > 3 && <td className={styles.table_row}>{item.phone}</td>}
                         </tr>
                       ))
                     ) : (

@@ -87,7 +87,7 @@
   }
 
   &_maxi {
-    grid-template-columns: 25px repeat(11, 1fr);
+    grid-template-columns: 25px repeat(11, minmax(110px, 1fr));
     gap: 7px;
   }
   &.header {
@@ -111,7 +111,6 @@
   margin: 0;
   list-style: none;
   display: flex;
-
 
   &__item {
     margin-right: -7px;

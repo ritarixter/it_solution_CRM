@@ -14,6 +14,7 @@ import { getList } from "../../services/slices/list";
 import { WebSocketService } from "../../utils/ws/websocket.service";
 import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
 import { updateStepApi } from "../../utils/api";
+import useResize from "../../hooks/useResize";
 
 type TApplicationsLayout = {
   children: any;
@@ -34,6 +35,7 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
   const id_list = Number(location.pathname.slice(14));
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const size = useResize();
 
   const { user } = useAppSelector((state) => state.user);
 

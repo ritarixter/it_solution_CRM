@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 //import { changeCountNotify } from "../../services/slices/user";
 import { NotificationsBlock } from "../NotificationsBlock/NotificationsBlock";
-import useResize from "../../hooks/useResize";
+import useResize from "../../hooks/useResize.js";
 import { MenuGamburger } from "../MenuGamburger/MenuGamburger";
 import { Gamburger } from "../MenuGamburger/Gamburger/Gamburger";
 
@@ -16,6 +16,7 @@ export const HeaderTop: FC = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const size = useResize();
+
 
   // useEffect(() => {
   //   setCount(user.count);
@@ -30,7 +31,7 @@ export const HeaderTop: FC = () => {
         <div className={styles.block_users}>
             {size.width <= 682 && (
               <>
-                <Gamburger />
+                <MenuGamburger open={openMenu} setOpen={() => setOpenMenu(!openMenu)} />
               </>
             )}
           <div

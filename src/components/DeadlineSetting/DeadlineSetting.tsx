@@ -23,7 +23,6 @@ export const DeadlineSetting: FC<TDeadlineSetting> = ({
   const [openCalendar, setOpenCalendar] = useState(false);
   const onClickDay = (value: Date) => {
     setDeadline(formateDateToBackend(value));
-
     setOpenCalendar(false);
   };
 

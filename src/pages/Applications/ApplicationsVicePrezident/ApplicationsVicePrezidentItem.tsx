@@ -62,16 +62,26 @@ export const ApplicationsVicePrezidentItem: FC = () => {
 
   const inviteMarg = () => {
     updateStepApi(currentList[0].step.id, 8);
-    addNotifyApiWithComment(id_list, [superuser.id], message[11],commentInvite.toLowerCase());
+    addNotifyApiWithComment(
+      id_list,
+      [superuser.id],
+      message[11],
+      commentInvite.toLowerCase()
+    );
     dispatch(getStep());
-    setOpenPopupInvite(false)
+    setOpenPopupInvite(false);
   };
 
   const returnMarg = () => {
     updateStepApi(currentList[0].step.id, 8.1);
-    addNotifyApiWithComment(id_list, [superuser.id], message[12],commentReturn.toLowerCase());
+    addNotifyApiWithComment(
+      id_list,
+      [superuser.id],
+      message[12],
+      commentReturn.toLowerCase()
+    );
     dispatch(getStep());
-    setOpenPopupReturn(false)
+    setOpenPopupReturn(false);
   };
 
   useEffect(() => {

@@ -2,13 +2,12 @@ import { FC, useState } from "react";
 import styles from "./HeaderTop.module.scss";
 import { UserBlock } from "../UserBlock/UserBlock";
 import arrow from "../../images/icons/arrow.svg";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useAppSelector } from "../../services/hooks";
 import { ProfileWindowPopup } from "../ProfileWindowPopup/ProfileWindowPopup";
 //import { changeCountNotify } from "../../services/slices/user";
 import { NotificationsBlock } from "../NotificationsBlock/NotificationsBlock";
 import useResize from "../../hooks/useResize.js";
 import { MenuGamburger } from "../MenuGamburger/MenuGamburger";
-import { Gamburger } from "../MenuGamburger/Gamburger/Gamburger";
 
 export const HeaderTop: FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -16,7 +15,6 @@ export const HeaderTop: FC = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const size = useResize();
-
 
   // useEffect(() => {
   //   setCount(user.count);
@@ -26,30 +24,29 @@ export const HeaderTop: FC = () => {
       <div className={styles.block_help}>
         <NotificationsBlock />
       </div>
-      
+
       {user ? (
         <div className={styles.block_users}>
-            {size.width <= 682 && (
-              <>
-                <MenuGamburger open={openMenu} setOpen={() => setOpenMenu(!openMenu)} />
-              </>
-            )}
+          {size.width <= 682 && (
+            <>
+              <MenuGamburger
+                open={openMenu}
+                setOpen={() => setOpenMenu(!openMenu)}
+              />
+            </>
+          )}
           <div
             className={styles.users}
             onClick={() => {
               setOpen(!open);
             }}
           >
-              <UserBlock
-                name={user.name}
-                avatar={user.avatar}
-                fullName={true}
-              />
-              <img
-                src={arrow}
-                alt="Стрелка"
-                className={`${styles.arrow} ${open && styles.open}`}
-              />
+            <UserBlock name={user.name} avatar={user.avatar} fullName={true} />
+            <img
+              src={arrow}
+              alt="Стрелка"
+              className={`${styles.arrow} ${open && styles.open}`}
+            />
             <ProfileWindowPopup open={open} setOpen={setOpen} />
           </div>
         </div>

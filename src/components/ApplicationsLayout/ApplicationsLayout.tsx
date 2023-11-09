@@ -11,6 +11,7 @@ import { BlockButton } from "../BlockButton/BlockButton";
 import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { DeadlineBlock } from "../DeadlineBlock/DeadlineBlock";
+import useResize from "../../hooks/useResize";
 
 type TApplicationsLayout = {
   children: any;
@@ -32,12 +33,25 @@ export const ApplicationsLayout: FC<TApplicationsLayout> = ({
   const navigate = useNavigate();
 
   const { user } = useAppSelector((state) => state.user);
+  const size = useResize();
 
   return (
     <Wrapper>
       <HeaderTop />
-      <div className={styles.popup}>
-        <div className={styles.infomation}>
+      <div
+        className={`${styles.popup} ${
+          size.width <= 1100 &&
+          user.access === access.VICEPREZIDENT &&
+          styles.vice
+        }`}
+      >
+        <div
+          className={`${styles.infomation} ${
+            size.width <= 1100 &&
+            user.access === access.VICEPREZIDENT &&
+            styles.vice_inf
+          }`}
+        >
           <div className={styles.infomation__container}>
             <div>
               <h2 className={styles.conteiner_titleTree}>Текущая информация</h2>

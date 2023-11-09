@@ -28,3 +28,9 @@
   text-decoration: underline;
   text-underline-offset: 5px;
 }
+
+@media screen and (max-width: 450px) {
+  .name {
+    width: 190px;
+  }
+}

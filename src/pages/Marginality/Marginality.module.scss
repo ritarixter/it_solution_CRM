@@ -63,8 +63,6 @@
     width: 200px;
   }
 
-
-
   &_row {
     display: flex;
     align-items: flex-end;
@@ -84,7 +82,7 @@
     align-items: flex-start;
     & > .table_cell {
       width: 300px;
-     }
+    }
   }
   &_celling {
     // padding-bottom: 31px;
@@ -104,4 +102,78 @@
 
 .marginality {
   margin: 34px 0;
+}
+
+@media screen and (max-width: 1450px) {
+  .blockSumm {
+    flex-wrap: wrap;
+  }
+
+  .table {
+    &_cell {
+      width: 300px;
+    }
+    &_row {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  .tableTwo {
+    &_row {
+      gap: 20px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      & > .table_cell {
+        width: 300px;
+      }
+    }
+
+    &_text {
+      margin: 0;
+      padding: 0;
+      padding-top: 4px;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}
+
+@media screen and (max-width: 790px) {
+  .blockSumm {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .conteiner {
+    padding: 13px 20px;
+
+    &__title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+  }
+
+  .table {
+    gap: 20px;
+    &_row {
+      justify-content: center;
+    }
+  }
+
+  .tableTwo {
+    &_row {
+      justify-content: center;
+    }
+  }
+
+  .blockSumm {
+    &__one {
+      display: flex;
+      gap: 15px;
+    }
+  }
 }

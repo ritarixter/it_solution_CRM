@@ -9,7 +9,7 @@ import {
   deleteCommentApi,
   getListByIdApi,
 } from "../../utils/api";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import { getList } from "../../services/slices/list";
 import { access } from "../../utils/constants";
 import { formateDateShort } from "../../utils/utils-date";
@@ -17,10 +17,10 @@ import { TList } from "../../types";
 import { BlockButton } from "../BlockButton/BlockButton";
 
 type TCommentsBlock = {
-  isAddComment?:boolean
-}
+  isAddComment?: boolean;
+};
 
-export const CommentsBlock: FC<TCommentsBlock> = ({isAddComment=false}) => {
+export const CommentsBlock: FC<TCommentsBlock> = ({ isAddComment = false }) => {
   const { user } = useAppSelector((state) => state.user);
   const { list } = useAppSelector((state) => state.list);
   const [textarea, setTextarea] = useState<string>("");
@@ -45,7 +45,9 @@ export const CommentsBlock: FC<TCommentsBlock> = ({isAddComment=false}) => {
   }, [list]);
   return (
     <div className={styles.container}>
-      <ul className={`${styles.comments} ${isAddComment && styles.comments_mini}`}>
+      <ul
+        className={`${styles.comments} ${isAddComment && styles.comments_mini}`}
+      >
         {data && data.length != 0 ? (
           data.map((comment) => (
             <li className={`${styles.comments__item} `}>
@@ -88,26 +90,28 @@ export const CommentsBlock: FC<TCommentsBlock> = ({isAddComment=false}) => {
           <p>Комментариев нет</p>
         )}
       </ul>
-      {isAddComment && <div>
-        <p className={styles.caption}>Комментарий</p>
-        <textarea
-          className={styles.textarea}
-          placeholder={"Введите текст (до 500 символов)"}
-          value={textarea}
-          onChange={(e) => setTextarea(e.target.value)}
-          maxLength={500}
-          minLength={0}
-        ></textarea>
-        <BlockButton
-          text={"Отправить"}
-          disabled={textarea === ""}
-          onClick={() => {
-            addCommentApi(id_list, user.id, textarea);
-            setTextarea("");
-            dispatch(getList())
-          }}
-        />
-      </div>}
+      {isAddComment && (
+        <div>
+          <p className={styles.caption}>Комментарий</p>
+          <textarea
+            className={styles.textarea}
+            placeholder={"Введите текст (до 500 символов)"}
+            value={textarea}
+            onChange={(e) => setTextarea(e.target.value)}
+            maxLength={500}
+            minLength={0}
+          ></textarea>
+          <BlockButton
+            text={"Отправить"}
+            disabled={textarea === ""}
+            onClick={() => {
+              addCommentApi(id_list, user.id, textarea);
+              setTextarea("");
+              dispatch(getList());
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

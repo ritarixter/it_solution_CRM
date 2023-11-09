@@ -5,7 +5,7 @@ import editTasks from "../../images/icons/editTasks.svg";
 import editList from "../../images/icons/editList.svg";
 import { BlockList } from "../../components/BlockList/BlockList";
 import { HeaderTop } from "../../components/HeaderTop/HeaderTop";
-import {  Task, Wrapper } from "../../components";
+import { Task, Wrapper } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { CalendarComponent } from "../../components/Calendar/CalendarComponent";
 import { Diagram } from "../../components/Diagram/Diagram";
@@ -20,7 +20,6 @@ import useResize from "../../hooks/useResize";
 import { titlesMini } from "../../components/TableList/contsants";
 import { TableList } from "../../components/TableList/TableList";
 
-
 export const Analytics: FC = () => {
   const { tasks, tasksByDay } = useAppSelector((state) => state.task);
   const { list } = useAppSelector((state) => state.list);
@@ -32,7 +31,6 @@ export const Analytics: FC = () => {
 
   const location = useLocation();
   const size = useResize();
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,12 +88,14 @@ export const Analytics: FC = () => {
           </div>
           <div className={styles.container__bottom}>
             <div className={styles.container__bottom_list}>
-              <TableList
-                mini={true}
-                list={listLast7days}
-                titleTable={"Заявки за последние 7 дней"}
-                titlesInTable={titlesMini}
-              />
+              {size.width >= 1865 && (
+                <TableList
+                  mini={true}
+                  list={listLast7days}
+                  titleTable={"Заявки за последние 7 дней"}
+                  titlesInTable={titlesMini}
+                />
+              )}
             </div>
             <Task tasksByDay={tasksByDay} />
             <CalendarComponent />
@@ -107,21 +107,21 @@ export const Analytics: FC = () => {
         <div className={styles.container}>
           <div className={styles.container__header}>
             <div className={styles.container__header_dev}>
-            <Diagram list={list} />
-            <BlockAnalics
-              name={"Задачи"}
-              count={tasks.length}
-              icon={editTasks}
-              title={"Завершенные задачи"}
-              countMade={countDoneTasks}
-            />
-            <BlockAnalics
-              name={"Заявки"}
-              count={list.length}
-              icon={editList}
-              title={"В работе"}
-              countMade={countAtWorkList}
-            />
+              <Diagram list={list} />
+              <BlockAnalics
+                name={"Задачи"}
+                count={tasks.length}
+                icon={editTasks}
+                title={"Завершенные задачи"}
+                countMade={countDoneTasks}
+              />
+              <BlockAnalics
+                name={"Заявки"}
+                count={list.length}
+                icon={editList}
+                title={"В работе"}
+                countMade={countAtWorkList}
+              />
             </div>
             {size.width >= 970 && <BlockList />} {/* БЛОК ДЛЯ Эффективности */}
           </div>

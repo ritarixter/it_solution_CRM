@@ -86,7 +86,6 @@ export const TableList: FC<TTableList> = ({
         setTitles([titlesInTable[0], titlesInTable[2], titlesInTable[3]]);
       }
     } else {
-
     }
   }, [width]);
 

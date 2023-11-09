@@ -141,25 +141,42 @@ export const TableListItem: FC<TTableListItem> = ({
       {user.access === access.MANAGER &&
         location.pathname != "/applications/history" && (
           <tr
-          className={`${styles.row} ${styles.link} ${styles.row__manager}`}
+            className={`${styles.row} ${styles.link} ${styles.row__manager}`}
             onClick={() => navigate(`${item.id}`)}
+            style={style}
           >
-            <td className={styles.listId} key={uuidv4()}>
-              {item.id}
-            </td>
-            <td key={uuidv4()}>{item.company.nameCompany}</td>
-            <td key={uuidv4()}>{item.name != "" ? item.name : NOT_ASSIGNED}</td>
-            <td key={uuidv4()}>
-              {item.company.email ? item.company.email : "Пусто"}
-            </td>
-            <td key={uuidv4()}>
-              {item.company.name.split(" ")[0] +
-                " " +
-                item.company.name.split(" ")[1][0] +
-                "."}
-            </td>
-            <td key={uuidv4()}>{item.company.numberPhone}</td>
-            <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
+            {columnCount > 0 && (
+              <td className={styles.listId} key={uuidv4()}>
+                {item.id}
+              </td>
+            )}
+            {columnCount > 1 && (
+              <td key={uuidv4()}>{item.company.nameCompany}</td>
+            )}
+            {columnCount > 2 && (
+              <td key={uuidv4()}>
+                {item.name != "" ? item.name : NOT_ASSIGNED}
+              </td>
+            )}
+            {columnCount > 3 && (
+              <td key={uuidv4()}>
+                {item.company.email ? item.company.email : "Пусто"}
+              </td>
+            )}
+            {columnCount > 4 && (
+              <td key={uuidv4()}>
+                {item.company.name.split(" ")[0] +
+                  " " +
+                  item.company.name.split(" ")[1][0] +
+                  "."}
+              </td>
+            )}
+            {columnCount > 5 && (
+              <td key={uuidv4()}>{item.company.numberPhone}</td>
+            )}
+            {columnCount > 6 && (
+              <td key={uuidv4()}>{formateDateShort(item.createdAt)}</td>
+            )}
           </tr>
         )}
       {/* ОТОБРАЖЕНИЕ ИСТОРИИ ЗАЯВОК */}

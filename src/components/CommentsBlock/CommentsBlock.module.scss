@@ -65,6 +65,7 @@
 .user {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   &__time {
     font-size: 12px;
     margin-left: 8px;
@@ -85,12 +86,26 @@
   font-size: 14px;
   color: #353535;
   margin-bottom: 20px;
-
 }
 
 .caption {
   color: #5c5d5e;
-    font-size: 14px;
-    margin-bottom: 4px;
-    margin-top: 0;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+@media screen and (max-width: 410px) {
+  .user {
+    &__time {
+      margin-left: 36px;
+      margin-top: 0;
+    }
+  }
+
+  .comments {
+    &__text {
+      margin-top: 5px;
+    }
+  }
 }

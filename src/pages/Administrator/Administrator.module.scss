@@ -323,7 +323,7 @@
 @media screen and (max-width: 1230px) {
   .admin {
     flex-direction: column;
-    gap: 40px;
+    gap: 10px;
 
     &__container {
       margin-right: 0;
@@ -349,12 +349,30 @@
 @media screen and (max-width: 592px) {
   .users {
     border: none;
+    &_title {
+      margin-top: 0;
+    }
   }
 
   .admin {
     &__container {
       border: none;
     }
+  }
+
+  .profile {
+    flex-direction: column-reverse;
+    height: auto;
+    align-items: center;
+  }
+
+  .info {
+    border-right: none;
+    padding: 0 10px;
+  }
+
+  .conteiner {
+    padding: 0 10px 50px;
   }
 }
 

@@ -25,6 +25,7 @@ import { validateEmail } from "../../../utils/utils-validate";
 
 import { TComment } from "../../../types/TComment";
 import { CommentsBlock } from "../../../components/CommentsBlock/CommentsBlock";
+import useResize from "../../../hooks/useResize";
 
 type TCurrentList = {
   id: number;
@@ -45,6 +46,7 @@ type TCurrentList = {
 //---------------------------------------------------------СТРАНИЦА РЕДАКТИРОВАНИЯ ЗАЯВКИ ДЛЯ МЕНЕДЖЕРА-------------------------------------------------------------------------
 
 export const ApplicationsItem: FC = () => {
+  const size = useResize();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -419,11 +421,13 @@ export const ApplicationsItem: FC = () => {
             </Link>
           </div>
         </div>
-        <div className={styles.commentsManager}>
-          {" "}
-          <h2 className={styles.conteiner_title}>Комментарии</h2>
-          <CommentsBlock />
-        </div>
+        {size.width >= 1050 && (
+          <div className={styles.commentsManager}>
+            {" "}
+            <h2 className={styles.conteiner_title}>Комментарии</h2>
+            <CommentsBlock />
+          </div>
+        )}
       </div>
 
       <Popup

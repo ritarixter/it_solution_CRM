@@ -9,6 +9,16 @@ export const titles = [
   "Сумма закупки, руб",
   "",
 ];
+
+export const titlesWorks = [
+  "Услуга*",
+  "Количество*",
+  "Ед.изм*",
+  "Цена за единицу*",
+  "Сумма, руб",
+  "",
+];
+
 export const titlesForEngineer = [
   "Наименование*",
   "Количество*",

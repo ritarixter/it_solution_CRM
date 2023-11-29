@@ -8,7 +8,7 @@ import dragIcon from "../../../images/icons/draganddrop.svg";
 import styles from "../CommercialProposal.module.scss";
 import { access } from "../../../utils/constants";
 
-type TCommercialProposalItem = {
+export type TCommercialProposalItem = {
   onDelete: () => void;
   item: IProducts;
   setCurrentItem: (item: IProducts) => void;
@@ -164,7 +164,7 @@ export const CommercialProposalItem: FC<TCommercialProposalItem> = ({
     e.preventDefault();
     setOnDragClass(true);
   };
-  
+
   return (
     <tr
       className={`${styles.row} ${onDragClass && styles.row_drag}`}

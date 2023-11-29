@@ -37,22 +37,35 @@
   justify-content: space-between;
 }
 
+.work_title {
+  color: #5c5d5e;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
 .table {
   &__container {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    display: block;
-    scroll-behavior: smooth;
-    height: 31vh;
-    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 42vh;
 
-    &::-webkit-scrollbar-thumb {
-      background: $inputColor;
-      border-radius: 10px;
-      width: 3px;
-    }
-    &::-webkit-scrollbar {
-      width: 3px;
+    &_item {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      display: block;
+      scroll-behavior: smooth;
+      padding-right: 10px;
+      height: 20vh;
+      &::-webkit-scrollbar-thumb {
+        background: $inputColor;
+        border-radius: 10px;
+        width: 3px;
+      }
+      &::-webkit-scrollbar {
+        width: 3px;
+      }
     }
   }
   &__head {
@@ -88,7 +101,7 @@
 
   grid-template-columns:
     242px minmax(90px, 1fr) 55px minmax(131px, 1fr) minmax(156px, 1fr)
-    minmax(164px, 1fr) 172px 135px minmax(0px,40px);
+    minmax(164px, 1fr) 172px 135px minmax(0px, 40px);
   width: 100%;
 
   & > th {
@@ -182,6 +195,7 @@ thead > tr {
     cursor: pointer;
     transition: color 0.2s ease;
     margin-top: 40px;
+    margin-right: 20px;
     &:hover {
       color: $mainColor;
     }
@@ -201,7 +215,7 @@ thead > tr {
 }
 
 .table__list {
-max-width: 242px;
+  max-width: 242px;
   // height: 100px;
 }
 // .table__list::-webkit-scrollbar {
@@ -254,17 +268,15 @@ max-width: 242px;
   &__header {
     font-weight: 600;
     color: $inputCaption;
-    
   }
   &__row {
     padding: 6px 0;
     display: grid;
     grid-template-columns: 350px 100px;
     color: $inputCaption;
-    &_add{
-    background-color: $dropDown;
-
-  }
+    &_add {
+      background-color: $dropDown;
+    }
 
     &:last-child {
       margin-bottom: 60px;
@@ -273,7 +285,6 @@ max-width: 242px;
 
   &__checkbox {
     margin-right: 10px;
-
   }
   &__name {
     display: flex;
@@ -344,7 +355,7 @@ max-width: 242px;
 //-------------------------------------------------------------INPUT--------------------------------------------------------------------------
 .input_file {
   position: relative;
-  display:flex;
+  display: flex;
   align-items: center;
 }
 .input_file_btn {
@@ -398,7 +409,6 @@ max-width: 242px;
   background-color: #eee;
 }
 
-
 .excel__files {
   display: flex;
   flex-direction: column;
@@ -415,7 +425,6 @@ max-width: 242px;
     align-items: center;
     margin-bottom: 15px;
     font-size: 14px;
-
   }
 
   .excel__name {

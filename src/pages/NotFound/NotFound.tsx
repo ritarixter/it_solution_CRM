@@ -19,7 +19,10 @@ export const NotFound: FC = () => {
         </span>
       </section>
       <div className={styles.link_container}>
-        <a className={styles.more_link} onClick={() => navigate("/analytics")}>
+        <a
+          className={styles.more_link}
+          onClick={() => navigate("/applications")}
+        >
           Вернуться на главную
         </a>
       </div>

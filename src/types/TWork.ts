@@ -4,3 +4,14 @@ export type TWork = {
   updatedAt: string;
   name: string;
 };
+
+export interface IWorks {
+  id: number;
+  name: string;
+  count: number;
+  units: string; //Ед.изм
+  price: number;
+  totalPrice: number;
+  checked?: boolean;
+  isAddInSmeta?: boolean;
+}

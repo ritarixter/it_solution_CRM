@@ -4,7 +4,7 @@ import { HeaderTop } from "../../../components/HeaderTop/HeaderTop";
 import { v4 as uuidv4 } from "uuid";
 import { Wrapper } from "../../../components";
 import { CommercialProposalItem } from "../CommercialProposalItem/CommercialProposalItem";
-import { titles, titlesForEngineer } from "../constants";
+import { titles, titlesForEngineer, titlesWorks } from "../constants";
 import { BlockButton } from "../../../components/BlockButton/BlockButton";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useLocation, useNavigate } from "react-router";
@@ -18,6 +18,8 @@ import {
 import { Input } from "../../../components/Input";
 import { getStep } from "../../../services/slices/step";
 import { access, message } from "../../../utils/constants";
+import { CommercialProposalWork } from "../CommercialProposalWork/CommercialProposalWork";
+import { IWorks } from "../../../types/TWork";
 
 export const CommercialProposalCreate: FC = () => {
   const { isLoadingUser, user } = useAppSelector((state) => state.user);
@@ -42,11 +44,23 @@ export const CommercialProposalCreate: FC = () => {
       //marginalityPrice: 0,
     },
   ]);
+  const [works, setWorks] = useState<Array<IWorks>>([
+    {
+      id: 0,
+      name: "",
+      count: 0,
+      units: "",
+      price: 0,
+      totalPrice: 0,
+    },
+  ]);
   const [currentItem, setCurrentItem] = useState<IProducts>(items[0]);
+  const [currentWork, setCurrentWork] = useState<IWorks>(items[0]);
   const [count, setCount] = useState<number>(1);
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
   const [errorItem, setErrorItem] = useState<boolean>(false);
+  const [errorWork, setErrorWork] = useState<boolean>(false);
 
   const handleClickCreateCP = () => {
     if (name.length > 30 || name.length < 2) {
@@ -149,24 +163,62 @@ export const CommercialProposalCreate: FC = () => {
                 </tr>
               </thead>
               <tbody className={styles.table__container}>
-                {count > 0 ? (
-                  items.map((item) => (
-                    <CommercialProposalItem
-                      setError={setErrorItem}
-                      item={item}
-                      setCurrentItem={setCurrentItem}
-                      dropHandler={dropHandler}
-                      onDelete={() => {
-                        setCount(count - 1);
-                        setItems(
-                          items.filter((dataItem) => item.id !== dataItem.id)
-                        );
-                      }}
-                    />
-                  ))
-                ) : (
-                  <p className={styles.notFound}>Товаров нет</p>
-                )}
+                <div className={styles.table__container_item}>
+                  {count > 0 ? (
+                    items.map((item) => (
+                      <CommercialProposalItem
+                        setError={setErrorItem}
+                        item={item}
+                        setCurrentItem={setCurrentItem}
+                        dropHandler={dropHandler}
+                        onDelete={() => {
+                          setCount(count - 1);
+                          setItems(
+                            items.filter((dataItem) => item.id !== dataItem.id)
+                          );
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <p className={styles.notFound}>Товаров нет</p>
+                  )}
+                </div>
+                <div className={styles.table__container_item}>
+                  <p className={styles.work_title}>
+                    Монтаж\пусконаладочные работы
+                  </p>
+                  <thead className={styles.table__head}>
+                    <tr className={styles.row}>
+                      {user.access === access.BUYER ||
+                      user.access === access.SUPERUSER ||
+                      user.access === access.VICEPREZIDENT ||
+                      user.access === access.ENGINEER ? (
+                        titlesWorks.map((titles) => (
+                          <th key={uuidv4()}>{titles}</th>
+                        ))
+                      ) : (
+                        <p>Работы не добавлены</p>
+                      )}
+                    </tr>
+                  </thead>
+                  {count > 0 ? (
+                    works.map((work) => (
+                      <CommercialProposalWork
+                        setError={setErrorWork}
+                        item={work}
+                        setCurrentWork={setCurrentWork}
+                        onDelete={() => {
+                          setCount(count - 1);
+                          setWorks(
+                            works.filter((dataItem) => work.id !== dataItem.id)
+                          );
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <p className={styles.notFound}>Услуги не добавлены</p>
+                  )}
+                </div>
               </tbody>
             </table>
             <button
@@ -192,6 +244,25 @@ export const CommercialProposalCreate: FC = () => {
               }}
             >
               +Товар{" "}
+            </button>
+            <button
+              className={styles.button__add}
+              type="button"
+              onClick={() => {
+                setCount(count + 1);
+                setWorks(
+                  works.concat({
+                    id: count,
+                    name: "",
+                    count: 0,
+                    units: "",
+                    price: 0,
+                    totalPrice: 0,
+                  })
+                );
+              }}
+            >
+              +Работа
             </button>
             <div className={styles.buttons}>
               <BlockButton
